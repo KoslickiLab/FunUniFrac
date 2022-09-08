@@ -5,3 +5,5 @@ pip install phylodm
 pip install pyemd
 conda install -y pandas
 conda install -y networkx
+conda install -y scipy
+conda install -y numpy
