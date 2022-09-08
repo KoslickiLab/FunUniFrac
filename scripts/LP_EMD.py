@@ -1,4 +1,3 @@
-from pulp import *
 from phylodm import PhyloDM
 from pyemd import emd
 import numpy as np
