@@ -5,6 +5,7 @@ channels:
   - pypi
   - bioconda
 dependencies:
+  - pip
   - blas=1.0=mkl
   - bzip2=1.0.8=h1de35cc_0
   - ca-certificates=2022.07.19=hecd8cb5_0
