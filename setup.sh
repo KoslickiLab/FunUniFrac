@@ -1,3 +1,4 @@
+#!/bin/bash
 conda create --name FunUniFrac python==3.10.4
 activate FunUniFrac
 pip install phylodm
