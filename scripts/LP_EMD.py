@@ -3,6 +3,7 @@ from pyemd import emd
 import numpy as np
 import pandas as pd
 import networkx
+import time
 
 def get_dm_from_tree_file(tree_file):
     pdm = PhyloDM.load_from_newick_path(tree_file)
@@ -81,8 +82,10 @@ def test_get_EMD():
     P = simulate_leaf_supported_vector(leaf_nodes, len(node_list), index_dict)
     Q = simulate_leaf_supported_vector(leaf_nodes, len(node_list), index_dict)
     #print(norm_P)
+    start_time = time.time()
     emd_value = get_EMD(P, Q, distance_matrix)
     print(emd_value)
+    print("Total process time:", time.time() - start_time)
 
 def test_simulate_leaf_supported_vector():
     leaf_nodes = get_leaf_nodes('data/kegg_ko_edge_df.txt')
