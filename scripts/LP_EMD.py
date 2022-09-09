@@ -52,6 +52,16 @@ def simulate_leaf_supported_vector(leaf_nodes, length, index_dict):
     norm_v = vector / np.linalg.norm(vector)
     return norm_v
 
+#temp
+def get_leaf_nodes_only_graph():
+    leaf_nodes = get_leaf_nodes('data/kegg_ko_edge_df.txt')
+    df = pd.DataFrame(columns=['parent', 'child'])
+    root = 'root'
+    df['child'] = list(leaf_nodes)
+    df['parent'] = root
+    df.to_csv('data/kegg_ko_leaf_only_df.txt', sep='\t')
+    #print(df)
+
 #tests
 def test_get_dm_from_tree_file():
     dm = get_dm_from_tree_file('data/test_newick.tree')
@@ -74,9 +84,9 @@ def test_get_leaf_nodes():
     print(leaf_nodes)
 
 def test_get_EMD():
-    df = parse_edge_list('data/kegg_ko_edge_df.txt')
+    df = parse_edge_list('data/kegg_ko_leaf_only_df.txt')
     df['length'] = [1.] * len(df)
-    leaf_nodes = get_leaf_nodes('data/kegg_ko_edge_df.txt')
+    leaf_nodes = get_leaf_nodes('data/kegg_ko_leaf_only_df.txt')
     distance_matrix, node_list = get_matrix_from_edge_list(df)
     index_dict = get_ID_index_dict(node_list)
     P = simulate_leaf_supported_vector(leaf_nodes, len(node_list), index_dict)
@@ -104,3 +114,4 @@ if __name__ == '__main__':
     test_get_EMD()
     #test_get_leaf_nodes()
     #test_simulate_leaf_supported_vector()
+    #get_leaf_nodes_only_graph()
