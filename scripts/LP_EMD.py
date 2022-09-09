@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import networkx
 import time
+import argparse
 
 def get_dm_from_tree_file(tree_file):
     pdm = PhyloDM.load_from_newick_path(tree_file)
@@ -29,6 +30,21 @@ def get_matrix_from_edge_list(data):
 
 def get_EMD(P, Q, distance_matrix):
     return emd(P, Q, distance_matrix)
+
+def get_EMD_from_edge_file(edge_file):
+    df = parse_edge_list(edge_file)
+    df['length'] = [1.] * len(df)
+    leaf_nodes = get_leaf_nodes(edge_file)
+    distance_matrix, node_list = get_matrix_from_edge_list(df)
+    index_dict = get_ID_index_dict(node_list)
+    P = simulate_leaf_supported_vector(leaf_nodes, len(node_list), index_dict)
+    Q = simulate_leaf_supported_vector(leaf_nodes, len(node_list), index_dict)
+    # print(norm_P)
+    start_time = time.time()
+    emd_value = get_EMD(P, Q, distance_matrix)
+    print(emd_value)
+    print("Total process time:", time.time() - start_time)
+    return
 
 def get_leaf_nodes(edge_list_file):
     df = parse_edge_list(edge_list_file)
@@ -59,7 +75,7 @@ def get_leaf_nodes_only_graph():
     root = 'root'
     df['child'] = list(leaf_nodes)
     df['parent'] = root
-    df.to_csv('data/kegg_ko_leaf_only_df.txt', sep='\t')
+    df.to_csv('data/kegg_ko_leaf_only_df.txt', sep='\t', index=None)
     #print(df)
 
 #tests
@@ -108,10 +124,16 @@ def test_simulate_leaf_supported_vector():
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Get testing statistics of classification test.')
+    parser.add_argument('-e', '--edge_file', type=str, help='An edge list file.')
+
+    args = parser.parse_args()
+    edge_file = args.edge_file
+    get_EMD_from_edge_file(edge_file)
     #test_get_dm_from_tree_file()
     #test_parse_edge_list()
     #test_get_matrix_from_edge_list()
-    test_get_EMD()
+    #test_get_EMD()
     #test_get_leaf_nodes()
     #test_simulate_leaf_supported_vector()
     #get_leaf_nodes_only_graph()
