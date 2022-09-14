@@ -86,13 +86,17 @@ def get_EMDUniFrac_from_functional_profiles(profile1, profile2, distance_matrix,
     df = pd.read_csv(profile2)
     id2 = df['name']
     id2 = list(map(lambda x: x.split(':')[1], id2))
-    print(id1)
     abund1 = list(df['unique_intersect_bp'])
     abund2 = list(df['unique_intersect_bp'])
     sample_vector1 = [0.]*len(node_list)
     sample_vector2 = [0.]*len(node_list)
+    print(len(id1))
+    print(len(abund1))
+
     for i,id in enumerate(node_list):
         if id in id1:
+            print(id)
+            print(id1.index(id))
             sample_vector1[i] = abund1[id1.index(id)]
         elif id in id2:
             sample_vector2[2] = abund2[id2.index(id)]
