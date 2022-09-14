@@ -80,24 +80,21 @@ def get_leaf_nodes_only_graph():
 
 def get_EMDUniFrac_from_functional_profiles(profile1, profile2, distance_matrix, node_list):
     start = time.time()
-    df = pd.read_csv(profile1)
-    id1 = df['name']
+    print(profile1)
+    df1 = pd.read_csv(profile1)
+    id1 = df1['name']
     id1 = list(map(lambda x: x.split(':')[1], id1))
-    df = pd.read_csv(profile2)
-    id2 = df['name']
+    df2 = pd.read_csv(profile2)
+    id2 = df2['name']
     id2 = list(map(lambda x: x.split(':')[1], id2))
-    abund1 = list(df['unique_intersect_bp'])
-    abund2 = list(df['unique_intersect_bp'])
+    abund1 = list(df1['unique_intersect_bp'])
+    abund2 = list(df2['unique_intersect_bp'])
+    print(abund1)
     sample_vector1 = [0.]*len(node_list)
     sample_vector2 = [0.]*len(node_list)
-    print(len(id1))
-    print(len(abund1))
-    print(len(df['unique_intersect_bp']))
 
     for i,id in enumerate(node_list):
         if id in id1:
-            print(id)
-            print(id1.index(id))
             sample_vector1[i] = abund1[id1.index(id)]
         elif id in id2:
             sample_vector2[2] = abund2[id2.index(id)]
