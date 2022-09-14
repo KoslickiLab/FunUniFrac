@@ -92,6 +92,7 @@ def get_EMDUniFrac_from_functional_profiles(profile1, profile2, distance_matrix,
     sample_vector2 = [0.]*len(node_list)
     print(len(id1))
     print(len(abund1))
+    print(len(df['unique_intersect_bp']))
 
     for i,id in enumerate(node_list):
         if id in id1:
