@@ -78,6 +78,32 @@ def get_leaf_nodes_only_graph():
     df.to_csv('data/kegg_ko_leaf_only_df.txt', sep='\t', index=None)
     #print(df)
 
+def get_EMDUniFrac_from_functional_profiles(profile1, profile2, distance_matrix, node_list):
+    start = time.time()
+    df = pd.read_csv(profile1)
+    id1 = df['name']
+    id1 = list(map(lambda x: x.split(':')[1], id1))
+    df = pd.read_csv(profile2)
+    id2 = df['name']
+    id2 = list(map(lambda x: x.split(':')[1], id2))
+    print(id1)
+    abund1 = list(df['unique_intersect_bp'])
+    abund2 = list(df['unique_intersect_bp'])
+    sample_vector1 = [0.]*len(node_list)
+    sample_vector2 = [0.]*len(node_list)
+    for i,id in enumerate(node_list):
+        if id in id1:
+            sample_vector1[i] = abund1[id1.index(id)]
+        elif id in id2:
+            sample_vector2[2] = abund2[id2.index(id)]
+    normed_sample1 = sample_vector1 / np.linalg.norm(sample_vector1)
+    normed_sample2 = sample_vector2 / np.linalg.norm(sample_vector2)
+    unifrac = emd(normed_sample1, normed_sample2, distance_matrix)
+    print(unifrac)
+    print(time.time() - start)
+    return
+
+
 #tests
 def test_get_dm_from_tree_file():
     dm = get_dm_from_tree_file('data/test_newick.tree')
@@ -122,14 +148,23 @@ def test_simulate_leaf_supported_vector():
     sparse_vector = simulate_leaf_supported_vector(leaf_nodes, len(distance_matrix), index_dict)
     print(sparse_vector)
 
+def test_get_EMDUniFrac_from_profiles():
+    profile1 = 'data/SRS1041031.denovo_duplicates_marked.trimmed_KOs_sketched_scaled_10.sig.zip_gather_k_5.csv'
+    profile2 = 'data/SRS893174.denovo_duplicates_marked.trimmed_KOs_sketched_scaled_10.sig.zip_gather_k_5.csv'
+    leaf_nodes = get_leaf_nodes('data/kegg_ko_edge_df.txt')
+    df = parse_edge_list('data/kegg_ko_edge_df.txt')
+    df['length'] = [1.] * len(df)
+    distance_matrix, node_list = get_matrix_from_edge_list(df)
+    get_EMDUniFrac_from_functional_profiles(profile1, profile2, distance_matrix, node_list)
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Get testing statistics of classification test.')
     parser.add_argument('-e', '--edge_file', type=str, help='An edge list file.')
 
-    args = parser.parse_args()
-    edge_file = args.edge_file
-    get_EMD_from_edge_file(edge_file)
+    #args = parser.parse_args()
+    #edge_file = args.edge_file
+    #get_EMD_from_edge_file(edge_file)
     #test_get_dm_from_tree_file()
     #test_parse_edge_list()
     #test_get_matrix_from_edge_list()
@@ -137,3 +172,4 @@ if __name__ == '__main__':
     #test_get_leaf_nodes()
     #test_simulate_leaf_supported_vector()
     #get_leaf_nodes_only_graph()
+    test_get_EMDUniFrac_from_profiles()
