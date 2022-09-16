@@ -79,10 +79,11 @@ if not exists(A_matrix_file):
 try:
     basis_name = f"{A_matrix_file.removesuffix('_A.npz')}_column_basis.txt"
 except AttributeError:
-    if A_matrix_file.endswith('.com'):
+    if A_matrix_file.endswith('_A.npz'):
         basis_name = f"{A_matrix_file[:-6]}_column_basis.txt"
     else:
-        raise FileNotFoundError(f"Could not find the basis file that should accompany {A_matrix_file}.")
+        raise FileNotFoundError(f"Could not find the basis file that should accompany {A_matrix_file}. It appears the "
+                                f"matrix file does not end in '_A.npz'. Was it created with graph_to_matrix.py?")
 if not exists(basis_name):
     raise FileNotFoundError(f"Could not find the basis file {basis_name} that should accompany {A_matrix_file}.")
 
