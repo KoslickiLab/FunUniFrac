@@ -39,6 +39,12 @@ def get_leaf_descendants(G, node):
 
 
 def get_descendants(G, node):
+    """
+    Return all descendants of a node, including the node itself.
+    :param G: networkx graph
+    :param node: name of a node
+    :return: set of nodes
+    """
     descendants = set()
     descendants.add(node)
     for n in nx.descendants(G, node):
@@ -90,6 +96,8 @@ basis_name = f"{brite}_{os.path.basename(distances_file)}_column_basis.txt"
 G = nx.read_edgelist(edge_list, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
 # get the descendants of the brite
 descendants = get_descendants(G, brite)
+# add the root node back in
+descendants.add('root')
 # select the subgraph from the brite to the leaves
 G = G.subgraph(descendants)
 G_undirected = G.to_undirected()
