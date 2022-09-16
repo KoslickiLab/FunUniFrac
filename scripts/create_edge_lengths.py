@@ -76,7 +76,13 @@ if not exists(out_dir):
     os.mkdir(out_dir)
 if not exists(A_matrix_file):
     raise FileNotFoundError(f"Could not find {A_matrix_file}")
-basis_name = f"{A_matrix_file.removesuffix('_A.npz')}_column_basis.txt"
+try:
+    basis_name = f"{A_matrix_file.removesuffix('_A.npz')}_column_basis.txt"
+except AttributeError:
+    if A_matrix_file.endswith('.com'):
+        basis_name = f"{A_matrix_file[:-6]}_column_basis.txt"
+    else:
+        raise FileNotFoundError(f"Could not find the basis file that should accompany {A_matrix_file}.")
 if not exists(basis_name):
     raise FileNotFoundError(f"Could not find the basis file {basis_name} that should accompany {A_matrix_file}.")
 
