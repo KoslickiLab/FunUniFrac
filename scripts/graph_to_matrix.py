@@ -45,10 +45,15 @@ def get_descendants(G, node):
     return descendants
 
 # parse arguments
-parser = argparse.ArgumentParser(description='Given the KEGG hierarchy, first this will select the subtree consisting of all the ancestors of the given brite_id. Then, it will create a matrix where the (i,j) entry will be 1 iff for the ith pair of KOs in the --distances file: (KO1, KO2), edge j is on the shortest path from KO1 to KO2')
-parser.add_argument('-e', '--edge_list', help='Input edge list file of the KEGG hierarchy')
-parser.add_argument('-d', '--distances', help='File containing all pairwise distances between KOs. Use sourmash comapre')
-parser.add_argument('-o', '--out_dir', help='Output directory')
+parser = argparse.ArgumentParser(description='Given the KEGG hierarchy, first this will select the subtree consisting of'
+                                             ' all the ancestors of the given brite_id. Then, it will create a matrix '
+                                             'where the (i,j) entry will be 1 iff for the ith pair of KOs in the '
+                                             '--distances file: (KO1, KO2), edge j is on the shortest path from '
+                                             'KO1 to KO2')
+parser.add_argument('-e', '--edge_list', help='Input edge list file of the KEGG hierarchy', required=True)
+parser.add_argument('-d', '--distances', help='File containing all pairwise distances between KOs. Use sourmash '
+                                              'compare', required=True)
+parser.add_argument('-o', '--out_dir', help='Output directory', required=True)
 parser.add_argument('-b', '--brite_id', help='Brite ID of the KEGG hierarchy you want to focus on. Eg. ko00001', required=True)
 args = parser.parse_args()
 
@@ -71,6 +76,9 @@ if not exists(out_dir):
 if brite not in BRITES:
     raise ValueError(f"{brite} is not a valid BRITE ID. Choices are: {BRITES}")
 
+matrix_name = f"{brite}_{os.path.basename(distances_file)}_A.npz"
+basis_name = f"{brite}_{os.path.basename(distances_file)}_column_basis.txt"
+
 ########################################################################################################################
 # Let's do the following: since I've already computed all pairwise distances, we can just make a large
 # least squares problem fitting the tree distances to the pairwise distances
@@ -88,6 +96,10 @@ G_undirected = G.to_undirected()
 # set the basis for the tree, which is an ordering of the edges. I'll identify each edge by its terminal node
 basis = [x for x in G.nodes()]
 basis_index = {node: i for i, node in enumerate(basis)}
+
+# Save the basis
+with open(f"{os.path.join(out_dir, basis_name)}", 'w') as f:
+    f.write('\n'.join(basis))
 
 # Let's go with a csr_array to store the (pairwise_distance, edge_list) matrix
 data = []
@@ -132,4 +144,4 @@ for node_i in pairwise_dist_KOs:
 
 A = sparse.csr_matrix((data, (row_inds, col_inds)), shape=(len(pairwise_dist_KOs)**2, len(basis)))
 # save the sparse matrix
-sparse.save_npz(os.path.join(out_dir, f"{brite}_{os.path.basename(distances_file)}_A.npz"), A)
+sparse.save_npz(os.path.join(out_dir, matrix_name), A)
