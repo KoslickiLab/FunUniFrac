@@ -131,7 +131,12 @@ pairwise_dist_KO_index = {node: i for i, node in enumerate(pairwise_dist_KOs)}
 # iterate over the pairs of nodes for which we have pairwise distances
 row_ind = -1
 for node_i in pairwise_dist_KOs:
-    paths = nx.single_source_dijkstra_path(G_undirected, node_i)
+    # Some KOs may not be in the subtree selected, so append a row of zeros for those (i.e. don't add to the data list).
+    # That won't affect the least squares fit
+    if node_i in G_undirected:
+        paths = nx.single_source_dijkstra_path(G_undirected, node_i)
+    else:
+        paths = dict()
     for node_j in pairwise_dist_KOs:
         row_ind += 1
         # if the nodes are the same, skip since this row of the matrix is all zeros
