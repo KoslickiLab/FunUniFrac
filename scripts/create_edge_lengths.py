@@ -6,7 +6,9 @@ import numpy as np
 import networkx as nx
 from scipy import sparse
 import pandas as pd
-
+from scipy.sparse.linalg import lsqr
+from scipy.optimize import nnls
+from scipy.optimize import lsq_linear
 
 BRITES = ['br08901', 'br08902', 'br08904', 'ko00001', 'ko00002', 'ko00003', 'br08907',
           'ko01000', 'ko01001', 'ko01009', 'ko01002', 'ko01003', 'ko01005', 'ko01011',
@@ -108,12 +110,29 @@ for ko1 in pairwise_dist_KOs:
     for ko2 in pairwise_dist_KOs:
         y.append(pairwise_dist[pairwise_dist_KO_index[ko1], pairwise_dist_KO_index[ko2]])
 y = np.array(y)
-
+print(f"Shape of y: {y.shape}")
 # import the A matrix
 A = sparse.load_npz(A_matrix_file)
+print(f"Shape of A: {A.shape}")
+# solve the least squares problem, might have negatives
+#x, residuals, rank, s = np.linalg.lstsq(A, y, rcond=None)
+#x, istop, itn, r1norm, r2norm, anorm, acond = lsqr(A, y, show=True)[0:7]
+#print(f"istop: {istop}")
+#print(f"itn: {itn}")
+#print(f"r1norm: {r1norm}")
+#print(f"r2norm: {r2norm}")
+#print(f"anorm: {anorm}")
+#print(f"acond: {acond}")
+#x = lsqr(A, y, show=True)[0]
 
-# solve the least squares problem
-x, residuals, rank, s = np.linalg.lstsq(A, y, rcond=None)
+# Try nnls on the dense matrix
+#x, rnorm = nnls(A.todense(), y)
+#print(f"nnls rnorm: {rnorm}")
+
+# Try lsq_linear
+res = lsq_linear(A, y, bounds=(0,1), verbose=2)
+x = res.x
+
 
 # import the basis
 with open(basis_name, 'r') as f:
