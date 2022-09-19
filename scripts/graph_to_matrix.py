@@ -5,6 +5,7 @@ from os.path import exists
 import numpy as np
 import networkx as nx
 from scipy import sparse
+from blist import blist
 
 BRITES = ['br08901', 'br08902', 'br08904', 'ko00001', 'ko00002', 'ko00003', 'br08907',
           'ko01000', 'ko01001', 'ko01009', 'ko01002', 'ko01003', 'ko01005', 'ko01011',
@@ -111,9 +112,9 @@ with open(f"{os.path.join(out_dir, basis_name)}", 'w') as f:
     f.write('\n'.join(basis))
 
 # Let's go with a csr_array to store the (pairwise_distance, edge_list) matrix
-data = []
-row_inds = []
-col_inds = []
+data = blist([])
+row_inds = blist([])
+col_inds = blist([])
 
 # import pairwise distances
 pairwise_dist = np.load(distances_file)
@@ -148,7 +149,7 @@ for node_i in pairwise_dist_KOs:
             except KeyError:
                 # if there is no path between the two nodes, skip
                 pass
-        if row_ind % 1000 == 0:
+        if row_ind % 100000 == 0:
             print(f"Finished {row_ind}/{len(pairwise_dist_KOs)**2} rows")
 
 A = sparse.csr_matrix((data, (row_inds, col_inds)), shape=(len(pairwise_dist_KOs)**2, len(basis)))

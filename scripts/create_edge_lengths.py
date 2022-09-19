@@ -110,6 +110,8 @@ for ko1 in pairwise_dist_KOs:
     for ko2 in pairwise_dist_KOs:
         y.append(pairwise_dist[pairwise_dist_KO_index[ko1], pairwise_dist_KO_index[ko2]])
 y = np.array(y)
+# by default, the values are: 0 = most dissimilar, 1 = most similar, so to convert to a distance, we subtract from 1
+y = 1 - y
 print(f"Shape of y: {y.shape}")
 # import the A matrix
 A = sparse.load_npz(A_matrix_file)
