@@ -67,6 +67,10 @@ brite = "ko00001"
 edge_list = "C:\\Users\\dmk333\\PycharmProjects\\FunUniFrac\\real_data\\kegg_ko_edge_df.txt"
 distances_file = "C:\\Users\\dmk333\\PycharmProjects\\FunUniFrac\\real_data\\KOs_sketched_scaled_10_compare_5"
 distances_labels_file = "C:\\Users\\dmk333\\PycharmProjects\\FunUniFrac\\real_data\\KOs_sketched_scaled_10_compare_5.labels.txt"
+
+distances_file = "C:\\Users\\dmk333\\PycharmProjects\\FunUniFrac\\real_data\\KOs_sketched_scaled_10_compare_5_default_sim"
+distances_labels_file = "C:\\Users\\dmk333\\PycharmProjects\\FunUniFrac\\real_data\\KOs_sketched_scaled_10_compare_5_default_sim.labels.txt"
+
 A_file = "C:\\Users\\dmk333\\PycharmProjects\\FunUniFrac\\real_data\\ko00001_KOs_sketched_scaled_10_compare_5_A.npz"
 A_basis_file = "C:\\Users\\dmk333\\PycharmProjects\\FunUniFrac\\real_data\\ko00001_KOs_sketched_scaled_10_compare_5_column_basis.txt"
 pairwise_dist = np.load(distances_file)
@@ -117,6 +121,7 @@ ancestor = ancestors[0]
 # get the descendants
 descendants = get_leaf_descendants(G, ancestor)
 # subset the descendants to the ones that are in the pairwise distance matrix
+# TODO: when I move up the hierarchy, I should also include the intermediate nodes, not just the leaves
 descendants = descendants.intersection(set(pairwise_dist_KOs))
 # get the portion of the matrix that corresponds to the descendants, but only the ones we have pairwise distances for
 descendants_index = [pairwise_dist_KO_index.get(node) for node in descendants]
