@@ -3,7 +3,6 @@ import argparse
 import os
 import sys
 sys.path.append('./src')
-import numpy as np
 from scipy import sparse
 from LP_EMD_helper import get_matrix_from_edge_list
 
@@ -21,4 +20,9 @@ edge_list = args.edge_list
 out_dir = args.out_dir
 
 basename = os.path.splitext(os.path.basename(edge_list))[0]
-print(basename)
+file_name = f"{basename}_A.npz"
+full_file_name = os.path.join(out_dir, file_name)
+
+A, node_list = get_matrix_from_edge_list(edge_list)
+sparse.save_npz(full_file_name, A)
+print(f"{file_name} saved")
