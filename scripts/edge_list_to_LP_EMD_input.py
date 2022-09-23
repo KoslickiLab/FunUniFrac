@@ -21,3 +21,4 @@ edge_list = args.edge_list
 out_dir = args.out_dir
 
 basename = os.path.splitext(os.path.basename(edge_list))[0]
+print(basename)
