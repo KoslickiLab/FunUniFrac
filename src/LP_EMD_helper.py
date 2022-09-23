@@ -18,13 +18,12 @@ def parse_edge_list(file):
     return df
 ###
 
-def get_matrix_from_edge_list(edge_list_file):
+def get_matrix_from_edge_list(data):
     '''
     Assume has the form head, tail, length
     :param df:
     :return:
     '''
-    data = pd.read_table(edge_list_file)
     edgeList = data.values.tolist()
     G = networkx.DiGraph()
     for i in range(len(edgeList)):
@@ -163,19 +162,8 @@ def test_get_EMDUniFrac_from_profiles():
     distance_matrix, node_list = get_matrix_from_edge_list(df)
     get_EMDUniFrac_from_functional_profiles(profile1, profile2, distance_matrix, node_list)
 
+def make_edge_list_file_len_1_tmp():
+    df = parse_edge_list('data/kegg_ko_edge_df.txt')
+    df['length'] = [1.] * len(df)
+    df.to_csv('data/kegg_ko_edge_df_len1.txt', sep='\t', index=None)
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Get testing statistics of classification test.')
-    parser.add_argument('-e', '--edge_file', type=str, help='An edge list file.')
-
-    #args = parser.parse_args()
-    #edge_file = args.edge_file
-    #get_EMD_from_edge_file(edge_file)
-    #test_get_dm_from_tree_file()
-    #test_parse_edge_list()
-    #test_get_matrix_from_edge_list()
-    #test_get_EMD()
-    #test_get_leaf_nodes()
-    #test_simulate_leaf_supported_vector()
-    #get_leaf_nodes_only_graph()
-    test_get_EMDUniFrac_from_profiles()
