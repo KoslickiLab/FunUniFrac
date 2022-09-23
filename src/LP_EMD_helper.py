@@ -6,21 +6,25 @@ import networkx
 import time
 import argparse
 
+#not really necessary. May or may not be used. If not needed, remove phylodm as well.
 def get_dm_from_tree_file(tree_file):
     pdm = PhyloDM.load_from_newick_path(tree_file)
     dm = pdm.dm(norm=False)
     return dm
 
+###delete
 def parse_edge_list(file):
     df = pd.read_table(file)
     return df
+###
 
-def get_matrix_from_edge_list(data):
+def get_matrix_from_edge_list(edge_list_file):
     '''
     Assume has the form head, tail, length
     :param df:
     :return:
     '''
+    data = pd.read_table(edge_list_file)
     edgeList = data.values.tolist()
     G = networkx.DiGraph()
     for i in range(len(edgeList)):
@@ -31,7 +35,7 @@ def get_matrix_from_edge_list(data):
 def get_EMD(P, Q, distance_matrix):
     return emd(P, Q, distance_matrix)
 
-def get_EMD_from_edge_file(edge_file):
+def get_EMD_from_edge_file(edge_file, branch_len_function):
     df = parse_edge_list(edge_file)
     df['length'] = [1.] * len(df)
     leaf_nodes = get_leaf_nodes(edge_file)
