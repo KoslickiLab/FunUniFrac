@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import argparse
 import os
+import sys
+sys.path.append('./src')
 import numpy as np
 from scipy import sparse
 from src.LP_EMD_helper import get_matrix_from_edge_list
