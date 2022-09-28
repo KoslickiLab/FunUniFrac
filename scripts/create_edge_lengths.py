@@ -139,7 +139,7 @@ for i in range(num_iter):
     A_small = sparse.vstack([reg_factor*A_small, sparse.csr_matrix(np.ones(A_small.shape[1]))])
     # append a 0 to y_small
     y_small = np.append(reg_factor*y_small, 0)
-    # Try lsq_linear
+    # Use lsq_linear to solve the NNLS problem
     res = lsq_linear(A_small, y_small, bounds=(0, 1), verbose=2)
     x = res.x
     xs.append(x)
