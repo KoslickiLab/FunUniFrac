@@ -5,3 +5,4 @@ networkx
 scipy
 numpy
 blist
+pytest

@@ -1,0 +1,7 @@
+parent	child
+ko00001	b
+ko00001	c
+b	d
+b	e
+c	f
+c	g

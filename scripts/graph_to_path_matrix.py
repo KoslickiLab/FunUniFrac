@@ -5,7 +5,10 @@ from os.path import exists
 import numpy as np
 import networkx as nx
 from scipy import sparse
-from blist import blist
+try:
+    from blist import blist
+except ModuleNotFoundError:
+    print("Warning: Could not import blist. Please install blist to speed up the path matrix calculation.")
 
 BRITES = ['br08901', 'br08902', 'br08904', 'ko00001', 'ko00002', 'ko00003', 'br08907',
           'ko01000', 'ko01001', 'ko01009', 'ko01002', 'ko01003', 'ko01005', 'ko01011',
@@ -52,6 +55,21 @@ def get_descendants(G, node):
         descendants.add(n)
     return descendants
 
+def get_descendant(graph, v1, v2):
+    """
+    of the two nodes v1 and v2, ASSUMED TO BE ADJACENT, find out which one is the descendant of the other
+    :param graph: networkx graph, directed
+    :param v1: node name
+    :param v2: node name
+    :return: descendant node name
+    """
+    if v1 in nx.descendants(graph, v2):
+        return v1
+    elif v2 in nx.descendants(graph, v1):
+        return v2
+    else:
+        raise ValueError("Nodes are not adjacent")
+
 # parse arguments
 parser = argparse.ArgumentParser(description='Given the KEGG hierarchy, first this will select the subtree consisting of'
                                              ' all the ancestors of the given brite_id. Then, it will create a matrix '
@@ -97,7 +115,7 @@ basis_name = f"{brite}_{os.path.basename(distances_file)}_column_basis.txt"
 G = nx.read_edgelist(edge_list, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
 # get the descendants of the brite
 descendants = get_descendants(G, brite)
-# add the root node back in
+# add the root node back in (this will only have affect if you are using multiple brites. TODO: not yet implemented)
 descendants.add('root')
 # select the subgraph from the brite to the leaves
 G = G.subgraph(descendants)
@@ -112,10 +130,14 @@ with open(f"{os.path.join(out_dir, basis_name)}", 'w') as f:
     f.write('\n'.join(basis))
 
 # Let's go with a csr_array to store the (pairwise_distance, edge_list) matrix
-data = blist([])
-row_inds = blist([])
-col_inds = blist([])
-
+try:
+    data = blist([])
+    row_inds = blist([])
+    col_inds = blist([])
+except NameError:
+    data = []
+    row_inds = []
+    col_inds = []
 # import pairwise distances
 pairwise_dist = np.load(distances_file)
 # import label names
@@ -145,7 +167,12 @@ for node_i in pairwise_dist_KOs:
             try:
                 path = paths[node_j]
                 # get the index of each path element in the basis
-                path_indices = [basis_index[node] for node in path]
+                # FIXME: there's a problem here since the paths are returned as a list of nodes, but the basis is a
+                #  list of edges (edge labeled with the terminal node). So, we need to get the edge that connects
+                path_tuples = [(path[i], path[i+1]) for i in range(len(path)-1)]
+                # for each tuple, find which is the descendant
+                path_edges = [get_descendant(G, x[0], x[1]) for x in path_tuples]
+                path_indices = [basis_index[node] for node in path_edges]
                 # set the corresponding entries in the sparse matrix to 1
                 for path_index in path_indices:
                     data.append(1)
