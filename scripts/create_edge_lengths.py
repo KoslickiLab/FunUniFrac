@@ -6,8 +6,6 @@ import numpy as np
 import networkx as nx
 from scipy import sparse
 import pandas as pd
-from scipy.sparse.linalg import lsqr
-from scipy.optimize import nnls
 from scipy.optimize import lsq_linear
 
 BRITES = ['br08901', 'br08902', 'br08904', 'ko00001', 'ko00002', 'ko00003', 'br08907',
@@ -64,6 +62,7 @@ parser.add_argument('-n', '--num_iter', help='Number of random selections on whi
 parser.add_argument('-f', '--factor', help='Selects <--factor>*(A.shape[1]) rows for which to do the NNLS', default=5)
 parser.add_argument('-r', '--reg_factor', help='Regularization factor for the NNLS', default=1)
 parser.add_argument('--force', help='Overwrite the output file if it exists', action='store_true')
+parser.add_argument('--distance', help='Flag indicating that the input matrix is a distance (0=identical). If not, it is assumed to be a similarity (1=identical).', action='store_true')
 args = parser.parse_args()
 brite = args.brite_id
 edge_list = args.edge_list
@@ -74,6 +73,7 @@ force = args.force
 num_iter = int(args.num_iter)
 factor = int(args.factor)
 reg_factor = float(args.reg_factor)
+isdistance = args.distance
 if num_iter < 1:
     raise ValueError('Number of iterations must be at least 1')
 if factor < 1:
@@ -124,7 +124,8 @@ for ko1 in pairwise_dist_KOs:
         y.append(pairwise_dist[pairwise_dist_KO_index[ko1], pairwise_dist_KO_index[ko2]])
 y = np.array(y)
 # by default, the values are: 0 = most dissimilar, 1 = most similar, so to convert to a distance, we subtract from 1
-y = 1 - y
+if not isdistance:
+    y = 1 - y
 # import the A matrix
 A = sparse.load_npz(A_matrix_file)
 
