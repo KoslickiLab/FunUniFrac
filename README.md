@@ -98,6 +98,7 @@ y' = [y; 0]
 We can then solve this problem via a randomized approach, selecting enough rows of `A'` to ensure that the rank is 
 large enough. After a bunch of iterates, the average is then taken. An example of running the code is:
 ```bash
-scripts/./create_edge_lengths.py -e kegg_ko_edge_df_br\:ko00001.txt -d KOs_sketched_scaled_10_compare_5 -A ko00001_KOs_sketched_scaled_10_compare_5_A.npz -b ko00001 -n 100 -f 10 -r 1 --force
+scripts/./create_edge_lengths.py -e kegg_ko_edge_df_br\:ko00001.txt -d KOs_sketched_scaled_10_compare_5 -A 
+ko00001_KOs_sketched_scaled_10_compare_5_A.npz -b ko00001 -n 100 -f 10 -r 1 --force -o kegg_ko_edge_df_br\:ko00001.txt
 ```
-The output will be an edge list with an additional column specifying the length of that edge. Eg. `kegg_ko_edge_df_AAI_k_5.tsv` 
+The output will be an edge list with an additional column specifying the length of that edge. Eg. `kegg_ko_edge_df_br:ko00001.txt` 
