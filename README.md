@@ -101,4 +101,11 @@ large enough. After a bunch of iterates, the average is then taken. An example o
 scripts/./create_edge_lengths.py -e kegg_ko_edge_df_br\:ko00001.txt -d KOs_sketched_scaled_10_compare_5 -A 
 ko00001_KOs_sketched_scaled_10_compare_5_A.npz -b ko00001 -n 100 -f 10 -r 1 --force -o kegg_ko_edge_df_br\:ko00001.txt
 ```
-The output will be an edge list with an additional column specifying the length of that edge. Eg. `kegg_ko_edge_df_br:ko00001.txt` 
+The output will be an edge list with an additional column specifying the length of that edge. Eg. `kegg_ko_edge_df_br:ko00001.txt`
+
+# Testing
+To run the tests, you will need to install the `pytest` package (via conda). Then, you can run the tests via:
+```bash
+cd tests
+pytest -v .
+```
