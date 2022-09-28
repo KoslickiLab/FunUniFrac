@@ -50,14 +50,14 @@ def get_descendants(G, node):
     return descendants
 
 # parse arguments
-parser = argparse.ArgumentParser(description='This will take the matrix made by graph_to_matrix.py and the all '
+parser = argparse.ArgumentParser(description='This will take the matrix made by graph_to_path_matrix.py and the all '
                                              'pairwise distance matrix and solve the least squares problem of '
                                              'inferring the edge lengths of the graph.')
 parser.add_argument('-e', '--edge_list', help='Input edge list file of the KEGG hierarchy', required=True)
 parser.add_argument('-d', '--distances', help='File containing all pairwise distances between KOs. Use sourmash '
                                               'compare', required=True)
 parser.add_argument('-o', '--out_file', help='Output file name: edge list with lengths in the last column', required=True)
-parser.add_argument('-A', '--A_matrix', help='A matrix file created by graph_to_matrix.py', required=True)
+parser.add_argument('-A', '--A_matrix', help='A matrix file created by graph_to_path_matrix.py', required=True)
 parser.add_argument('-b', '--brite_id', help='Brite ID of the KEGG hierarchy you want to focus on. Eg. ko00001',
                     required=True)
 parser.add_argument('-n', '--num_iter', help='Number of random selections on which to perform the NNLS', default=100)
@@ -98,7 +98,7 @@ except AttributeError:
         basis_name = f"{A_matrix_file[:-6]}_column_basis.txt"
     else:
         raise FileNotFoundError(f"Could not find the basis file that should accompany {A_matrix_file}. It appears the "
-                                f"matrix file does not end in '_A.npz'. Was it created with graph_to_matrix.py?")
+                                f"matrix file does not end in '_A.npz'. Was it created with graph_to_path_matrix.py?")
 if not exists(basis_name):
     raise FileNotFoundError(f"Could not find the basis file {basis_name} that should accompany {A_matrix_file}.")
 

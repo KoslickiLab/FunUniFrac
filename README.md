@@ -72,7 +72,7 @@ matrix equation of the form:
 where `d(a,b)` is the distance between the two leaves `a` and `b` derived in the previous section.
 The coefficient matrix of all edges traversed between all pairs of KOs is obtained by running:
 ```bash
-./scripts/./graph_to_matrix.py -e <edge list: kegg_ko_edge_df_br:ko00001.txt> -d <distance matrix: 
+./scripts/./graph_to_path_matrix.py -e <edge list: kegg_ko_edge_df_br:ko00001.txt> -d <distance matrix: 
 KOs_sketched_scaled_10_compare_5> -o <output directory> -b <BRITE: ko00001> 
 ```
 The resulting matrix will have a name such as: `ko00001_KOs_sketched_scaled_10_compare_5_A.npz` and will be a 
