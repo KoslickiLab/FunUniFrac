@@ -1,4 +1,3 @@
-#from phylodm import PhyloDM
 from pyemd import emd
 import numpy as np
 import pandas as pd
@@ -28,8 +27,13 @@ def get_distance_matrix_from_edge_list(edge_list_file):
             raise ValueError('The first line of the file must have three columns: parent child edge_length')
         # import the graph. First two columns are the nodes, last column is the weight
         G = nx.read_edgelist(fid, delimiter='\t', data=((col3, float),))
-    D = nx.all_pairs_dijkstra_path_length(G, weight=col3)
-    return D, G.nodes()
+    D_dict = dict(nx.all_pairs_dijkstra_path_length(G, weight=col3))
+    node_list = list(G.nodes())
+    distance_matrix = np.zeros((len(node_list), len(node_list)))
+    for i, node1 in enumerate(node_list):
+        for j, node2 in enumerate(node_list):
+            distance_matrix[i, j] = D_dict[node1][node2]
+    return distance_matrix, node_list
 
 
 def get_EMD(P, Q, distance_matrix):
@@ -118,11 +122,6 @@ def get_EMDUniFrac_from_functional_profiles(profile1, profile2, distance_matrix,
 
 
 # FIXME: these test don't use asserts and have a lot of stuff hard coded
-#tests
-def test_get_dm_from_tree_file():
-    dm = get_dm_from_tree_file('data/test_newick.tree')
-    print(dm)
-
 
 def test_parse_edge_list():
     df = parse_edge_list('data/kegg_ko_edge_df.txt')
