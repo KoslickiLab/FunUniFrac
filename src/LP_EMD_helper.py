@@ -37,6 +37,13 @@ def get_distance_matrix_from_edge_list(edge_list_file):
 
 
 def get_EMD(P, Q, distance_matrix):
+    """
+    Given two vectors P and Q, and a distance matrix, return the EMD between the two vectors
+    :param P: 1D numpy array (float64)
+    :param Q: 1D numpy array (float64)
+    :param distance_matrix: 2D numpy array giving the distance between each pair of nodes (float64)
+    :return: scalar EMD value
+    """
     # check if P and Q are np arrays
     if type(P) is not np.ndarray:
         P = np.array(P)
@@ -55,7 +62,73 @@ def get_EMD(P, Q, distance_matrix):
     distance_matrix = distance_matrix.astype(np.float64)
     return emd(P, Q, distance_matrix)
 
+# get all leaf descendants of a certain node
+def get_leaf_descendants(G, node):
+    """
+    Return all leaf descendants of a node, excluding the node itself.
+    :param G: graph
+    :param node: node
+    :return: set of leaf nodes descending from the node
+    """
+    descendants = set()
+    for n in nx.descendants(G, node):
+        if G.out_degree(n) == 0:
+            descendants.add(n)
+    return descendants
 
+
+def get_descendants(G, node):
+    """
+    Return all descendants of a node, including the node itself.
+    :param G: networkx graph
+    :param node: name of a node
+    :return: set of nodes
+    """
+    descendants = set()
+    descendants.add(node)
+    for n in nx.descendants(G, node):
+        descendants.add(n)
+    return descendants
+
+def get_descendant(graph, v1, v2):
+    """
+    of the two nodes v1 and v2, ASSUMED TO BE ADJACENT, find out which one is the descendant of the other
+    :param graph: networkx graph, directed
+    :param v1: node name
+    :param v2: node name
+    :return: descendant node name
+    """
+    if v1 in graph.predecessors(v2):
+        return v2
+    elif v2 in graph.predecessors(v1):
+        return v1
+    else:
+        print(f"node 1: {v1}")
+        print(f"node 2: {v2}")
+        raise ValueError("Nodes are not adjacent")
+
+
+def get_labels_and_index(distances_labels_file):
+    """
+    Given a file containing the basis for the rows of the pairwise KO distance matrix, return a list of labels and a
+    dictionary mapping labels to indices
+    :param distances_labels_file: text file containing the labels from the output of sourmash compare
+    :return: (list of labels, dictionary mapping labels to indices)
+    """
+    # import label names
+    pairwise_dist_KOs = []
+    with open(distances_labels_file, 'r') as f:
+        for line in f.readlines():
+            ko = line.strip().split('|')[-1]  # KO number is the last in the pip-delim list
+            ko = ko.split(':')[-1]  # remove the ko: prefix
+            pairwise_dist_KOs.append(ko)
+    pairwise_dist_KO_index = {node: i for i, node in enumerate(pairwise_dist_KOs)}
+    return pairwise_dist_KOs, pairwise_dist_KO_index
+
+
+
+########################################################################################################################
+# TODO: the following are works in progress
 def get_EMD_from_edge_file(edge_file, branch_len_function):  #FIXME: branch_len_function is not used
     df = parse_edge_list(edge_file)
     df['length'] = [1.] * len(df)

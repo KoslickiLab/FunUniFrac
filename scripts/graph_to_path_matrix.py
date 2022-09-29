@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import argparse
 import os
+import sys
 from os.path import exists
 import numpy as np
 import networkx as nx
@@ -9,68 +10,11 @@ try:
     from blist import blist
 except ModuleNotFoundError:
     print("Warning: Could not import blist. Please install blist to speed up the path matrix calculation.")
-
-BRITES = ['br08901', 'br08902', 'br08904', 'ko00001', 'ko00002', 'ko00003', 'br08907',
-          'ko01000', 'ko01001', 'ko01009', 'ko01002', 'ko01003', 'ko01005', 'ko01011',
-          'ko01004', 'ko01008', 'ko01006', 'ko01007', 'ko00199', 'ko00194', 'ko03000',
-          'ko03021', 'ko03019', 'ko03041', 'ko03011', 'ko03009', 'ko03016', 'ko03012',
-          'ko03110', 'ko04131', 'ko04121', 'ko03051', 'ko03032', 'ko03036', 'ko03400',
-          'ko03029', 'ko02000', 'ko02044', 'ko02042', 'ko02022', 'ko02035', 'ko03037',
-          'ko04812', 'ko04147', 'ko02048', 'ko04030', 'ko04050', 'ko04054', 'ko03310',
-          'ko04040', 'ko04031', 'ko04052', 'ko04515', 'ko04090', 'ko01504', 'ko00535',
-          'ko00536', 'ko00537', 'ko04091', 'ko04990', 'ko03200', 'ko03210', 'ko03100',
-          'br08001', 'br08002', 'br08003', 'br08005', 'br08006', 'br08007', 'br08009',
-          'br08021', 'br08201', 'br08202', 'br08204', 'br08203', 'br08303', 'br08302',
-          'br08301', 'br08313', 'br08312', 'br08304', 'br08305', 'br08331', 'br08330',
-          'br08332', 'br08310', 'br08307', 'br08327', 'br08311', 'br08402', 'br08401',
-          'br08403', 'br08411', 'br08410', 'br08420', 'br08601', 'br08610', 'br08611',
-          'br08612', 'br08613', 'br08614', 'br08615', 'br08620', 'br08621', 'br08605',
-          'br03220', 'br03222', 'br01610', 'br01611', 'br01612', 'br01613', 'br01601',
-          'br01602', 'br01600', 'br01620', 'br01553', 'br01554', 'br01556', 'br01555',
-          'br01557', 'br01800', 'br01810', 'br08020', 'br08120', 'br08319', 'br08329',
-          'br08318', 'br08328', 'br08309', 'br08341', 'br08324', 'br08317', 'br08315',
-          'br08314', 'br08442', 'br08441', 'br08431']
-
-
-
-# get all leaf descendants of a certain node
-def get_leaf_descendants(G, node):
-    descendants = set()
-    for n in nx.descendants(G, node):
-        if G.out_degree(n) == 0:
-            descendants.add(n)
-    return descendants
-
-
-def get_descendants(G, node):
-    """
-    Return all descendants of a node, including the node itself.
-    :param G: networkx graph
-    :param node: name of a node
-    :return: set of nodes
-    """
-    descendants = set()
-    descendants.add(node)
-    for n in nx.descendants(G, node):
-        descendants.add(n)
-    return descendants
-
-def get_descendant(graph, v1, v2):
-    """
-    of the two nodes v1 and v2, ASSUMED TO BE ADJACENT, find out which one is the descendant of the other
-    :param graph: networkx graph, directed
-    :param v1: node name
-    :param v2: node name
-    :return: descendant node name
-    """
-    if v1 in graph.predecessors(v2):
-        return v2
-    elif v2 in graph.predecessors(v1):
-        return v1
-    else:
-        print(f"node 1: {v1}")
-        print(f"node 2: {v2}")
-        raise ValueError("Nodes are not adjacent")
+# relative imports
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+from src.CONSTANTS import BRITES
+from src.LP_EMD_helper import get_descendants, get_descendant, get_labels_and_index
 
 # parse arguments
 parser = argparse.ArgumentParser(description='Given the KEGG hierarchy, first this will select the subtree consisting of'
@@ -143,13 +87,7 @@ except NameError:
 # import pairwise distances
 pairwise_dist = np.load(distances_file)
 # import label names
-pairwise_dist_KOs = []
-with open(distances_labels_file, 'r') as f:
-    for line in f.readlines():
-        ko = line.strip().split('|')[-1]  # KO number is the last in the pip-delim list
-        ko = ko.split(':')[-1]  # remove the ko: prefix
-        pairwise_dist_KOs.append(ko)
-pairwise_dist_KO_index = {node: i for i, node in enumerate(pairwise_dist_KOs)}
+pairwise_dist_KOs, pairwise_dist_KO_index = get_labels_and_index(distances_labels_file)
 
 ########
 # for all pairs of edges, find which of the two connected nodes is the descendant of the other
@@ -157,7 +95,7 @@ edge_2_descendant = {}
 edges = list(G.edges())
 num_edges = len(edges)
 for i, (v1, v2) in enumerate(edges):
-    if i%100 == 0:
+    if i % 100 == 0:
         print(f"descendant iteration: {i}/{num_edges}")
     desc = get_descendant(G, v1, v2)
     edge_2_descendant[(v1, v2)] = desc
