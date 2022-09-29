@@ -3,13 +3,13 @@ import numpy as np
 import pandas as pd
 import time
 import networkx as nx
-
+from .CONSTANTS import BRITES
 # FIXME: this says to delete, but it is used below
 ###delete
 def parse_edge_list(file):
     df = pd.read_table(file)
     return df
-###
+
 
 def get_distance_matrix_from_edge_list(edge_list_file):
     '''
@@ -36,7 +36,7 @@ def get_distance_matrix_from_edge_list(edge_list_file):
     return distance_matrix, node_list
 
 
-def get_EMD(P, Q, distance_matrix):
+def get_EMD_pyemd(P, Q, distance_matrix):
     """
     Given two vectors P and Q, and a distance matrix, return the EMD between the two vectors
     :param P: 1D numpy array (float64)
@@ -126,6 +126,33 @@ def get_labels_and_index(distances_labels_file):
     return pairwise_dist_KOs, pairwise_dist_KO_index
 
 
+def get_graphs_and_index(edge_list_file, brite):
+    """
+    Given an edge list file, return a networkx graph and a dictionary mapping node names to indices
+    :param edge_list_file: text file containing the edge list
+    :param brite: which root to pick in the BRITE hierarchy
+    :return: (directed networkx graph, undirected networkx graph, basis of node names, dictionary mapping node names to
+    indices in that basis)
+    """
+    if brite not in BRITES:
+        raise ValueError(f"brite must be one of {BRITES}. I received {brite}.")
+    # read in the edge list
+    try:
+        G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
+    except:
+        raise Exception('Could not read edge list file. Make sure it is a tab-delimited file with two columns: parent & child')
+    # get the descendants of the brite
+    descendants = get_descendants(G, brite)
+    # add the root node back in (this will only have affect if you are using multiple brites. TODO: not yet implemented)
+    descendants.add('root')
+    # select the subgraph from the brite to the leaves
+    G = G.subgraph(descendants)
+    G_undirected = G.to_undirected()
+    # set the basis for the tree, which is an ordering of the edges. I'll identify each edge by its terminal node
+    basis = [x for x in G.nodes()]
+    basis_index = {node: i for i, node in enumerate(basis)}
+    return G, G_undirected, basis, basis_index
+
 
 ########################################################################################################################
 # TODO: the following are works in progress
@@ -139,7 +166,7 @@ def get_EMD_from_edge_file(edge_file, branch_len_function):  #FIXME: branch_len_
     Q = simulate_leaf_supported_vector(leaf_nodes, len(node_list), index_dict)
     # print(norm_P)
     start_time = time.time()
-    emd_value = get_EMD(P, Q, distance_matrix)
+    emd_value = get_EMD_pyemd(P, Q, distance_matrix)
     print(emd_value)
     print("Total process time:", time.time() - start_time)
     return
@@ -241,7 +268,7 @@ def test_get_EMD():
     Q = simulate_leaf_supported_vector(leaf_nodes, len(node_list), index_dict)
     #print(norm_P)
     start_time = time.time()
-    emd_value = get_EMD(P, Q, distance_matrix)
+    emd_value = get_EMD_pyemd(P, Q, distance_matrix)
     print(emd_value)
     print("Total process time:", time.time() - start_time)
 

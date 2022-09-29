@@ -1,5 +1,7 @@
 # unit tests for LP_EMD_helper.py
-from src.LP_EMD_helper import get_EMD,\
+import networkx as nx
+
+from src.LP_EMD_helper import get_EMD_pyemd,\
 get_EMDUniFrac_from_functional_profiles,\
 get_EMD_from_edge_file,\
 get_ID_index_dict,\
@@ -9,7 +11,8 @@ get_leaf_nodes_only_graph,\
 get_distance_matrix_from_edge_list,\
 make_edge_list_file_len_1_tmp,\
 parse_edge_list,\
-simulate_leaf_supported_vector
+simulate_leaf_supported_vector,\
+get_graphs_and_index
 import numpy as np
 
 
@@ -40,22 +43,32 @@ def test_get_EMD():
                   [2, 3, 1, 4, 4, 2, 0]])
     P = np.array([0, 0, 0, 0, 0, 0, 1])
     Q = np.array([0, 0, 0, 0, 0, 1, 0])
-    emd = get_EMD(P, Q, D)
+    emd = get_EMD_pyemd(P, Q, D)
     assert np.isclose(emd, 2, atol=1e-2)
     P = np.array([0, 0, 0, 0, 0, 0, 1])
     Q = np.array([0, 0, 0, 0, 1, 0, 0])
-    emd = get_EMD(P, Q, D)
+    emd = get_EMD_pyemd(P, Q, D)
     assert np.isclose(emd, 4, atol=1e-2)
     P = np.array([0, 0, 0, 0, 0, 0, 2])
     Q = np.array([0, 0, 0, 0, 0, 2, 0])
     # the following should fail since P and Q are not normalized
     try:
-        emd = get_EMD(P, Q, D)
+        emd = get_EMD_pyemd(P, Q, D)
         assert False
     except:
         assert True
     P = np.array([1, 0, 0, 0, 0, 0, 0])
     Q = np.array([0, 0, 0, 0, 0, 1, 0])
-    emd = get_EMD(P, Q, D)
+    emd = get_EMD_pyemd(P, Q, D)
     assert np.isclose(emd, 2, atol=1e-2)
 
+def test_get_graphs_and_index():
+    test_edge_file ='test_data/small_edge_list.txt'
+    Gdir, Gundir, basis, index = get_graphs_and_index(test_edge_file, "ko00001")
+    assert len(Gdir.edges()) == 6
+    assert len(Gundir.edges()) == 6
+    assert len(basis) == 7
+    assert len(index) == 7
+    assert index["ko00001"] == 0
+    assert nx.is_directed(Gdir)
+    assert not nx.is_directed(Gundir)
