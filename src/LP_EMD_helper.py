@@ -154,6 +154,33 @@ def get_graphs_and_index(edge_list_file, brite):
     return G, G_undirected, basis, basis_index
 
 
+# Create a class that will generate simulated distributions
+class LeafDistributionSimulator:
+    def __init__(self, edge_list_file, brite):
+        Gdir, Gundir, basis, basis_index = get_graphs_and_index(edge_list_file, brite)
+        self.Gdir = Gdir
+        self.Gundir = Gundir
+        self.basis = basis
+        self.basis_index = basis_index
+        self.brite = brite
+        self.leaf_nodes = get_leaf_descendants(Gdir, brite)
+        self.leaf_nodes_index = {node: basis_index[node] for node in self.leaf_nodes}
+
+    def get_random_dist_on_leaves(self):
+        """
+        Return a random distribution on the leaves of the tree
+        :return: 1D numpy array, indexed by nodes in the graph, but only supported on the leaves
+        """
+        # Use a dirichlet distribution to generate a random distribution on the leaves, since this will sum to 1
+        dist = np.random.dirichlet(np.ones(len(self.leaf_nodes)))
+        # map the distribution to the basis
+        P = np.zeros(len(self.basis))
+        for i, node in enumerate(self.leaf_nodes):
+            P[self.leaf_nodes_index[node]] = dist[i]
+        return P
+
+
+
 ########################################################################################################################
 # TODO: the following are works in progress
 def get_EMD_from_edge_file(edge_file, branch_len_function):  #FIXME: branch_len_function is not used
