@@ -1,9 +1,2 @@
 #!/bin/bash
-conda create --name FunUniFrac python==3.10.4
-activate FunUniFrac
-pip install phylodm
-pip install pyemd
-conda install -y pandas
-conda install -y networkx
-conda install -y scipy
-conda install -y numpy
+conda create --name FunUniFrac -c bioconda -c conda-forge -c conda --file requirements.txt
