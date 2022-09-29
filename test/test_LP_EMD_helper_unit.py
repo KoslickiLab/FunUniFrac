@@ -14,7 +14,7 @@ import numpy as np
 
 
 def test_get_distance_matrix_from_edge_list():
-    test_edge_file ='small_edge_list_with_lengths.txt'
+    test_edge_file ='test_data/small_edge_list_with_lengths.txt'
     distance_matrix, node_list = get_distance_matrix_from_edge_list(test_edge_file)
     # test that the distance matrix is the right size
     assert distance_matrix.shape == (len(node_list), len(node_list))
