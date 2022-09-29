@@ -37,6 +37,22 @@ def get_distance_matrix_from_edge_list(edge_list_file):
 
 
 def get_EMD(P, Q, distance_matrix):
+    # check if P and Q are np arrays
+    if type(P) is not np.ndarray:
+        P = np.array(P)
+    if type(Q) is not np.ndarray:
+        Q = np.array(Q)
+    if type(distance_matrix) is not np.ndarray:
+        distance_matrix = np.array(distance_matrix)
+    # check if P and Q are normalized
+    if np.linalg.norm(P) != 1:
+        raise ValueError('P is not normalized to sum to 1')
+    if np.linalg.norm(Q) != 1:
+        raise ValueError('Q is not normalized to sum to 1')
+    # cast everything to float64_t
+    P = P.astype(np.float64)
+    Q = Q.astype(np.float64)
+    distance_matrix = distance_matrix.astype(np.float64)
     return emd(P, Q, distance_matrix)
 
 
