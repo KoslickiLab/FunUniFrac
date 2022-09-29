@@ -38,10 +38,12 @@ def get_distance_matrix_from_edge_list(edge_list_file):
     D = nx.all_pairs_dijkstra_path_length(G, weight=col3)
     return D, G.nodes()
 
+
 def get_EMD(P, Q, distance_matrix):
     return emd(P, Q, distance_matrix)
 
-def get_EMD_from_edge_file(edge_file, branch_len_function):
+
+def get_EMD_from_edge_file(edge_file, branch_len_function):  #FIXME: branch_len_function is not used
     df = parse_edge_list(edge_file)
     df['length'] = [1.] * len(df)
     leaf_nodes = get_leaf_nodes(edge_file)
@@ -56,6 +58,7 @@ def get_EMD_from_edge_file(edge_file, branch_len_function):
     print("Total process time:", time.time() - start_time)
     return
 
+
 def get_leaf_nodes(edge_list_file):
     df = parse_edge_list(edge_list_file)
     child_nodes = set(df['child'])
@@ -64,11 +67,13 @@ def get_leaf_nodes(edge_list_file):
     leaf_nodes = child_nodes.difference(internal_nodes)
     return leaf_nodes
 
+
 def get_ID_index_dict(node_list):
     if type(node_list) is not list:
         node_list = list(node_list)
     index_dict = dict(zip(node_list, range(len(node_list))))
     return index_dict
+
 
 def simulate_leaf_supported_vector(leaf_nodes, length, index_dict):
     vector = [0.]*length
@@ -78,6 +83,7 @@ def simulate_leaf_supported_vector(leaf_nodes, length, index_dict):
     norm_v = vector / np.linalg.norm(vector)
     return norm_v
 
+
 #temp
 def get_leaf_nodes_only_graph():
     leaf_nodes = get_leaf_nodes('data/kegg_ko_edge_df.txt')
@@ -85,8 +91,10 @@ def get_leaf_nodes_only_graph():
     root = 'root'
     df['child'] = list(leaf_nodes)
     df['parent'] = root
+    # FIXME: this is hard coded
     df.to_csv('data/kegg_ko_leaf_only_df.txt', sep='\t', index=None)
     #print(df)
+
 
 def get_EMDUniFrac_from_functional_profiles(profile1, profile2, distance_matrix, node_list):
     start = time.time()
@@ -116,14 +124,17 @@ def get_EMDUniFrac_from_functional_profiles(profile1, profile2, distance_matrix,
     return
 
 
+# FIXME: these test don't use asserts and have a lot of stuff hard coded
 #tests
 def test_get_dm_from_tree_file():
     dm = get_dm_from_tree_file('data/test_newick.tree')
     print(dm)
 
+
 def test_parse_edge_list():
     df = parse_edge_list('data/kegg_ko_edge_df.txt')
     print(df)
+
 
 def test_get_matrix_from_edge_list():
     df = parse_edge_list('data/kegg_ko_edge_df.txt')
@@ -133,9 +144,11 @@ def test_get_matrix_from_edge_list():
     print(distance_matrix)
     print(list(node_list)[:10])
 
+
 def test_get_leaf_nodes():
     leaf_nodes = get_leaf_nodes('data/kegg_ko_edge_df.txt')
     print(leaf_nodes)
+
 
 def test_get_EMD():
     df = parse_edge_list('data/kegg_ko_leaf_only_df.txt')
@@ -151,6 +164,7 @@ def test_get_EMD():
     print(emd_value)
     print("Total process time:", time.time() - start_time)
 
+
 def test_simulate_leaf_supported_vector():
     leaf_nodes = get_leaf_nodes('data/kegg_ko_edge_df.txt')
     df = parse_edge_list('data/kegg_ko_edge_df.txt')
@@ -160,6 +174,7 @@ def test_simulate_leaf_supported_vector():
     sparse_vector = simulate_leaf_supported_vector(leaf_nodes, len(distance_matrix), index_dict)
     print(sparse_vector)
 
+
 def test_get_EMDUniFrac_from_profiles():
     profile1 = 'data/SRS1041031.denovo_duplicates_marked.trimmed_KOs_sketched_scaled_10.sig.zip_gather_k_5.csv'
     profile2 = 'data/SRS893174.denovo_duplicates_marked.trimmed_KOs_sketched_scaled_10.sig.zip_gather_k_5.csv'
@@ -168,6 +183,7 @@ def test_get_EMDUniFrac_from_profiles():
     df['length'] = [1.] * len(df)
     distance_matrix, node_list = get_distance_matrix_from_edge_list(df)
     get_EMDUniFrac_from_functional_profiles(profile1, profile2, distance_matrix, node_list)
+
 
 def make_edge_list_file_len_1_tmp():
     df = parse_edge_list('data/kegg_ko_edge_df.txt')
