@@ -2,17 +2,10 @@
 from pyemd import emd
 import numpy as np
 import pandas as pd
-import networkx
 import time
 import networkx as nx
-import argparse
 
-#not really necessary. May or may not be used. If not needed, remove phylodm as well.
-def get_dm_from_tree_file(tree_file):
-    pdm = PhyloDM.load_from_newick_path(tree_file)
-    dm = pdm.dm(norm=False)
-    return dm
-
+# FIXME: this says to delete, but it is used below
 ###delete
 def parse_edge_list(file):
     df = pd.read_table(file)

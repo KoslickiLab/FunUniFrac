@@ -46,7 +46,6 @@ dependencies:
     - numexpr==2.8.3
     - numpy==1.23.2
     - pandas==1.4.3
-    - phylodm==2.1.2
     - pip==22.1.2
     - pulp==2.6.0
     - pyemd==0.5.1
