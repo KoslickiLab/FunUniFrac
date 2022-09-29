@@ -151,7 +151,6 @@ pairwise_dist_KO_index = {node: i for i, node in enumerate(pairwise_dist_KOs)}
 
 ########
 # for all pairs of edges, find which of the two connected nodes is the descendant of the other
-# then, add the distance to the matrix
 edge_2_descendant = {}
 edges = list(G.edges())
 for i, (v1, v2) in enumerate(edges):
@@ -176,8 +175,6 @@ for node_i in pairwise_dist_KOs:
             try:
                 path = paths[node_j]
                 # get the index of each path element in the basis
-                # FIXME: there's a problem here since the paths are returned as a list of nodes, but the basis is a
-                #  list of edges (edge labeled with the terminal node). So, we need to get the edge that connects
                 path_tuples = [(path[i], path[i+1]) for i in range(len(path)-1)]
                 # for each tuple, find which is the descendant
                 path_edges = [edge_2_descendant[(x[0], x[1])] for x in path_tuples]
