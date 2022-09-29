@@ -106,6 +106,6 @@ The output will be an edge list with an additional column specifying the length 
 # Testing
 To run the tests, you will need to install the `pytest` package (via conda). Then, you can run the tests via:
 ```bash
-cd tests
+cd test
 pytest -v .
 ```
