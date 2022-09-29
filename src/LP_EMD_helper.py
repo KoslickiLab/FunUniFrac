@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import networkx
 import time
+import networkx as nx
 import argparse
 
 #not really necessary. May or may not be used. If not needed, remove phylodm as well.
@@ -18,18 +19,24 @@ def parse_edge_list(file):
     return df
 ###
 
-def get_matrix_from_edge_list(data):
+def get_distance_matrix_from_edge_list(edge_list_file):
     '''
-    Assume has the form head, tail, length
-    :param df:
-    :return:
+    Given an edge list file, with three columns: head, tail, length, return a distance matrix and a list of nodes
+    :param edge_list_file: file name of the edge list
+    :return: distance matrix and a list of nodes indexing the distance matrix
     '''
-    edgeList = data.values.tolist()
-    G = networkx.DiGraph()
-    for i in range(len(edgeList)):
-        G.add_edge(edgeList[i][0], edgeList[i][1], weight=edgeList[i][2])
-    A = networkx.adjacency_matrix(G).A
-    return A, G.nodes()
+    with open(edge_list_file, 'rb') as fid:
+        # read the first line
+        line = fid.readline()
+        try:
+            line = line.decode('utf-8')
+            col1, col2, col3 = line.strip().split('\t')
+        except:
+            raise ValueError('The first line of the file must have three columns: parent child edge_length')
+        # import the graph. First two columns are the nodes, last column is the weight
+        G = nx.read_edgelist(fid, delimiter='\t', data=((col3, float),))
+    D = nx.all_pairs_dijkstra_path_length(G, weight=col3)
+    return D, G.nodes()
 
 def get_EMD(P, Q, distance_matrix):
     return emd(P, Q, distance_matrix)
@@ -38,7 +45,7 @@ def get_EMD_from_edge_file(edge_file, branch_len_function):
     df = parse_edge_list(edge_file)
     df['length'] = [1.] * len(df)
     leaf_nodes = get_leaf_nodes(edge_file)
-    distance_matrix, node_list = get_matrix_from_edge_list(df)
+    distance_matrix, node_list = get_distance_matrix_from_edge_list(df)
     index_dict = get_ID_index_dict(node_list)
     P = simulate_leaf_supported_vector(leaf_nodes, len(node_list), index_dict)
     Q = simulate_leaf_supported_vector(leaf_nodes, len(node_list), index_dict)
@@ -122,7 +129,7 @@ def test_get_matrix_from_edge_list():
     df = parse_edge_list('data/kegg_ko_edge_df.txt')
     df['length'] = [1.] * len(df)
     print(df)
-    distance_matrix, node_list = get_matrix_from_edge_list(df)
+    distance_matrix, node_list = get_distance_matrix_from_edge_list(df)
     print(distance_matrix)
     print(list(node_list)[:10])
 
@@ -134,7 +141,7 @@ def test_get_EMD():
     df = parse_edge_list('data/kegg_ko_leaf_only_df.txt')
     df['length'] = [1.] * len(df)
     leaf_nodes = get_leaf_nodes('data/kegg_ko_leaf_only_df.txt')
-    distance_matrix, node_list = get_matrix_from_edge_list(df)
+    distance_matrix, node_list = get_distance_matrix_from_edge_list(df)
     index_dict = get_ID_index_dict(node_list)
     P = simulate_leaf_supported_vector(leaf_nodes, len(node_list), index_dict)
     Q = simulate_leaf_supported_vector(leaf_nodes, len(node_list), index_dict)
@@ -148,7 +155,7 @@ def test_simulate_leaf_supported_vector():
     leaf_nodes = get_leaf_nodes('data/kegg_ko_edge_df.txt')
     df = parse_edge_list('data/kegg_ko_edge_df.txt')
     df['length'] = [1.] * len(df)
-    distance_matrix, node_list = get_matrix_from_edge_list(df)
+    distance_matrix, node_list = get_distance_matrix_from_edge_list(df)
     index_dict = get_ID_index_dict(node_list)
     sparse_vector = simulate_leaf_supported_vector(leaf_nodes, len(distance_matrix), index_dict)
     print(sparse_vector)
@@ -159,7 +166,7 @@ def test_get_EMDUniFrac_from_profiles():
     leaf_nodes = get_leaf_nodes('data/kegg_ko_edge_df.txt')
     df = parse_edge_list('data/kegg_ko_edge_df.txt')
     df['length'] = [1.] * len(df)
-    distance_matrix, node_list = get_matrix_from_edge_list(df)
+    distance_matrix, node_list = get_distance_matrix_from_edge_list(df)
     get_EMDUniFrac_from_functional_profiles(profile1, profile2, distance_matrix, node_list)
 
 def make_edge_list_file_len_1_tmp():
