@@ -6,6 +6,8 @@ import pandas as pd
 import time
 import networkx as nx
 from .CONSTANTS import BRITES
+from itertools import combinations
+
 # FIXME: this says to delete, but it is used below
 ###delete
 def parse_edge_list(file):
@@ -13,24 +15,113 @@ def parse_edge_list(file):
     return df
 
 
-def get_distance_matrix_from_edge_list(edge_list_file):
+def import_graph(edge_list_file, directed=True):
+    """
+    Import a graph from an edge list. The edge list can have 2 or 3 columns corresponding to parent, child,
+    and (optionally) edge length.
+    :param edge_list_file: text file with edge list, tab separated
+    :param directed: boolean, whether the graph is directed or not
+    :return: DiGraph
+    """
+    if not os.path.exists(edge_list_file):
+        raise ValueError(f"Could not find edge list file {edge_list_file}")
+    try:
+        if directed:
+            G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
+        else:
+            G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.Graph)
+    except:
+        try:
+            with open(edge_list_file, 'rb') as fid:
+                # read the first line
+                line = fid.readline()
+                try:
+                    line = line.decode('utf-8')
+                    col1, col2, col3 = line.strip().split('\t')
+                except:
+                    raise ValueError('The first line of the file must have at most three columns: parent child '
+                                     'edge_length')
+                # import the graph. First two columns are the nodes, last column is the weight
+                if directed:
+                    G = nx.read_edgelist(fid, delimiter='\t', data=((col3, float),), create_using=nx.DiGraph)
+                else:
+                    G = nx.read_edgelist(fid, delimiter='\t', data=((col3, float),), create_using=nx.Graph)
+        except:
+            raise Exception(
+                'Could not read edge list file. Make sure it is a tab-delimited file with two columns: parent & child'
+                'or three columns: parent, child, edge_length')
+    return G
+
+def get_distance_matrix_from_edge_list(edge_list_file, edge_len_property=None):
     '''
     Given an edge list file, with three columns: head, tail, length, return a distance matrix and a list of nodes
     :param edge_list_file: file name of the edge list
+    :param edge_len_property: name of the edge length property
     :return: distance matrix and a list of nodes indexing the distance matrix
     '''
-    with open(edge_list_file, 'rb') as fid:
-        # read the first line
-        line = fid.readline()
-        try:
-            line = line.decode('utf-8')
-            col1, col2, col3 = line.strip().split('\t')
-        except:
-            raise ValueError('The first line of the file must have three columns: parent child edge_length')
-        # import the graph. First two columns are the nodes, last column is the weight
-        G = nx.read_edgelist(fid, delimiter='\t', data=((col3, float),))
-    D_dict = dict(nx.all_pairs_dijkstra_path_length(G, weight=col3))
+    G = import_graph(edge_list_file, directed=False)
+    if edge_len_property is None:
+        edge_properties = list(list(G.edges(data=True))[0][-1].keys())
+        if len(edge_properties) > 1:
+            raise ValueError(f'I found multiple edge properties: {edge_properties}. I don\'t know which one to use for '
+                             f'edge lengths.')
+        else:
+            edge_len_property = edge_properties[0]
+    D_dict = dict(nx.all_pairs_dijkstra_path_length(G, weight=edge_len_property))
     node_list = list(G.nodes())
+    distance_matrix = np.zeros((len(node_list), len(node_list)))
+    for i, node1 in enumerate(node_list):
+        for j, node2 in enumerate(node_list):
+            distance_matrix[i, j] = D_dict[node1][node2]
+    return distance_matrix, node_list
+
+def get_leaf_distance_matrix_from_edge_list(edge_list_file, edge_len_property=None):
+    '''
+        Given an edge list file, with three columns: head, tail, length, return a distance matrix for all pairs of
+        leaves, as well as the index for this array (leaf nodes). The edge list MUST be a tree (not a forest).
+        :param edge_list_file: file name of the edge list
+        :param edge_len_property: name of the edge length property
+        :return: distance matrix between the leaf nodes of G and a list of nodes indexing the distance matrix
+    '''
+    Gdir = import_graph(edge_list_file, directed=True)
+    Gundir = import_graph(edge_list_file, directed=False)
+    # Check if I know which is the edge length property
+    if edge_len_property is None:
+        edge_properties = list(list(Gundir.edges(data=True))[0][-1].keys())
+        if len(edge_properties) > 1:
+            raise ValueError(f'I found multiple edge properties: {edge_properties}. I don\'t know which one to use for '
+                             f'edge lengths.')
+        else:
+            edge_len_property = edge_properties[0]
+
+    # get the leaf nodes of the directed graph
+    leaf_nodes = get_leaf_nodes(Gdir)
+    leaf_node_combos = list(combinations(leaf_nodes, 2))
+    # FIXME: TODO: use the tree_all_pairs_lowest_common_ancestor to find all LCA between all pairs of leaves
+    # then sum up the distances from the leaves to the LCA, stopping when we hit the LCA
+    # I.e. something like this: https://stackoverflow.com/questions/18080878/distance-between-every-pair-of-nodes-in-a-tree
+    LCAs = nx.tree_all_pairs_lowest_common_ancestor(Gdir, pairs=leaf_node_combos)
+    leaf_node_combos_to_len = {}
+    i = 0
+    for (leaf1, leaf2), LCA in LCAs:
+        i += 1
+        if i % 1000 == 0:
+            print(f'Finished {i} of {len(leaf_node_combos)}')
+        leaf_node_combos_to_len[(leaf1, leaf2)] = 0
+        leaf_node_combos_to_len[(leaf2, leaf1)] = 0
+        for node in (leaf1, leaf2):
+            cur = node
+            weight = 0
+            pred = Gdir.predecessors(cur)
+            while True:
+                weight += Gdir[cur][pred][edge_len_property]
+                cur = pred
+                pred = Gdir.predecessors(pred)[0]
+                if cur == LCA:
+                    break
+
+    D_dict = dict(nx.all_pairs_dijkstra_path_length(Gundir, weight=edge_len_property))
+    node_list = list(Gundir.nodes())
     distance_matrix = np.zeros((len(node_list), len(node_list)))
     for i, node1 in enumerate(node_list):
         for j, node2 in enumerate(node_list):
@@ -67,7 +158,7 @@ def get_EMD_pyemd(P, Q, distance_matrix, with_flow=False):
     return emd(P, Q, distance_matrix)
 
 # get all leaf descendants of a certain node
-def get_leaf_descendants(G, node):
+def get_leaf_descendants_from_node(G, node):
     """
     Return all leaf descendants of a node, excluding the node itself.
     :param G: graph
@@ -79,6 +170,19 @@ def get_leaf_descendants(G, node):
         if G.out_degree(n) == 0:
             descendants.add(n)
     return descendants
+
+
+def get_leaf_nodes(G):
+    """
+    Return all leaf nodes of a graph
+    :param G: graph
+    :return: set of leaf nodes
+    """
+    leaf_nodes = set()
+    for n in G.nodes():
+        if G.out_degree(n) == 0:
+            leaf_nodes.add(n)
+    return leaf_nodes
 
 
 def get_descendants(G, node):
@@ -93,6 +197,7 @@ def get_descendants(G, node):
     for n in nx.descendants(G, node):
         descendants.add(n)
     return descendants
+
 
 def get_descendant(graph, v1, v2):
     """
@@ -112,7 +217,7 @@ def get_descendant(graph, v1, v2):
         raise ValueError("Nodes are not adjacent")
 
 
-def get_labels_and_index(distances_labels_file):
+def get_KO_labels_and_index(distances_labels_file):
     """
     Given a file containing the basis for the rows of the pairwise KO distance matrix, return a list of labels and a
     dictionary mapping labels to indices
@@ -140,31 +245,11 @@ def get_graphs_and_index(edge_list_file, brite):
     """
     if brite not in BRITES:
         raise ValueError(f"brite must be one of {BRITES}. I received {brite}.")
-    # read in the edge list, first try two column mode
-    if not os.path.exists(edge_list_file):
-        raise ValueError(f"Could not find edge list file {edge_list_file}")
-    try:
-        G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
-    except:
-        try:
-            with open(edge_list_file, 'rb') as fid:
-                # read the first line
-                line = fid.readline()
-                try:
-                    line = line.decode('utf-8')
-                    col1, col2, col3 = line.strip().split('\t')
-                except:
-                    raise ValueError('The first line of the file must have at most three columns: parent child '
-                                     'edge_length')
-                # import the graph. First two columns are the nodes, last column is the weight
-                G = nx.read_edgelist(fid, delimiter='\t', data=((col3, float),), create_using=nx.DiGraph)
-        except:
-            raise Exception('Could not read edge list file. Make sure it is a tab-delimited file with two columns: parent & child'
-                        'or three columns: parent, child, edge_length')
+    G = import_graph(edge_list_file, directed=True)
     # get the descendants of the brite
     descendants = get_descendants(G, brite)
     # add the root node back in (this will only have affect if you are using multiple brites. TODO: not yet implemented)
-    descendants.add('root')
+    descendants.add('root')  #TODO: see if I actually want to be adding the root back in
     # select the subgraph from the brite to the leaves
     G = G.subgraph(descendants)
     G_undirected = G.to_undirected()
@@ -183,7 +268,7 @@ class LeafDistributionSimulator:
         self.basis = basis
         self.basis_index = basis_index
         self.brite = brite
-        self.leaf_nodes = get_leaf_descendants(Gdir, brite)
+        self.leaf_nodes = get_leaf_descendants_from_node(Gdir, brite)
         self.leaf_nodes_index = {node: basis_index[node] for node in self.leaf_nodes}
 
     def get_random_dist_on_leaves(self):
@@ -193,6 +278,14 @@ class LeafDistributionSimulator:
         """
         # Use a dirichlet distribution to generate a random distribution on the leaves, since this will sum to 1
         dist = np.random.dirichlet(np.ones(len(self.leaf_nodes)))
+        return dist
+
+    def get_random_dist_on_leaves_full(self):
+        """
+        Returns a vector indexed by nodes in the full graph, but only supported on the leaves
+        :return:
+        """
+        dist = self.get_random_dist_on_leaves()
         # map the distribution to the basis
         P = np.zeros(len(self.basis))
         for i, node in enumerate(self.leaf_nodes):
@@ -218,8 +311,8 @@ def get_EMD_from_edge_file(edge_file, branch_len_function):  #FIXME: branch_len_
     print("Total process time:", time.time() - start_time)
     return
 
-
-def get_leaf_nodes(edge_list_file):
+# TODO: duplicate function
+def get_leaf_nodes2(edge_list_file):
     df = parse_edge_list(edge_list_file)
     child_nodes = set(df['child'])
     parent_nodes = set(df['parent'])
