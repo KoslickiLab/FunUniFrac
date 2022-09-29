@@ -63,11 +63,13 @@ def get_descendant(graph, v1, v2):
     :param v2: node name
     :return: descendant node name
     """
-    if v1 in nx.descendants(graph, v2):
-        return v1
-    elif v2 in nx.descendants(graph, v1):
+    if v1 in graph.predecessors(v2):
         return v2
+    elif v2 in graph.predecessors(v1):
+        return v1
     else:
+        print(f"node 1: {v1}")
+        print(f"node 2: {v2}")
         raise ValueError("Nodes are not adjacent")
 
 # parse arguments
@@ -154,7 +156,10 @@ pairwise_dist_KO_index = {node: i for i, node in enumerate(pairwise_dist_KOs)}
 # then, add the distance to the matrix
 edge_2_descendant = {}
 edges = list(G.edges())
+num_edges = len(edges)
 for i, (v1, v2) in enumerate(edges):
+    if i%100 == 0:
+        print(f"descendant iteration: {i}/{num_edges}")
     desc = get_descendant(G, v1, v2)
     edge_2_descendant[(v1, v2)] = desc
     edge_2_descendant[(v2, v1)] = desc
