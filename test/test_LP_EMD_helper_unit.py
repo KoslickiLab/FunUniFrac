@@ -1,5 +1,6 @@
 # unit tests for LP_EMD_helper.py
 import networkx as nx
+import numpy as np
 
 from src.LP_EMD_helper import get_EMD_pyemd,\
 get_EMDUniFrac_from_functional_profiles,\
@@ -12,8 +13,9 @@ get_distance_matrix_from_edge_list,\
 make_edge_list_file_len_1_tmp,\
 parse_edge_list,\
 simulate_leaf_supported_vector,\
-get_graphs_and_index
-import numpy as np
+get_graphs_and_index,\
+LeafDistributionSimulator
+
 
 
 def test_get_distance_matrix_from_edge_list():
@@ -72,3 +74,21 @@ def test_get_graphs_and_index():
     assert index["ko00001"] == 0
     assert nx.is_directed(Gdir)
     assert not nx.is_directed(Gundir)
+
+
+def test_leaf_node_simulator():
+    edge_list_file = 'test_data/small_edge_list.txt'
+    brite = 'ko00001'
+    l = LeafDistributionSimulator(edge_list_file, brite)
+    assert len(l.basis) == 7
+    P = l.get_random_dist_on_leaves()
+    # check that the simulated distribution is a valid probability distribution
+    assert np.allclose(np.sum(P), 1, atol=1e-2)
+    assert np.all(P >= 0)
+    assert np.all(P <= 1)
+    # check if the distribution is supported only on the leaves
+    for node in l.basis:
+        if node not in l.leaf_nodes:
+            assert np.isclose(P[l.basis_index[node]], 0, atol=1e-8)
+        else:
+            assert P[l.basis_index[node]] > 0
