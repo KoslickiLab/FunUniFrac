@@ -1,4 +1,6 @@
-from pyemd import emd
+import os.path
+
+from pyemd import emd, emd_with_flow
 import numpy as np
 import pandas as pd
 import time
@@ -36,7 +38,7 @@ def get_distance_matrix_from_edge_list(edge_list_file):
     return distance_matrix, node_list
 
 
-def get_EMD_pyemd(P, Q, distance_matrix):
+def get_EMD_pyemd(P, Q, distance_matrix, with_flow=False):
     """
     Given two vectors P and Q, and a distance matrix, return the EMD between the two vectors
     :param P: 1D numpy array (float64)
@@ -51,15 +53,17 @@ def get_EMD_pyemd(P, Q, distance_matrix):
         Q = np.array(Q)
     if type(distance_matrix) is not np.ndarray:
         distance_matrix = np.array(distance_matrix)
-    # check if P and Q are normalized
-    if np.linalg.norm(P) != 1:
+    # check if P and Q are normalized to sum to 1, or close enough
+    if not np.isclose(P.sum(), 1.0):
         raise ValueError('P is not normalized to sum to 1')
-    if np.linalg.norm(Q) != 1:
+    if not np.isclose(Q.sum(), 1.0):
         raise ValueError('Q is not normalized to sum to 1')
     # cast everything to float64_t
     P = P.astype(np.float64)
     Q = Q.astype(np.float64)
     distance_matrix = distance_matrix.astype(np.float64)
+    if with_flow:
+        return emd_with_flow(P, Q, distance_matrix)
     return emd(P, Q, distance_matrix)
 
 # get all leaf descendants of a certain node
@@ -136,11 +140,27 @@ def get_graphs_and_index(edge_list_file, brite):
     """
     if brite not in BRITES:
         raise ValueError(f"brite must be one of {BRITES}. I received {brite}.")
-    # read in the edge list
+    # read in the edge list, first try two column mode
+    if not os.path.exists(edge_list_file):
+        raise ValueError(f"Could not find edge list file {edge_list_file}")
     try:
         G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
     except:
-        raise Exception('Could not read edge list file. Make sure it is a tab-delimited file with two columns: parent & child')
+        try:
+            with open(edge_list_file, 'rb') as fid:
+                # read the first line
+                line = fid.readline()
+                try:
+                    line = line.decode('utf-8')
+                    col1, col2, col3 = line.strip().split('\t')
+                except:
+                    raise ValueError('The first line of the file must have at most three columns: parent child '
+                                     'edge_length')
+                # import the graph. First two columns are the nodes, last column is the weight
+                G = nx.read_edgelist(fid, delimiter='\t', data=((col3, float),), create_using=nx.DiGraph)
+        except:
+            raise Exception('Could not read edge list file. Make sure it is a tab-delimited file with two columns: parent & child'
+                        'or three columns: parent, child, edge_length')
     # get the descendants of the brite
     descendants = get_descendants(G, brite)
     # add the root node back in (this will only have affect if you are using multiple brites. TODO: not yet implemented)
