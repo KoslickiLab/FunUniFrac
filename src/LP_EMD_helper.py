@@ -1,3 +1,4 @@
+import itertools
 import os.path
 
 from pyemd import emd, emd_with_flow
@@ -13,6 +14,13 @@ def parse_edge_list(file):
     df = pd.read_table(file)
     return df
 
+def map_func_star(a_b_c):
+    """Convert `f([1,2,3])` to `f(1,2,4)` call."""
+    return map_func(*a_b_c)
+def map_func(node, Gundir, edge_len_property):
+    # compute the distance from the node to all leaf nodes
+    len_dict = dict(nx.single_source_dijkstra_path_length(Gundir, node, weight=edge_len_property))
+    return len_dict
 
 def import_graph(edge_list_file, directed=True):
     """
@@ -103,12 +111,6 @@ def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_proper
     print('Getting the leaf nodes...')
     leaf_nodes = get_leaf_nodes(Gdir)
     leaf_nodes_to_index = {n: i for i, n in enumerate(leaf_nodes)}
-    # create the function to be mapped
-
-    def map_func(node):
-        # compute the distance from the node to all leaf nodes
-        len_dict = dict(nx.single_source_dijkstra_path_length(Gundir, node, weight=edge_len_property))
-        return len_dict
     # for each pair of leaf nodes, get the distance
     print('Initializing the distance matrix...')
     distance_matrix = np.zeros((len(leaf_nodes), len(leaf_nodes)))
@@ -116,7 +118,7 @@ def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_proper
     len_leaves = len(leaf_nodes)
     print('Computing the distance matrix...')
     pool = multiprocessing.Pool(processes=10)
-    len_dicts = pool.map(map_func, leaf_nodes)
+    len_dicts = pool.map(map_func_star, zip(leaf_nodes, itertools.repeat(Gundir), itertools.repeat(edge_len_property)))
     pool.close()
     pool.join()
     # join up the results
