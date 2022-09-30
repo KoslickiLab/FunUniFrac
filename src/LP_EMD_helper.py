@@ -75,7 +75,7 @@ def get_distance_matrix_from_edge_list(edge_list_file, edge_len_property=None):
             distance_matrix[i, j] = D_dict[node1][node2]
     return distance_matrix, node_list
 
-#FIXME: issue here is that the order of the leaf nodes is not fixed
+
 def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_property=None):
     '''
     Given an edge list file, with three columns: head, tail, length, return a distance matrix on all leaves and a
@@ -98,7 +98,11 @@ def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_proper
     leaf_nodes_to_index = {n: i for i, n in enumerate(leaf_nodes)}
     # for each pair of leaf nodes, get the distance
     distance_matrix = np.zeros((len(leaf_nodes), len(leaf_nodes)))
+    itr = 0
+    len_leaves = len(leaf_nodes)
     for leaf in leaf_nodes:
+        itr += 1
+        print(f'Computing distances for leaf {itr} of {len_leaves}')
         len_dict = dict(nx.single_source_dijkstra_path_length(Gundir, leaf, weight=edge_len_property))
         for leaf2 in leaf_nodes:
             i = leaf_nodes_to_index[leaf]

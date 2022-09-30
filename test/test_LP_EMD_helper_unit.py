@@ -1,6 +1,7 @@
 # unit tests for LP_EMD_helper.py
 import networkx as nx
 import numpy as np
+import tempfile
 
 from src.LP_EMD_helper import get_EMD_pyemd,\
 get_EMDUniFrac_from_functional_profiles,\
@@ -44,14 +45,44 @@ def test_get_distance_matrix_on_leaves_from_edge_list():
     assert distance_matrix.shape == (len(leaf_node_list), len(leaf_node_list))
     # test against precomputed distance matrix
     # distance matrix for binary with 4 leaves and edge lengths of 1
-    print(f"distance_matrix = {distance_matrix}")
-    print(f"leaf_node_list = {leaf_node_list}")
     known_D = np.array([[0, 2, 4, 4],
                         [2, 0, 4, 4],
                         [4, 4, 0, 2],
                         [4, 4, 2, 0]])
     assert np.allclose(distance_matrix, known_D, atol=1e-1)
-
+    # second test is all branch lengths = 2, with a different length key
+    # initialize a named temporary file
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+        tmp.write("parent\tchild\tlength\n")
+        tmp.write("ko00001\tb\t2\n")
+        tmp.write("ko00001\tc\t2\n")
+        tmp.write("b\td\t2\n")
+        tmp.write("b\te\t2\n")
+        tmp.write("c\tf\t2\n")
+        tmp.write("c\tg\t2\n")
+    distance_matrix, leaf_node_list = get_distance_matrix_on_leaves_from_edge_list(tmp.name)
+    known_D = np.array([[0, 4, 8, 8],
+                        [4, 0, 8, 8],
+                        [8, 8, 0, 4],
+                        [8, 8, 4, 0]])
+    assert np.allclose(distance_matrix, known_D, atol=1e-1)
+    # third test is with varrying branch lengths and different node names
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+        tmp.write("parent\tchild\tlength\n")
+        tmp.write("ko00001\tb\t1\n")
+        tmp.write("ko00001\tr\t2\n")
+        tmp.write("b\tp\t3\n")
+        tmp.write("b\tm\t4\n")
+        tmp.write("r\tq\t5\n")
+        tmp.write("r\ts\t6\n")
+    distance_matrix, leaf_node_list = get_distance_matrix_on_leaves_from_edge_list(tmp.name)
+    print(f"distance_matrix = {distance_matrix}")
+    print(f"leaf_node_list = {leaf_node_list}")
+    known_D = np.array([[0, 7, 12, 13],
+                        [7, 0, 11, 12],
+                        [12, 11, 0, 11],
+                        [13, 12, 11, 0]])
+    assert np.allclose(distance_matrix, known_D, atol=1e-1)
 
 def test_get_EMD():
     D = np.array([[0, 1, 1, 2, 2, 2, 2],
