@@ -86,6 +86,9 @@ def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_proper
     '''
     Gdir = import_graph(edge_list_file, directed=True)
     Gundir = Gdir.to_undirected()
+    # check if the graph is connected
+    if not nx.is_connected(Gundir):
+        raise ValueError('The graph is not connected. I cannot compute the distance matrix on leaves.')
     if edge_len_property is None:
         edge_properties = list(list(Gdir.edges(data=True))[0][-1].keys())
         if len(edge_properties) > 1:
@@ -102,7 +105,8 @@ def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_proper
     len_leaves = len(leaf_nodes)
     for leaf in leaf_nodes:
         itr += 1
-        print(f'Computing distances for leaf {itr} of {len_leaves}')
+        if itr % 100 == 0:
+            print(f'Computing distances for leaf {itr} of {len_leaves}')
         len_dict = dict(nx.single_source_dijkstra_path_length(Gundir, leaf, weight=edge_len_property))
         for leaf2 in leaf_nodes:
             i = leaf_nodes_to_index[leaf]

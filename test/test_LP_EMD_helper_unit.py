@@ -2,6 +2,7 @@
 import networkx as nx
 import numpy as np
 import tempfile
+import pytest
 
 from src.LP_EMD_helper import get_EMD_pyemd,\
 get_EMDUniFrac_from_functional_profiles,\
@@ -76,13 +77,20 @@ def test_get_distance_matrix_on_leaves_from_edge_list():
         tmp.write("r\tq\t5\n")
         tmp.write("r\ts\t6\n")
     distance_matrix, leaf_node_list = get_distance_matrix_on_leaves_from_edge_list(tmp.name)
-    print(f"distance_matrix = {distance_matrix}")
-    print(f"leaf_node_list = {leaf_node_list}")
     known_D = np.array([[0, 7, 12, 13],
                         [7, 0, 11, 12],
                         [12, 11, 0, 11],
                         [13, 12, 11, 0]])
     assert np.allclose(distance_matrix, known_D, atol=1e-1)
+    # check for the ability to throw an error if the graph is not connected
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as tmp:
+        tmp.write("parent\tchild\tlength\n")
+        tmp.write("ko00001\tb\t1\n")
+        tmp.write("ko00001\tc\t2\n")
+        tmp.write("d\te\t3\n")
+    # the following should throw an error
+    with pytest.raises(ValueError):
+        distance_matrix, leaf_node_list = get_distance_matrix_on_leaves_from_edge_list(tmp.name)
 
 def test_get_EMD():
     D = np.array([[0, 1, 1, 2, 2, 2, 2],
