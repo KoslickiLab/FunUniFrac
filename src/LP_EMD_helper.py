@@ -1,3 +1,4 @@
+import itertools
 import os.path
 
 from pyemd import emd, emd_with_flow
@@ -5,6 +6,7 @@ import numpy as np
 import pandas as pd
 import time
 import networkx as nx
+import multiprocessing
 from .CONSTANTS import BRITES
 # FIXME: this says to delete, but it is used below
 ###delete
@@ -12,6 +14,13 @@ def parse_edge_list(file):
     df = pd.read_table(file)
     return df
 
+def shortest_path_map_func_star(a_b_c):
+    """Convert `f([1,2,3])` to `f(1,2,4)` call."""
+    return shortest_path_map_func(*a_b_c)
+def shortest_path_map_func(node, Gundir, edge_len_property):
+    # compute the distance from the node to all leaf nodes
+    len_dict = dict(nx.single_source_dijkstra_path_length(Gundir, node, weight=edge_len_property))
+    return {node: len_dict}
 
 def import_graph(edge_list_file, directed=True):
     """
@@ -84,9 +93,11 @@ def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_proper
     :param edege_length_property: name of the edge length property
     :return: distance matrix and a list of nodes indexing the distance matrix
     '''
+    print('Reading edge list file...')
     Gdir = import_graph(edge_list_file, directed=True)
     Gundir = Gdir.to_undirected()
     # check if the graph is connected
+    print('Checking if the graph is connected...')
     if not nx.is_connected(Gundir):
         raise ValueError('The graph is not connected. I cannot compute the distance matrix on leaves.')
     if edge_len_property is None:
@@ -97,22 +108,29 @@ def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_proper
         else:
             edge_len_property = edge_properties[0]
     # get the leaf nodes
+    print('Getting the leaf nodes...')
     leaf_nodes = get_leaf_nodes(Gdir)
     leaf_nodes_to_index = {n: i for i, n in enumerate(leaf_nodes)}
     # for each pair of leaf nodes, get the distance
+    print('Initializing the distance matrix...')
     distance_matrix = np.zeros((len(leaf_nodes), len(leaf_nodes)))
     itr = 0
     len_leaves = len(leaf_nodes)
-    for leaf in leaf_nodes:
-        itr += 1
-        if itr % 100 == 0:
-            print(f'Computing distances for leaf {itr} of {len_leaves}')
-        len_dict = dict(nx.single_source_dijkstra_path_length(Gundir, leaf, weight=edge_len_property))
+    print('Computing the distance matrix...')
+    #TODO: specify the number of processes to use
+    pool = multiprocessing.Pool(processes=int(multiprocessing.cpu_count() / 2))
+    len_dicts = pool.map(shortest_path_map_func_star, zip(leaf_nodes, itertools.repeat(Gundir), itertools.repeat(edge_len_property)))
+    pool.close()
+    pool.join()
+    # join up the results
+    len_dict = {k:v for x in len_dicts for k,v in x.items()}
+    print(f"len_dict: {len_dicts}")
+    for leaf1 in leaf_nodes:
         for leaf2 in leaf_nodes:
-            i = leaf_nodes_to_index[leaf]
+            i = leaf_nodes_to_index[leaf1]
             j = leaf_nodes_to_index[leaf2]
-            distance_matrix[i, j] = len_dict[leaf2]
-            distance_matrix[j, i] = len_dict[leaf2]
+            distance_matrix[i, j] = len_dict[leaf1][leaf2]
+            distance_matrix[j, i] = len_dict[leaf1][leaf2]
     return distance_matrix, leaf_nodes
 
 def get_EMD_pyemd(P, Q, distance_matrix, with_flow=False):
