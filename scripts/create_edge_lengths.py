@@ -12,7 +12,7 @@ from scipy.optimize import lsq_linear
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 from src.CONSTANTS import BRITES
-from src.LP_EMD_helper import get_descendants, get_descendant, get_labels_and_index
+from src.LP_EMD_helper import get_descendants, get_descendant, get_KO_labels_and_index
 
 # parse arguments
 parser = argparse.ArgumentParser(description='This will take the matrix made by graph_to_path_matrix.py and the all '
@@ -76,7 +76,7 @@ if brite not in BRITES:
 # import pairwise distances
 pairwise_dist = np.load(distances_file)
 # import label names
-pairwise_dist_KOs, pairwise_dist_KO_index = get_labels_and_index(distances_labels_file)
+pairwise_dist_KOs, pairwise_dist_KO_index = get_KO_labels_and_index(distances_labels_file)
 
 # create the y vector of all pairwise distances
 y = []
