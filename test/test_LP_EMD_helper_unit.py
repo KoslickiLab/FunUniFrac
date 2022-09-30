@@ -14,7 +14,8 @@ make_edge_list_file_len_1_tmp,\
 parse_edge_list,\
 simulate_leaf_supported_vector,\
 get_graphs_and_index,\
-LeafDistributionSimulator
+LeafDistributionSimulator,\
+get_distance_matrix_on_leaves_from_edge_list
 
 
 
@@ -33,6 +34,23 @@ def test_get_distance_matrix_from_edge_list():
                         [2, 3, 1, 4, 4, 0, 2],
                         [2, 3, 1, 4, 4, 2, 0]])
     assert np.allclose(distance_matrix, known_D, atol=1e-2)
+
+
+def test_get_distance_matrix_on_leaves_from_edge_list():
+    # first test is all the branch lengths = 1
+    test_edge_file ='test_data/small_edge_list_with_lengths.txt'
+    distance_matrix, leaf_node_list = get_distance_matrix_on_leaves_from_edge_list(test_edge_file)
+    # test that the distance matrix is the right size
+    assert distance_matrix.shape == (len(leaf_node_list), len(leaf_node_list))
+    # test against precomputed distance matrix
+    # distance matrix for binary with 4 leaves and edge lengths of 1
+    print(f"distance_matrix = {distance_matrix}")
+    print(f"leaf_node_list = {leaf_node_list}")
+    known_D = np.array([[0, 2, 4, 4],
+                        [2, 0, 4, 4],
+                        [4, 4, 0, 2],
+                        [4, 4, 2, 0]])
+    assert np.allclose(distance_matrix, known_D, atol=1e-1)
 
 
 def test_get_EMD():

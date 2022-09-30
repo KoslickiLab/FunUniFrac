@@ -53,7 +53,8 @@ def import_graph(edge_list_file, directed=True):
 
 def get_distance_matrix_from_edge_list(edge_list_file, edge_len_property=None):
     '''
-    Given an edge list file, with three columns: head, tail, length, return a distance matrix and a list of nodes
+    Given an edge list file, with three columns: head, tail, length, return an ALL-PAIRS distance matrix and a list of
+    nodes
     :param edge_list_file: file name of the edge list
     :param edege_length_property: name of the edge length property
     :return: distance matrix and a list of nodes indexing the distance matrix
@@ -74,6 +75,37 @@ def get_distance_matrix_from_edge_list(edge_list_file, edge_len_property=None):
             distance_matrix[i, j] = D_dict[node1][node2]
     return distance_matrix, node_list
 
+#FIXME: issue here is that the order of the leaf nodes is not fixed
+def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_property=None):
+    '''
+    Given an edge list file, with three columns: head, tail, length, return a distance matrix on all leaves and a
+    list of nodes
+    :param edge_list_file: file name of the edge list
+    :param edege_length_property: name of the edge length property
+    :return: distance matrix and a list of nodes indexing the distance matrix
+    '''
+    Gdir = import_graph(edge_list_file, directed=True)
+    Gundir = Gdir.to_undirected()
+    if edge_len_property is None:
+        edge_properties = list(list(Gdir.edges(data=True))[0][-1].keys())
+        if len(edge_properties) > 1:
+            raise ValueError(f'I found multiple edge properties: {edge_properties}. I don\'t know which one to use for '
+                             f'edge lengths.')
+        else:
+            edge_len_property = edge_properties[0]
+    # get the leaf nodes
+    leaf_nodes = get_leaf_nodes(Gdir)
+    leaf_nodes_to_index = {n: i for i, n in enumerate(leaf_nodes)}
+    # for each pair of leaf nodes, get the distance
+    distance_matrix = np.zeros((len(leaf_nodes), len(leaf_nodes)))
+    for leaf in leaf_nodes:
+        len_dict = dict(nx.single_source_dijkstra_path_length(Gundir, leaf, weight=edge_len_property))
+        for leaf2 in leaf_nodes:
+            i = leaf_nodes_to_index[leaf]
+            j = leaf_nodes_to_index[leaf2]
+            distance_matrix[i, j] = len_dict[leaf2]
+            distance_matrix[j, i] = len_dict[leaf2]
+    return distance_matrix, leaf_nodes
 
 def get_EMD_pyemd(P, Q, distance_matrix, with_flow=False):
     """
@@ -127,6 +159,7 @@ def get_leaf_nodes(G):
     for n in G.nodes():
         if G.out_degree(n) == 0:
             leaf_nodes.add(n)
+    leaf_nodes = sorted(list(leaf_nodes))
     return leaf_nodes
 
 def get_descendants(G, node):
