@@ -20,7 +20,6 @@ LeafDistributionSimulator,\
 get_distance_matrix_on_leaves_from_edge_list
 
 
-
 def test_get_distance_matrix_from_edge_list():
     test_edge_file ='test_data/small_edge_list_with_lengths.txt'
     distance_matrix, node_list = get_distance_matrix_from_edge_list(test_edge_file)
@@ -92,6 +91,7 @@ def test_get_distance_matrix_on_leaves_from_edge_list():
     with pytest.raises(ValueError):
         distance_matrix, leaf_node_list = get_distance_matrix_on_leaves_from_edge_list(tmp.name)
 
+
 def test_get_EMD():
     D = np.array([[0, 1, 1, 2, 2, 2, 2],
                   [1, 0, 2, 1, 1, 3, 3],
@@ -120,6 +120,7 @@ def test_get_EMD():
     Q = np.array([0, 0, 0, 0, 0, 1, 0])
     emd = get_EMD_pyemd(P, Q, D)
     assert np.isclose(emd, 2, atol=1e-2)
+
 
 def test_get_graphs_and_index():
     test_edge_file ='test_data/small_edge_list.txt'
