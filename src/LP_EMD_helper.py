@@ -14,13 +14,13 @@ def parse_edge_list(file):
     df = pd.read_table(file)
     return df
 
-def map_func_star(a_b_c):
+def shortest_path_map_func_star(a_b_c):
     """Convert `f([1,2,3])` to `f(1,2,4)` call."""
-    return map_func(*a_b_c)
-def map_func(node, Gundir, edge_len_property):
+    return shortest_path_map_func(*a_b_c)
+def shortest_path_map_func(node, Gundir, edge_len_property):
     # compute the distance from the node to all leaf nodes
     len_dict = dict(nx.single_source_dijkstra_path_length(Gundir, node, weight=edge_len_property))
-    return len_dict
+    return {node: len_dict}
 
 def import_graph(edge_list_file, directed=True):
     """
@@ -117,28 +117,20 @@ def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_proper
     itr = 0
     len_leaves = len(leaf_nodes)
     print('Computing the distance matrix...')
-    pool = multiprocessing.Pool(processes=10)
-    len_dicts = pool.map(map_func_star, zip(leaf_nodes, itertools.repeat(Gundir), itertools.repeat(edge_len_property)))
+    #TODO: specify the number of processes to use
+    pool = multiprocessing.Pool(processes=int(multiprocessing.cpu_count() / 2))
+    len_dicts = pool.map(shortest_path_map_func_star, zip(leaf_nodes, itertools.repeat(Gundir), itertools.repeat(edge_len_property)))
     pool.close()
     pool.join()
     # join up the results
     len_dict = {k:v for x in len_dicts for k,v in x.items()}
+    print(f"len_dict: {len_dicts}")
     for leaf1 in leaf_nodes:
         for leaf2 in leaf_nodes:
             i = leaf_nodes_to_index[leaf1]
             j = leaf_nodes_to_index[leaf2]
             distance_matrix[i, j] = len_dict[leaf1][leaf2]
             distance_matrix[j, i] = len_dict[leaf1][leaf2]
-    #for leaf in leaf_nodes:
-    #    itr += 1
-    #    #if itr % 100 == 0:
-    #    print(f'Computing distances for leaf {itr} of {len_leaves}')
-    #    len_dict = dict(nx.single_source_dijkstra_path_length(Gundir, leaf, weight=edge_len_property))
-    #    for leaf2 in leaf_nodes:
-    #        i = leaf_nodes_to_index[leaf]
-    #        j = leaf_nodes_to_index[leaf2]
-    #        distance_matrix[i, j] = len_dict[leaf2]
-    #        distance_matrix[j, i] = len_dict[leaf2]
     return distance_matrix, leaf_nodes
 
 def get_EMD_pyemd(P, Q, distance_matrix, with_flow=False):
