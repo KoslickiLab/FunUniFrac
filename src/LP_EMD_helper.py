@@ -81,7 +81,7 @@ def infer_edge_len_property(G):
     return edge_len_property
 
 
-def weighted_graph_to_EMDU_input(G: nx.DiGraph, edge_len_property=None):
+def weighted_tree_to_EMDU_input(G: nx.DiGraph, edge_len_property=None):
     """
     Convert a weighted graph to the format required by EMDUniFrac: Tint, lint, and nodes_in_order
     :param G: weighted networkx graph
