@@ -8,19 +8,25 @@ import time
 import networkx as nx
 import multiprocessing
 from .CONSTANTS import BRITES
+
+
 # FIXME: this says to delete, but it is used below
 ###delete
 def parse_edge_list(file):
     df = pd.read_table(file)
     return df
 
+
 def shortest_path_map_func_star(a_b_c):
-    """Convert `f([1,2,3])` to `f(1,2,4)` call."""
+    """Convert `f([1,2,3])` to `f(1,2,3)` call."""
     return shortest_path_map_func(*a_b_c)
+
+
 def shortest_path_map_func(node, Gundir, edge_len_property):
     # compute the distance from the node to all leaf nodes
     len_dict = dict(nx.single_source_dijkstra_path_length(Gundir, node, weight=edge_len_property))
     return {node: len_dict}
+
 
 def import_graph(edge_list_file, directed=True):
     """
@@ -60,6 +66,53 @@ def import_graph(edge_list_file, directed=True):
     return G
 
 
+def infer_edge_len_property(G):
+    """
+    From a networkx graph, find out the name of the edge length property
+    :param G: graph
+    :return: name of the edge length property
+    """
+    edge_properties = list(list(G.edges(data=True))[0][-1].keys())
+    if len(edge_properties) > 1:
+        raise ValueError(f'I found multiple edge properties: {edge_properties}. I don\'t know which one to use for '
+                         f'edge lengths.')
+    else:
+        edge_len_property = edge_properties[0]
+    return edge_len_property
+
+
+def weighted_graph_to_EMDU_input(G: nx.DiGraph, edge_len_property=None):
+    """
+    Convert a weighted graph to the format required by EMDUniFrac: Tint, lint, and nodes_in_order
+    :param G: weighted networkx graph
+    :return: (Tint dict, lint dict, nodes_in_order array)
+    """
+    if type(G) is not nx.DiGraph:
+        raise ValueError('The graph must be a directed graph')
+    # first determine the edge_length attribute
+    if edge_len_property is None:
+        edge_len_property = infer_edge_len_property(G)
+    Tint = {}
+    nodes = G.nodes()
+    for node in nodes:
+        pred = G.predecessors(node)
+        if len(pred) > 1:
+            raise Exception(f'Node {node} has more than one parent: {pred}')
+        elif len(pred) == 1:
+            Tint[node] = pred[0]
+        else:
+            Tint[node] = "-1"  # TODO: check if this is how we do it in EMDUniFrac
+    lint = {}
+    for edge_data in G.edges(data=True):
+        i, j, data = edge_data
+        weight = data[edge_len_property]
+        lint[(i, j)] = weight
+        lint[(j, i)] = weight
+    root = get_root_of_tree(G)
+    nodes_in_order = nx.dfs_postorder_nodes(G, source=root)
+    return Tint, lint, nodes_in_order
+
+
 def get_distance_matrix_from_edge_list(edge_list_file, edge_len_property=None):
     '''
     Given an edge list file, with three columns: head, tail, length, return an ALL-PAIRS distance matrix and a list of
@@ -70,12 +123,7 @@ def get_distance_matrix_from_edge_list(edge_list_file, edge_len_property=None):
     '''
     G = import_graph(edge_list_file, directed=False)
     if edge_len_property is None:
-        edge_properties = list(list(G.edges(data=True))[0][-1].keys())
-        if len(edge_properties) > 1:
-            raise ValueError(f'I found multiple edge properties: {edge_properties}. I don\'t know which one to use for '
-                             f'edge lengths.')
-        else:
-            edge_len_property = edge_properties[0]
+        edge_len_property = infer_edge_len_property(G)
     D_dict = dict(nx.all_pairs_dijkstra_path_length(G, weight=edge_len_property))
     node_list = list(G.nodes())
     distance_matrix = np.zeros((len(node_list), len(node_list)))
@@ -133,6 +181,7 @@ def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_proper
             distance_matrix[j, i] = len_dict[leaf1][leaf2]
     return distance_matrix, leaf_nodes
 
+
 def get_EMD_pyemd(P, Q, distance_matrix, with_flow=False):
     """
     Given two vectors P and Q, and a distance matrix, return the EMD between the two vectors
@@ -161,6 +210,18 @@ def get_EMD_pyemd(P, Q, distance_matrix, with_flow=False):
         return emd_with_flow(P, Q, distance_matrix)
     return emd(P, Q, distance_matrix)
 
+
+def get_root_of_tree(G:nx.DiGraph):
+    """
+    Returns the root node of a directed tree
+    :param G: directed tree
+    :return: root node name
+    """
+    roots = [n for n, d in G.in_degree() if d == 0]
+    if len(roots) > 1:
+        raise Exception(f"The graph has multiple roots: {roots}")
+    return roots[0]
+
 # get all leaf descendants of a certain node
 def get_leaf_descendants_from_node(G, node):
     """
@@ -175,6 +236,7 @@ def get_leaf_descendants_from_node(G, node):
             descendants.add(n)
     return descendants
 
+
 def get_leaf_nodes(G):
     """
     Return all leaf nodes of a graph
@@ -188,6 +250,7 @@ def get_leaf_nodes(G):
     leaf_nodes = sorted(list(leaf_nodes))
     return leaf_nodes
 
+
 def get_descendants(G, node):
     """
     Return all descendants of a node, including the node itself.
@@ -200,6 +263,7 @@ def get_descendants(G, node):
     for n in nx.descendants(G, node):
         descendants.add(n)
     return descendants
+
 
 def get_descendant(graph, v1, v2):
     """
