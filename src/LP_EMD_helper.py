@@ -184,7 +184,6 @@ def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_proper
     pool.join()
     # join up the results
     len_dict = {k:v for x in len_dicts for k,v in x.items()}
-    print(f"len_dict: {len_dicts}")
     for leaf1 in leaf_nodes:
         for leaf2 in leaf_nodes:
             i = leaf_nodes_to_index[leaf1]
@@ -291,9 +290,7 @@ def get_descendant(graph, v1, v2):
     elif v2 in graph.predecessors(v1):
         return v1
     else:
-        print(f"node 1: {v1}")
-        print(f"node 2: {v2}")
-        raise ValueError("Nodes are not adjacent")
+        raise ValueError(f"Nodes {v1} and {v2} are not adjacent")
 
 
 def get_KO_labels_and_index(distances_labels_file):
