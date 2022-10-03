@@ -1,6 +1,49 @@
 # Helper class for the the EMDUniFrac associated functions
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
+
+
+def functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node, abundance_key='median_abund',
+                                      normalize=True):
+    """
+    This function will take a sourmash functional profile and convert it to a form that can be used by EMDUniFrac
+    :param functional_profile_file: csv file output from `sourmash gather`
+    :param EMDU_index_2_node: dictionary that translates between the indices used by EMDUniFrac and the actual graph
+    node names
+    :param abundance_key: key in the functional profile that contains the abundance information
+    :param normalize: whether to normalize the abundance information
+    :return: vector P
+    """
+    # reverse the dictionary for convenience
+    node_2_EMDU_index = {v: k for k, v in EMDU_index_2_node.items()}
+    # import the functional profile
+    df = pd.read_csv(functional_profile_file)
+    # get the functional profile as a vector
+    P = np.zeros(len(EMDU_index_2_node))
+    for i, row in df.iterrows():
+        try:
+            abundance = float(row[abundance_key])
+        except ValueError:
+            raise ValueError(
+                f"The abundance key {abundance_key} gives a value that is not a number: {row[abundance_key]}")
+        try:
+            if row['name'].startswith('ko:'):
+                ko = row['name'].split(':')[-1]  # ko:K12345 case
+            else:
+                ko = row['name'].split('|')[-1].split(':')[-1]  # abc|xyz|lmnop|ko:K12345 case
+            if ko not in node_2_EMDU_index:
+                print(f"Warning: {ko} not found in EMDU index, skipping.")
+            else:
+                P[node_2_EMDU_index[ko]] = abundance
+        except:
+            raise Exception(f"Could not parse the name {row['name']} in the functional profile {functional_profile_file}")
+    if P.sum() == 0:
+        raise Exception(f"Functional profile {functional_profile_file} is empty! Perhaps try a different abundance key? "
+                        f"You used {abundance_key}.")
+    if normalize:
+        P = P / P.sum()
+    return P
 
 
 def EMDUnifrac_weighted_flow(Tint, lint, nodes_in_order, P, Q):

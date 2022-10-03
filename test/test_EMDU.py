@@ -1,7 +1,7 @@
 import src.LP_EMD_helper as LH
 import src.EMDU as EMDU
 import numpy as np
-
+import pytest
 
 def test_emdu_vs_pyemd_simple():
     """
@@ -65,3 +65,30 @@ def test_emdu_vs_pyemd_random():
         assert np.isclose(pyemd_val, emdu_val2, atol=1e-8)
         assert np.isclose(pyemd_val, emdu_val3, atol=1e-8)
 
+
+# Test functional profile conversion
+def test_func_profile_convert():
+    test_edge_file = 'test_data/small_edge_list_with_lengths.txt'
+    functional_profile_file = 'test_data/small_sim_10_KOs_gather.csv'
+    Gdir = LH.import_graph(test_edge_file, directed=True)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(Gdir)
+    node_2_EMDU_index = {val: key for key, val in EMDU_index_2_node.items()}
+    P = EMDU.functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node,
+                                               abundance_key='median_abund', normalize=True)
+    assert np.isclose(np.sum(P), 1.0, atol=1e-8)
+    assert np.all(P >= 0)
+    assert np.all(P <= 1)
+    assert np.isclose(P[node_2_EMDU_index['e']], 2 / 6, atol=1e-8)
+    assert np.isclose(P[node_2_EMDU_index['d']], 3 / 6, atol=1e-8)
+    assert np.isclose(P[node_2_EMDU_index['f']], 1 / 6, atol=1e-8)
+    # Try a bad abundance key
+    with pytest.raises(ValueError):
+        P = EMDU.functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node,
+                                                   abundance_key='name', normalize=True)
+    # Try a good, but different abundance_key
+    P = EMDU.functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node,
+                                               abundance_key='f_orig_query', normalize=True)
+    assert np.isclose(np.sum(P), 1.0, atol=1e-8)
+    P = EMDU.functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node,
+                                               abundance_key='f_orig_query', normalize=False)
+    assert np.isclose(np.sum(P), 1.258921, atol=1e-4)
