@@ -361,6 +361,33 @@ class LeafDistributionSimulator:
         return P
 
 
+def functional_profile_to_EMDU_vector(functional_profile, EMDU_index_2_node, abundance_key='f_orig_query'):
+    """
+    This function will take a sourmash functional profile and convert it to a form that can be used by EMDUniFrac
+    :param functional_profile: csv file output from `sourmash gather`
+    :param EMDU_index_2_node: dictionary that translates between the indices used by EMDUniFrac and the actual graph
+    node names
+    :param abundance_key: key in the functional profile that contains the abundance information
+    :return: vector P
+    """
+    # reverse the dictionary for convenience
+    node_2_EMDU_index = {v: k for k, v in EMDU_index_2_node.items()}
+    # import the functional profile
+    df = pd.read_csv(functional_profile)
+    # get the functional profile as a vector
+    P = np.zeros(len(EMDU_index_2_node))
+    for i, row in df.iterrows():
+        try:
+            ko = row['name'].split(':')[-1]
+            abundance = float(row[abundance_key])
+            if ko not in node_2_EMDU_index:
+                print(f"Warning: {ko} not found in EMDU index, skipping.")
+            else:
+                P[node_2_EMDU_index[ko]] = abundance
+        except:
+            raise Exception(f"Could not parse the name {row['name']} in the functional profile {functional_profile}")
+    return P
+
 
 ########################################################################################################################
 # TODO: the following are works in progress
