@@ -427,3 +427,12 @@ def push_up_L1(P, Tint, lint, nodes_in_order):
         P_pushed[Tint[i]] += P_pushed[i] #push mass up
         P_pushed[i] *=lint[i, Tint[i]]
     return P_pushed
+
+def EMD_L1_on_pushed(P, Q):
+    """
+    Computes the L1 earth movers distance on the **pushed up** vectors
+    :param P: numpy vector
+    :param Q: numpy vector
+    :return: float
+    """
+    return np.sum(np.abs(P-Q))
