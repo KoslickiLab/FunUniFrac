@@ -49,10 +49,12 @@ def test_emdu_vs_pyemd_random():
     num_its = 10
     for i in range(num_its):
         # random dirichlet distributions
+        # These are distributed over the nodes in the order of the distance matrix
         P = np.random.dirichlet(np.ones(len(node_list)))
         Q = np.random.dirichlet(np.ones(len(node_list)))
         # pyemd version
         pyemd_val = LH.get_EMD_pyemd(P, Q, distance_matrix)
+        # The EMDU version needs the distributions in the order of the nodes_in_order list
         PU = np.zeros_like(P)
         QU = np.zeros_like(Q)
         for i, node in enumerate(node_list):
@@ -92,3 +94,30 @@ def test_func_profile_convert():
     P = EMDU.functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node,
                                                abundance_key='f_orig_query', normalize=False)
     assert np.isclose(np.sum(P), 1.258921, atol=1e-4)
+
+
+def test_push_up_L1():
+    test_edge_file = 'test_data/small_edge_list_with_lengths.txt'
+    distance_matrix, node_list = LH.get_distance_matrix_from_edge_list(test_edge_file)
+    Gdir = LH.import_graph(test_edge_file, directed=True)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(Gdir)
+    # switch the order for convenience
+    node_2_EMDU_index = {val: key for key, val in EMDU_index_2_node.items()}
+
+    num_its = 10
+    for i in range(num_its):
+        # random dirichlet distributions
+        P = np.random.dirichlet(np.ones(len(node_list)))
+        Q = np.random.dirichlet(np.ones(len(node_list)))
+        # pyemd version
+        pyemd_val = LH.get_EMD_pyemd(P, Q, distance_matrix)
+        PU = np.zeros_like(P)
+        QU = np.zeros_like(Q)
+        for i, node in enumerate(node_list):
+            PU[node_2_EMDU_index[node]] = P[i]
+            QU[node_2_EMDU_index[node]] = Q[i]
+        P_pushed = EMDU.push_up_L1(PU, Tint, lint, nodes_in_order)
+        Q_pushed = EMDU.push_up_L1(QU, Tint, lint, nodes_in_order)
+        pushed_emd = np.sum(np.abs(P_pushed - Q_pushed))
+        assert np.isclose(pyemd_val, pushed_emd, atol=1e-8)
+

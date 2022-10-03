@@ -2,7 +2,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-
+import sys
+import copy
+epsilon = sys.float_info.epsilon
 
 def functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node, abundance_key='median_abund',
                                       normalize=True):
@@ -389,3 +391,39 @@ def EMDUnifrac_group(ancestors, edge_lengths, nodes_in_order, rel_abund):
                     Z[i, j] += edge_lengths[n, ancestors[n]] * abs(val)
     Z = Z + np.transpose(Z)
     return Z
+
+
+def push_up_L2(P, Tint, lint, nodes_in_order):
+    """
+    Push the vector P up the tree, to prep the vector for L2 unifrac
+    :param P: numpy vector
+    :param Tint: dictionary of ancestors
+    :param lint: dictionary of end lengths
+    :param nodes_in_order: list of nodes in post-ish order
+    :return: numpy vector
+    """
+    P_pushed = copy.deepcopy(P)
+    for i in range(len(nodes_in_order)-1):
+        if lint[i, Tint[i]] == 0:
+            lint[i, Tint[i]] = epsilon
+        P_pushed[Tint[i]] += P_pushed[i] #push mass up
+        P_pushed[i] *= np.sqrt(lint[i, Tint[i]])
+    return P_pushed
+
+
+def push_up_L1(P, Tint, lint, nodes_in_order):
+    """
+    Push the vector P up the tree, to prep the vector for L2 unifrac
+    :param P: numpy vector
+    :param Tint: dictionary of ancestors
+    :param lint: dictionary of end lengths
+    :param nodes_in_order: list of nodes in post-ish order
+    :return: numpy vector
+    """
+    P_pushed = copy.deepcopy(P)
+    for i in range(len(nodes_in_order)-1):
+        if lint[i, Tint[i]] == 0:
+            lint[i, Tint[i]] = epsilon
+        P_pushed[Tint[i]] += P_pushed[i] #push mass up
+        P_pushed[i] *=lint[i, Tint[i]]
+    return P_pushed
