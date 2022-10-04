@@ -18,11 +18,17 @@ from src.CONSTANTS import BRITES
 from src.LP_EMD_helper import get_descendants, get_descendant, get_KO_labels_and_index
 from itertools import repeat
 
+
 def map_func(node_i, G):
-    return {node_i: nx.single_source_dijkstra_path(G, node_i)}
+    if node_i in G:
+        return {node_i: nx.single_source_dijkstra_path(G, node_i)}
+    else:
+        return {}
+
 
 def map_star(args):
     return map_func(*args)
+
 
 def main():
     # parse arguments
