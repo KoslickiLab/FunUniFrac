@@ -123,8 +123,6 @@ def main():
     pool = multiprocessing.Pool(num_processes)
     paths_list = pool.imap(map_star, zip(pairwise_dist_KOs, repeat(G_undirected)), chunksize=max(1, len(pairwise_dist_KOs) // num_processes))
     # The results should be ordered the same as the pairwise_dist_KOs
-    pool.close()
-    pool.join()
     print("Done getting all shortest paths")
 
 
