@@ -140,7 +140,7 @@ def main():
             if node_i != node_j:
                 # get the shortest path between the two nodes
                 try:
-                    path = paths[node_j]
+                    path = paths[node_i][node_j]
                     # get the index of each path element in the basis
                     path_tuples = [(path[i], path[i+1]) for i in range(len(path)-1)]
                     # for each tuple, find which is the descendant
@@ -156,9 +156,9 @@ def main():
                     pass
             if row_ind % 100000 == 0:
                 print(f"Finished {row_ind}/{len(pairwise_dist_KOs)**2} rows")
-
     A = sparse.csr_matrix((data, (row_inds, col_inds)), shape=(len(pairwise_dist_KOs)**2, len(basis)))
     # save the sparse matrix
+    print(f"Saving sparse matrix to {os.path.join(out_dir, matrix_name)}")
     sparse.save_npz(os.path.join(out_dir, matrix_name), A)
 
 

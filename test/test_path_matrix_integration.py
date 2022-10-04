@@ -12,7 +12,7 @@ def test_small_edge_list():
     """
     edge_list = "test_data/small_edge_list.txt"
     distances_file = "test_data/small_pairwise_distances.npy"
-    out_dir = "."
+    out_dir = "test_data"
     brite = "ko00001"
     cmd = f"python ../scripts/graph_to_path_matrix.py -e {edge_list} -d {distances_file} -o {out_dir} -b {brite}"
     subprocess.run(cmd, shell=True, check=True)
