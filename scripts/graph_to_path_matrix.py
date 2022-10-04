@@ -118,12 +118,14 @@ def main():
 
     # iterate over the pairs of nodes for which we have pairwise distances
     # In parallel, get all shortest paths
+    print("Getting all shortest paths...")
     num_processes = multiprocessing.cpu_count() // 2
     pool = multiprocessing.Pool(num_processes)
-    paths_list = pool.map(map_star, zip(pairwise_dist_KOs, repeat(G_undirected)), chunksize=max(1, len(pairwise_dist_KOs) // num_processes))
+    paths_list = pool.imap(map_star, zip(pairwise_dist_KOs, repeat(G_undirected)), chunksize=max(1, len(pairwise_dist_KOs) // num_processes))
     # The results should be ordered the same as the pairwise_dist_KOs
     pool.close()
     pool.join()
+    print("Done getting all shortest paths")
 
 
     row_ind = -1
@@ -131,7 +133,7 @@ def main():
         # Some KOs may not be in the subtree selected, so append a row of zeros for those (i.e. don't add to the data list).
         # That won't affect the least squares fit
         if node_i in G_undirected:
-            paths = paths_list[i]
+            paths = next(paths_list)
         else:
             paths = dict()
         for node_j in pairwise_dist_KOs:
