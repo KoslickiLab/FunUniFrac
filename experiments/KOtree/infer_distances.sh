@@ -9,7 +9,7 @@ BRITE=ko00001
 edgeLenOut='${edgeList}_lengths_n_50_f_10_r_100.txt'
 AName=${BRITE}_${pwdist}_A.npz
 # create the pairwise distance matrix if it hasn't already been created
-if [ ! -f ${Aname}]; then
+if [ ! -f ${AName} ] ; then
   python ${scriptsDir}/graph_to_path_matrix.py -e ${edgeList} -d ${pwdist} -o . -b ${BRITE}
 fi
 
