@@ -120,7 +120,7 @@ def main():
     # In parallel, get all shortest paths
     num_processes = multiprocessing.cpu_count() // 2
     pool = multiprocessing.Pool(num_processes)
-    res = pool.imap(map_star, zip(pairwise_dist_KOs, repeat(G_undirected)), chunksize=max(1, len(pairwise_dist_KOs) // num_processes))
+    res = pool.map(map_star, zip(pairwise_dist_KOs, repeat(G_undirected)), chunksize=max(1, len(pairwise_dist_KOs) // num_processes))
     pool.close()
     pool.join()
     # union the dictionarys
