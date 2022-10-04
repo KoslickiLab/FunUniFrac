@@ -2,7 +2,7 @@
 set -e
 set -u
 thisDir=$(pwd)
-scriptsDir="../scripts"
+scriptsDir="../../scripts"
 pwdist=KOs_sketched_scaled_10_compare_5
 edgeList=kegg_ko_edge_df.txt
 BRITE=ko00001
