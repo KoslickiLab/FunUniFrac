@@ -14,5 +14,4 @@ if [ ! -f ${AName} ] ; then
 fi
 
 # infer the edge lengths
-python ${scriptsDir}/create_edge_lengths.py -e ${edgeList} -d ${pwdist} -o ${edgeLenOut} -b ${BRITE} -A
-${AName} -n 50 -f 10 -r 100 --force
+python ${scriptsDir}/create_edge_lengths.py -e ${edgeList} -d ${pwdist} -o ${edgeLenOut} -b ${BRITE} -A ${AName} -n 50 -f 10 -r 100 --force
