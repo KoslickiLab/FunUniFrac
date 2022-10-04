@@ -14,9 +14,12 @@ def test_small_edge_list():
     distances_file = "test_data/small_pairwise_distances.npy"
     out_dir = "test_data"
     brite = "ko00001"
+    out_file = os.path.join(out_dir, f"{brite}_{os.path.basename(distances_file)}_A.npz")
+    # delete the output file if it exists
+    if exists(out_file):
+        os.remove(out_file)
     cmd = f"python ../scripts/graph_to_path_matrix.py -e {edge_list} -d {distances_file} -o {out_dir} -b {brite}"
     subprocess.run(cmd, shell=True, check=True)
-    out_file = f"test_data/{brite}_{os.path.basename(distances_file)}_A.npz"
     # check that the output file exists
     assert exists(out_file)
     # check that the output file is correct
