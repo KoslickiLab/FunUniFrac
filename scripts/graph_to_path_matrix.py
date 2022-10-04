@@ -112,8 +112,9 @@ def main():
 
     # iterate over the pairs of nodes for which we have pairwise distances
     # In parallel, get all shortest paths
-    pool = multiprocessing.Pool(multiprocessing.cpu_count())
-    res = pool.map(map_star, zip(pairwise_dist_KOs, repeat(G_undirected)))
+    num_processes = multiprocessing.cpu_count() // 2
+    pool = multiprocessing.Pool(num_processes)
+    res = pool.imap(map_star, zip(pairwise_dist_KOs, repeat(G_undirected)), chunksize=max(1, len(pairwise_dist_KOs) // num_processes))
     pool.close()
     pool.join()
     # union the dictionarys
