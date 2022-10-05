@@ -8,31 +8,43 @@
 
     <title>API documentation for LP_EMD_helper &#8212; FunUniFrac 0.0.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/sphinx_highlight.js"></script>
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="CLI documentation for scripts" href="scripts.html" />
-    <link rel="prev" title="API documentation for EMDUniFrac" href="EMDUniFrac.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="prev" title="API documentation for EMDUniFrac" href="EMDUniFrac.html" /> 
   </head><body>
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scripts.html" title="CLI documentation for scripts"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="EMDUniFrac.html" title="API documentation for EMDUniFrac"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FunUniFrac 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">API documentation for LP_EMD_helper</a></li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <section id="api-documentation-for-lp-emd-helper">
@@ -264,41 +276,55 @@ Since EMDUniFrac wants everything to be integers, also return a mapping from int
 </section>
 
 
+            <div class="clearer"></div>
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">FunUniFrac</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="EMDUniFrac.html">API documentation for EMDUniFrac</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API documentation for LP_EMD_helper</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#lp-emd-helper-py">LP_EMD_helper.py</a></li>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">API documentation for LP_EMD_helper</a><ul>
+<li><a class="reference internal" href="#lp-emd-helper-py">LP_EMD_helper.py</a><ul>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_EMD_pyemd"><code class="docutils literal notranslate"><span class="pre">get_EMD_pyemd()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_KO_labels_and_index"><code class="docutils literal notranslate"><span class="pre">get_KO_labels_and_index()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_descendant"><code class="docutils literal notranslate"><span class="pre">get_descendant()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_descendants"><code class="docutils literal notranslate"><span class="pre">get_descendants()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_distance_matrix_from_edge_list"><code class="docutils literal notranslate"><span class="pre">get_distance_matrix_from_edge_list()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_distance_matrix_on_leaves_from_edge_list"><code class="docutils literal notranslate"><span class="pre">get_distance_matrix_on_leaves_from_edge_list()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_graphs_and_index"><code class="docutils literal notranslate"><span class="pre">get_graphs_and_index()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_leaf_descendants_from_node"><code class="docutils literal notranslate"><span class="pre">get_leaf_descendants_from_node()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_leaf_nodes"><code class="docutils literal notranslate"><span class="pre">get_leaf_nodes()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_root_of_tree"><code class="docutils literal notranslate"><span class="pre">get_root_of_tree()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.import_graph"><code class="docutils literal notranslate"><span class="pre">import_graph()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.infer_edge_len_property"><code class="docutils literal notranslate"><span class="pre">infer_edge_len_property()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.shortest_path_map_func_star"><code class="docutils literal notranslate"><span class="pre">shortest_path_map_func_star()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.weighted_tree_to_EMDU_input"><code class="docutils literal notranslate"><span class="pre">weighted_tree_to_EMDU_input()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scripts.html">CLI documentation for scripts</a></li>
+</ul>
+</li>
 </ul>
 
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="EMDUniFrac.html" title="previous chapter">API documentation for EMDUniFrac</a></li>
-      <li>Next: <a href="scripts.html" title="next chapter">CLI documentation for scripts</a></li>
-  </ul></li>
-</ul>
-</div>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="EMDUniFrac.html"
+                          title="previous chapter">API documentation for EMDUniFrac</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scripts.html"
+                          title="next chapter">CLI documentation for scripts</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/LP_EMD_helper.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -309,32 +335,32 @@ Since EMDUniFrac wants everything to be integers, also return a mapping from int
     </div>
 </div>
 <script>document.getElementById('searchbox').style.display = "block"</script>
-
-
-
-
-
-
-
-
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2022, Koslicki Lab.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.2.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="_sources/LP_EMD_helper.rst.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scripts.html" title="CLI documentation for scripts"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="EMDUniFrac.html" title="API documentation for EMDUniFrac"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FunUniFrac 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">API documentation for LP_EMD_helper</a></li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Koslicki Lab.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.2.3.
+    </div>
   </body>
 </html>
