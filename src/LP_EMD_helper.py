@@ -32,6 +32,7 @@ def import_graph(edge_list_file, directed=True):
     """
     Import a graph from an edge list. The edge list can have 2 or 3 columns corresponding to parent, child,
     and (optionally) edge length.
+
     :param edge_list_file: text file with edge list, tab separated
     :param directed: boolean, whether the graph is directed or not
     :return: DiGraph
@@ -69,6 +70,7 @@ def import_graph(edge_list_file, directed=True):
 def infer_edge_len_property(G):
     """
     From a networkx graph, find out the name of the edge length property
+
     :param G: graph
     :return: name of the edge length property
     """
@@ -85,6 +87,7 @@ def weighted_tree_to_EMDU_input(G: nx.DiGraph, edge_len_property=None):
     """
     Convert a weighted graph to the format required by EMDUniFrac: Tint, lint, and nodes_in_order.
     Since EMDUniFrac wants everything to be integers, also return a mapping from integers to node names.
+
     :param G: weighted networkx graph
     :return: (Tint dict, lint dict, nodes_in_order array, index_2_node dict)
     """
@@ -129,6 +132,7 @@ def get_distance_matrix_from_edge_list(edge_list_file, edge_len_property=None):
     '''
     Given an edge list file, with three columns: head, tail, length, return an ALL-PAIRS distance matrix and a list of
     nodes
+
     :param edge_list_file: file name of the edge list
     :param edege_length_property: name of the edge length property
     :return: distance matrix and a list of nodes indexing the distance matrix
@@ -149,6 +153,7 @@ def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_proper
     '''
     Given an edge list file, with three columns: head, tail, length, return a distance matrix on all leaves and a
     list of nodes
+
     :param edge_list_file: file name of the edge list
     :param edege_length_property: name of the edge length property
     :return: distance matrix and a list of nodes indexing the distance matrix
@@ -196,6 +201,7 @@ def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_proper
 def get_EMD_pyemd(P, Q, distance_matrix, with_flow=False):
     """
     Given two vectors P and Q, and a distance matrix, return the EMD between the two vectors
+
     :param P: 1D numpy array (float64)
     :param Q: 1D numpy array (float64)
     :param distance_matrix: 2D numpy array giving the distance between each pair of nodes (float64)
@@ -225,6 +231,7 @@ def get_EMD_pyemd(P, Q, distance_matrix, with_flow=False):
 def get_root_of_tree(G:nx.DiGraph):
     """
     Returns the root node of a directed tree
+
     :param G: directed tree
     :return: root node name
     """
@@ -238,6 +245,7 @@ def get_root_of_tree(G:nx.DiGraph):
 def get_leaf_descendants_from_node(G, node):
     """
     Return all leaf descendants of a node, excluding the node itself.
+
     :param G: graph
     :param node: node
     :return: set of leaf nodes descending from the node
@@ -252,6 +260,7 @@ def get_leaf_descendants_from_node(G, node):
 def get_leaf_nodes(G):
     """
     Return all leaf nodes of a graph
+
     :param G: graph
     :return: set of leaf nodes
     """
@@ -266,6 +275,7 @@ def get_leaf_nodes(G):
 def get_descendants(G, node):
     """
     Return all descendants of a node, including the node itself.
+
     :param G: networkx graph
     :param node: name of a node
     :return: set of nodes
@@ -280,6 +290,7 @@ def get_descendants(G, node):
 def get_descendant(graph, v1, v2):
     """
     of the two nodes v1 and v2, ASSUMED TO BE ADJACENT, find out which one is the descendant of the other
+
     :param graph: networkx graph, directed
     :param v1: node name
     :param v2: node name
@@ -297,6 +308,7 @@ def get_KO_labels_and_index(distances_labels_file):
     """
     Given a file containing the basis for the rows of the pairwise KO distance matrix, return a list of labels and a
     dictionary mapping labels to indices
+
     :param distances_labels_file: text file containing the labels from the output of sourmash compare
     :return: (list of labels, dictionary mapping labels to indices)
     """
@@ -314,6 +326,7 @@ def get_KO_labels_and_index(distances_labels_file):
 def get_graphs_and_index(edge_list_file, brite):
     """
     Given an edge list file, return a networkx graph and a dictionary mapping node names to indices
+
     :param edge_list_file: text file containing the edge list
     :param brite: which root to pick in the BRITE hierarchy
     :return: (directed networkx graph, undirected networkx graph, basis of node names, dictionary mapping node names to
@@ -350,6 +363,7 @@ class LeafDistributionSimulator:
     def get_random_dist_on_leaves(self):
         """
         Return a random distribution on the leaves of the tree
+
         :return: 1D numpy array, indexed by nodes in the graph, but only supported on the leaves
         """
         # Use a dirichlet distribution to generate a random distribution on the leaves, since this will sum to 1
