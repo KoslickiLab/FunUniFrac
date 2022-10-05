@@ -52,6 +52,7 @@
                                       <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function will take a sourmash functional profile and convert it to a form that can be used by EMDUniFrac</span>
+
 <span class="sd">    :param functional_profile_file: csv file output from `sourmash gather`</span>
 <span class="sd">    :param EMDU_index_2_node: dictionary that translates between the indices used by EMDUniFrac and the actual graph</span>
 <span class="sd">    node names</span>
@@ -279,6 +280,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    plot_diffab(nodes_in_order, diffab, P_label, Q_label)</span>
 <span class="sd">    Plots the differential abundance vector.</span>
+
 <span class="sd">    :param nodes_in_order: list returned from parse_envs</span>
 <span class="sd">    :param diffab: differential abundance vector (returned from one flavor of EMDUnifrac)</span>
 <span class="sd">    :param P_label: label corresponding to the sample name for P (e.g. when calling EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q))</span>
@@ -438,9 +440,10 @@
 <div class="viewcode-block" id="push_up_L2"><a class="viewcode-back" href="../EMDUniFrac.html#EMDU.push_up_L2">[docs]</a><span class="k">def</span> <span class="nf">push_up_L2</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">Tint</span><span class="p">,</span> <span class="n">lint</span><span class="p">,</span> <span class="n">nodes_in_order</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Push the vector P up the tree, to prep the vector for L2 unifrac</span>
+
 <span class="sd">    :param P: numpy vector</span>
 <span class="sd">    :param Tint: dictionary of ancestors</span>
-<span class="sd">    :param lint: dictionary of end lengths</span>
+<span class="sd">    :param lint: dictionary of edge lengths</span>
 <span class="sd">    :param nodes_in_order: list of nodes in post-ish order</span>
 <span class="sd">    :return: numpy vector</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -456,9 +459,10 @@
 <div class="viewcode-block" id="push_up_L1"><a class="viewcode-back" href="../EMDUniFrac.html#EMDU.push_up_L1">[docs]</a><span class="k">def</span> <span class="nf">push_up_L1</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">Tint</span><span class="p">,</span> <span class="n">lint</span><span class="p">,</span> <span class="n">nodes_in_order</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Push the vector P up the tree, to prep the vector for L2 unifrac</span>
+
 <span class="sd">    :param P: numpy vector</span>
 <span class="sd">    :param Tint: dictionary of ancestors</span>
-<span class="sd">    :param lint: dictionary of end lengths</span>
+<span class="sd">    :param lint: dictionary of edge lengths</span>
 <span class="sd">    :param nodes_in_order: list of nodes in post-ish order</span>
 <span class="sd">    :return: numpy vector</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -473,6 +477,7 @@
 <div class="viewcode-block" id="EMD_L1_on_pushed"><a class="viewcode-back" href="../EMDUniFrac.html#EMDU.EMD_L1_on_pushed">[docs]</a><span class="k">def</span> <span class="nf">EMD_L1_on_pushed</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">Q</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the L1 earth movers distance on the **pushed up** vectors</span>
+
 <span class="sd">    :param P: numpy vector</span>
 <span class="sd">    :param Q: numpy vector</span>
 <span class="sd">    :return: float</span>

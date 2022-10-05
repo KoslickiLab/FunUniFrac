@@ -111,19 +111,33 @@ Returns the weighted Unifrac distance Z.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="EMDU.EMD_L1_on_pushed">
 <span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">EMD_L1_on_pushed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#EMD_L1_on_pushed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.EMD_L1_on_pushed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the L1 earth movers distance on the <strong>pushed up</strong> vectors
-:param P: numpy vector
-:param Q: numpy vector
-:return: float</p>
+<dd><p>Computes the L1 earth movers distance on the <strong>pushed up</strong> vectors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>P</strong> – numpy vector</p></li>
+<li><p><strong>Q</strong> – numpy vector</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="EMDU.functional_profile_to_EMDU_vector">
 <span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">functional_profile_to_EMDU_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">functional_profile_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EMDU_index_2_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">abundance_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'median_abund'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#functional_profile_to_EMDU_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.functional_profile_to_EMDU_vector" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function will take a sourmash functional profile and convert it to a form that can be used by EMDUniFrac
-:param functional_profile_file: csv file output from <cite>sourmash gather</cite>
-:param EMDU_index_2_node: dictionary that translates between the indices used by EMDUniFrac and the actual graph
-node names
+<dd><p>This function will take a sourmash functional profile and convert it to a form that can be used by EMDUniFrac</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>functional_profile_file</strong> – csv file output from <cite>sourmash gather</cite></p></li>
+<li><p><strong>EMDU_index_2_node</strong> – dictionary that translates between the indices used by EMDUniFrac and the actual graph</p></li>
+</ul>
+</dd>
+</dl>
+<p>node names
 :param abundance_key: key in the functional profile that contains the abundance information
 :param normalize: whether to normalize the abundance information
 :return: vector P</p>
@@ -132,36 +146,60 @@ node names
 <dl class="py function">
 <dt class="sig sig-object py" id="EMDU.plot_diffab">
 <span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">plot_diffab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_in_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diffab</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#plot_diffab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.plot_diffab" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plots the differential abundance vector.
-:param nodes_in_order: list returned from parse_envs
-:param diffab: differential abundance vector (returned from one flavor of EMDUnifrac)
-:param P_label: label corresponding to the sample name for P (e.g. when calling EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q))
-:param Q_label: label corresponding to the sample name for P (e.g. when calling EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q))
-:param plot_zeros: flag (either True or False) that specifies if the zero locations should be plotted. Warning, if your tree is large and plot_zeros=True, this can cause a crash.
-:param thresh: only plot those parts of the diffab vector that are above thresh, specify everything else as zero
-:return: None (makes plot)</p>
+<dd><p>Plots the differential abundance vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes_in_order</strong> – list returned from parse_envs</p></li>
+<li><p><strong>diffab</strong> – differential abundance vector (returned from one flavor of EMDUnifrac)</p></li>
+<li><p><strong>P_label</strong> – label corresponding to the sample name for P (e.g. when calling EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q))</p></li>
+<li><p><strong>Q_label</strong> – label corresponding to the sample name for P (e.g. when calling EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q))</p></li>
+<li><p><strong>plot_zeros</strong> – flag (either True or False) that specifies if the zero locations should be plotted. Warning, if your tree is large and plot_zeros=True, this can cause a crash.</p></li>
+<li><p><strong>thresh</strong> – only plot those parts of the diffab vector that are above thresh, specify everything else as zero</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None (makes plot)</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="EMDU.push_up_L1">
 <span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">push_up_L1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Tint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_in_order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#push_up_L1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.push_up_L1" title="Permalink to this definition">¶</a></dt>
-<dd><p>Push the vector P up the tree, to prep the vector for L2 unifrac
-:param P: numpy vector
-:param Tint: dictionary of ancestors
-:param lint: dictionary of end lengths
-:param nodes_in_order: list of nodes in post-ish order
-:return: numpy vector</p>
+<dd><p>Push the vector P up the tree, to prep the vector for L2 unifrac</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>P</strong> – numpy vector</p></li>
+<li><p><strong>Tint</strong> – dictionary of ancestors</p></li>
+<li><p><strong>lint</strong> – dictionary of edge lengths</p></li>
+<li><p><strong>nodes_in_order</strong> – list of nodes in post-ish order</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy vector</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="EMDU.push_up_L2">
 <span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">push_up_L2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Tint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_in_order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#push_up_L2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.push_up_L2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Push the vector P up the tree, to prep the vector for L2 unifrac
-:param P: numpy vector
-:param Tint: dictionary of ancestors
-:param lint: dictionary of end lengths
-:param nodes_in_order: list of nodes in post-ish order
-:return: numpy vector</p>
+<dd><p>Push the vector P up the tree, to prep the vector for L2 unifrac</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>P</strong> – numpy vector</p></li>
+<li><p><strong>Tint</strong> – dictionary of ancestors</p></li>
+<li><p><strong>lint</strong> – dictionary of edge lengths</p></li>
+<li><p><strong>nodes_in_order</strong> – list of nodes in post-ish order</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy vector</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
