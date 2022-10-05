@@ -10,6 +10,7 @@ def functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node
                                       normalize=True):
     """
     This function will take a sourmash functional profile and convert it to a form that can be used by EMDUniFrac
+
     :param functional_profile_file: csv file output from `sourmash gather`
     :param EMDU_index_2_node: dictionary that translates between the indices used by EMDUniFrac and the actual graph
     node names
@@ -237,6 +238,7 @@ def plot_diffab(nodes_in_order, diffab, P_label, Q_label, plot_zeros=True, thres
     """
     plot_diffab(nodes_in_order, diffab, P_label, Q_label)
     Plots the differential abundance vector.
+
     :param nodes_in_order: list returned from parse_envs
     :param diffab: differential abundance vector (returned from one flavor of EMDUnifrac)
     :param P_label: label corresponding to the sample name for P (e.g. when calling EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q))
@@ -396,9 +398,10 @@ def EMDUnifrac_group(ancestors, edge_lengths, nodes_in_order, rel_abund):
 def push_up_L2(P, Tint, lint, nodes_in_order):
     """
     Push the vector P up the tree, to prep the vector for L2 unifrac
+
     :param P: numpy vector
     :param Tint: dictionary of ancestors
-    :param lint: dictionary of end lengths
+    :param lint: dictionary of edge lengths
     :param nodes_in_order: list of nodes in post-ish order
     :return: numpy vector
     """
@@ -414,9 +417,10 @@ def push_up_L2(P, Tint, lint, nodes_in_order):
 def push_up_L1(P, Tint, lint, nodes_in_order):
     """
     Push the vector P up the tree, to prep the vector for L2 unifrac
+
     :param P: numpy vector
     :param Tint: dictionary of ancestors
-    :param lint: dictionary of end lengths
+    :param lint: dictionary of edge lengths
     :param nodes_in_order: list of nodes in post-ish order
     :return: numpy vector
     """
@@ -431,6 +435,7 @@ def push_up_L1(P, Tint, lint, nodes_in_order):
 def EMD_L1_on_pushed(P, Q):
     """
     Computes the L1 earth movers distance on the **pushed up** vectors
+
     :param P: numpy vector
     :param Q: numpy vector
     :return: float
