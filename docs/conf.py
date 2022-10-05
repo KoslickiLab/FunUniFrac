@@ -41,4 +41,4 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 #html_theme = 'alabaster'
 html_theme = 'classic'
-html_static_path = ['./html/_static']
+html_static_path = ['_static']
