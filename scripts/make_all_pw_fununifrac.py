@@ -10,8 +10,11 @@ from scipy import sparse
 import pandas as pd
 from scipy.optimize import lsq_linear
 # relative imports
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
+try:
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+    sys.path.append(os.path.dirname(SCRIPT_DIR))
+except:
+    pass
 import src.CONSTANTS as CONSTANTS
 import src.LP_EMD_helper as LH
 import src.EMDU as EMDU

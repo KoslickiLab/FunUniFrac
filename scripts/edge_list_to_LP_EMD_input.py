@@ -4,7 +4,7 @@ import os
 import sys
 sys.path.append('./src')
 import numpy as np
-from ..src.LP_EMD_helper import get_distance_matrix_from_edge_list, parse_edge_list
+from src.LP_EMD_helper import get_distance_matrix_from_edge_list, parse_edge_list
 
 
 def argument_parser():
@@ -35,6 +35,7 @@ def main():
     A, node_list = get_distance_matrix_from_edge_list(edge_list_file)
     np.save(full_file_name, A)
     print(f"{file_name} saved")
+
 
 if __name__ == '__main__':
     main()

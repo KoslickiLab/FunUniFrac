@@ -12,8 +12,11 @@ try:
 except ModuleNotFoundError:
     print("Warning: Could not import blist. Please install blist to speed up the path matrix calculation.")
 # relative imports
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
+try:
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+    sys.path.append(os.path.dirname(SCRIPT_DIR))
+except:
+    pass
 from src.CONSTANTS import BRITES
 from src.LP_EMD_helper import get_descendants, get_descendant, get_KO_labels_and_index
 from itertools import repeat
