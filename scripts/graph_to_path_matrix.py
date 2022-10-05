@@ -30,20 +30,26 @@ def map_star(args):
     return map_func(*args)
 
 
-def main():
-    # parse arguments
-    parser = argparse.ArgumentParser(description='Given the KEGG hierarchy, first this will select the subtree consisting of'
-                                                 ' all the ancestors of the given brite_id. Then, it will create a matrix '
-                                                 'where the (i,j) entry will be 1 iff for the ith pair of KOs in the '
-                                                 '--distances file: (KO1, KO2), edge j is on the shortest path from '
-                                                 'KO1 to KO2')
+def argument_parser():
+    parser = argparse.ArgumentParser(
+        description='Given the KEGG hierarchy, first this will select the subtree consisting of'
+                    ' all the ancestors of the given brite_id. Then, it will create a matrix '
+                    'where the (i,j) entry will be 1 iff for the ith pair of KOs in the '
+                    '--distances file: (KO1, KO2), edge j is on the shortest path from '
+                    'KO1 to KO2')
     parser.add_argument('-e', '--edge_list', help='Input edge list file of the KEGG hierarchy', required=True)
     parser.add_argument('-d', '--distances', help='File containing all pairwise distances between KOs. Use sourmash '
                                                   'compare', required=True)
     parser.add_argument('-o', '--out_dir', help='Output directory', required=True)
-    parser.add_argument('-b', '--brite_id', help='Brite ID of the KEGG hierarchy you want to focus on. Eg. ko00001', required=True)
-    args = parser.parse_args()
+    parser.add_argument('-b', '--brite_id', help='Brite ID of the KEGG hierarchy you want to focus on. Eg. ko00001',
+                        required=True)
+    return parser
 
+
+def main():
+    # parse arguments
+    parser = argument_parser()
+    args = parser.parse_args()
     edge_list = args.edge_list
     out_dir = args.out_dir
     distances_file = args.distances

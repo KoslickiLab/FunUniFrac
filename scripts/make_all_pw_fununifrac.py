@@ -31,21 +31,29 @@ def map_star(args):
     return map_func(*args)
 
 
-def main():
+def argument_parser():
     # parse arguments
     parser = argparse.ArgumentParser(description="This script will take a directory of sourmash gather results and "
                                                  "a weighted edge list representing the KEGG hierarchy and compute "
                                                  "all pairwise functional unifrac distances.")
-    parser.add_argument('-e', '--edge_list', help='Input edge list file of the KEGG hierarchy. Must have lengths in the '
-                                                  'third column.', required=True)
+    parser.add_argument('-e', '--edge_list',
+                        help='Input edge list file of the KEGG hierarchy. Must have lengths in the '
+                             'third column.', required=True)
     parser.add_argument('-d', '--directory', help='Directory containing sourmash gather results.', required=True)
     parser.add_argument('-o', '--out_file', help='Output file name: will be a numpy array.', required=True)
     parser.add_argument('-fp', '--file_pattern', help="Pattern to match files in the directory. Default is "
                                                       "'*_gather.csv'", default='*_gather.csv')
     parser.add_argument('-f', '--force', help='Overwrite the output file if it exists', action='store_true')
-    parser.add_argument('-a', '--abundance_key', help='Key in the gather results to use for abundance. Default is `median_abund`', default='median_abund')
+    parser.add_argument('-a', '--abundance_key',
+                        help='Key in the gather results to use for abundance. Default is `median_abund`',
+                        default='median_abund')
     parser.add_argument('-t', '--threads', help='Number of threads to use. Default is half the cores available.',
                         default=int(multiprocessing.cpu_count() / 2), type=int)
+    return parser
+
+
+def main():
+    parser = argument_parser()
     # parse the args and error check
     args = parser.parse_args()
     edge_list_file = args.edge_list
