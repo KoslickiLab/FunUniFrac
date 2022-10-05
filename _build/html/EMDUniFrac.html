@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>API documentation for EMDUniFrac &#8212; FunUniFrac 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API documentation for LP_EMD_helper" href="LP_EMD_helper.html" />
+    <link rel="prev" title="Welcome to FunUniFrac’s documentation!" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="LP_EMD_helper.html" title="API documentation for LP_EMD_helper"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to FunUniFrac’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FunUniFrac 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">API documentation for EMDUniFrac</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="api-documentation-for-emdunifrac">
+<h1>API documentation for EMDUniFrac<a class="headerlink" href="#api-documentation-for-emdunifrac" title="Permalink to this heading">¶</a></h1>
+<p>This document contains the help documentation for the modules and is intended for users who will be writing/using the python code itself. For everyone else, please look at the Scripts documentation.</p>
+<section id="module-EMDU">
+<span id="emdu-py"></span><h2>EMDU.py<a class="headerlink" href="#module-EMDU" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="EMDU.EMDUnifrac_unweighted">
+<span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">EMDUnifrac_unweighted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Tint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_in_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#EMDUnifrac_unweighted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.EMDUnifrac_unweighted" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Z, diffab) = EMDUnifrac_unweighted(Tint, lint, nodes_in_order, P, Q)
+This function takes the ancestor dictionary Tint, the lengths dictionary lint, the basis nodes_in_order
+and two probability vectors P and Q (typically P = envs_prob_dict[samples[i]], Q = envs_prob_dict[samples[j]]).
+Returns the unweighted Unifrac distance Z and the flow F. The flow F is a dictionary with keys of the form (i,j) where
+F[(i,j)] == 1 means that in the calculation of the Unifrac distance, a total mass of 1 was moved from the node
+nodes_in_order[i] to the node nodes_in_order[j].</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="EMDU.EMDUnifrac_unweighted_flow">
+<span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">EMDUnifrac_unweighted_flow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Tint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_in_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#EMDUnifrac_unweighted_flow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.EMDUnifrac_unweighted_flow" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Z, F) = EMDUnifrac_unweighted_flow(Tint, lint, nodes_in_order, P, Q)
+This function takes the ancestor dictionary Tint, the lengths dictionary lint, the basis nodes_in_order
+and two probability vectors P and Q (typically P = envs_prob_dict[samples[i]], Q = envs_prob_dict[samples[j]]).
+Returns the unweighted Unifrac distance Z and the flow F. The flow F is a dictionary with keys of the form (i,j) where
+F[(i,j)] == 1 means that in the calculation of the Unifrac distance, a total mass of 1 was moved from the node
+nodes_in_order[i] to the node nodes_in_order[j].</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="EMDU.EMDUnifrac_weighted">
+<span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">EMDUnifrac_weighted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Tint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_in_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#EMDUnifrac_weighted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.EMDUnifrac_weighted" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Z, diffab) = EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q)
+This function takes the ancestor dictionary Tint, the lengths dictionary lint, the basis nodes_in_order
+and two probability vectors P and Q (typically P = envs_prob_dict[samples[i]], Q = envs_prob_dict[samples[j]]).
+Returns the weighted Unifrac distance Z and the flow F. The flow F is a dictionary with keys of the form (i,j) where
+F[(i,j)] == num means that in the calculation of the Unifrac distance, a total mass of num was moved from the node
+nodes_in_order[i] to the node nodes_in_order[j].</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="EMDU.EMDUnifrac_weighted_flow">
+<span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">EMDUnifrac_weighted_flow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Tint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_in_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#EMDUnifrac_weighted_flow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.EMDUnifrac_weighted_flow" title="Permalink to this definition">¶</a></dt>
+<dd><p>(Z, F, diffab) = EMDUnifrac_weighted_flow(Tint, lint, nodes_in_order, P, Q)
+This function takes the ancestor dictionary Tint, the lengths dictionary lint, the basis nodes_in_order
+and two probability vectors P and Q (typically P = envs_prob_dict[samples[i]], Q = envs_prob_dict[samples[j]]).
+Returns the weighted Unifrac distance Z, the flow F, and the differential abundance vector diffab.
+The flow F is a dictionary with keys of the form (i,j) where F[(i,j)] == num means that in the calculation of the
+Unifrac distance, a total mass of num was moved from the node nodes_in_order[i] to the node nodes_in_order[j].
+The differential abundance vector diffab is a dictionary with tuple keys using elements of Tint and values
+diffab[(i, j)] equal to the signed difference of abundance between the two samples restricted to the sub-tree
+defined by nodes_in_order(i) and weighted by the edge length lint[(i,j)].</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="EMDU.EMDUnifrac_weighted_plain">
+<span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">EMDUnifrac_weighted_plain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ancestors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_lengths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_in_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#EMDUnifrac_weighted_plain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.EMDUnifrac_weighted_plain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Z = EMDUnifrac_weighted(ancestors, edge_lengths, nodes_in_order, P, Q)
+This function takes the ancestor dictionary Tint, the lengths dictionary lint, the basis nodes_in_order
+and two probability vectors P and Q (typically P = envs_prob_dict[samples[i]], Q = envs_prob_dict[samples[j]]).
+Returns the weighted Unifrac distance Z.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="EMDU.EMD_L1_on_pushed">
+<span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">EMD_L1_on_pushed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#EMD_L1_on_pushed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.EMD_L1_on_pushed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the L1 earth movers distance on the <strong>pushed up</strong> vectors
+:param P: numpy vector
+:param Q: numpy vector
+:return: float</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="EMDU.functional_profile_to_EMDU_vector">
+<span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">functional_profile_to_EMDU_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">functional_profile_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EMDU_index_2_node</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">abundance_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'median_abund'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#functional_profile_to_EMDU_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.functional_profile_to_EMDU_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will take a sourmash functional profile and convert it to a form that can be used by EMDUniFrac
+:param functional_profile_file: csv file output from <cite>sourmash gather</cite>
+:param EMDU_index_2_node: dictionary that translates between the indices used by EMDUniFrac and the actual graph
+node names
+:param abundance_key: key in the functional profile that contains the abundance information
+:param normalize: whether to normalize the abundance information
+:return: vector P</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="EMDU.plot_diffab">
+<span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">plot_diffab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nodes_in_order</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diffab</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">P_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#plot_diffab"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.plot_diffab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the differential abundance vector.
+:param nodes_in_order: list returned from parse_envs
+:param diffab: differential abundance vector (returned from one flavor of EMDUnifrac)
+:param P_label: label corresponding to the sample name for P (e.g. when calling EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q))
+:param Q_label: label corresponding to the sample name for P (e.g. when calling EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q))
+:param plot_zeros: flag (either True or False) that specifies if the zero locations should be plotted. Warning, if your tree is large and plot_zeros=True, this can cause a crash.
+:param thresh: only plot those parts of the diffab vector that are above thresh, specify everything else as zero
+:return: None (makes plot)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="EMDU.push_up_L1">
+<span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">push_up_L1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Tint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_in_order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#push_up_L1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.push_up_L1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push the vector P up the tree, to prep the vector for L2 unifrac
+:param P: numpy vector
+:param Tint: dictionary of ancestors
+:param lint: dictionary of end lengths
+:param nodes_in_order: list of nodes in post-ish order
+:return: numpy vector</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="EMDU.push_up_L2">
+<span class="sig-prename descclassname"><span class="pre">EMDU.</span></span><span class="sig-name descname"><span class="pre">push_up_L2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Tint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lint</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes_in_order</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/EMDU.html#push_up_L2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#EMDU.push_up_L2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push the vector P up the tree, to prep the vector for L2 unifrac
+:param P: numpy vector
+:param Tint: dictionary of ancestors
+:param lint: dictionary of end lengths
+:param nodes_in_order: list of nodes in post-ish order
+:return: numpy vector</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">API documentation for EMDUniFrac</a><ul>
+<li><a class="reference internal" href="#module-EMDU">EMDU.py</a><ul>
+<li><a class="reference internal" href="#EMDU.EMDUnifrac_unweighted"><code class="docutils literal notranslate"><span class="pre">EMDUnifrac_unweighted()</span></code></a></li>
+<li><a class="reference internal" href="#EMDU.EMDUnifrac_unweighted_flow"><code class="docutils literal notranslate"><span class="pre">EMDUnifrac_unweighted_flow()</span></code></a></li>
+<li><a class="reference internal" href="#EMDU.EMDUnifrac_weighted"><code class="docutils literal notranslate"><span class="pre">EMDUnifrac_weighted()</span></code></a></li>
+<li><a class="reference internal" href="#EMDU.EMDUnifrac_weighted_flow"><code class="docutils literal notranslate"><span class="pre">EMDUnifrac_weighted_flow()</span></code></a></li>
+<li><a class="reference internal" href="#EMDU.EMDUnifrac_weighted_plain"><code class="docutils literal notranslate"><span class="pre">EMDUnifrac_weighted_plain()</span></code></a></li>
+<li><a class="reference internal" href="#EMDU.EMD_L1_on_pushed"><code class="docutils literal notranslate"><span class="pre">EMD_L1_on_pushed()</span></code></a></li>
+<li><a class="reference internal" href="#EMDU.functional_profile_to_EMDU_vector"><code class="docutils literal notranslate"><span class="pre">functional_profile_to_EMDU_vector()</span></code></a></li>
+<li><a class="reference internal" href="#EMDU.plot_diffab"><code class="docutils literal notranslate"><span class="pre">plot_diffab()</span></code></a></li>
+<li><a class="reference internal" href="#EMDU.push_up_L1"><code class="docutils literal notranslate"><span class="pre">push_up_L1()</span></code></a></li>
+<li><a class="reference internal" href="#EMDU.push_up_L2"><code class="docutils literal notranslate"><span class="pre">push_up_L2()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">Welcome to FunUniFrac’s documentation!</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="LP_EMD_helper.html"
+                          title="next chapter">API documentation for LP_EMD_helper</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/EMDUniFrac.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="LP_EMD_helper.html" title="API documentation for LP_EMD_helper"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to FunUniFrac’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FunUniFrac 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">API documentation for EMDUniFrac</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Koslicki Lab.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.2.3.
+    </div>
+  </body>
+</html>

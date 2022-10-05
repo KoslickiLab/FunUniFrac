@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>API documentation for LP_EMD_helper &#8212; FunUniFrac 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CLI documentation for scripts" href="scripts.html" />
+    <link rel="prev" title="API documentation for EMDUniFrac" href="EMDUniFrac.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scripts.html" title="CLI documentation for scripts"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="EMDUniFrac.html" title="API documentation for EMDUniFrac"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FunUniFrac 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">API documentation for LP_EMD_helper</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="api-documentation-for-lp-emd-helper">
+<h1>API documentation for LP_EMD_helper<a class="headerlink" href="#api-documentation-for-lp-emd-helper" title="Permalink to this heading">¶</a></h1>
+<p>This document contains the help documentation for the modules and is intended for users who will be writing/using the python code itself. For everyone else, please look at the Scripts documentation.</p>
+<section id="lp-emd-helper-py">
+<h2>LP_EMD_helper.py<a class="headerlink" href="#lp-emd-helper-py" title="Permalink to this heading">¶</a></h2>
+<span class="target" id="module-src.LP_EMD_helper"></span><dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.get_EMD_pyemd">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">get_EMD_pyemd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">P</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_flow</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#get_EMD_pyemd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.get_EMD_pyemd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given two vectors P and Q, and a distance matrix, return the EMD between the two vectors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>P</strong> – 1D numpy array (float64)</p></li>
+<li><p><strong>Q</strong> – 1D numpy array (float64)</p></li>
+<li><p><strong>distance_matrix</strong> – 2D numpy array giving the distance between each pair of nodes (float64)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>scalar EMD value</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.get_KO_labels_and_index">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">get_KO_labels_and_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distances_labels_file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#get_KO_labels_and_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.get_KO_labels_and_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a file containing the basis for the rows of the pairwise KO distance matrix, return a list of labels and a
+dictionary mapping labels to indices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>distances_labels_file</strong> – text file containing the labels from the output of sourmash compare</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(list of labels, dictionary mapping labels to indices)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.get_descendant">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">get_descendant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#get_descendant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.get_descendant" title="Permalink to this definition">¶</a></dt>
+<dd><p>of the two nodes v1 and v2, ASSUMED TO BE ADJACENT, find out which one is the descendant of the other</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> – networkx graph, directed</p></li>
+<li><p><strong>v1</strong> – node name</p></li>
+<li><p><strong>v2</strong> – node name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>descendant node name</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.get_descendants">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">get_descendants</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#get_descendants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.get_descendants" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all descendants of a node, including the node itself.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>G</strong> – networkx graph</p></li>
+<li><p><strong>node</strong> – name of a node</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>set of nodes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.get_distance_matrix_from_edge_list">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">get_distance_matrix_from_edge_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge_list_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_len_property</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#get_distance_matrix_from_edge_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.get_distance_matrix_from_edge_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an edge list file, with three columns: head, tail, length, return an ALL-PAIRS distance matrix and a list of
+nodes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>edge_list_file</strong> – file name of the edge list</p></li>
+<li><p><strong>edege_length_property</strong> – name of the edge length property</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>distance matrix and a list of nodes indexing the distance matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.get_distance_matrix_on_leaves_from_edge_list">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">get_distance_matrix_on_leaves_from_edge_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge_list_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_len_property</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#get_distance_matrix_on_leaves_from_edge_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.get_distance_matrix_on_leaves_from_edge_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an edge list file, with three columns: head, tail, length, return a distance matrix on all leaves and a
+list of nodes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>edge_list_file</strong> – file name of the edge list</p></li>
+<li><p><strong>edege_length_property</strong> – name of the edge length property</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>distance matrix and a list of nodes indexing the distance matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.get_graphs_and_index">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">get_graphs_and_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge_list_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">brite</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#get_graphs_and_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.get_graphs_and_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an edge list file, return a networkx graph and a dictionary mapping node names to indices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>edge_list_file</strong> – text file containing the edge list</p></li>
+<li><p><strong>brite</strong> – which root to pick in the BRITE hierarchy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(directed networkx graph, undirected networkx graph, basis of node names, dictionary mapping node names to</p>
+</dd>
+</dl>
+<p>indices in that basis)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.get_leaf_descendants_from_node">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">get_leaf_descendants_from_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#get_leaf_descendants_from_node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.get_leaf_descendants_from_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all leaf descendants of a node, excluding the node itself.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>G</strong> – graph</p></li>
+<li><p><strong>node</strong> – node</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>set of leaf nodes descending from the node</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.get_leaf_nodes">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">get_leaf_nodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#get_leaf_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.get_leaf_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all leaf nodes of a graph</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>G</strong> – graph</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>set of leaf nodes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.get_root_of_tree">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">get_root_of_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DiGraph</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#get_root_of_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.get_root_of_tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the root node of a directed tree</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>G</strong> – directed tree</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>root node name</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.import_graph">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">import_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">edge_list_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#import_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.import_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import a graph from an edge list. The edge list can have 2 or 3 columns corresponding to parent, child,
+and (optionally) edge length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>edge_list_file</strong> – text file with edge list, tab separated</p></li>
+<li><p><strong>directed</strong> – boolean, whether the graph is directed or not</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DiGraph</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.infer_edge_len_property">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">infer_edge_len_property</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#infer_edge_len_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.infer_edge_len_property" title="Permalink to this definition">¶</a></dt>
+<dd><p>From a networkx graph, find out the name of the edge length property</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>G</strong> – graph</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>name of the edge length property</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.shortest_path_map_func_star">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">shortest_path_map_func_star</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a_b_c</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#shortest_path_map_func_star"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.shortest_path_map_func_star" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert <cite>f([1,2,3])</cite> to <cite>f(1,2,3)</cite> call.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.LP_EMD_helper.weighted_tree_to_EMDU_input">
+<span class="sig-prename descclassname"><span class="pre">src.LP_EMD_helper.</span></span><span class="sig-name descname"><span class="pre">weighted_tree_to_EMDU_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DiGraph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_len_property</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/LP_EMD_helper.html#weighted_tree_to_EMDU_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.LP_EMD_helper.weighted_tree_to_EMDU_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a weighted graph to the format required by EMDUniFrac: Tint, lint, and nodes_in_order.
+Since EMDUniFrac wants everything to be integers, also return a mapping from integers to node names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>G</strong> – weighted networkx graph</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(Tint dict, lint dict, nodes_in_order array, index_2_node dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">API documentation for LP_EMD_helper</a><ul>
+<li><a class="reference internal" href="#lp-emd-helper-py">LP_EMD_helper.py</a><ul>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_EMD_pyemd"><code class="docutils literal notranslate"><span class="pre">get_EMD_pyemd()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_KO_labels_and_index"><code class="docutils literal notranslate"><span class="pre">get_KO_labels_and_index()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_descendant"><code class="docutils literal notranslate"><span class="pre">get_descendant()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_descendants"><code class="docutils literal notranslate"><span class="pre">get_descendants()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_distance_matrix_from_edge_list"><code class="docutils literal notranslate"><span class="pre">get_distance_matrix_from_edge_list()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_distance_matrix_on_leaves_from_edge_list"><code class="docutils literal notranslate"><span class="pre">get_distance_matrix_on_leaves_from_edge_list()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_graphs_and_index"><code class="docutils literal notranslate"><span class="pre">get_graphs_and_index()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_leaf_descendants_from_node"><code class="docutils literal notranslate"><span class="pre">get_leaf_descendants_from_node()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_leaf_nodes"><code class="docutils literal notranslate"><span class="pre">get_leaf_nodes()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.get_root_of_tree"><code class="docutils literal notranslate"><span class="pre">get_root_of_tree()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.import_graph"><code class="docutils literal notranslate"><span class="pre">import_graph()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.infer_edge_len_property"><code class="docutils literal notranslate"><span class="pre">infer_edge_len_property()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.shortest_path_map_func_star"><code class="docutils literal notranslate"><span class="pre">shortest_path_map_func_star()</span></code></a></li>
+<li><a class="reference internal" href="#src.LP_EMD_helper.weighted_tree_to_EMDU_input"><code class="docutils literal notranslate"><span class="pre">weighted_tree_to_EMDU_input()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="EMDUniFrac.html"
+                          title="previous chapter">API documentation for EMDUniFrac</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scripts.html"
+                          title="next chapter">CLI documentation for scripts</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/LP_EMD_helper.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scripts.html" title="CLI documentation for scripts"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="EMDUniFrac.html" title="API documentation for EMDUniFrac"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">FunUniFrac 0.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">API documentation for LP_EMD_helper</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Koslicki Lab.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.2.3.
+    </div>
+  </body>
+</html>

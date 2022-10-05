@@ -1,0 +1,605 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>src.LP_EMD_helper &#8212; FunUniFrac 0.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">FunUniFrac 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">src.LP_EMD_helper</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for src.LP_EMD_helper</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+
+<span class="kn">from</span> <span class="nn">pyemd</span> <span class="kn">import</span> <span class="n">emd</span><span class="p">,</span> <span class="n">emd_with_flow</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">from</span> <span class="nn">.CONSTANTS</span> <span class="kn">import</span> <span class="n">BRITES</span>
+
+
+<span class="c1"># FIXME: this says to delete, but it is used below</span>
+<span class="c1">###delete</span>
+<span class="k">def</span> <span class="nf">parse_edge_list</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<div class="viewcode-block" id="shortest_path_map_func_star"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.shortest_path_map_func_star">[docs]</a><span class="k">def</span> <span class="nf">shortest_path_map_func_star</span><span class="p">(</span><span class="n">a_b_c</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert `f([1,2,3])` to `f(1,2,3)` call.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">shortest_path_map_func</span><span class="p">(</span><span class="o">*</span><span class="n">a_b_c</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">shortest_path_map_func</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">Gundir</span><span class="p">,</span> <span class="n">edge_len_property</span><span class="p">):</span>
+    <span class="c1"># compute the distance from the node to all leaf nodes</span>
+    <span class="n">len_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">single_source_dijkstra_path_length</span><span class="p">(</span><span class="n">Gundir</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">edge_len_property</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="n">len_dict</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="import_graph"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.import_graph">[docs]</a><span class="k">def</span> <span class="nf">import_graph</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Import a graph from an edge list. The edge list can have 2 or 3 columns corresponding to parent, child,</span>
+<span class="sd">    and (optionally) edge length.</span>
+
+<span class="sd">    :param edge_list_file: text file with edge list, tab separated</span>
+<span class="sd">    :param directed: boolean, whether the graph is directed or not</span>
+<span class="sd">    :return: DiGraph</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find edge list file </span><span class="si">{</span><span class="n">edge_list_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">directed</span><span class="p">:</span>
+            <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_edgelist</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">nodetype</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">create_using</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_edgelist</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">nodetype</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">create_using</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+                <span class="c1"># read the first line</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                    <span class="n">col1</span><span class="p">,</span> <span class="n">col2</span><span class="p">,</span> <span class="n">col3</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The first line of the file must have at most three columns: parent child &#39;</span>
+                                     <span class="s1">&#39;edge_length&#39;</span><span class="p">)</span>
+                <span class="c1"># import the graph. First two columns are the nodes, last column is the weight</span>
+                <span class="k">if</span> <span class="n">directed</span><span class="p">:</span>
+                    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_edgelist</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">((</span><span class="n">col3</span><span class="p">,</span> <span class="nb">float</span><span class="p">),),</span> <span class="n">create_using</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">read_edgelist</span><span class="p">(</span><span class="n">fid</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">((</span><span class="n">col3</span><span class="p">,</span> <span class="nb">float</span><span class="p">),),</span> <span class="n">create_using</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s1">&#39;Could not read edge list file. Make sure it is a tab-delimited file with two columns: parent &amp; child&#39;</span>
+                <span class="s1">&#39;or three columns: parent, child, edge_length&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">G</span></div>
+
+
+<div class="viewcode-block" id="infer_edge_len_property"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.infer_edge_len_property">[docs]</a><span class="k">def</span> <span class="nf">infer_edge_len_property</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    From a networkx graph, find out the name of the edge length property</span>
+
+<span class="sd">    :param G: graph</span>
+<span class="sd">    :return: name of the edge length property</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">edge_properties</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">edge_properties</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;I found multiple edge properties: </span><span class="si">{</span><span class="n">edge_properties</span><span class="si">}</span><span class="s1">. I don</span><span class="se">\&#39;</span><span class="s1">t know which one to use for &#39;</span>
+                         <span class="sa">f</span><span class="s1">&#39;edge lengths.&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">edge_len_property</span> <span class="o">=</span> <span class="n">edge_properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">edge_len_property</span></div>
+
+
+<div class="viewcode-block" id="weighted_tree_to_EMDU_input"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.weighted_tree_to_EMDU_input">[docs]</a><span class="k">def</span> <span class="nf">weighted_tree_to_EMDU_input</span><span class="p">(</span><span class="n">G</span><span class="p">:</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">,</span> <span class="n">edge_len_property</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert a weighted graph to the format required by EMDUniFrac: Tint, lint, and nodes_in_order.</span>
+<span class="sd">    Since EMDUniFrac wants everything to be integers, also return a mapping from integers to node names.</span>
+
+<span class="sd">    :param G: weighted networkx graph</span>
+<span class="sd">    :return: (Tint dict, lint dict, nodes_in_order array, index_2_node dict)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">G</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The graph must be a directed graph&#39;</span><span class="p">)</span>
+    <span class="c1"># first determine the edge_length attribute</span>
+    <span class="k">if</span> <span class="n">edge_len_property</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">edge_len_property</span> <span class="o">=</span> <span class="n">infer_edge_len_property</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="n">Tint</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">node</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Node </span><span class="si">{</span><span class="n">node</span><span class="si">}</span><span class="s1"> has more than one parent: </span><span class="si">{</span><span class="n">pred</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">Tint</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+            <span class="c1">#Tint[node] = &quot;-1&quot;  # TODO: check if this is how we do it in EMDUniFrac</span>
+    <span class="n">lint</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">edge_data</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">edge_data</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">edge_len_property</span><span class="p">]</span>
+        <span class="n">lint</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="o">=</span> <span class="n">weight</span>
+        <span class="n">lint</span><span class="p">[(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">weight</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">get_root_of_tree</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="n">nodes_in_order</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">dfs_postorder_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">root</span><span class="p">))</span>
+    <span class="c1"># Tint, lint, and nodes_in_order require these to be integers, so let&#39;s map everything to that</span>
+    <span class="n">node_2_EMDU_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes_in_order</span><span class="p">)}</span>
+    <span class="c1"># convert the Tint dict</span>
+    <span class="n">Tint</span> <span class="o">=</span> <span class="p">{</span><span class="n">node_2_EMDU_index</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span> <span class="n">node_2_EMDU_index</span><span class="p">[</span><span class="n">Tint</span><span class="p">[</span><span class="n">node</span><span class="p">]]</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">Tint</span><span class="p">}</span>
+    <span class="c1"># convert the lint dict</span>
+    <span class="n">lint</span> <span class="o">=</span> <span class="p">{(</span><span class="n">node_2_EMDU_index</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">node_2_EMDU_index</span><span class="p">[</span><span class="n">j</span><span class="p">]):</span> <span class="n">lint</span><span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">lint</span><span class="p">}</span>
+    <span class="c1"># convert the nodes in order</span>
+    <span class="n">nodes_in_order</span> <span class="o">=</span> <span class="p">[</span><span class="n">node_2_EMDU_index</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes_in_order</span><span class="p">]</span>
+    <span class="c1"># convert the integers to nodes</span>
+    <span class="n">EMDU_index_2_node</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">node</span> <span class="k">for</span> <span class="n">node</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">node_2_EMDU_index</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">return</span> <span class="n">Tint</span><span class="p">,</span> <span class="n">lint</span><span class="p">,</span> <span class="n">nodes_in_order</span><span class="p">,</span> <span class="n">EMDU_index_2_node</span></div>
+
+
+<div class="viewcode-block" id="get_distance_matrix_from_edge_list"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.get_distance_matrix_from_edge_list">[docs]</a><span class="k">def</span> <span class="nf">get_distance_matrix_from_edge_list</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">,</span> <span class="n">edge_len_property</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Given an edge list file, with three columns: head, tail, length, return an ALL-PAIRS distance matrix and a list of</span>
+<span class="sd">    nodes</span>
+
+<span class="sd">    :param edge_list_file: file name of the edge list</span>
+<span class="sd">    :param edege_length_property: name of the edge length property</span>
+<span class="sd">    :return: distance matrix and a list of nodes indexing the distance matrix</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">import_graph</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">edge_len_property</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">edge_len_property</span> <span class="o">=</span> <span class="n">infer_edge_len_property</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
+    <span class="n">D_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">all_pairs_dijkstra_path_length</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="n">edge_len_property</span><span class="p">))</span>
+    <span class="n">node_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">())</span>
+    <span class="n">distance_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">node_list</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_list</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_list</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">node2</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_list</span><span class="p">):</span>
+            <span class="n">distance_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">D_dict</span><span class="p">[</span><span class="n">node1</span><span class="p">][</span><span class="n">node2</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">distance_matrix</span><span class="p">,</span> <span class="n">node_list</span></div>
+
+
+<div class="viewcode-block" id="get_distance_matrix_on_leaves_from_edge_list"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.get_distance_matrix_on_leaves_from_edge_list">[docs]</a><span class="k">def</span> <span class="nf">get_distance_matrix_on_leaves_from_edge_list</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">,</span> <span class="n">edge_len_property</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Given an edge list file, with three columns: head, tail, length, return a distance matrix on all leaves and a</span>
+<span class="sd">    list of nodes</span>
+
+<span class="sd">    :param edge_list_file: file name of the edge list</span>
+<span class="sd">    :param edege_length_property: name of the edge length property</span>
+<span class="sd">    :return: distance matrix and a list of nodes indexing the distance matrix</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Reading edge list file...&#39;</span><span class="p">)</span>
+    <span class="n">Gdir</span> <span class="o">=</span> <span class="n">import_graph</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">Gundir</span> <span class="o">=</span> <span class="n">Gdir</span><span class="o">.</span><span class="n">to_undirected</span><span class="p">()</span>
+    <span class="c1"># check if the graph is connected</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Checking if the graph is connected...&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">nx</span><span class="o">.</span><span class="n">is_connected</span><span class="p">(</span><span class="n">Gundir</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The graph is not connected. I cannot compute the distance matrix on leaves.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">edge_len_property</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">edge_properties</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Gdir</span><span class="o">.</span><span class="n">edges</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="kc">True</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">edge_properties</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;I found multiple edge properties: </span><span class="si">{</span><span class="n">edge_properties</span><span class="si">}</span><span class="s1">. I don</span><span class="se">\&#39;</span><span class="s1">t know which one to use for &#39;</span>
+                             <span class="sa">f</span><span class="s1">&#39;edge lengths.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">edge_len_property</span> <span class="o">=</span> <span class="n">edge_properties</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># get the leaf nodes</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Getting the leaf nodes...&#39;</span><span class="p">)</span>
+    <span class="n">leaf_nodes</span> <span class="o">=</span> <span class="n">get_leaf_nodes</span><span class="p">(</span><span class="n">Gdir</span><span class="p">)</span>
+    <span class="n">leaf_nodes_to_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">)}</span>
+    <span class="c1"># for each pair of leaf nodes, get the distance</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Initializing the distance matrix...&#39;</span><span class="p">)</span>
+    <span class="n">distance_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">)))</span>
+    <span class="n">itr</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">len_leaves</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Computing the distance matrix...&#39;</span><span class="p">)</span>
+    <span class="c1">#TODO: specify the number of processes to use</span>
+    <span class="n">pool</span> <span class="o">=</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">multiprocessing</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">len_dicts</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">shortest_path_map_func_star</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">,</span> <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">Gundir</span><span class="p">),</span> <span class="n">itertools</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">edge_len_property</span><span class="p">)))</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+    <span class="c1"># join up the results</span>
+    <span class="n">len_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">len_dicts</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">for</span> <span class="n">leaf1</span> <span class="ow">in</span> <span class="n">leaf_nodes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">leaf2</span> <span class="ow">in</span> <span class="n">leaf_nodes</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">leaf_nodes_to_index</span><span class="p">[</span><span class="n">leaf1</span><span class="p">]</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">leaf_nodes_to_index</span><span class="p">[</span><span class="n">leaf2</span><span class="p">]</span>
+            <span class="n">distance_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">len_dict</span><span class="p">[</span><span class="n">leaf1</span><span class="p">][</span><span class="n">leaf2</span><span class="p">]</span>
+            <span class="n">distance_matrix</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">len_dict</span><span class="p">[</span><span class="n">leaf1</span><span class="p">][</span><span class="n">leaf2</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">distance_matrix</span><span class="p">,</span> <span class="n">leaf_nodes</span></div>
+
+
+<div class="viewcode-block" id="get_EMD_pyemd"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.get_EMD_pyemd">[docs]</a><span class="k">def</span> <span class="nf">get_EMD_pyemd</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">distance_matrix</span><span class="p">,</span> <span class="n">with_flow</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given two vectors P and Q, and a distance matrix, return the EMD between the two vectors</span>
+
+<span class="sd">    :param P: 1D numpy array (float64)</span>
+<span class="sd">    :param Q: 1D numpy array (float64)</span>
+<span class="sd">    :param distance_matrix: 2D numpy array giving the distance between each pair of nodes (float64)</span>
+<span class="sd">    :return: scalar EMD value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># check if P and Q are np arrays</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">P</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">distance_matrix</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">distance_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">distance_matrix</span><span class="p">)</span>
+    <span class="c1"># check if P and Q are normalized to sum to 1, or close enough</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;P is not normalized to sum to 1&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Q is not normalized to sum to 1&#39;</span><span class="p">)</span>
+    <span class="c1"># cast everything to float64_t</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">P</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">Q</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">distance_matrix</span> <span class="o">=</span> <span class="n">distance_matrix</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">with_flow</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">emd_with_flow</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">distance_matrix</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">emd</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">distance_matrix</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_root_of_tree"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.get_root_of_tree">[docs]</a><span class="k">def</span> <span class="nf">get_root_of_tree</span><span class="p">(</span><span class="n">G</span><span class="p">:</span><span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the root node of a directed tree</span>
+
+<span class="sd">    :param G: directed tree</span>
+<span class="sd">    :return: root node name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">roots</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">in_degree</span><span class="p">()</span> <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">roots</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The graph has multiple roots: </span><span class="si">{</span><span class="n">roots</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">roots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<span class="c1"># get all leaf descendants of a certain node</span>
+<div class="viewcode-block" id="get_leaf_descendants_from_node"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.get_leaf_descendants_from_node">[docs]</a><span class="k">def</span> <span class="nf">get_leaf_descendants_from_node</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return all leaf descendants of a node, excluding the node itself.</span>
+
+<span class="sd">    :param G: graph</span>
+<span class="sd">    :param node: node</span>
+<span class="sd">    :return: set of leaf nodes descending from the node</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">descendants</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">G</span><span class="o">.</span><span class="n">out_degree</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">descendants</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">descendants</span></div>
+
+
+<div class="viewcode-block" id="get_leaf_nodes"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.get_leaf_nodes">[docs]</a><span class="k">def</span> <span class="nf">get_leaf_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return all leaf nodes of a graph</span>
+
+<span class="sd">    :param G: graph</span>
+<span class="sd">    :return: set of leaf nodes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">leaf_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">G</span><span class="o">.</span><span class="n">out_degree</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">leaf_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">leaf_nodes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">leaf_nodes</span></div>
+
+
+<div class="viewcode-block" id="get_descendants"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.get_descendants">[docs]</a><span class="k">def</span> <span class="nf">get_descendants</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return all descendants of a node, including the node itself.</span>
+
+<span class="sd">    :param G: networkx graph</span>
+<span class="sd">    :param node: name of a node</span>
+<span class="sd">    :return: set of nodes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">descendants</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">descendants</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">descendants</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+        <span class="n">descendants</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">descendants</span></div>
+
+
+<div class="viewcode-block" id="get_descendant"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.get_descendant">[docs]</a><span class="k">def</span> <span class="nf">get_descendant</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    of the two nodes v1 and v2, ASSUMED TO BE ADJACENT, find out which one is the descendant of the other</span>
+
+<span class="sd">    :param graph: networkx graph, directed</span>
+<span class="sd">    :param v1: node name</span>
+<span class="sd">    :param v2: node name</span>
+<span class="sd">    :return: descendant node name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">v1</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">v2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">v2</span>
+    <span class="k">elif</span> <span class="n">v2</span> <span class="ow">in</span> <span class="n">graph</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">v1</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">v1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nodes </span><span class="si">{</span><span class="n">v1</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">v2</span><span class="si">}</span><span class="s2"> are not adjacent&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_KO_labels_and_index"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.get_KO_labels_and_index">[docs]</a><span class="k">def</span> <span class="nf">get_KO_labels_and_index</span><span class="p">(</span><span class="n">distances_labels_file</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a file containing the basis for the rows of the pairwise KO distance matrix, return a list of labels and a</span>
+<span class="sd">    dictionary mapping labels to indices</span>
+
+<span class="sd">    :param distances_labels_file: text file containing the labels from the output of sourmash compare</span>
+<span class="sd">    :return: (list of labels, dictionary mapping labels to indices)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># import label names</span>
+    <span class="n">pairwise_dist_KOs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">distances_labels_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">():</span>
+            <span class="n">ko</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># KO number is the last in the pip-delim list</span>
+            <span class="n">ko</span> <span class="o">=</span> <span class="n">ko</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># remove the ko: prefix</span>
+            <span class="n">pairwise_dist_KOs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ko</span><span class="p">)</span>
+    <span class="n">pairwise_dist_KO_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pairwise_dist_KOs</span><span class="p">)}</span>
+    <span class="k">return</span> <span class="n">pairwise_dist_KOs</span><span class="p">,</span> <span class="n">pairwise_dist_KO_index</span></div>
+
+
+<div class="viewcode-block" id="get_graphs_and_index"><a class="viewcode-back" href="../../LP_EMD_helper.html#src.LP_EMD_helper.get_graphs_and_index">[docs]</a><span class="k">def</span> <span class="nf">get_graphs_and_index</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">,</span> <span class="n">brite</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given an edge list file, return a networkx graph and a dictionary mapping node names to indices</span>
+
+<span class="sd">    :param edge_list_file: text file containing the edge list</span>
+<span class="sd">    :param brite: which root to pick in the BRITE hierarchy</span>
+<span class="sd">    :return: (directed networkx graph, undirected networkx graph, basis of node names, dictionary mapping node names to</span>
+<span class="sd">    indices in that basis)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">brite</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">BRITES</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;brite must be one of </span><span class="si">{</span><span class="n">BRITES</span><span class="si">}</span><span class="s2">. I received </span><span class="si">{</span><span class="n">brite</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">import_graph</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">,</span> <span class="n">directed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># get the descendants of the brite</span>
+    <span class="n">descendants</span> <span class="o">=</span> <span class="n">get_descendants</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">brite</span><span class="p">)</span>
+    <span class="c1"># add the root node back in (this will only have affect if you are using multiple brites. TODO: not yet implemented)</span>
+    <span class="n">descendants</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;root&#39;</span><span class="p">)</span>  <span class="c1">#TODO: see if I actually want to add the root back in or not</span>
+    <span class="c1"># select the subgraph from the brite to the leaves</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">descendants</span><span class="p">)</span>
+    <span class="n">G_undirected</span> <span class="o">=</span> <span class="n">G</span><span class="o">.</span><span class="n">to_undirected</span><span class="p">()</span>
+    <span class="c1"># set the basis for the tree, which is an ordering of the edges. I&#39;ll identify each edge by its terminal node</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]</span>
+    <span class="n">basis_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">basis</span><span class="p">)}</span>
+    <span class="k">return</span> <span class="n">G</span><span class="p">,</span> <span class="n">G_undirected</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">basis_index</span></div>
+
+
+<span class="c1"># Create a class that will generate simulated distributions</span>
+<span class="k">class</span> <span class="nc">LeafDistributionSimulator</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_list_file</span><span class="p">,</span> <span class="n">brite</span><span class="p">):</span>
+        <span class="n">Gdir</span><span class="p">,</span> <span class="n">Gundir</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="n">basis_index</span> <span class="o">=</span> <span class="n">get_graphs_and_index</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">,</span> <span class="n">brite</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Gdir</span> <span class="o">=</span> <span class="n">Gdir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Gundir</span> <span class="o">=</span> <span class="n">Gundir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basis</span> <span class="o">=</span> <span class="n">basis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basis_index</span> <span class="o">=</span> <span class="n">basis_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">brite</span> <span class="o">=</span> <span class="n">brite</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">leaf_nodes</span> <span class="o">=</span> <span class="n">get_leaf_descendants_from_node</span><span class="p">(</span><span class="n">Gdir</span><span class="p">,</span> <span class="n">brite</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">leaf_nodes_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="n">basis_index</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">leaf_nodes</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">get_random_dist_on_leaves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a random distribution on the leaves of the tree</span>
+
+<span class="sd">        :return: 1D numpy array, indexed by nodes in the graph, but only supported on the leaves</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Use a dirichlet distribution to generate a random distribution on the leaves, since this will sum to 1</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">dirichlet</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leaf_nodes</span><span class="p">)))</span>
+        <span class="c1"># map the distribution to the basis</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">leaf_nodes</span><span class="p">):</span>
+            <span class="n">P</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">leaf_nodes_index</span><span class="p">[</span><span class="n">node</span><span class="p">]]</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">P</span>
+
+
+<span class="c1">########################################################################################################################</span>
+<span class="c1"># TODO: the following are works in progress</span>
+<span class="k">def</span> <span class="nf">get_EMD_from_edge_file</span><span class="p">(</span><span class="n">edge_file</span><span class="p">,</span> <span class="n">branch_len_function</span><span class="p">):</span>  <span class="c1">#FIXME: branch_len_function is not used</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parse_edge_list</span><span class="p">(</span><span class="n">edge_file</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">leaf_nodes</span> <span class="o">=</span> <span class="n">get_leaf_nodes</span><span class="p">(</span><span class="n">edge_file</span><span class="p">)</span>
+    <span class="n">distance_matrix</span><span class="p">,</span> <span class="n">node_list</span> <span class="o">=</span> <span class="n">get_distance_matrix_from_edge_list</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">index_dict</span> <span class="o">=</span> <span class="n">get_ID_index_dict</span><span class="p">(</span><span class="n">node_list</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">simulate_leaf_supported_vector</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_list</span><span class="p">),</span> <span class="n">index_dict</span><span class="p">)</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">simulate_leaf_supported_vector</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_list</span><span class="p">),</span> <span class="n">index_dict</span><span class="p">)</span>
+    <span class="c1"># print(norm_P)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">emd_value</span> <span class="o">=</span> <span class="n">get_EMD_pyemd</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">distance_matrix</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">emd_value</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total process time:&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
+    <span class="k">return</span>
+
+
+<span class="k">def</span> <span class="nf">get_leaf_nodes2</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parse_edge_list</span><span class="p">(</span><span class="n">edge_list_file</span><span class="p">)</span>
+    <span class="n">child_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;child&#39;</span><span class="p">])</span>
+    <span class="n">parent_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;parent&#39;</span><span class="p">])</span>
+    <span class="n">internal_nodes</span> <span class="o">=</span> <span class="n">parent_nodes</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">child_nodes</span><span class="p">)</span>
+    <span class="n">leaf_nodes</span> <span class="o">=</span> <span class="n">child_nodes</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">internal_nodes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">leaf_nodes</span>
+
+
+<span class="k">def</span> <span class="nf">get_ID_index_dict</span><span class="p">(</span><span class="n">node_list</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">node_list</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="n">node_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">node_list</span><span class="p">)</span>
+    <span class="n">index_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">node_list</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">node_list</span><span class="p">))))</span>
+    <span class="k">return</span> <span class="n">index_dict</span>
+
+
+<span class="k">def</span> <span class="nf">simulate_leaf_supported_vector</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">index_dict</span><span class="p">):</span>
+    <span class="n">vector</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">]</span><span class="o">*</span><span class="n">length</span>
+    <span class="n">leaf_index</span> <span class="o">=</span> <span class="p">[</span><span class="n">index_dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">leaf_nodes</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">leaf_index</span><span class="p">:</span>
+        <span class="n">vector</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+    <span class="n">norm_v</span> <span class="o">=</span> <span class="n">vector</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">norm_v</span>
+
+
+<span class="c1">#temp</span>
+<span class="k">def</span> <span class="nf">get_leaf_nodes_only_graph</span><span class="p">():</span>
+    <span class="n">leaf_nodes</span> <span class="o">=</span> <span class="n">get_leaf_nodes</span><span class="p">(</span><span class="s1">&#39;data/kegg_ko_edge_df.txt&#39;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;parent&#39;</span><span class="p">,</span> <span class="s1">&#39;child&#39;</span><span class="p">])</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="s1">&#39;root&#39;</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;child&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;parent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">root</span>
+    <span class="c1"># FIXME: this is hard coded</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;data/kegg_ko_leaf_only_df.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="c1">#print(df)</span>
+
+
+<span class="k">def</span> <span class="nf">get_EMDUniFrac_from_functional_profiles</span><span class="p">(</span><span class="n">profile1</span><span class="p">,</span> <span class="n">profile2</span><span class="p">,</span> <span class="n">distance_matrix</span><span class="p">,</span> <span class="n">node_list</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">profile1</span><span class="p">)</span>
+    <span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">profile1</span><span class="p">)</span>
+    <span class="n">id1</span> <span class="o">=</span> <span class="n">df1</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+    <span class="n">id1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">id1</span><span class="p">))</span>
+    <span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">profile2</span><span class="p">)</span>
+    <span class="n">id2</span> <span class="o">=</span> <span class="n">df2</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+    <span class="n">id2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">id2</span><span class="p">))</span>
+    <span class="n">abund1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df1</span><span class="p">[</span><span class="s1">&#39;unique_intersect_bp&#39;</span><span class="p">])</span>
+    <span class="n">abund2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df2</span><span class="p">[</span><span class="s1">&#39;unique_intersect_bp&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">abund1</span><span class="p">)</span>
+    <span class="n">sample_vector1</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">node_list</span><span class="p">)</span>
+    <span class="n">sample_vector2</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">node_list</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="nb">id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">node_list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">id1</span><span class="p">:</span>
+            <span class="n">sample_vector1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">abund1</span><span class="p">[</span><span class="n">id1</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">id</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">id2</span><span class="p">:</span>
+            <span class="n">sample_vector2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">abund2</span><span class="p">[</span><span class="n">id2</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">id</span><span class="p">)]</span>
+    <span class="n">normed_sample1</span> <span class="o">=</span> <span class="n">sample_vector1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">sample_vector1</span><span class="p">)</span>
+    <span class="n">normed_sample2</span> <span class="o">=</span> <span class="n">sample_vector2</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">sample_vector2</span><span class="p">)</span>
+    <span class="n">unifrac</span> <span class="o">=</span> <span class="n">emd</span><span class="p">(</span><span class="n">normed_sample1</span><span class="p">,</span> <span class="n">normed_sample2</span><span class="p">,</span> <span class="n">distance_matrix</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">unifrac</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span>
+    <span class="k">return</span>
+
+
+<span class="c1"># FIXME: these test don&#39;t use asserts and have a lot of stuff hard coded</span>
+
+<span class="k">def</span> <span class="nf">test_parse_edge_list</span><span class="p">():</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parse_edge_list</span><span class="p">(</span><span class="s1">&#39;data/kegg_ko_edge_df.txt&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_get_matrix_from_edge_list</span><span class="p">():</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parse_edge_list</span><span class="p">(</span><span class="s1">&#39;data/kegg_ko_edge_df.txt&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">distance_matrix</span><span class="p">,</span> <span class="n">node_list</span> <span class="o">=</span> <span class="n">get_distance_matrix_from_edge_list</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">distance_matrix</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">node_list</span><span class="p">)[:</span><span class="mi">10</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">test_get_leaf_nodes</span><span class="p">():</span>
+    <span class="n">leaf_nodes</span> <span class="o">=</span> <span class="n">get_leaf_nodes</span><span class="p">(</span><span class="s1">&#39;data/kegg_ko_edge_df.txt&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_get_EMD</span><span class="p">():</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parse_edge_list</span><span class="p">(</span><span class="s1">&#39;data/kegg_ko_leaf_only_df.txt&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">leaf_nodes</span> <span class="o">=</span> <span class="n">get_leaf_nodes</span><span class="p">(</span><span class="s1">&#39;data/kegg_ko_leaf_only_df.txt&#39;</span><span class="p">)</span>
+    <span class="n">distance_matrix</span><span class="p">,</span> <span class="n">node_list</span> <span class="o">=</span> <span class="n">get_distance_matrix_from_edge_list</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">index_dict</span> <span class="o">=</span> <span class="n">get_ID_index_dict</span><span class="p">(</span><span class="n">node_list</span><span class="p">)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">simulate_leaf_supported_vector</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_list</span><span class="p">),</span> <span class="n">index_dict</span><span class="p">)</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">simulate_leaf_supported_vector</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">node_list</span><span class="p">),</span> <span class="n">index_dict</span><span class="p">)</span>
+    <span class="c1">#print(norm_P)</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">emd_value</span> <span class="o">=</span> <span class="n">get_EMD_pyemd</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">distance_matrix</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">emd_value</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total process time:&quot;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_simulate_leaf_supported_vector</span><span class="p">():</span>
+    <span class="n">leaf_nodes</span> <span class="o">=</span> <span class="n">get_leaf_nodes</span><span class="p">(</span><span class="s1">&#39;data/kegg_ko_edge_df.txt&#39;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parse_edge_list</span><span class="p">(</span><span class="s1">&#39;data/kegg_ko_edge_df.txt&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">distance_matrix</span><span class="p">,</span> <span class="n">node_list</span> <span class="o">=</span> <span class="n">get_distance_matrix_from_edge_list</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">index_dict</span> <span class="o">=</span> <span class="n">get_ID_index_dict</span><span class="p">(</span><span class="n">node_list</span><span class="p">)</span>
+    <span class="n">sparse_vector</span> <span class="o">=</span> <span class="n">simulate_leaf_supported_vector</span><span class="p">(</span><span class="n">leaf_nodes</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">distance_matrix</span><span class="p">),</span> <span class="n">index_dict</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">sparse_vector</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">test_get_EMDUniFrac_from_profiles</span><span class="p">():</span>
+    <span class="n">profile1</span> <span class="o">=</span> <span class="s1">&#39;data/SRS1041031.denovo_duplicates_marked.trimmed_KOs_sketched_scaled_10.sig.zip_gather_k_5.csv&#39;</span>
+    <span class="n">profile2</span> <span class="o">=</span> <span class="s1">&#39;data/SRS893174.denovo_duplicates_marked.trimmed_KOs_sketched_scaled_10.sig.zip_gather_k_5.csv&#39;</span>
+    <span class="n">leaf_nodes</span> <span class="o">=</span> <span class="n">get_leaf_nodes</span><span class="p">(</span><span class="s1">&#39;data/kegg_ko_edge_df.txt&#39;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parse_edge_list</span><span class="p">(</span><span class="s1">&#39;data/kegg_ko_edge_df.txt&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">distance_matrix</span><span class="p">,</span> <span class="n">node_list</span> <span class="o">=</span> <span class="n">get_distance_matrix_from_edge_list</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">get_EMDUniFrac_from_functional_profiles</span><span class="p">(</span><span class="n">profile1</span><span class="p">,</span> <span class="n">profile2</span><span class="p">,</span> <span class="n">distance_matrix</span><span class="p">,</span> <span class="n">node_list</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">make_edge_list_file_len_1_tmp</span><span class="p">():</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">parse_edge_list</span><span class="p">(</span><span class="s1">&#39;data/kegg_ko_edge_df.txt&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;data/kegg_ko_edge_df_len1.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">FunUniFrac 0.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">src.LP_EMD_helper</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Koslicki Lab.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.2.3.
+    </div>
+  </body>
+</html>
