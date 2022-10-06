@@ -519,3 +519,4 @@ def make_edge_list_file_len_1_tmp():
     df['length'] = [1.] * len(df)
     df.to_csv('data/kegg_ko_edge_df_len1.txt', sep='\t', index=None)
 
+
