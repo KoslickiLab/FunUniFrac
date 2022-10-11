@@ -92,7 +92,7 @@ def main():
     # add the root node back in (this will only have affect if you are using multiple brites. TODO: not yet implemented)
     descendants.add('root')
     # select the subgraph from the brite to the leaves
-    G = Gdir.subgraph(descendants)
+    Gdir = Gdir.subgraph(descendants)
 
     # Then create the inputs for EMDUniFrac
     Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(Gdir)
