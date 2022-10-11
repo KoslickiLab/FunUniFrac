@@ -5,6 +5,22 @@ import numpy as np
 import os
 from scipy import sparse
 
+def make_test_data():
+    distances_file = "test_data/small_pairwise_distances.npy"
+    labels_file = "test_data/small_pairwise_distances.npy.labels.txt"
+    with open(labels_file, 'w') as fid:
+        fid.write("d\n")
+        fid.write("e\n")
+        fid.write("f\n")
+        fid.write("g\n")
+        fid.write("h\n")
+    mat = np.array([[0, 2, 4, 4, 7],
+                    [2, 0, 4, 4, 7],
+                    [4, 4, 0, 2, 7],
+                    [4, 4, 2, 0, 7],
+                    [7, 7, 7, 7, 0]])
+    np.save(distances_file, mat)
+
 def test_small_edge_list():
     """
     Uses a complete binary tree with 4 leaf nodes, all branch lengths set to 1
