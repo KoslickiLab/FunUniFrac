@@ -21,6 +21,8 @@ import src.EMDU as EMDU
 import multiprocessing
 from itertools import combinations, repeat
 import glob
+from src.CONSTANTS import BRITES
+from src.LP_EMD_helper import get_descendants
 
 
 def map_func(file, Tint, lint, nodes_in_order, EMDU_index_2_node, abundance_key):
@@ -52,6 +54,8 @@ def argument_parser():
                         default='median_abund')
     parser.add_argument('-t', '--threads', help='Number of threads to use. Default is half the cores available.',
                         default=int(multiprocessing.cpu_count() / 2), type=int)
+    parser.add_argument('-b', '--brite', help='Use the subtree of the KEGG hierarchy rooted at the given BRITE ID. '
+                                              'eg. brite:ko00001', default=None, type=str, required=True)
     return parser
 
 
@@ -66,6 +70,9 @@ def main():
     force = args.force
     abundance_key = args.abundance_key
     num_threads = args.threads
+    brite = args.brite
+    if brite not in BRITES:
+        raise ValueError(f'Invalid BRITE ID: {brite}. Must be one of {BRITES}')
     if not exists(edge_list_file):
         raise FileNotFoundError(f"Could not find {edge_list_file}")
     if not exists(directory):
@@ -80,6 +87,14 @@ def main():
 
     # Parse the graph and get the FunUniFrac objects Tint, length, and edge_list
     Gdir = LH.import_graph(edge_list_file, directed=True)
+    # Select the subtree of the KEGG hierarchy rooted at the given BRITE ID
+    descendants = get_descendants(Gdir, brite)
+    # add the root node back in (this will only have affect if you are using multiple brites. TODO: not yet implemented)
+    descendants.add('root')
+    # select the subgraph from the brite to the leaves
+    G = Gdir.subgraph(descendants)
+
+    # Then create the inputs for EMDUniFrac
     Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(Gdir)
     # switch the order for convenience
     node_2_EMDU_index = {val: key for key, val in EMDU_index_2_node.items()}

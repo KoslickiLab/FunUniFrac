@@ -17,8 +17,9 @@ def test_small_edge_lengths():
     profile1 = "test_data/small_sim_10_KOs_gather.csv"
     profile2 = "test_data/small_sim2_10_KOs_gather.csv"
     out_file = "test_data/pairwise_dists.npy"
+    brite = "ko00001"
     cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} -d " \
-          f"{directory} -o {out_file} --force"
+          f"{directory} -o {out_file} --force -b {brite}"
     res = subprocess.run(cmd, shell=True, check=True)
     # check that the output file exists
     assert exists(out_file)
