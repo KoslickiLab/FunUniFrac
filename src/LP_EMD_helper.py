@@ -304,12 +304,13 @@ def get_descendant(graph, v1, v2):
         raise ValueError(f"Nodes {v1} and {v2} are not adjacent")
 
 
-def get_KO_labels_and_index(distances_labels_file):
+def get_KO_labels_and_index(distances_labels_file, basis=None):
     """
     Given a file containing the basis for the rows of the pairwise KO distance matrix, return a list of labels and a
-    dictionary mapping labels to indices
+    dictionary mapping labels to indices. Only include the labels in the basis if specified.
 
     :param distances_labels_file: text file containing the labels from the output of sourmash compare
+    :param basis: list of labels to include in the output
     :return: (list of labels, dictionary mapping labels to indices)
     """
     # import label names
@@ -320,6 +321,11 @@ def get_KO_labels_and_index(distances_labels_file):
             ko = ko.split(':')[-1]  # remove the ko: prefix
             pairwise_dist_KOs.append(ko)
     pairwise_dist_KO_index = {node: i for i, node in enumerate(pairwise_dist_KOs)}
+    if basis is not None:
+        # remove those that are not in the basis
+        pairwise_dist_KOs = [x for x in pairwise_dist_KOs if x in basis]
+        # also remove them from the pairwise dist KO index
+        pairwise_dist_KO_index = {x: pairwise_dist_KO_index[x] for x in pairwise_dist_KOs}
     return pairwise_dist_KOs, pairwise_dist_KO_index
 
 

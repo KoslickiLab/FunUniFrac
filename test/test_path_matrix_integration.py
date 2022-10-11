@@ -21,6 +21,7 @@ def make_test_data():
                     [7, 7, 7, 7, 0]])
     np.save(distances_file, mat)
 
+
 def test_small_edge_list():
     """
     Uses a complete binary tree with 4 leaf nodes, all branch lengths set to 1
