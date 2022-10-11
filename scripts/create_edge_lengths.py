@@ -134,7 +134,7 @@ def main():
         raise ValueError(f"The A matrix has {A.shape[0]} rows, but the y vector has {y.shape[0]} elements. "
                          f"Something is wrong.")
 
-    num_threads = 2  # numpy apparently uses all PHYSICAL cores, twice that for hyperthreading
+    num_threads = 1  # numpy apparently uses all PHYSICAL cores, twice that for hyperthreading
     pool = multiprocessing.Pool(num_threads)
 
     xs = np.array(pool.map(map_star, zip(range(num_iter), repeat(A), repeat(y), repeat(factor), repeat(reg_factor)), chunksize=num_iter // num_threads))
