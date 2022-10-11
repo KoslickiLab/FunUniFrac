@@ -111,7 +111,7 @@ def main():
     # import pairwise distances
     pairwise_dist = np.load(distances_file)
     # import label names
-    pairwise_dist_KOs, pairwise_dist_KO_index = get_KO_labels_and_index(distances_labels_file)
+    pairwise_dist_KOs, pairwise_dist_KO_index = get_KO_labels_and_index(distances_labels_file, basis=basis)
 
     ########
     # for all pairs of edges, find which of the two connected nodes is the descendant of the other

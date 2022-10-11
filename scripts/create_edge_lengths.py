@@ -109,10 +109,15 @@ def main():
         raise ValueError(f"{brite} is not a valid BRITE ID. Choices are: {BRITES}")
 
 
+    # import the basis of the A matrix (the shortest path matrix)
+    with open(basis_name, 'r') as f:
+        basis = f.readlines()
+        basis = [line.strip() for line in basis]
+
     # import pairwise distances
     pairwise_dist = np.load(distances_file)
     # import label names
-    pairwise_dist_KOs, pairwise_dist_KO_index = get_KO_labels_and_index(distances_labels_file)
+    pairwise_dist_KOs, pairwise_dist_KO_index = get_KO_labels_and_index(distances_labels_file, basis=basis)
 
     # create the y vector of all pairwise distances
     y = []
@@ -125,6 +130,9 @@ def main():
         y = 1 - y
     # import the A matrix
     A = sparse.load_npz(A_matrix_file)
+    if A.shape[0] != y.shape[0]:
+        raise ValueError(f"The A matrix has {A.shape[0]} rows, but the y vector has {y.shape[0]} elements. "
+                         f"Something is wrong.")
 
     num_threads = min(multiprocessing.cpu_count() // 2, num_iter)
     pool = multiprocessing.Pool(num_threads)
@@ -133,11 +141,6 @@ def main():
 
     # take the average of the solutions
     x = np.mean(xs, axis=0)
-
-    # import the basis
-    with open(basis_name, 'r') as f:
-        basis = f.readlines()
-        basis = [line.strip() for line in basis]
 
     # import the edge list
     df = pd.read_csv(edge_list, sep='\t', header=0)
