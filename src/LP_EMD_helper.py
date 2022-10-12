@@ -448,7 +448,9 @@ def get_profile_from_sourmash(sourmash_file, save_as, normalize = True):
     abund = list(df['unique_intersect_bp'])
     df = pd.DataFrame(df, columns=['KO','rel_abund'])
     if normalize is True and not np.isclose(np.sum(abund), 1.0):
+        print('sum of abundance before normalization ', np.sum(abund))
         abund = abund / np.linalg.norm(abund)
+        print('sum of abundance after normalization ', np.sum(abund))
     df['KO'] = id
     df['rel_abund'] = abund
     df.to_csv(save_as, index=None, sep='\t')
