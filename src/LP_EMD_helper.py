@@ -447,7 +447,7 @@ def get_profile_from_sourmash(sourmash_file, save_as, normalize = True):
     #id = list(map(lambda x: x.split(':')[1], id)) #if want to remove the "ko" in front
     abund = list(df['unique_intersect_bp'])
     df = pd.DataFrame(df, columns=['KO','rel_abund'])
-    if normalize is True and not np.isclose(abund, 1.0):
+    if normalize is True and not np.isclose(np.sum(abund), 1.0):
         abund = abund / np.linalg.norm(abund)
     df['KO'] = id
     df['rel_abund'] = abund
