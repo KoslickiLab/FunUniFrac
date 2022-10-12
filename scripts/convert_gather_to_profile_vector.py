@@ -24,7 +24,7 @@ def main():
     sourmash_file = args.input
     if not args.prefix:
         #get basename of input
-        prefix = os.path.splitext(os.path.basename(input))[0]
+        prefix = os.path.splitext(os.path.basename(sourmash_file))[0]
     output_file = os.path.join(args.out_dir, prefix + ".txt")
     get_profile_from_sourmash(sourmash_file, output_file, normalize=True)
 
