@@ -22,9 +22,12 @@ def main():
     parser = argument_parser()
     args = parser.parse_args()
     sourmash_file = args.input
-    out_dir = args.out_dir
     if not args.prefix:
         #get basename of input
         prefix = os.path.splitext(os.path.basename(input))[0]
     output_file = os.path.join(args.out_dir, prefix + ".txt")
     get_profile_from_sourmash(sourmash_file, output_file, normalize=True)
+
+
+if __name__ == '__main__':
+    main()
