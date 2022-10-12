@@ -111,7 +111,7 @@ def main():
     #results = map(map_star, zip(fun_files))
     for file, P_pushed in results:
         Ps_pushed[file] = P_pushed
-    print(f"Ps_pushed: {Ps_pushed}")
+
     # Then compute the pairwise distances
     dists = np.zeros((len(fun_files), len(fun_files)))
     for i, j in combinations(range(len(fun_files)), 2):
