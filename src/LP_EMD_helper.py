@@ -435,6 +435,24 @@ def get_leaf_nodes_only_graph():
     df.to_csv('data/kegg_ko_leaf_only_df.txt', sep='\t', index=None)
     #print(df)
 
+def get_profile_from_sourmash(sourmash_file, save_as, normalize = True):
+    '''
+    Given a sourmash file, extract the profile vector and write it to a file with the name given by param save_as
+    :param sourmash_file: path to sourmash file
+    :param name for the vector file to be saveved. Should be .txt format
+    :return:
+    '''
+    df = pd.read_csv(sourmash_file)
+    id = df['name']
+    #id = list(map(lambda x: x.split(':')[1], id)) #if want to remove the "ko" in front
+    abund = list(df['unique_intersect_bp'])
+    df = pd.DataFrame(df, columns=['KO','rel_abund'])
+    if normalize is True and not np.isclose(abund, 1.0):
+        abund = abund / np.linalg.norm(abund)
+    df['KO'] = id
+    df['rel_abund'] = abund
+    df.to_csv(save_as, index=None, sep='\t')
+
 
 def get_EMDUniFrac_from_functional_profiles(profile1, profile2, distance_matrix, node_list):
     start = time.time()
