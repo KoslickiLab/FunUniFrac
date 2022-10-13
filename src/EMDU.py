@@ -5,6 +5,7 @@ import pandas as pd
 import sys
 import copy
 epsilon = sys.float_info.epsilon
+from matplotlib import pyplot, transforms
 
 def functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node, abundance_key='median_abund',
                                       normalize=True):
@@ -316,24 +317,30 @@ def plot_diffab(nodes_in_order, diffab, P_label, Q_label, plot_zeros=True, thres
     markerline, stemlines, baseline = ax.stem(neg_loc_adj, neg_val)
     plt.setp(baseline, 'color', 'k', 'linewidth', 1)
     plt.setp(markerline, 'color', 'r')
-    for i in range(len(neg_loc)):
-        plt.setp(stemlines[i], 'linewidth', 3)
-        plt.setp(stemlines[i], 'color', 'r')
+    stemlines.set_linewidth(3)
+    stemlines.set_color('r')
+    #for i in range(len(neg_loc)):
+    #    plt.setp(stemlines[i], 'linewidth', 3)
+    #    plt.setp(stemlines[i], 'color', 'r')
 
     markerline, stemlines, baseline = ax.stem(pos_loc_adj, pos_val)
     plt.setp(baseline, 'color', 'k', 'linewidth', 1)
     plt.setp(markerline, 'color', 'b')
-    for i in range(len(pos_loc)):
-        plt.setp(stemlines[i], 'linewidth', 3)
-        plt.setp(stemlines[i], 'color', 'b')
+    stemlines.set_linewidth(3)
+    stemlines.set_color('b')
+    #for i in range(len(pos_loc)):
+    #    plt.setp(stemlines[i], 'linewidth', 3)
+    #    plt.setp(stemlines[i], 'color', 'b')
 
     if plot_zeros:
         markerline, stemlines, baseline = ax.stem(zero_loc, zero_val)
         plt.setp(baseline, 'color', 'k', 'linewidth', 1)
         plt.setp(markerline, 'color', 'k')
-        for i in range(len(zero_loc)):
-            plt.setp(stemlines[i], 'linewidth', 3)
-            plt.setp(stemlines[i], 'color', 'k')
+        stemlines.set_linewidth(3)
+        stemlines.set_color('k')
+        #for i in range(len(zero_loc)):
+        #    plt.setp(stemlines[i], 'linewidth', 3)
+        #    plt.setp(stemlines[i], 'color', 'k')
 
     plt.ylabel('DiffAbund', fontsize=16)
     plt.gcf().subplots_adjust(right=0.93, left=0.15)
