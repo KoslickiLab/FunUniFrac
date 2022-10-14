@@ -12,22 +12,22 @@ from scipy.spatial.distance import squareform
 import argparse
 import json
 matplotlib.use('Agg')
-
 # TODO: remove requirement that this is a QIITA study. So make the metadata file optional
+
 
 def argument_parser():
     parser = argparse.ArgumentParser(
         description='Given a matrix of pairwise FunUnifrac distances along with metadata associated '
-                    'with the study, this script will plot the distances in a dendrogram. It is assumed that the'
-                    'metadata file has a column called "sample_name" which contains the sample names which correspond'
+                    'with the study, this script will plot the distances in a dendrogram. It is assumed that the '
+                    'metadata file has a column called "sample_name" which contains the sample names which correspond '
                     'to the samples in the distance matrix. The distance matrix is assumed to be a numpy array.'
-                    ''
+                    '\n \n'
                     'This script will also return a JSON object with the following information: '
-                    'As we move a cutoff threshold from left to right (top to bottom) of the dendrogram,'
-                    'keep track of how the underlying samples cluster. Eg. just below the root, the dendrogram splits'
-                    'into 2 subtrees. Thus the values of this JSON object[2] will be two clusters of sample names'
+                    'As we move a cutoff threshold from left to right (top to bottom) of the dendrogram, '
+                    'keep track of how the underlying samples cluster. Eg. just below the root, the dendrogram splits '
+                    'into 2 subtrees. Thus the values of this JSON object[2] will be two clusters of sample names '
                     'corresponding to these two groups. '
-                    ''
+                    '\n \n'
                     'This assumes that the study is a QIITA study with the accompanying metadata file. ')
     parser.add_argument('-d', '--distances', help='File of the pairwise unifrac distances', required=True)
     parser.add_argument('-o', '--out_dir', help='Output directory', required=True)

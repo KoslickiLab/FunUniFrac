@@ -50,10 +50,12 @@
 <h2>create_edge_lengths.py<a class="headerlink" href="#create-edge-lengths-py" title="Permalink to this heading">¶</a></h2>
 <p><p>This will take the matrix made by graph_to_path_matrix.py and the all pairwise distance matrix and solve the least squares problem of inferring the edge lengths of the graph.</p>
 </p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">create_edge_lengths</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">e</span> <span class="n">EDGE_LIST</span> <span class="o">-</span><span class="n">d</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">create_edge_lengths</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">e</span>
+                              <span class="n">EDGE_LIST</span> <span class="o">-</span><span class="n">d</span>
                               <span class="n">DISTANCES</span> <span class="o">-</span><span class="n">o</span>
-                              <span class="n">OUT_FILE</span> <span class="o">-</span><span class="n">A</span> <span class="n">A_MATRIX</span>
-                              <span class="o">-</span><span class="n">b</span> <span class="n">BRITE_ID</span>
+                              <span class="n">OUT_FILE</span> <span class="o">-</span><span class="n">A</span>
+                              <span class="n">A_MATRIX</span> <span class="o">-</span><span class="n">b</span>
+                              <span class="n">BRITE_ID</span>
                               <span class="p">[</span><span class="o">-</span><span class="n">n</span> <span class="n">NUM_ITER</span><span class="p">]</span>
                               <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">FACTOR</span><span class="p">]</span>
                               <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">REG_FACTOR</span><span class="p">]</span>
@@ -106,10 +108,9 @@
 <h2>edge_list_to_LP_EMD_input.py<a class="headerlink" href="#edge-list-to-lp-emd-input-py" title="Permalink to this heading">¶</a></h2>
 <p><p>Given an edge list file, convert it into a sparse matrix to be usedas an input for LP_EMD.py</p>
 </p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">edge_list_to_LP_EMD_input</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">e</span>
-                                    <span class="n">EDGE_LIST</span> <span class="o">-</span><span class="n">o</span>
-                                    <span class="n">OUT_DIR</span>
-                                    <span class="p">[</span><span class="o">--</span><span class="n">force</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">edge_list_to_LP_EMD_input</span><span class="o">.</span><span class="n">py</span>
+       <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">e</span> <span class="n">EDGE_LIST</span> <span class="o">-</span><span class="n">o</span> <span class="n">OUT_DIR</span>
+       <span class="p">[</span><span class="o">--</span><span class="n">force</span><span class="p">]</span>
 </pre></div>
 </div>
 <section id="Named Arguments">
@@ -132,9 +133,12 @@
 <h2>graph_to_path_matrix.py<a class="headerlink" href="#graph-to-path-matrix-py" title="Permalink to this heading">¶</a></h2>
 <p><p>Given the KEGG hierarchy, first this will select the subtree consisting of all the ancestors of the given brite_id. Then, it will create a matrix where the (i,j) entry will be 1 iff for the ith pair of KOs in the –distances file: (KO1, KO2), edge j is on the shortest path from KO1 to KO2</p>
 </p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">graph_to_path_matrix</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">e</span> <span class="n">EDGE_LIST</span>
-                               <span class="o">-</span><span class="n">d</span> <span class="n">DISTANCES</span> <span class="o">-</span><span class="n">o</span>
-                               <span class="n">OUT_DIR</span> <span class="o">-</span><span class="n">b</span> <span class="n">BRITE_ID</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">graph_to_path_matrix</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">e</span>
+                               <span class="n">EDGE_LIST</span>
+                               <span class="o">-</span><span class="n">d</span>
+                               <span class="n">DISTANCES</span>
+                               <span class="o">-</span><span class="n">o</span> <span class="n">OUT_DIR</span>
+                               <span class="o">-</span><span class="n">b</span> <span class="n">BRITE_ID</span>
 </pre></div>
 </div>
 <section id="Named Arguments">
@@ -159,13 +163,11 @@
 <h2>make_all_pw_fununifrac.py<a class="headerlink" href="#make-all-pw-fununifrac-py" title="Permalink to this heading">¶</a></h2>
 <p><p>This script will take a directory of sourmash gather results and a weighted edge list representing the KEGG hierarchy and compute all pairwise functional unifrac distances.</p>
 </p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">make_all_pw_fununifrac</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">e</span> <span class="n">EDGE_LIST</span>
-                                 <span class="o">-</span><span class="n">d</span> <span class="n">DIRECTORY</span> <span class="o">-</span><span class="n">o</span>
-                                 <span class="n">OUT_FILE</span>
-                                 <span class="p">[</span><span class="o">-</span><span class="n">fp</span> <span class="n">FILE_PATTERN</span><span class="p">]</span>
-                                 <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="p">]</span>
-                                 <span class="p">[</span><span class="o">-</span><span class="n">a</span> <span class="n">ABUNDANCE_KEY</span><span class="p">]</span>
-                                 <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">THREADS</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">make_all_pw_fununifrac</span><span class="o">.</span><span class="n">py</span>
+       <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">e</span> <span class="n">EDGE_LIST</span> <span class="o">-</span><span class="n">d</span> <span class="n">DIRECTORY</span> <span class="o">-</span><span class="n">o</span>
+       <span class="n">OUT_FILE</span> <span class="p">[</span><span class="o">-</span><span class="n">fp</span> <span class="n">FILE_PATTERN</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">f</span><span class="p">]</span>
+       <span class="p">[</span><span class="o">-</span><span class="n">a</span> <span class="n">ABUNDANCE_KEY</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">t</span> <span class="n">THREADS</span><span class="p">]</span> <span class="o">-</span><span class="n">b</span>
+       <span class="n">BRITE</span>
 </pre></div>
 </div>
 <section id="Named Arguments">
@@ -194,6 +196,47 @@
 </dd>
 <dt><kbd>-t, --threads</kbd></dt>
 <dd><p>Number of threads to use. Default is half the cores available.</p>
+<p>Default: 5</p>
+</dd>
+<dt><kbd>-b, --brite</kbd></dt>
+<dd><p>Use the subtree of the KEGG hierarchy rooted at the given BRITE ID. eg. brite:ko00001</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="plot-distances-dendro-py">
+<h2>plot_distances_dendro.py<a class="headerlink" href="#plot-distances-dendro-py" title="Permalink to this heading">¶</a></h2>
+<p><p>Given a matrix of pairwise FunUnifrac distances along with metadata associated with the study, this script will plot the distances in a dendrogram. It is assumed that the metadata file has a column called “sample_name” which contains the sample names which correspond to the samples in the distance matrix. The distance matrix is assumed to be a numpy array.</p>
+<p>This script will also return a JSON object with the following information: As we move a cutoff threshold from left to right (top to bottom) of the dendrogram, keep track of how the underlying samples cluster. Eg. just below the root, the dendrogram splits into 2 subtrees. Thus the values of this JSON object[2] will be two clusters of sample names corresponding to these two groups.</p>
+<p>This assumes that the study is a QIITA study with the accompanying metadata file.</p>
+</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">plot_distances_dendro</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="o">-</span><span class="n">d</span>
+                                <span class="n">DISTANCES</span>
+                                <span class="o">-</span><span class="n">o</span> <span class="n">OUT_DIR</span>
+                                <span class="o">-</span><span class="n">m</span>
+                                <span class="n">METADATA</span>
+                                <span class="p">[</span><span class="o">-</span><span class="n">k</span> <span class="n">KEY</span><span class="p">]</span>
+                                <span class="p">[</span><span class="o">-</span><span class="n">s</span> <span class="n">SPLIT</span><span class="p">]</span>
+</pre></div>
+</div>
+<section id="Named Arguments">
+<h3>Named Arguments<a class="headerlink" href="#Named Arguments" title="Permalink to this heading">¶</a></h3>
+<dl class="option-list">
+<dt><kbd>-d, --distances</kbd></dt>
+<dd><p>File of the pairwise unifrac distances</p>
+</dd>
+<dt><kbd>-o, --out_dir</kbd></dt>
+<dd><p>Output directory</p>
+</dd>
+<dt><kbd>-m, --metadata</kbd></dt>
+<dd><p>Metadata file</p>
+</dd>
+<dt><kbd>-k, --key</kbd></dt>
+<dd><p>Metadata key to use to label dendrogram leaves</p>
+<p>Default: “disease_type”</p>
+</dd>
+<dt><kbd>-s, --split</kbd></dt>
+<dd><p>The number of splits to retain (i.e. how far right to move the thresholdwhen saving the JSON recording of clusters).</p>
 <p>Default: 5</p>
 </dd>
 </dl>
@@ -225,6 +268,10 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#make-all-pw-fununifrac-py">make_all_pw_fununifrac.py</a><ul>
+<li><a class="reference internal" href="#Named Arguments">Named Arguments</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#plot-distances-dendro-py">plot_distances_dendro.py</a><ul>
 <li><a class="reference internal" href="#Named Arguments">Named Arguments</a></li>
 </ul>
 </li>

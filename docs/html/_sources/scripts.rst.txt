@@ -30,3 +30,10 @@ make_all_pw_fununifrac.py
    :filename: ../scripts/make_all_pw_fununifrac.py
    :func: argument_parser
    :prog: make_all_pw_fununifrac.py
+
+plot_distances_dendro.py
+------------
+.. argparse::
+   :filename: ../scripts/plot_distances_dendro.py
+   :func: argument_parser
+   :prog: plot_distances_dendro.py
