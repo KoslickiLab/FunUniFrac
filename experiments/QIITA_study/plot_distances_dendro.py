@@ -13,6 +13,7 @@ import argparse
 import json
 matplotlib.use('Agg')
 
+
 def argument_parser():
     parser = argparse.ArgumentParser(
         description='Given a matrix of pairwise FunUnifrac distances along with metadata associated '
@@ -24,7 +25,9 @@ def argument_parser():
                     'As we move a cutoff threshold from left to right (top to bottom) of the dendrogram,'
                     'keep track of how the underlying samples cluster. Eg. just below the root, the dendrogram splits'
                     'into 2 subtrees. Thus the values of this JSON object[2] will be two clusters of sample names'
-                    'corresponding to these two groups. ')
+                    'corresponding to these two groups. '
+                    ''
+                    'This assumes that the study is a QIITA study with the accompanying metadata file. ')
     parser.add_argument('-d', '--distances', help='File of the pairwise unifrac distances', required=True)
     parser.add_argument('-o', '--out_dir', help='Output directory', required=True)
     parser.add_argument('-m', '--metadata', help='Metadata file', required=True)
