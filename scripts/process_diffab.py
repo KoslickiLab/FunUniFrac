@@ -48,3 +48,4 @@ for (x,y), val in diffab.items():
 diffab_node_names_df = pd.DataFrame.from_dict(diffab_node_names, orient='index', columns=['diffab'])
 # TODO: I will want to change this to be a table with two columns: the names of the P and Q and then the abs(val) and
 #  0 (or reversed if negative)
+pd.DataFrame({"a":{"b":1,"c":2},"d":{"e":1,"f":3}}).fillna(0)
