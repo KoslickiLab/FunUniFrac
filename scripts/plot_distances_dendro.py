@@ -13,6 +13,7 @@ import argparse
 import json
 matplotlib.use('Agg')
 
+# TODO: remove requirement that this is a QIITA study. So make the metadata file optional
 
 def argument_parser():
     parser = argparse.ArgumentParser(
