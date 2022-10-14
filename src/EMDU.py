@@ -448,3 +448,15 @@ def EMD_L1_on_pushed(P, Q):
     :return: float
     """
     return np.sum(np.abs(P-Q))
+
+def EMD_L1_and_diffab_on_pushed(P, Q):
+    """
+    Computes the L1 earth movers distance on the **pushed up** vectors. Also returns the differential abundance vectors
+
+    :param P: numpy vector
+    :param Q: numpy vector
+    :return: float, diffab vector
+    """
+    Z = np.sum(np.abs(P-Q))
+    diffab = P-Q
+    return Z, diffab

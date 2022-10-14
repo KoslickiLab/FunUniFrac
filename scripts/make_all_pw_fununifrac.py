@@ -56,6 +56,7 @@ def argument_parser():
                         default=int(multiprocessing.cpu_count() / 2), type=int)
     parser.add_argument('-b', '--brite', help='Use the subtree of the KEGG hierarchy rooted at the given BRITE ID. '
                                               'eg. brite:ko00001', default=None, type=str, required=True)
+    parser.add_argument('--diffab', action='store_true', help='Also return the difference abundance vectors.')
     return parser
 
 
@@ -71,6 +72,7 @@ def main():
     abundance_key = args.abundance_key
     num_threads = args.threads
     brite = args.brite
+    make_diffab = args.diffab
     if brite not in BRITES:
         raise ValueError(f'Invalid BRITE ID: {brite}. Must be one of {BRITES}')
     if not exists(edge_list_file):
@@ -114,15 +116,25 @@ def main():
 
     # Then compute the pairwise distances
     dists = np.zeros((len(fun_files), len(fun_files)))
+    diffabs = np.zeros((len(fun_files), len(fun_files), len(nodes_in_order)))
     for i, j in combinations(range(len(fun_files)), 2):
-        dists[i, j] = dists[j, i] = EMDU.EMD_L1_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+        if not make_diffab:
+            dists[i, j] = dists[j, i] = EMDU.EMD_L1_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+        else:
+            Z, diffab = EMDU.EMD_L1_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+            dists[i, j] = dists[j, i] = Z
+            diffabs[i, j, :] = diffabs[j, i, :] = diffab
+
 
     # save the distances
     np.save(out_file, dists)
+    if make_diffab:
+        np.save(out_file + '.diffab.npy', diffabs)
     # save the basis
     with open(out_file + '.basis.txt', 'w') as f:
         for file in fun_files:
             f.write(f"{file}\n")
+
 
 if __name__ == '__main__':
     main()

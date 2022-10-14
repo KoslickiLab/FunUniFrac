@@ -49,3 +49,26 @@ diffab_node_names_df = pd.DataFrame.from_dict(diffab_node_names, orient='index',
 # TODO: I will want to change this to be a table with two columns: the names of the P and Q and then the abs(val) and
 #  0 (or reversed if negative)
 pd.DataFrame({"a":{"b":1,"c":2},"d":{"e":1,"f":3}}).fillna(0)
+
+# Ok, let's take two groups of samples and compare them
+# import the json file that contains the dendrogram clusters
+import json
+with open('experiments/QIITA_study/dendro_uniform_pw_fu_ko00001.npy_clusters.json') as f:
+    clustered_samples = json.load(f)
+cut_level = 0
+# get the samples at the cut level
+clusters_at_cut_level = clustered_samples[str(cut_level)]
+cluster_numbers = list(clusters_at_cut_level.keys())
+cluster_1 = clusters_at_cut_level[cluster_numbers[0]]
+cluster_2 = clusters_at_cut_level[cluster_numbers[1]]
+base_to_full = dict()
+for file in fun_files:
+    base_to_full[os.path.basename(file)] = file
+cluster_to_pw_diffab = dict()  # keys are the samples in the first cluster. Values are a dictionary, keyed on the second
+# cluster samples, with the diffab values given as dictionaries with keys the edge names and values the diffab values
+# eg. {sample1: {sample2: {edge1: diffab1, edge2: diffab2}, sample3: {edge1: diffab1, edge3: diffab2}}}
+for cluster_1_base_name in cluster_1:
+    cluster_to_pw_diffab[cluster_1_base_name] = dict()
+    P = base_to_full[cluster_1_base_name]
+    for cluster_2_base_name in cluster_2:
+        Q = base_to_full[cluster_2_base_name]
