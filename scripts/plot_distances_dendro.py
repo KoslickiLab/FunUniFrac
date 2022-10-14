@@ -85,7 +85,7 @@ def main():
     dendrogram(Z, labels=labels, orientation='left', leaf_font_size=7)
     # make the labels bigger
     plt.rcParams.update({'font.size': 22})
-    plt.savefig(os.path.join(out_dir, f"dendro_{pairwise_dists_file}.png"), dpi=600)
+    plt.savefig(os.path.join(out_dir, f"dendro_{os.path.basename(pairwise_dists_file)}.png"), dpi=600)
 
     # prepare the json dump of the clusters as we move the cutoff to the right
     # These are the values on the x-axis of the dendrogram where clusters are merged
@@ -111,7 +111,7 @@ def main():
         cut_to_clusters[int(cut_ind)] = clusts
 
     # write the clusters to a json file
-    with open(os.path.join(out_dir, f"dendro_{pairwise_dists_file}_clusters.json"), 'w') as f:
+    with open(os.path.join(out_dir, f"dendro_{os.path.basename(pairwise_dists_file)}_clusters.json"), 'w') as f:
         json.dump(cut_to_clusters, f, indent=4)
 
 
