@@ -1,11 +1,13 @@
 # Helper class for the the EMDUniFrac associated functions
+import os.path
+
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import sys
 import copy
 epsilon = sys.float_info.epsilon
-from matplotlib import pyplot, transforms
+from itertools import repeat
 
 def functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node, abundance_key='median_abund',
                                       normalize=True):
@@ -439,6 +441,7 @@ def push_up_L1(P, Tint, lint, nodes_in_order):
         P_pushed[i] *=lint[i, Tint[i]]
     return P_pushed
 
+
 def EMD_L1_on_pushed(P, Q):
     """
     Computes the L1 earth movers distance on the **pushed up** vectors
@@ -448,6 +451,7 @@ def EMD_L1_on_pushed(P, Q):
     :return: float
     """
     return np.sum(np.abs(P-Q))
+
 
 def EMD_L1_and_diffab_on_pushed(P, Q):
     """
@@ -460,3 +464,30 @@ def EMD_L1_and_diffab_on_pushed(P, Q):
     Z = np.sum(np.abs(P-Q))
     diffab = P-Q
     return Z, diffab
+
+def convert_diffab_array_to_df(diffabs, nodes_in_order, file_basis):
+    """
+    Converts the differential abundance array to a 3D dataframe
+
+    :param diffabs: 3D numpy array: [i,j,:] is the differential abundance vector between sample i and j
+    :param nodes_in_order: list of nodes in post-ish order
+    :param file_basis: basis for the file names
+    :return: pandas dataframe
+    """
+    file_basis = [os.path.basename(x) for x in file_basis]
+    num_samples = diffabs.shape[0]
+    if num_samples != len(file_basis):
+        raise ValueError('Number of samples does not match number of file names')
+    if num_samples != diffabs.shape[1]:
+        raise ValueError('Differential abundance array is not square')
+    if diffabs[0, 0, :].shape[0] != len(nodes_in_order):
+        raise ValueError('Differential abundance array does not match nodes in order')
+    diffabs_dict = {}
+    for i, file in enumerate(file_basis):
+        diffabs_dict[file] = {}
+        for j, file2 in enumerate(file_basis):
+            diffabs_dict[file][file2] = dict()
+            for k, node in enumerate(nodes_in_order):
+                diffabs_dict[file][file2][node] = diffabs[i, j, k]
+    diffabs_df = pd.DataFrame.from_dict(diffabs_dict)
+    return diffabs_df

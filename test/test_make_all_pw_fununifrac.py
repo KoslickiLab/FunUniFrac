@@ -17,6 +17,9 @@ def test_small_edge_lengths():
     profile1 = "test_data/small_sim_10_KOs_gather.csv"
     profile2 = "test_data/small_sim2_10_KOs_gather.csv"
     out_file = "test_data/pairwise_dists.npy"
+    # remove the out file if it exists
+    if exists(out_file):
+        os.remove(out_file)
     brite = "ko00001"
     cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} -d " \
           f"{directory} -o {out_file} --force -b {brite}"
@@ -43,7 +46,7 @@ def test_small_edge_lengths():
     # now also check the diffabs
     cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} -d " \
               f"{directory} -o {out_file} --force -b {brite} --diffab"
-    diffab_out_file = "test_data/pairwise_dists.npy.diffab.npy"
+    diffab_out_file = "test_data/pairwise_dists.npy.diffab.pkl.gz"
     res = subprocess.run(cmd, shell=True, check=True)
     # check that the output file exists
     assert exists(out_file)
@@ -56,19 +59,29 @@ def test_small_edge_lengths():
     basis_file = f"{out_file}.basis.txt"
     assert exists(basis_file)
     # open the basis file
+    fun_files = []
     with open(basis_file, "r") as f:
         basis = os.path.basename(f.readline().strip())
+        fun_files.append(basis)
         assert basis == os.path.basename(profile2)
         basis = os.path.basename(f.readline().strip())
+        fun_files.append(basis)
         assert basis == os.path.basename(profile1)
         # check that the end of the file has been reached
         assert f.readline() == ""
     # Check that the diffabs file is correct
     assert exists(diffab_out_file)
-    diffabs = np.load(diffab_out_file)
+    #diffabs = np.load(diffab_out_file)
+    diffabs = pd.read_pickle(diffab_out_file)
     known_diffab = np.array([-1/14, -1/21, -5/42, 5/42, 0, 5/42, 0])
     zeros = np.zeros_like(known_diffab)
-    assert np.allclose(diffabs[0, 1, :], known_diffab, atol=1e-3)
-    assert np.allclose(diffabs[1, 0, :], known_diffab, atol=1e-3)
-    assert np.allclose(diffabs[0, 0, :], zeros, atol=1e-3)
-    assert np.allclose(diffabs[1, 1, :], zeros, atol=1e-3)
+    nodes_in_order = [0, 1, 2, 3, 4, 5, 6]
+    vec = [diffabs[fun_files[0]][fun_files[1]][x] for x in nodes_in_order]
+    assert np.allclose(vec, known_diffab, atol=1e-3)
+    vec = [diffabs[fun_files[1]][fun_files[0]][x] for x in nodes_in_order]
+    assert np.allclose(vec, known_diffab, atol=1e-3)
+    vec = [diffabs[fun_files[1]][fun_files[1]][x] for x in nodes_in_order]
+    assert np.allclose(vec, zeros, atol=1e-3)
+    vec = [diffabs[fun_files[0]][fun_files[0]][x] for x in nodes_in_order]
+    assert np.allclose(vec, zeros, atol=1e-3)
+

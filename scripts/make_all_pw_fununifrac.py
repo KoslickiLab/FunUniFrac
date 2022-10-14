@@ -129,7 +129,10 @@ def main():
     # save the distances
     np.save(out_file, dists)
     if make_diffab:
-        np.save(out_file + '.diffab.npy', diffabs)
+        #np.save(out_file + '.diffab.npy', diffabs)
+        # convert to a pandas dataframe
+        df = EMDU.convert_diffab_array_to_df(diffabs, nodes_in_order, fun_files)
+        df.to_pickle(out_file + '.diffab.pkl.gz')
     # save the basis
     with open(out_file + '.basis.txt', 'w') as f:
         for file in fun_files:
