@@ -499,12 +499,14 @@ class DiffabArrayIndexer:
     """
     This class is used to index the differential abundance array. It is used to make the indexing more readable.
     """
-    def __init__(self, diffabs, nodes_in_order, file_basis):
+    def __init__(self, diffabs, nodes_in_order, file_basis, EMDU_index_2_node):
         self.diffabs = diffabs
         self.nodes_in_order = nodes_in_order
         self.file_basis = file_basis
         self.node_to_index = {node: i for i, node in enumerate(nodes_in_order)}
         self.file_to_index = {file: i for i, file in enumerate(file_basis)}
+        # reverse the EMDU_index_2_node dictionary
+        self.node_to_EMDU_index = {v: k for k, v in EMDU_index_2_node.items()}
 
     def get_diffab(self, files1, files2):
         """
@@ -528,7 +530,7 @@ class DiffabArrayIndexer:
 
         :param files1: list of files, or single file
         :param files2: list of files, or single file
-        :param nodes: node(s) to get the differential abundance for
+        :param nodes: node(s) to get the differential abundance for. Eg. K01234
         :return: numpy array
         """
         if isinstance(files1, str):
@@ -536,8 +538,8 @@ class DiffabArrayIndexer:
         if isinstance(files2, str):
             files2 = [files2]
         if isinstance(nodes, str) or isinstance(nodes, int):
-            nodes = [nodes]
+            nodes = [self.node_to_EMDU_index[nodes]]
         indices1 = [self.file_to_index[file] for file in files1]
         indices2 = [self.file_to_index[file] for file in files2]
-        indices3 = [self.node_to_index[node] for node in nodes]
+        indices3 = [self.node_to_index[self.node_to_EMDU_index[node]] for node in nodes]
         return self.diffabs[indices1, indices2, indices3]
