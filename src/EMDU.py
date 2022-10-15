@@ -465,6 +465,7 @@ def EMD_L1_and_diffab_on_pushed(P, Q):
     diffab = P-Q
     return Z, diffab
 
+
 def convert_diffab_array_to_df(diffabs, nodes_in_order, file_basis):
     """
     Converts the differential abundance array to a 3D dataframe
@@ -492,3 +493,51 @@ def convert_diffab_array_to_df(diffabs, nodes_in_order, file_basis):
                 diffabs_dict[file][file2][node] = diffabs[i, j, k]
     diffabs_df = pd.DataFrame.from_dict(diffabs_dict)
     return diffabs_df
+
+
+class DiffabArrayIndexer:
+    """
+    This class is used to index the differential abundance array. It is used to make the indexing more readable.
+    """
+    def __init__(self, diffabs, nodes_in_order, file_basis):
+        self.diffabs = diffabs
+        self.nodes_in_order = nodes_in_order
+        self.file_basis = file_basis
+        self.node_to_index = {node: i for i, node in enumerate(nodes_in_order)}
+        self.file_to_index = {file: i for i, file in enumerate(file_basis)}
+
+    def get_diffab(self, files1, files2):
+        """
+        Get the differential abundance vector between two sets of files. Sets can be singletons.
+
+        :param files1: list of files, or single file
+        :param files2: list of files, or single file
+        :return: numpy array
+        """
+        if isinstance(files1, str):
+            files1 = [files1]
+        if isinstance(files2, str):
+            files2 = [files2]
+        indices1 = [self.file_to_index[file] for file in files1]
+        indices2 = [self.file_to_index[file] for file in files2]
+        return self.diffabs[indices1, indices2, :]
+
+    def get_diffab_for_node(self, files1, files2, nodes):
+        """
+        Get the differential abundance vector between two sets of files. Sets can be singletons. So can nodes.
+
+        :param files1: list of files, or single file
+        :param files2: list of files, or single file
+        :param nodes: node(s) to get the differential abundance for
+        :return: numpy array
+        """
+        if isinstance(files1, str):
+            files1 = [files1]
+        if isinstance(files2, str):
+            files2 = [files2]
+        if isinstance(nodes, str) or isinstance(nodes, int):
+            nodes = [nodes]
+        indices1 = [self.file_to_index[file] for file in files1]
+        indices2 = [self.file_to_index[file] for file in files2]
+        indices3 = [self.node_to_index[node] for node in nodes]
+        return self.diffabs[indices1, indices2, indices3]
