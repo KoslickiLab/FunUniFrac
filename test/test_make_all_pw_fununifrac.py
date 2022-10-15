@@ -46,7 +46,8 @@ def test_small_edge_lengths():
     # now also check the diffabs
     cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} -d " \
               f"{directory} -o {out_file} --force -b {brite} --diffab"
-    diffab_out_file = "test_data/pairwise_dists.npy.diffab.pkl.gz"
+    #diffab_out_file = "test_data/pairwise_dists.npy.diffab.pkl.gz"
+    diffab_out_file = "test_data/pairwise_dists.npy.diffab.npy"
     res = subprocess.run(cmd, shell=True, check=True)
     # check that the output file exists
     assert exists(out_file)
@@ -71,17 +72,21 @@ def test_small_edge_lengths():
         assert f.readline() == ""
     # Check that the diffabs file is correct
     assert exists(diffab_out_file)
-    #diffabs = np.load(diffab_out_file)
-    diffabs = pd.read_pickle(diffab_out_file)
+    diffabs = np.load(diffab_out_file)
+    #diffabs = pd.read_pickle(diffab_out_file)
     known_diffab = np.array([-1/14, -1/21, -5/42, 5/42, 0, 5/42, 0])
     zeros = np.zeros_like(known_diffab)
     nodes_in_order = [0, 1, 2, 3, 4, 5, 6]
-    vec = [diffabs[fun_files[0]][fun_files[1]][x] for x in nodes_in_order]
+    #vec = [diffabs[fun_files[0]][fun_files[1]][x] for x in nodes_in_order]
+    vec = diffabs[0, 1, :]
     assert np.allclose(vec, known_diffab, atol=1e-3)
-    vec = [diffabs[fun_files[1]][fun_files[0]][x] for x in nodes_in_order]
+    #vec = [diffabs[fun_files[1]][fun_files[0]][x] for x in nodes_in_order]
+    vec = diffabs[1, 0, :]
     assert np.allclose(vec, known_diffab, atol=1e-3)
-    vec = [diffabs[fun_files[1]][fun_files[1]][x] for x in nodes_in_order]
+    #vec = [diffabs[fun_files[1]][fun_files[1]][x] for x in nodes_in_order]
+    vec = diffabs[0, 0, :]
     assert np.allclose(vec, zeros, atol=1e-3)
-    vec = [diffabs[fun_files[0]][fun_files[0]][x] for x in nodes_in_order]
+    #vec = [diffabs[fun_files[0]][fun_files[0]][x] for x in nodes_in_order]
+    vec = diffabs[1, 1, :]
     assert np.allclose(vec, zeros, atol=1e-3)
 

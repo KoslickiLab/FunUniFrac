@@ -474,6 +474,7 @@ def convert_diffab_array_to_df(diffabs, nodes_in_order, file_basis):
     :param file_basis: basis for the file names
     :return: pandas dataframe
     """
+    # FIXME: this is extremely slow
     file_basis = [os.path.basename(x) for x in file_basis]
     num_samples = diffabs.shape[0]
     if num_samples != len(file_basis):

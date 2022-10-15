@@ -128,11 +128,16 @@ def main():
 
     # save the distances
     np.save(out_file, dists)
+    print(f"Saved distances to {out_file}")
     if make_diffab:
-        #np.save(out_file + '.diffab.npy', diffabs)
+        print("Converting to an npy file")
+        np.save(out_file + '.diffab.npy', diffabs)
+        print(f"Saved difference abundance diffabs to {out_file}.diffab.npy")
         # convert to a pandas dataframe
-        df = EMDU.convert_diffab_array_to_df(diffabs, nodes_in_order, fun_files)
-        df.to_pickle(out_file + '.diffab.pkl.gz')
+        #print("Converting to a pandas dataframe")
+        #df = EMDU.convert_diffab_array_to_df(diffabs, nodes_in_order, fun_files)
+        #print(f"Saving difference abundance vectors to {out_file}.diffab.pkl.gz")
+        #df.to_pickle(out_file + '.diffab.pkl.gz')
     # save the basis
     with open(out_file + '.basis.txt', 'w') as f:
         for file in fun_files:
