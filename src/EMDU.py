@@ -468,7 +468,8 @@ def EMD_L1_and_diffab_on_pushed(P, Q):
 
 def convert_diffab_array_to_df(diffabs, nodes_in_order, file_basis):
     """
-    Converts the differential abundance array to a 3D dataframe
+    Converts the differential abundance array to a 3D dataframe.
+    DO NOT USE EXCEPT FOR VERY SMALL DATA SETS
 
     :param diffabs: 3D numpy array: [i,j,:] is the differential abundance vector between sample i and j
     :param nodes_in_order: list of nodes in post-ish order
@@ -501,8 +502,6 @@ class DiffabArrayIndexer:
     """
     def __init__(self, diffabs, nodes_in_order, file_basis, EMDU_index_2_node):
         self.diffabs = diffabs
-        self.nodes_in_order = nodes_in_order
-        self.file_basis = file_basis
         self.node_to_index = {node: i for i, node in enumerate(nodes_in_order)}
         self.file_to_index = {file: i for i, file in enumerate(file_basis)}
         # reverse the EMDU_index_2_node dictionary
@@ -520,9 +519,11 @@ class DiffabArrayIndexer:
             files1 = [files1]
         if isinstance(files2, str):
             files2 = [files2]
-        indices1 = [self.file_to_index[file] for file in files1]
-        indices2 = [self.file_to_index[file] for file in files2]
-        return self.diffabs[indices1, indices2, :]
+        indices1 = np.array([self.file_to_index[file] for file in files1])
+        indices2 = np.array([self.file_to_index[file] for file in files2])
+        #return self.diffabs[indices1, indices2, :]
+        return self.diffabs[np.ix_(indices1, indices2, np.arange(self.diffabs.shape[2]))]
+
 
     def get_diffab_for_node(self, files1, files2, nodes):
         """
@@ -538,7 +539,7 @@ class DiffabArrayIndexer:
         if isinstance(files2, str):
             files2 = [files2]
         if isinstance(nodes, str) or isinstance(nodes, int):
-            nodes = [self.node_to_EMDU_index[nodes]]
+            nodes = [nodes]
         indices1 = [self.file_to_index[file] for file in files1]
         indices2 = [self.file_to_index[file] for file in files2]
         indices3 = [self.node_to_index[self.node_to_EMDU_index[node]] for node in nodes]

@@ -2,6 +2,9 @@ import src.LP_EMD_helper as LH
 import src.EMDU as EMDU
 import numpy as np
 import pytest
+import glob
+import os
+
 
 def test_emdu_vs_pyemd_simple():
     """
@@ -121,3 +124,48 @@ def test_push_up_L1():
         pushed_emd = np.sum(np.abs(P_pushed - Q_pushed))
         assert np.isclose(pyemd_val, pushed_emd, atol=1e-8)
 
+
+def test_diffab_indexer():
+    edge_list_file = "test_data/small_edge_list_with_lengths.txt"
+    directory = "test_data"
+    brite = "ko00001"
+    file_pattern = "*_gather.csv"
+    fun_files = glob.glob(os.path.join(directory, file_pattern))
+    fun_files = sorted(fun_files)
+    Gdir = LH.import_graph(edge_list_file, directed=True)
+    descendants = LH.get_descendants(Gdir, brite)
+    descendants.add('root')
+    Gdir = Gdir.subgraph(descendants)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(Gdir)
+    # compute the diffabs
+    P = EMDU.functional_profile_to_EMDU_vector(fun_files[0], EMDU_index_2_node,
+                                               abundance_key="median_abund", normalize=True)
+    P_pushed = EMDU.push_up_L1(P, Tint, lint, nodes_in_order)
+    Q = EMDU.functional_profile_to_EMDU_vector(fun_files[1], EMDU_index_2_node,
+                                               abundance_key="median_abund", normalize=True)
+    Q_pushed = EMDU.push_up_L1(Q, Tint, lint, nodes_in_order)
+    diffabs = np.zeros((len(fun_files), len(fun_files), len(nodes_in_order)))
+    _, diffabs[0, 0, :] = EMDU.EMD_L1_and_diffab_on_pushed(P_pushed, P_pushed)
+    _, diffabs[0, 1, :] = EMDU.EMD_L1_and_diffab_on_pushed(P_pushed, Q_pushed)
+    _, diffabs[1, 0, :] = EMDU.EMD_L1_and_diffab_on_pushed(Q_pushed, P_pushed)
+    _, diffabs[1, 1, :] = EMDU.EMD_L1_and_diffab_on_pushed(Q_pushed, Q_pushed)
+    # instantiate the indexer
+    indexer = EMDU.DiffabArrayIndexer(diffabs, nodes_in_order, fun_files, EMDU_index_2_node)
+    # test the indexer
+    assert np.allclose(indexer.get_diffab(fun_files[0], fun_files[0]), np.zeros_like(nodes_in_order), atol=1e-8)
+    assert np.allclose(indexer.get_diffab(fun_files[1], fun_files[1]), np.zeros_like(nodes_in_order), atol=1e-8)
+    assert np.allclose(indexer.get_diffab(fun_files[1], fun_files[0]), diffabs[1, 0], atol=1e-8)
+    assert np.allclose(indexer.get_diffab(fun_files[0], fun_files[1]), diffabs[0, 1], atol=1e-8)
+    assert np.allclose(indexer.get_diffab(fun_files[0], fun_files), diffabs[[0], :, :], atol=1e-8)
+    #print(f"first: {indexer.get_diffab(fun_files, fun_files[1])}")
+    #print(f"second: {diffabs[:, 1, :]}")
+    #FIXME: Problem is that the first one is transposed-ish: I have an extra set of brackets between the two
+    assert np.allclose(indexer.get_diffab(fun_files, fun_files[1]), diffabs[:, [1], :], atol=1e-8)
+    assert np.allclose(indexer.get_diffab(fun_files, fun_files), diffabs, atol=1e-8)
+    assert np.allclose(indexer.get_diffab_for_node(fun_files[0], fun_files[1], ['d', 'e', 'b', 'f', 'g', 'c', 'ko00001']), diffabs[0, 1, :], atol=1e-8)
+    assert np.allclose(indexer.get_diffab_for_node(fun_files[0], fun_files[1], 'ko00001'), diffabs[0, 1, -1],
+                      atol=1e-8)
+    assert np.allclose(indexer.get_diffab_for_node(fun_files[0], fun_files, 'd'), diffabs[0, :, 0],
+                      atol=1e-8)
+    assert np.allclose(indexer.get_diffab_for_node(fun_files[0], fun_files, ['ko00001', 'g']), diffabs[0, :, [-1, 4]],
+                       atol=1e-8)
