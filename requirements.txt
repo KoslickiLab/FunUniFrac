@@ -6,3 +6,4 @@ numpy
 blist
 pytest
 matplotlib
+pydot

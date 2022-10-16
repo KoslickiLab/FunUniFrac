@@ -9,6 +9,13 @@ import os
 import pandas as pd
 import json
 import numpy as np
+import pydot
+from networkx.drawing.nx_pydot import graphviz_layout
+import matplotlib.pyplot as plt
+import networkx as nx
+import matplotlib
+matplotlib.use('MacOSX')
+
 edge_list_file = "experiments/KOtree/kegg_ko_edge_df_br_ko00001.txt_lengths_n_50_f_10_r_100.txt"
 brite = "ko00001"
 clusters_file = 'experiments/QIITA_study/dendro_uniform_pw_fu_ko00001.npy_clusters.json'
@@ -16,6 +23,7 @@ pw_dist_file = 'experiments/QIITA_study/AAI_pw_fu_ko00001.npy'
 pw_dist_file_basis = pw_dist_file + ".basis.txt"
 diffabs_file = pw_dist_file + ".diffab.npy"
 diffabs_basis_file = pw_dist_file + ".diffab.nodes.txt"
+std_dev_factor = 0  # number of standard deviations above the mean to plot
 # import the clusters
 with open(clusters_file) as f:
     clustered_samples = json.load(f)
@@ -62,14 +70,33 @@ for u, v in Gdir.edges():
     Gdir[u][v]['edge_length'] = 0
 # set edge properties for the diffab values. Note that the ith diffab entry should be the edge length between the ith
 # and ancestor(i)th nodes in the tree
+#thresh = np.mean(np.abs(mean_diffab_bet_clusters)) + std_dev_factor * np.std(np.abs(mean_diffab_bet_clusters))
+thresh = 0
+important_vertices = []
 for i, mean_val in enumerate(mean_diffab_bet_clusters):
-    if i != len(mean_diffab_bet_clusters) - 1 and np.abs(mean_val) > 0:
+    if i != len(mean_diffab_bet_clusters) - 1 and np.abs(mean_val) > thresh:
         u = diffab_3rd_dim_basis[i]
         v = list(Gdir.predecessors(u))[0]
         if mean_val > 0:
             Gdir[v][u]['A'] = mean_val
             Gdir[v][u]['Avar'] = var_diffab_bet_clusters[i]
+            Gdir[v][u]['color'] = 'r'
         if mean_val < 0:
             Gdir[v][u]['B'] = -mean_val
             Gdir[v][u]['Bvar'] = var_diffab_bet_clusters[i]
+            Gdir[v][u]['color'] = 'b'
+        Gdir[v][u]['weight'] = np.abs(mean_val)
+        important_vertices.append(u)
+        important_vertices.append(v)
+
+T = Gdir.subgraph(important_vertices)
+# rename nodes to escape : in the names
+T = nx.relabel_nodes(T, {node: node.replace(':', '_') for node in T.nodes()})
+#pos = graphviz_layout(T, prog="dot")
+pos = graphviz_layout(T, prog="twopi")
+plt.figure(figsize=(50, 50))
+widths = [1000*T[u][v]['weight'] for u, v in T.edges()]
+colors = [T[u][v]['color'] for u, v in T.edges()]
+nx.draw(T, pos, node_size=1, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors)
+plt.savefig('test.png')
 
