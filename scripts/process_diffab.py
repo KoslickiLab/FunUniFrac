@@ -68,10 +68,12 @@ Gdir = Gdir.subgraph(descendants)
 # set all edge lengths to zero
 for u, v in Gdir.edges():
     Gdir[u][v]['edge_length'] = 0
+    Gdir[u][v]['weight'] = .00000000000000000000001
+    Gdir[u][v]['color'] = 'k'
 # set edge properties for the diffab values. Note that the ith diffab entry should be the edge length between the ith
 # and ancestor(i)th nodes in the tree
-#thresh = np.mean(np.abs(mean_diffab_bet_clusters)) + std_dev_factor * np.std(np.abs(mean_diffab_bet_clusters))
-thresh = 0
+thresh = np.mean(np.abs(mean_diffab_bet_clusters)) + std_dev_factor * np.std(np.abs(mean_diffab_bet_clusters))
+#thresh = 0
 important_vertices = []
 for i, mean_val in enumerate(mean_diffab_bet_clusters):
     if i != len(mean_diffab_bet_clusters) - 1 and np.abs(mean_val) > thresh:
@@ -81,13 +83,16 @@ for i, mean_val in enumerate(mean_diffab_bet_clusters):
             Gdir[v][u]['A'] = mean_val
             Gdir[v][u]['Avar'] = var_diffab_bet_clusters[i]
             Gdir[v][u]['color'] = 'r'
+            Gdir[v][u]['weight'] = np.abs(mean_val)
+            important_vertices.append(u)
+            important_vertices.append(v)
         if mean_val < 0:
             Gdir[v][u]['B'] = -mean_val
             Gdir[v][u]['Bvar'] = var_diffab_bet_clusters[i]
             Gdir[v][u]['color'] = 'b'
-        Gdir[v][u]['weight'] = np.abs(mean_val)
-        important_vertices.append(u)
-        important_vertices.append(v)
+            Gdir[v][u]['weight'] = np.abs(mean_val)
+            important_vertices.append(u)
+            important_vertices.append(v)
 
 T = Gdir.subgraph(important_vertices)
 # rename nodes to escape : in the names
@@ -95,7 +100,7 @@ T = nx.relabel_nodes(T, {node: node.replace(':', '_') for node in T.nodes()})
 #pos = graphviz_layout(T, prog="dot")
 pos = graphviz_layout(T, prog="twopi")
 plt.figure(figsize=(50, 50))
-widths = [1000*T[u][v]['weight'] for u, v in T.edges()]
+widths = [2000*T[u][v]['weight'] for u, v in T.edges()]
 colors = [T[u][v]['color'] for u, v in T.edges()]
 nx.draw(T, pos, node_size=1, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors)
 plt.savefig('test.png')
