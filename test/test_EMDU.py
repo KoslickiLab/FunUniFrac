@@ -159,7 +159,8 @@ def test_diffab_indexer():
     assert np.allclose(indexer.get_diffab(fun_files[0], fun_files), diffabs[[0], :, :], atol=1e-8)
     #print(f"first: {indexer.get_diffab(fun_files, fun_files[1])}")
     #print(f"second: {diffabs[:, 1, :]}")
-    #FIXME: Problem is that the first one is transposed-ish: I have an extra set of brackets between the two
+    # Problem is that the first one is transposed-ish: I have an extra set of brackets between the two
+    # solution is to enclose the index with brackets
     assert np.allclose(indexer.get_diffab(fun_files, fun_files[1]), diffabs[:, [1], :], atol=1e-8)
     assert np.allclose(indexer.get_diffab(fun_files, fun_files), diffabs, atol=1e-8)
     assert np.allclose(indexer.get_diffab_for_node(fun_files[0], fun_files[1], ['d', 'e', 'b', 'f', 'g', 'c', 'ko00001']), diffabs[0, 1, :], atol=1e-8)
