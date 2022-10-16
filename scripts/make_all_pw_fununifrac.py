@@ -23,6 +23,7 @@ from itertools import combinations, repeat
 import glob
 from src.CONSTANTS import BRITES
 from src.LP_EMD_helper import get_descendants
+import logging
 
 
 def map_func(file, Tint, lint, nodes_in_order, EMDU_index_2_node, abundance_key):
@@ -57,6 +58,8 @@ def argument_parser():
     parser.add_argument('-b', '--brite', help='Use the subtree of the KEGG hierarchy rooted at the given BRITE ID. '
                                               'eg. brite:ko00001', default=None, type=str, required=True)
     parser.add_argument('--diffab', action='store_true', help='Also return the difference abundance vectors.')
+    parser.add_argument('-v', help="Be verbose", action="store_const", dest="loglevel", const=logging.INFO,
+                        default=logging.WARNING)
     return parser
 
 
@@ -64,6 +67,7 @@ def main():
     parser = argument_parser()
     # parse the args and error check
     args = parser.parse_args()
+    logging.basicConfig(level=args.loglevel, format='%(asctime)s %(levelname)s: %(message)s')
     edge_list_file = args.edge_list
     directory = args.directory
     out_file = args.out_file
@@ -86,7 +90,8 @@ def main():
     if len(fun_files) == 0:
         raise FileNotFoundError(f"No files in {directory} match the pattern {file_pattern}.")
     fun_files = sorted(fun_files)
-
+    logging.info(f"Found {len(fun_files)} files in {directory} matching {file_pattern}")
+    logging.info(f"Parsing graph")
     # Parse the graph and get the FunUniFrac objects Tint, length, and edge_list
     Gdir = LH.import_graph(edge_list_file, directed=True)
     # Select the subtree of the KEGG hierarchy rooted at the given BRITE ID
@@ -96,11 +101,13 @@ def main():
     # select the subgraph from the brite to the leaves
     Gdir = Gdir.subgraph(descendants)
 
+    logging.info(f"Converting graph into EMDUniFrac format")
     # Then create the inputs for EMDUniFrac
     Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(Gdir)
     # switch the order for convenience
     node_2_EMDU_index = {val: key for key, val in EMDU_index_2_node.items()}
 
+    logging.info(f"Computing pairwise distances in parallel")
     # convert the functional profiles to vectors and push them up in parallel
     Ps_pushed = {}
     pool = multiprocessing.Pool(args.threads)
@@ -114,6 +121,7 @@ def main():
     for file, P_pushed in results:
         Ps_pushed[file] = P_pushed
 
+    logging.info(f"Computing pairwise distances")
     # Then compute the pairwise distances
     dists = np.zeros((len(fun_files), len(fun_files)))
     diffabs = np.zeros((len(fun_files), len(fun_files), len(nodes_in_order)))
@@ -125,19 +133,18 @@ def main():
             dists[i, j] = dists[j, i] = Z
             diffabs[i, j, :] = diffabs[j, i, :] = diffab
 
-
+    logging.info(f"Saving results")
     # save the distances
     np.save(out_file, dists)
-    print(f"Saved distances to {out_file}")
+    logging.info(f"Saved distances to {out_file}")
     if make_diffab:
-        print("Converting to an npy file")
+        logging.info("Converting to an npy file")
         np.save(out_file + '.diffab.npy', diffabs)
-        print(f"Saved difference abundance diffabs to {out_file}.diffab.npy")
-        # convert to a pandas dataframe
-        #print("Converting to a pandas dataframe")
-        #df = EMDU.convert_diffab_array_to_df(diffabs, nodes_in_order, fun_files)
-        #print(f"Saving difference abundance vectors to {out_file}.diffab.pkl.gz")
-        #df.to_pickle(out_file + '.diffab.pkl.gz')
+        logging.info(f"Saved difference abundance diffabs to {out_file}.diffab.npy")
+        # save the nodes in order, but using the original node names
+        with open(out_file + '.diffab.nodes.txt', 'w') as f:
+            for node in nodes_in_order:
+                f.write(f'{EMDU_index_2_node[node]}\n')
     # save the basis
     with open(out_file + '.basis.txt', 'w') as f:
         for file in fun_files:

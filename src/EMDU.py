@@ -524,7 +524,6 @@ class DiffabArrayIndexer:
         #return self.diffabs[indices1, indices2, :]
         return self.diffabs[np.ix_(indices1, indices2, np.arange(self.diffabs.shape[2]))]
 
-
     def get_diffab_for_node(self, files1, files2, nodes):
         """
         Get the differential abundance vector between two sets of files. Sets can be singletons. So can nodes.

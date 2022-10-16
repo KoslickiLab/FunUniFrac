@@ -7,12 +7,49 @@ from src.CONSTANTS import BRITES
 from src.LP_EMD_helper import get_descendants
 import os
 import pandas as pd
-edge_list_file = 'experiments/KOtree/kegg_ko_edge_df_br_ko00001.txt_lengths_n_50_f_10_r_100.txt'
-directory = 'experiments/QIITA_study/small_gather_results'
-file_pattern = "*.csv"
-force = True
-abundance_key = 'median_abund'
-brite = 'ko00001'
+import json
+import numpy as np
+edge_list_file = "experiments/KOtree/kegg_ko_edge_df_br_ko00001.txt_lengths_n_50_f_10_r_100.txt"
+brite = "ko00001"
+clusters_file = 'experiments/QIITA_study/dendro_uniform_pw_fu_ko00001.npy_clusters.json'
+pw_dist_file = 'experiments/QIITA_study/AAI_pw_fu_ko00001.npy'
+pw_dist_file_basis = pw_dist_file + ".basis.txt"
+diffabs_file = pw_dist_file + ".diffab.npy"
+diffabs_basis_file = pw_dist_file + ".diffab.nodes.txt"
+# import the clusters
+with open(clusters_file) as f:
+    clustered_samples = json.load(f)
+# import the diffabs
+diffabs = np.load(diffabs_file)
+# import the file basis (rows and columns of the distances, as well as the indices of the first two dimensions of the
+# diffabs)
+file_basis = []
+with open(pw_dist_file_basis) as f:
+    for line in f.readlines():
+        file_basis.append(os.path.basename(line.strip()))
+diffab_3rd_dim_basis = []
+with open(diffabs_basis_file) as f:
+    for line in f.readlines():
+        diffab_3rd_dim_basis.append(line.strip())
+# dictionary mapping files to their index in the basis
+file_to_loc_in_basis = {file: i for i, file in enumerate(file_basis)}
+cut_level = 0
+# get the samples at the cut level
+clusters_at_cut_level = clustered_samples[str(cut_level)]
+cluster_numbers = list(clusters_at_cut_level.keys())
+cluster_1 = clusters_at_cut_level[cluster_numbers[0]]
+cluster_2 = clusters_at_cut_level[cluster_numbers[1]]
+# get the subset of the diffabs corresponding to the samples in the clusters
+diffabs_subset = np.zeros((len(cluster_1), len(cluster_2), len(diffab_3rd_dim_basis)))
+for i, sample_1 in enumerate(cluster_1):
+    for j, sample_2 in enumerate(cluster_2):
+        diffabs_subset[i, j, :] = diffabs[file_to_loc_in_basis[sample_1], file_to_loc_in_basis[sample_2], :]
+
+assert diffabs_subset.shape == (len(cluster_1), len(cluster_2), len(diffab_3rd_dim_basis))
+mean_diffab_bet_clusters = np.mean(diffabs_subset, axis=(0, 1))
+var_diffab_bet_clusters = np.var(diffabs_subset, axis=(0, 1))
+
+# import the graph
 Gdir = LH.import_graph(edge_list_file, directed=True)
 # Select the subtree of the KEGG hierarchy rooted at the given BRITE ID
 descendants = get_descendants(Gdir, brite)
@@ -20,55 +57,19 @@ descendants = get_descendants(Gdir, brite)
 descendants.add('root')
 # select the subgraph from the brite to the leaves
 Gdir = Gdir.subgraph(descendants)
+# set all edge lengths to zero
+for u, v in Gdir.edges():
+    Gdir[u][v]['edge_length'] = 0
+# set edge properties for the diffab values. Note that the ith diffab entry should be the edge length between the ith
+# and ancestor(i)th nodes in the tree
+for i, mean_val in enumerate(mean_diffab_bet_clusters):
+    if i != len(mean_diffab_bet_clusters) - 1 and np.abs(mean_val) > 0:
+        u = diffab_3rd_dim_basis[i]
+        v = list(Gdir.predecessors(u))[0]
+        if mean_val > 0:
+            Gdir[v][u]['A'] = mean_val
+            Gdir[v][u]['Avar'] = var_diffab_bet_clusters[i]
+        if mean_val < 0:
+            Gdir[v][u]['B'] = -mean_val
+            Gdir[v][u]['Bvar'] = var_diffab_bet_clusters[i]
 
-# Then create the inputs for EMDUniFrac
-Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(Gdir)
-
-# Then import all the P vectors
-Ps = dict()
-fun_files = glob.glob(os.path.join(directory, file_pattern))
-fun_files = sorted(fun_files)
-for file in fun_files:
-    P = EMDU.functional_profile_to_EMDU_vector(file, EMDU_index_2_node,
-                                               abundance_key=abundance_key, normalize=True)
-    Ps[file] = P
-
-P = Ps[fun_files[0]]
-Q = Ps[fun_files[1]]
-Z, diffab = EMDU. EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q)
-
-EMDU.plot_diffab(nodes_in_order, diffab, "P_label", "Q_label", plot_zeros=False, thresh=0.0001)
-
-# now make a data frame with the differential abundance values contained in it
-# Note that the keys of the diffab are in the nodes_in_order order. So the first entry of a
-# key tuple is the lower node. i.e. the one I'm using to identify the edge
-diffab_node_names = dict()
-for (x,y), val in diffab.items():
-    diffab_node_names[EMDU_index_2_node[x]] = val
-diffab_node_names_df = pd.DataFrame.from_dict(diffab_node_names, orient='index', columns=['diffab'])
-# TODO: I will want to change this to be a table with two columns: the names of the P and Q and then the abs(val) and
-#  0 (or reversed if negative)
-pd.DataFrame({"a":{"b":1,"c":2},"d":{"e":1,"f":3}}).fillna(0)
-
-# Ok, let's take two groups of samples and compare them
-# import the json file that contains the dendrogram clusters
-import json
-with open('experiments/QIITA_study/dendro_uniform_pw_fu_ko00001.npy_clusters.json') as f:
-    clustered_samples = json.load(f)
-cut_level = 0
-# get the samples at the cut level
-clusters_at_cut_level = clustered_samples[str(cut_level)]
-cluster_numbers = list(clusters_at_cut_level.keys())
-cluster_1 = clusters_at_cut_level[cluster_numbers[0]]
-cluster_2 = clusters_at_cut_level[cluster_numbers[1]]
-base_to_full = dict()
-for file in fun_files:
-    base_to_full[os.path.basename(file)] = file
-cluster_to_pw_diffab = dict()  # keys are the samples in the first cluster. Values are a dictionary, keyed on the second
-# cluster samples, with the diffab values given as dictionaries with keys the edge names and values the diffab values
-# eg. {sample1: {sample2: {edge1: diffab1, edge2: diffab2}, sample3: {edge1: diffab1, edge3: diffab2}}}
-for cluster_1_base_name in cluster_1:
-    cluster_to_pw_diffab[cluster_1_base_name] = dict()
-    P = base_to_full[cluster_1_base_name]
-    for cluster_2_base_name in cluster_2:
-        Q = base_to_full[cluster_2_base_name]
