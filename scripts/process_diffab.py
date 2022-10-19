@@ -1,3 +1,5 @@
+import sys, os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import src.LP_EMD_helper as LH
 import src.EMDU as EMDU
 import multiprocessing
@@ -16,6 +18,7 @@ import networkx as nx
 import matplotlib
 #matplotlib.use('MacOSX')
 matplotlib.use('Agg')
+
 
 edge_list_file = "experiments/KOtree/kegg_ko_edge_df_br_ko00001.txt_lengths_n_50_f_10_r_100.txt"
 brite = "ko00001"
