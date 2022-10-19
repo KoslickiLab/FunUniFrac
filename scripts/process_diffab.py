@@ -14,7 +14,8 @@ from networkx.drawing.nx_pydot import graphviz_layout
 import matplotlib.pyplot as plt
 import networkx as nx
 import matplotlib
-matplotlib.use('MacOSX')
+#matplotlib.use('MacOSX')
+matplotlib.use('Agg')
 
 edge_list_file = "experiments/KOtree/kegg_ko_edge_df_br_ko00001.txt_lengths_n_50_f_10_r_100.txt"
 brite = "ko00001"
@@ -105,3 +106,12 @@ colors = [T[u][v]['color'] for u, v in T.edges()]
 nx.draw(T, pos, node_size=1, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors)
 plt.savefig('test.png')
 
+#The code above is a bit messy, but it should be fairly easy to follow. The main thing to note is that the diffabs
+# are stored in a 3D array, where the first two dimensions are the pairwise distances between the samples in the two
+# clusters, and the third dimension is the diffabs between the samples in the first two dimensions. The diffabs are
+# stored in the same order as the pairwise distances, so the ith diffab corresponds to the ith row and ith column of
+# the pairwise distances. The diffabs are also stored in the same order as the nodes in the tree, so the ith diffab
+# corresponds to the ith node in the tree. The code above uses the diffabs to set the edge lengths of the tree, and
+# then draws the tree using the edge lengths. The edge lengths are set to be the absolute value of the diffabs, and
+# the edge color is set to be red if the diffab is positive, and blue if the diffab is negative. The edge width is set
+# to be proportional to the absolute value of the diffab.

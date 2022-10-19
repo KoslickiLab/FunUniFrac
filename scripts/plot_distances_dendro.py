@@ -86,6 +86,16 @@ def main():
     # make the labels bigger
     plt.rcParams.update({'font.size': 22})
     plt.savefig(os.path.join(out_dir, f"dendro_{os.path.basename(pairwise_dists_file)}.png"), dpi=600)
+    # re-order the distances based on the dendrogram
+    # get the order of the leaves
+    leaves = leaves_list(Z)
+    # reorder the distances
+    pairwise_dists_reordered = pairwise_dists[leaves, :]
+    pairwise_dists_reordered = pairwise_dists_reordered[:, leaves]
+    # plot a heatmap of the distances
+    plt.figure(figsize=(20, 20), dpi=600)
+    plt.imshow(pairwise_dists_reordered, cmap='hot', interpolation='nearest')
+    plt.savefig(os.path.join(out_dir, f"heatmap_{os.path.basename(pairwise_dists_file)}.png"), dpi=600)
 
     # prepare the json dump of the clusters as we move the cutoff to the right
     # These are the values on the x-axis of the dendrogram where clusters are merged
