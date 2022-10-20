@@ -131,7 +131,8 @@ def main():
         else:
             Z, diffab = EMDU.EMD_L1_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             dists[i, j] = dists[j, i] = Z
-            diffabs[i, j, :] = diffabs[j, i, :] = diffab
+            diffabs[i, j, :] = diffab
+            diffabs[j, i, :] = -diffab
 
     logging.info(f"Saving results")
     # save the distances
