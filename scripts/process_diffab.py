@@ -112,10 +112,23 @@ T = Gdir.subgraph(important_vertices)
 # rename nodes to escape : in the names
 T = nx.relabel_nodes(T, {node: node.replace(':', '_') for node in T.nodes()})
 #pos = graphviz_layout(T, prog="dot")
-pos = graphviz_layout(T, prog="twopi")
+pos = graphviz_layout(T, prog="twopi", overlap="")
 plt.figure(figsize=(50, 50))
 widths = [2000*T[u][v]['weight'] for u, v in T.edges()]
 colors = [T[u][v]['color'] for u, v in T.edges()]
 nx.draw(T, pos, node_size=1, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors)
 plt.savefig('test.png')
 
+# compress the diffabs
+import gzip
+f = gzip.GzipFile("my_array.npy.gz", "w")
+np.save(file=f, arr=diffabs)
+f.close()
+
+from networkx.drawing.nx_pydot import to_pydot
+dot = to_pydot(T).to_string()
+# conda install python-graphviz pydot
+from graphviz import Source
+src = Source(dot, engine='twopi', format='png',)
+
+src.view()
