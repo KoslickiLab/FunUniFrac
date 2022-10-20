@@ -1,3 +1,7 @@
+import os, sys
+# add parent directory to path
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 BRITES = ['br08901', 'br08902', 'br08904', 'ko00001', 'ko00002', 'ko00003', 'br08907',
           'ko01000', 'ko01001', 'ko01009', 'ko01002', 'ko01003', 'ko01005', 'ko01011',
           'ko01004', 'ko01008', 'ko01006', 'ko01007', 'ko00199', 'ko00194', 'ko03000',
@@ -96,7 +100,7 @@ BRITE_TO_NAME = {'br:ko00001': 'KEGG Orthology (KO)', 'br:ko00002': 'KEGG module
 BRITE_TO_NAME_NO_PREFIX = {k[3:]: v for k, v in BRITE_TO_NAME.items()}
 
 KO_TO_NAME = dict()
-with open('src/kegg_koids_human_names.txt', 'r') as fid:
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'kegg_koids_human_names.txt'), 'r') as fid:
     for line in fid.readlines():
         ko, name = line.strip().split('\t')
         KO_TO_NAME[ko] = name

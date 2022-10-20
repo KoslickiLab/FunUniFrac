@@ -115,7 +115,9 @@ T = make_nodes_readable(T)
 # rename nodes to escape : in the names
 T = nx.relabel_nodes(T, {node: node.replace(':', '_') for node in T.nodes()})
 #pos = graphviz_layout(T, prog="dot")
-pos = graphviz_layout(T, prog="twopi")
+pos = graphviz_layout(T, prog="twopi", root="KEGG Orthology (KO)")
+
+pos = nx.layout.kamada_kawai_layout(T)
 plt.figure(figsize=(50, 50))
 widths = [2000*T[u][v]['weight'] for u, v in T.edges()]
 colors = [T[u][v]['color'] for u, v in T.edges()]
