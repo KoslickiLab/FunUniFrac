@@ -1,3 +1,5 @@
+import sys, os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import src.LP_EMD_helper as LH
 import src.EMDU as EMDU
 import multiprocessing
@@ -14,12 +16,23 @@ from networkx.drawing.nx_pydot import graphviz_layout
 import matplotlib.pyplot as plt
 import networkx as nx
 import matplotlib
-matplotlib.use('MacOSX')
+#matplotlib.use('MacOSX')
+matplotlib.use('Agg')
+
+# The code above is a bit messy, but it should be fairly easy to follow. The main thing to note is that the diffabs
+# are stored in a 3D array, where the first two dimensions are the pairwise distances between the samples in the two
+# clusters, and the third dimension is the diffabs between the samples in the first two dimensions. The diffabs are
+# stored in the same order as the pairwise distances, so the ith diffab corresponds to the ith row and ith column of
+# the pairwise distances. The diffabs are also stored in the same order as the nodes in the tree, so the ith diffab
+# corresponds to the ith node in the tree. The code above uses the diffabs to set the edge lengths of the tree, and
+# then draws the tree using the edge lengths. The edge lengths are set to be the absolute value of the diffabs, and
+# the edge color is set to be red if the diffab is positive, and blue if the diffab is negative. The edge width is set
+# to be proportional to the absolute value of the diffab.
 
 edge_list_file = "experiments/KOtree/kegg_ko_edge_df_br_ko00001.txt_lengths_n_50_f_10_r_100.txt"
 brite = "ko00001"
 clusters_file = 'experiments/QIITA_study/dendro_uniform_pw_fu_ko00001.npy_clusters.json'
-pw_dist_file = 'experiments/QIITA_study/AAI_pw_fu_ko00001.npy'
+pw_dist_file = 'experiments/QIITA_study/AAI_pw_fu_ko00001_all.npy'
 pw_dist_file_basis = pw_dist_file + ".basis.txt"
 diffabs_file = pw_dist_file + ".diffab.npy"
 diffabs_basis_file = pw_dist_file + ".diffab.nodes.txt"
@@ -65,6 +78,7 @@ descendants = get_descendants(Gdir, brite)
 descendants.add('root')
 # select the subgraph from the brite to the leaves
 Gdir = Gdir.subgraph(descendants)
+
 # set all edge lengths to zero
 for u, v in Gdir.edges():
     Gdir[u][v]['edge_length'] = 0
@@ -97,9 +111,7 @@ for i, mean_val in enumerate(mean_diffab_bet_clusters):
 T = Gdir.subgraph(important_vertices)
 # rename nodes to escape : in the names
 T = nx.relabel_nodes(T, {node: node.replace(':', '_') for node in T.nodes()})
-#pos = graphviz_layout(T, prog="fdp")
-#pos = graphviz_layout(T, prog="sfdp")
-#pos = graphviz_layout(T, prog="patchwork")
+#pos = graphviz_layout(T, prog="dot")
 pos = graphviz_layout(T, prog="twopi")
 plt.figure(figsize=(50, 50))
 widths = [2000*T[u][v]['weight'] for u, v in T.edges()]
@@ -107,4 +119,3 @@ colors = [T[u][v]['color'] for u, v in T.edges()]
 nx.draw(T, pos, node_size=1, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors)
 plt.savefig('test.png')
 
-nx.write_gml(T, 'test.gml')
