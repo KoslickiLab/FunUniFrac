@@ -46,9 +46,9 @@ def argument_parser():
                         help='Input edge list file of the KEGG hierarchy. Must have lengths in the '
                              'third column.', required=True)
     parser.add_argument('-d', '--directory', help='Directory containing sourmash gather results.', required=True)
-    parser.add_argument('-o', '--out_file', help='Output file name: will be a numpy array.', required=True)
     parser.add_argument('-fp', '--file_pattern', help="Pattern to match files in the directory. Default is "
                                                       "'*_gather.csv'", default='*_gather.csv')
+    parser.add_argument('-o', '--out_file', help='Output file name: will be a numpy array.', required=True)
     parser.add_argument('-f', '--force', help='Overwrite the output file if it exists', action='store_true')
     parser.add_argument('-a', '--abundance_key',
                         help='Key in the gather results to use for abundance. Default is `median_abund`',
@@ -56,7 +56,7 @@ def argument_parser():
     parser.add_argument('-t', '--threads', help='Number of threads to use. Default is half the cores available.',
                         default=int(multiprocessing.cpu_count() / 2), type=int)
     parser.add_argument('-b', '--brite', help='Use the subtree of the KEGG hierarchy rooted at the given BRITE ID. '
-                                              'eg. brite:ko00001', default=None, type=str, required=True)
+                                              'eg. brite:ko00001', default="ko00001", type=str, required=False)
     parser.add_argument('--diffab', action='store_true', help='Also return the difference abundance vectors.')
     parser.add_argument('-v', help="Be verbose", action="store_const", dest="loglevel", const=logging.INFO,
                         default=logging.WARNING)
@@ -124,6 +124,7 @@ def main():
     logging.info(f"Computing pairwise distances")
     # Then compute the pairwise distances
     dists = np.zeros((len(fun_files), len(fun_files)))
+    # TODO: convert diffabs to something sparse. Eg. https://sparse.pydata.org/en/stable/construct.html
     diffabs = np.zeros((len(fun_files), len(fun_files), len(nodes_in_order)))
     for i, j in combinations(range(len(fun_files)), 2):
         if not make_diffab:
