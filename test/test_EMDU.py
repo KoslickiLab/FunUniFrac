@@ -122,7 +122,7 @@ def test_push_up_L1():
         P_pushed = EMDU.push_up_L1(PU, Tint, lint, nodes_in_order)
         Q_pushed = EMDU.push_up_L1(QU, Tint, lint, nodes_in_order)
         pushed_emd = np.sum(np.abs(P_pushed - Q_pushed))
-        assert np.isclose(pyemd_val, pushed_emd, atol=1e-8)
+        assert np.isclose(pyemd_val, pushed_emd, atol=1e-5)
 
 
 def test_diffab_indexer():
@@ -166,7 +166,7 @@ def test_diffab_indexer():
     assert np.allclose(indexer.get_diffab_for_node(fun_files[0], fun_files[1], ['d', 'e', 'b', 'f', 'g', 'c', 'ko00001']), diffabs[0, 1, :], atol=1e-8)
     assert np.allclose(indexer.get_diffab_for_node(fun_files[0], fun_files[1], 'ko00001'), diffabs[0, 1, -1],
                       atol=1e-8)
-    assert np.allclose(indexer.get_diffab_for_node(fun_files[0], fun_files, 'd'), diffabs[0, :, 0],
+    assert np.allclose(indexer.get_diffab_for_node(fun_files[0], fun_files, 'd'), diffabs[0][:, [0]],
                       atol=1e-8)
-    assert np.allclose(indexer.get_diffab_for_node(fun_files[0], fun_files, ['ko00001', 'g']), diffabs[0, :, [-1, 4]],
+    assert np.allclose(indexer.get_diffab_for_node(fun_files[0], fun_files, ['ko00001', 'g']), diffabs[0][:, [-1, 4]],
                        atol=1e-8)

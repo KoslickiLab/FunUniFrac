@@ -542,4 +542,5 @@ class DiffabArrayIndexer:
         indices1 = [self.file_to_index[file] for file in files1]
         indices2 = [self.file_to_index[file] for file in files2]
         indices3 = [self.node_to_index[self.node_to_EMDU_index[node]] for node in nodes]
-        return self.diffabs[indices1, indices2, indices3]
+        #return self.diffabs[np.ix_(indices1, indices2, indices3)]
+        return self.diffabs[indices1, :, :][:, indices2, :][:, :, indices3]
