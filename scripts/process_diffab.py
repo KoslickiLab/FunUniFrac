@@ -1,4 +1,7 @@
 import sys, os
+
+import sparse
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import src.LP_EMD_helper as LH
 import src.EMDU as EMDU
@@ -17,6 +20,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import matplotlib
 from src.KEGG_helpers import make_nodes_readable
+import sparse
 #matplotlib.use('MacOSX')
 matplotlib.use('Agg')
 
@@ -42,7 +46,8 @@ std_dev_factor = 0  # number of standard deviations above the mean to plot
 with open(clusters_file) as f:
     clustered_samples = json.load(f)
 # import the diffabs
-diffabs = np.load(diffabs_file)
+#diffabs = np.load(diffabs_file)
+diffabs = sparse.load_npz(diffabs_file)
 # import the file basis (rows and columns of the distances, as well as the indices of the first two dimensions of the
 # diffabs)
 file_basis = []

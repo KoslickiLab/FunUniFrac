@@ -5,6 +5,7 @@ import numpy as np
 import os
 from scipy import sparse
 import pandas as pd
+import sparse
 
 
 def test_small_edge_lengths():
@@ -55,7 +56,7 @@ def test_small_edge_lengths():
     # now also check the diffabs
     cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} -d " \
               f"{directory} -o {out_file} --force -b {brite} --diffab"
-    diffab_out_file = "test_data/pairwise_dists.npy.diffab.npy"
+    diffab_out_file = "test_data/pairwise_dists.npy.diffab.npz"
     basis_file = f"{out_file}.basis.txt"
     # remove all files if they exist
     if exists(out_file):
@@ -90,17 +91,18 @@ def test_small_edge_lengths():
         assert f.readline() == ""
     # Check that the diffabs file is correct
     assert exists(diffab_out_file)
-    diffabs = np.load(diffab_out_file)
+    #diffabs = np.load(diffab_out_file)
+    diffabs = sparse.load_npz(diffab_out_file)
     known_diffab = np.array([-1/14, -1/21, -5/42, 5/42, 0, 5/42, 0])
     zeros = np.zeros_like(known_diffab)
     nodes_in_order = [0, 1, 2, 3, 4, 5, 6]
-    vec = diffabs[0, 2, :]
+    vec = diffabs[0, 2, :].todense()
     assert np.allclose(vec, known_diffab, atol=1e-3)
-    vec = diffabs[2, 0, :]
+    vec = diffabs[2, 0, :].todense()
     assert np.allclose(vec, - known_diffab, atol=1e-3)
-    vec = diffabs[0, 0, :]
+    vec = diffabs[0, 0, :].todense()
     assert np.allclose(vec, zeros, atol=1e-3)
-    vec = diffabs[1, 1, :]
+    vec = diffabs[1, 1, :].todense()
     assert np.allclose(vec, zeros, atol=1e-3)
 
 def test_diffab_order():
@@ -112,7 +114,7 @@ def test_diffab_order():
     out_file = "test_data/pairwise_dists.npy"
     # remove the out file if it exists
     basis_file = f"{out_file}.basis.txt"
-    diffab_out_file = "test_data/pairwise_dists.npy.diffab.npy"
+    diffab_out_file = "test_data/pairwise_dists.npy.diffab.npz"
     if exists(out_file):
         os.remove(out_file)
     if exists(basis_file):
@@ -124,7 +126,8 @@ def test_diffab_order():
           f"{directory} -o {out_file} --force -b {brite} --diffab"
     res = subprocess.run(cmd, shell=True, check=True)
     assert exists(diffab_out_file)
-    diffabs = np.load(diffab_out_file)
+    #diffabs = np.load(diffab_out_file)
+    diffabs = sparse.load_npz(diffab_out_file)
     known_fun_files_order = [profile2, profile3, profile1]
     fun_files = []
     with open(basis_file, "r") as f:
@@ -147,21 +150,21 @@ def test_diffab_order():
     known_diffab_RQ = - np.array([5 / 28, 1 / 28, 3 / 14, 1 / 28, -1 / 4, -3 / 14, 0])
     known_diffab_ii = np.zeros_like(known_diffab_PQ)
     # basis is [Q, R, P]
-    vec = diffabs[0, 1, :]
+    vec = diffabs[0, 1, :].todense()
     assert np.allclose(vec, known_diffab_QR, atol=1e-3)
-    vec = diffabs[1, 0, :]
+    vec = diffabs[1, 0, :].todense()
     assert np.allclose(vec, known_diffab_RQ, atol=1e-3)
-    vec = diffabs[0, 0, :]
+    vec = diffabs[0, 0, :].todense()
     assert np.allclose(vec, known_diffab_ii, atol=1e-3)
-    vec = diffabs[1, 1, :]
+    vec = diffabs[1, 1, :].todense()
     assert np.allclose(vec, known_diffab_ii, atol=1e-3)
-    vec = diffabs[0, 2, :]
+    vec = diffabs[0, 2, :].todense()
     assert np.allclose(vec, known_diffab_QP, atol=1e-3)
-    vec = diffabs[2, 0, :]
+    vec = diffabs[2, 0, :].todense()
     assert np.allclose(vec, known_diffab_PQ, atol=1e-3)
-    vec = diffabs[1, 2, :]
+    vec = diffabs[1, 2, :].todense()
     assert np.allclose(vec, known_diffab_RP, atol=1e-3)
-    vec = diffabs[2, 1, :]
+    vec = diffabs[2, 1, :].todense()
     assert np.allclose(vec, known_diffab_PR, atol=1e-3)
-    vec = diffabs[2, 2, :]
+    vec = diffabs[2, 2, :].todense()
     assert np.allclose(vec, known_diffab_ii, atol=1e-3)

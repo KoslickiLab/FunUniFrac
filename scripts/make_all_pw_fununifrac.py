@@ -24,6 +24,8 @@ import glob
 from src.CONSTANTS import BRITES
 from src.LP_EMD_helper import get_descendants
 import logging
+from blist import blist
+import sparse
 
 
 def map_func(file, Tint, lint, nodes_in_order, EMDU_index_2_node, abundance_key):
@@ -124,27 +126,41 @@ def main():
     logging.info(f"Computing pairwise distances")
     # Then compute the pairwise distances
     dists = np.zeros((len(fun_files), len(fun_files)))
-    # TODO: convert diffabs to something sparse. Eg. https://sparse.pydata.org/en/stable/construct.html
-    diffabs = np.zeros((len(fun_files), len(fun_files), len(nodes_in_order)))
+    i_coords = blist([])
+    j_coords = blist([])
+    k_coords = blist([])
+    data_vals = blist([])
+    diffab_dims = (len(fun_files), len(fun_files), len(nodes_in_order))
     for i, j in combinations(range(len(fun_files)), 2):
         if not make_diffab:
             dists[i, j] = dists[j, i] = EMDU.EMD_L1_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
         else:
             Z, diffab = EMDU.EMD_L1_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             dists[i, j] = dists[j, i] = Z
-            diffabs[i, j, :] = diffab
-            diffabs[j, i, :] = -diffab
+            nonzero_diffab_locs = np.nonzero(diffab)[0]
+            i_coords.extend([i] * len(nonzero_diffab_locs))
+            j_coords.extend([j] * len(nonzero_diffab_locs))
+            k_coords.extend(nonzero_diffab_locs)
+            data_vals.extend(diffab[nonzero_diffab_locs])
+    if make_diffab:
+        logging.info(f"Converting diffabs to sparse matrix")
+        coords = [i_coords, j_coords, k_coords]
+        diffabs_sparse = sparse.COO(coords, data_vals, shape=diffab_dims)
+        # add the negative transpose ([[0, 1], [0, 0]] -> [[0, 1], [-1, 0]])
+        diffabs_sparse = diffabs_sparse - diffabs_sparse.transpose(axes=(1, 0, 2))
 
     logging.info(f"Saving results")
     # save the distances
     np.save(out_file, dists)
     logging.info(f"Saved distances to {out_file}")
     if make_diffab:
-        logging.info("Converting to an npy file")
-        np.save(out_file + '.diffab.npy', diffabs)
-        logging.info(f"Saved difference abundance diffabs to {out_file}.diffab.npy")
+        logging.info("Saving diffabs as a sparse npz file")
+        diffabs_out_file = out_file + '.diffab.npz'
+        #np.save(out_file + '.diffab.npy', diffabs)
+        sparse.save_npz(diffabs_out_file, diffabs_sparse)
+        logging.info(f"Saved difference abundance diffabs to {diffabs_out_file}")
         # save the nodes in order, but using the original node names
-        with open(out_file + '.diffab.nodes.txt', 'w') as f:
+        with open(diffabs_out_file + '.nodes.txt', 'w') as f:
             for node in nodes_in_order:
                 f.write(f'{EMDU_index_2_node[node]}\n')
     # save the basis
