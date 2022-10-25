@@ -122,7 +122,7 @@ colors = [T[u][v]['color'] for u, v in T.edges()]
 
 new_labels = {}
 for u in T.nodes():
-    if T.degree(u) <= 15:
+    if T.degree(u) <= 5:
         new_labels[u] = ""
     else:
         new_labels[u] = u
@@ -130,5 +130,5 @@ for u in T.nodes():
 
 node_size_by_degree = [ T.degree(node)*15 for node in T.nodes() ]
 
-nx.draw(T, pos, node_size=node_size_by_degree, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors, labels=new_labels)
+nx.draw(T, pos, node_size=node_size_by_degree, alpha=0.7, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors, labels=new_labels)
 plt.savefig('test_mrh.png')
