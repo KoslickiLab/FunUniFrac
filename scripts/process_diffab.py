@@ -1,7 +1,4 @@
 import sys, os
-
-import sparse
-
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import src.LP_EMD_helper as LH
 import src.EMDU as EMDU
@@ -20,7 +17,6 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import matplotlib
 from src.KEGG_helpers import make_nodes_readable
-import sparse
 #matplotlib.use('MacOSX')
 matplotlib.use('Agg')
 
@@ -46,8 +42,7 @@ std_dev_factor = 0  # number of standard deviations above the mean to plot
 with open(clusters_file) as f:
     clustered_samples = json.load(f)
 # import the diffabs
-#diffabs = np.load(diffabs_file)
-diffabs = sparse.load_npz(diffabs_file)
+diffabs = np.load(diffabs_file)
 # import the file basis (rows and columns of the distances, as well as the indices of the first two dimensions of the
 # diffabs)
 file_basis = []
@@ -120,9 +115,7 @@ T = make_nodes_readable(T)
 # rename nodes to escape : in the names
 T = nx.relabel_nodes(T, {node: node.replace(':', '_') for node in T.nodes()})
 #pos = graphviz_layout(T, prog="dot")
-pos = graphviz_layout(T, prog="twopi", root="KEGG Orthology (KO)")
-
-pos = nx.layout.kamada_kawai_layout(T)
+pos = graphviz_layout(T, prog="twopi")
 plt.figure(figsize=(50, 50))
 widths = [2000*T[u][v]['weight'] for u, v in T.edges()]
 colors = [T[u][v]['color'] for u, v in T.edges()]
