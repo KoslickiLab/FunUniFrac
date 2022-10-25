@@ -124,7 +124,7 @@ new_labels = {}
 for u in T.nodes():
     new_labels[u] = ""
 
-node_size_by_degree = [ T.degree(node) for node in T.nodes() ]
+node_size_by_degree = [ T.degree(node)*15 for node in T.nodes() ]
 
 nx.draw(T, pos, node_size=node_size_by_degree, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors, labels=new_labels)
 plt.savefig('test_mrh.png')
