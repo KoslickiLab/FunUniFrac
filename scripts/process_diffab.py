@@ -117,12 +117,14 @@ T = nx.relabel_nodes(T, {node: node.replace(':', '_') for node in T.nodes()})
 #pos = graphviz_layout(T, prog="dot")
 pos = graphviz_layout(T, prog="twopi")
 plt.figure(figsize=(50, 50))
-widths = [2000*T[u][v]['weight'] for u, v in T.edges()]
+widths = [3000*T[u][v]['weight'] for u, v in T.edges()]
 colors = [T[u][v]['color'] for u, v in T.edges()]
 
 new_labels = {}
 for u in T.nodes():
     new_labels[u] = ""
 
-nx.draw(T, pos, node_size=1, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors, labels=new_labels)
+node_size_by_degree = [ T.degree(node) for node in T.nodes() ]
+
+nx.draw(T, pos, node_size=node_size_by_degree, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors, labels=new_labels)
 plt.savefig('test_mrh.png')
