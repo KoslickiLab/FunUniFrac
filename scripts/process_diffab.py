@@ -122,7 +122,11 @@ colors = [T[u][v]['color'] for u, v in T.edges()]
 
 new_labels = {}
 for u in T.nodes():
-    new_labels[u] = ""
+    if T.degree(u) <= 1:
+        new_labels[u] = ""
+    else:
+        new_labels[u] = u
+
 
 node_size_by_degree = [ T.degree(node)*15 for node in T.nodes() ]
 
