@@ -110,7 +110,7 @@ for i, mean_val in enumerate(mean_diffab_bet_clusters):
             important_vertices.append(v)
 
 T = Gdir.subgraph(important_vertices)
-# relable the nodes to make the human readable
+# relabel the nodes to make them human readable
 T = make_nodes_readable(T)
 # rename nodes to escape : in the names
 T = nx.relabel_nodes(T, {node: node.replace(':', '_') for node in T.nodes()})
@@ -119,7 +119,12 @@ pos = graphviz_layout(T, prog="twopi")
 plt.figure(figsize=(50, 50))
 widths = [2000*T[u][v]['weight'] for u, v in T.edges()]
 colors = [T[u][v]['color'] for u, v in T.edges()]
-nx.draw(T, pos, node_size=1, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors)
+
+new_labels = {}
+for u in T.nodes():
+    new_labels[u] = ""
+
+nx.draw(T, pos, node_size=1, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors, labels=new_labels)
 plt.savefig('test.png')
 
 x = 0
