@@ -125,11 +125,4 @@ for u in T.nodes():
     new_labels[u] = ""
 
 nx.draw(T, pos, node_size=1, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors, labels=new_labels)
-plt.savefig('test.png')
-
-x = 0
-for u,v in T.edges:
-    print(u, v)
-    x += 1
-    if x == 10:
-        break
+plt.savefig('test_mrh.png')
