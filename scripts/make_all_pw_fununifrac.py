@@ -53,8 +53,8 @@ def argument_parser():
     parser.add_argument('-o', '--out_file', help='Output file name: will be a numpy array.', required=True)
     parser.add_argument('-f', '--force', help='Overwrite the output file if it exists', action='store_true')
     parser.add_argument('-a', '--abundance_key',
-                        help='Key in the gather results to use for abundance. Default is `median_abund`',
-                        default='median_abund')
+                        help='Key in the gather results to use for abundance. Default is `f_unique_weighted`',
+                        default='f_unique_weighted')
     parser.add_argument('-t', '--threads', help='Number of threads to use. Default is half the cores available.',
                         default=int(multiprocessing.cpu_count() / 2), type=int)
     parser.add_argument('-b', '--brite', help='Use the subtree of the KEGG hierarchy rooted at the given BRITE ID. '
