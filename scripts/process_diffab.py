@@ -136,6 +136,12 @@ for u,v in T.edges():
         vertices_to_keep.add(u)
         vertices_to_keep.add(v)
 
+vertices_to_keep.add('KEGG Orthology (KO)')
+vertices_in_final_subtree = set()
+vertices_in_final_subtree.add('KEGG Orthology (KO)')
+
+print(T.is_tree())
+
 for u in T.nodes():
     if u == 'root':
         print('I found the root!')
