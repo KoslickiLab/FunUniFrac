@@ -142,9 +142,11 @@ vertices_in_final_subtree = set()
 vertices_in_final_subtree.add('KEGG Orthology (KO)')
 
 print(nx.is_tree(T))
-T_undirected = nx.to_undirected(T)
-print('Num of edges in directed version: ' + str(len(T.edges())))
-print('Num of edges in undirected version: ' + str(len(T_undirected.edges())))
+vertex_1 = 'KEGG Orthology (KO)'
+vertex_2 = 'Amino acid metabolism'
+
+print( nx.shortest_path(T, vertex_1, vertex_2) )
+print( nx.shortest_path(T, vertex_2, vertex_1) )
 
 for u in T.nodes():
     if u == 'root':
