@@ -21,7 +21,7 @@ from src.KEGG_helpers import make_nodes_readable
 matplotlib.use('Agg')
 
 
-percentage_of_edges_to_keep = 10
+percentage_of_edges_to_keep = 15
 
 
 # The code above is a bit messy, but it should be fairly easy to follow. The main thing to note is that the diffabs
@@ -121,7 +121,7 @@ T = nx.relabel_nodes(T, {node: node.replace(':', '_') for node in T.nodes()})
 #pos = graphviz_layout(T, prog="dot")
 pos = graphviz_layout(T, prog="twopi")
 plt.figure(figsize=(50, 50))
-widths = [3000*T[u][v]['weight'] for u, v in T.edges()]
+widths = [5000*T[u][v]['weight'] for u, v in T.edges()]
 colors = [T[u][v]['color'] for u, v in T.edges()]
 
 all_weights = [ T[u][v]['weight'] for u,v in T.edges() ]
@@ -142,33 +142,28 @@ vertices_in_final_subtree = set()
 vertices_in_final_subtree.add('KEGG Orthology (KO)')
 
 print(nx.is_tree(T))
-vertex_1 = 'KEGG Orthology (KO)'
+vertex_root = 'KEGG Orthology (KO)'
 vertex_2 = 'Amino acid metabolism'
 vertex_3 = 'Fatty acid biosynthesis'
-
-paths_from_root = nx.shortest_path(T, vertex_1)
-print(paths_from_root[vertex_2])
-print(paths_from_root[vertex_3])
-
-for u in T.nodes():
-    if u == 'root':
-        print('I found the root!')
-    if u == 'KEGG Orthology (KO)':
-        print('I found KEGG Orthology')
+paths_from_root = nx.shortest_path(T, vertex_root)
 
 for vertex in list(vertices_to_keep):
     for intermediate_vertex in paths_from_root[vertex]:
         vertices_in_final_subtree.add(intermediate_vertex)
 
 T = T.subgraph( list(vertices_in_final_subtree) )
+print('Checking if this is still a tree')
+print(nx.is_tree(T))
 
+'''
+# this bit of code will relabel based on degree
 new_labels = {}
 for u in T.nodes():
     if T.degree(u) <= 5:
         new_labels[u] = ""
     else:
         new_labels[u] = u
-
+'''
 
 node_size_by_degree = [ T.degree(node)*15 for node in T.nodes() ]
 
