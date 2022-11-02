@@ -143,8 +143,8 @@ vertices_in_final_subtree.add('KEGG Orthology (KO)')
 
 print(nx.is_tree(T))
 T_undirected = nx.to_undirected(T)
-print('Num of edges in directed version: ' + str(size(T.edges())))
-print('Num of edges in undirected version: ' + str(size(T_undirected.edges())))
+print('Num of edges in directed version: ' + str(len(T.edges())))
+print('Num of edges in undirected version: ' + str(len(T_undirected.edges())))
 
 for u in T.nodes():
     if u == 'root':
