@@ -155,15 +155,16 @@ T = T.subgraph( list(vertices_in_final_subtree) )
 print('Checking if this is still a tree')
 print(nx.is_tree(T))
 
-'''
+
 # this bit of code will relabel based on degree
 new_labels = {}
 for u in T.nodes():
     if T.degree(u) <= 5:
-        new_labels[u] = ""
+        new_labels[u] = u
+        # new_labels[u] = ''
     else:
         new_labels[u] = u
-'''
+
 
 node_size_by_degree = [ T.degree(node)*15 for node in T.nodes() ]
 
