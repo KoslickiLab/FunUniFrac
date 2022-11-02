@@ -144,9 +144,11 @@ vertices_in_final_subtree.add('KEGG Orthology (KO)')
 print(nx.is_tree(T))
 vertex_1 = 'KEGG Orthology (KO)'
 vertex_2 = 'Amino acid metabolism'
+vertex_3 = 'Fatty acid biosynthesis'
 
-print( nx.shortest_path(T, vertex_1, vertex_2) )
-print( nx.shortest_path(T, vertex_2, vertex_1) )
+paths_from_root = nx.shortest_path(T, vertex_1)
+print(paths_from_root[vertex_2])
+print(paths_from_root[vertex_3])
 
 for u in T.nodes():
     if u == 'root':
