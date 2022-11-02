@@ -156,6 +156,12 @@ for u in T.nodes():
     if u == 'KEGG Orthology (KO)':
         print('I found KEGG Orthology')
 
+for vertex in list(vertices_to_keep):
+    for intermediate_vertex in paths_from_root[vertex]:
+        vertices_in_final_subtree.add(intermediate_vertex)
+
+T = T.subgraph( list(vertices_in_final_subtree) )
+
 new_labels = {}
 for u in T.nodes():
     if T.degree(u) <= 5:
