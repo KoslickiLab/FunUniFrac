@@ -20,6 +20,10 @@ from src.KEGG_helpers import make_nodes_readable
 #matplotlib.use('MacOSX')
 matplotlib.use('Agg')
 
+
+percentage_of_edges_to_keep = 10
+
+
 # The code above is a bit messy, but it should be fairly easy to follow. The main thing to note is that the diffabs
 # are stored in a 3D array, where the first two dimensions are the pairwise distances between the samples in the two
 # clusters, and the third dimension is the diffabs between the samples in the first two dimensions. The diffabs are
@@ -119,6 +123,24 @@ pos = graphviz_layout(T, prog="twopi")
 plt.figure(figsize=(50, 50))
 widths = [3000*T[u][v]['weight'] for u, v in T.edges()]
 colors = [T[u][v]['color'] for u, v in T.edges()]
+
+all_weights = [ T[u][v]['weight'] for u,v in T.edges() ]
+all_weights.sort(reverse=True)
+num_edges = len(all_weights)
+num_edges_to_keep = int(num_edges * percentage_of_edges_to_keep / 100.0)
+min_edge_weight = all_weights[num_edges_to_keep]
+
+vertices_to_keep = set()
+for u,v in T.edges():
+    if T[u][v]['weight'] >= min_edge_weight:
+        vertices_to_keep.add(u)
+        vertices_to_keep.add(v)
+
+for u in T.nodes():
+    if u == 'root':
+        print('I found the root!')
+    if u == 'KEGG Orthology (KO)':
+        print('I found KEGG Orthology')
 
 new_labels = {}
 for u in T.nodes():
