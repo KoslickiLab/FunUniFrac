@@ -119,7 +119,7 @@ T = make_nodes_readable(T)
 # rename nodes to escape : in the names
 T = nx.relabel_nodes(T, {node: node.replace(':', '_') for node in T.nodes()})
 #pos = graphviz_layout(T, prog="dot")
-pos = graphviz_layout(T, prog="twopi")
+
 plt.figure(figsize=(50, 50))
 widths = [5000*T[u][v]['weight'] for u, v in T.edges()]
 colors = [T[u][v]['color'] for u, v in T.edges()]
@@ -152,6 +152,7 @@ for vertex in list(vertices_to_keep):
         vertices_in_final_subtree.add(intermediate_vertex)
 
 T = T.subgraph( list(vertices_in_final_subtree) )
+pos = graphviz_layout(T, prog="twopi")
 print('Checking if this is still a tree')
 print(nx.is_tree(T))
 
