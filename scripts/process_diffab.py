@@ -140,7 +140,7 @@ vertices_to_keep.add('KEGG Orthology (KO)')
 vertices_in_final_subtree = set()
 vertices_in_final_subtree.add('KEGG Orthology (KO)')
 
-print(T.is_tree())
+print(nx.is_tree(T))
 
 for u in T.nodes():
     if u == 'root':
