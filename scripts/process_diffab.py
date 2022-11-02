@@ -21,7 +21,7 @@ from src.KEGG_helpers import make_nodes_readable
 matplotlib.use('Agg')
 
 
-percentage_of_edges_to_keep = 15
+percentage_of_edges_to_keep = 10
 
 
 # The code above is a bit messy, but it should be fairly easy to follow. The main thing to note is that the diffabs
@@ -153,6 +153,7 @@ for vertex in list(vertices_to_keep):
 
 T = T.subgraph( list(vertices_in_final_subtree) )
 pos = graphviz_layout(T, prog="twopi")
+print(pos)
 print('Checking if this is still a tree')
 print(nx.is_tree(T))
 
