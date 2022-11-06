@@ -54,6 +54,9 @@ def main():
         raise FileNotFoundError(f"Could not find {meta_data_file}")
     # check if basis file exists
     basis_file = f"{pairwise_dists_file}.basis.txt"
+    if not os.path.exists(basis_file):  # handle the case when the file extension npy wasn't included
+        pw_dists_no_ext = os.path.splitext(pairwise_dists_file)[0]
+        basis_file = f"{pw_dists_no_ext}.basis.txt"
     if not os.path.exists(basis_file):
         raise FileNotFoundError(f"Could not find {basis_file}")
     # load the metadata
