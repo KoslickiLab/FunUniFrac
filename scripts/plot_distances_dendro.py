@@ -118,7 +118,7 @@ def main():
     # plot a heatmap of the distances
     plt.figure(figsize=(20, 20), dpi=600)
     plt.imshow(pairwise_dists_reordered, cmap='hot', interpolation='nearest')
-    plt.savefig(os.path.join(out_dir, f"heatmap_{os.path.basename(pairwise_dists_file)}.png"), dpi=600)
+    plt.savefig(os.path.join(out_dir, f"heatmap_{os.path.basename(pairwise_dists_file)}_{key}.png"), dpi=600)
 
     # prepare the json dump of the clusters as we move the cutoff to the right
     # These are the values on the x-axis of the dendrogram where clusters are merged
