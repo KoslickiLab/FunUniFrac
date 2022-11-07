@@ -144,7 +144,7 @@ def main():
         cut_to_clusters[int(cut_ind)] = clusts
 
     # write the clusters to a json file
-    with open(os.path.join(out_dir, f"dendro_{os.path.basename(pairwise_dists_file)}_clusters.json"), 'w') as f:
+    with open(os.path.join(out_dir, f"dendro_{os.path.basename(pairwise_dists_file)}_{key}_clusters.json"), 'w') as f:
         json.dump(cut_to_clusters, f, indent=4)
 
 
