@@ -108,7 +108,7 @@ def main():
     dendrogram(Z, labels=labels, orientation='left', leaf_font_size=7)
     # make the labels bigger
     plt.rcParams.update({'font.size': 22})
-    plt.savefig(os.path.join(out_dir, f"dendro_{os.path.basename(pairwise_dists_file)}.png"), dpi=600)
+    plt.savefig(os.path.join(out_dir, f"dendro_{os.path.basename(pairwise_dists_file)}_{key}.png"), dpi=600)
     # re-order the distances based on the dendrogram
     # get the order of the leaves
     leaves = leaves_list(Z)
