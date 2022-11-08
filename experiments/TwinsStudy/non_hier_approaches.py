@@ -19,10 +19,10 @@ else:
     os.chdir("/Users/dmk333/Dropbox/Repositories/FunUniFrac/experiments/TwinsStudy")
 metadata = pd.read_csv("metadata/metadata_with_file_prefix_and_sample_name.csv", sep=None, engine='python')
 sample_names = [x for x in metadata['sample_name'] if x]
-gather_dir = "data/merged/sketches_10000/gather_15"
+gather_dir = "data/merged/sketches_10000/gather_7"
 # pull off the relative abundances for each of the samples
 # first, get all the file names, using glob
-gather_files = glob.glob(f"{gather_dir}/*gather_k_15.csv")
+gather_files = glob.glob(f"{gather_dir}/*gather_k_7.csv")
 name_to_abund = dict()
 name_ind = 9
 rel_abund_ind = 4
@@ -116,6 +116,8 @@ ax = sns.violinplot(data=[spearman_of_DZ_twin_pairs, spearman_of_MZ_twin_pairs, 
 ax.set_xticklabels(['DZ', 'MZ', 'UN'])
 ax.set_ylabel("Spearman R")
 ax.set_xlabel("Zygosity")
+# add a title
+ax.set_title("Spearman R of twin pairs")
 x1, x2 = 0, 1
 y, h, col = max_val + 0.02, 0.01, 'k'
 ax.plot([x1, x1, x2 - 0.05, x2 - 0.05], [y, y+h, y+h, y], lw=1.5, c=col)
@@ -133,10 +135,8 @@ plt.show()
 
 # now do the same thing, but for the Bray Curtis distance
 def BC_distance(x, y):
-    total = 0
-    for xi, yi in zip(x, y):
-        total += min(xi, yi)
-    return 1 - total
+    total = np.sum(np.minimum(x, y))
+    return 1 - 2*total/(sum(x) + sum(y))
 
 BC_of_DZ_twin_pairs = []
 for twin_pair in DZ_twin_pairs:
@@ -172,6 +172,8 @@ print(p01.pvalue)
 print(p02.pvalue)
 print(p12.pvalue)
 
+
+
 max_val = max(max(BC_of_DZ_twin_pairs), max(BC_of_MZ_twin_pairs), max(BC_of_unrelated_pairs))
 # add these p-values to the plot
 sns.set_style("whitegrid")
@@ -181,6 +183,8 @@ ax = sns.violinplot(data=[BC_of_DZ_twin_pairs, BC_of_MZ_twin_pairs, BC_of_unrela
 ax.set_xticklabels(['DZ', 'MZ', 'UN'])
 ax.set_ylabel("Bray Curtis")
 ax.set_xlabel("Zygosity")
+# add a title
+ax.set_title("Bray Curtis distance between twin pairs")
 x1, x2 = 0, 1
 y, h, col = max_val + 0.2, 0.01, 'k'
 ax.plot([x1, x1, x2 - 0.05, x2 - 0.05], [y, y+h, y+h, y], lw=1.5, c=col)
