@@ -28,9 +28,12 @@ from blist import blist
 import sparse
 
 
-def map_func(file, Tint, lint, nodes_in_order, EMDU_index_2_node, abundance_key):
+def map_func(file, Tint, lint, nodes_in_order, EMDU_index_2_node, abundance_key, unweighted):
     P = EMDU.functional_profile_to_EMDU_vector(file, EMDU_index_2_node,
                                                abundance_key=abundance_key, normalize=True)
+    if unweighted:
+        # if entries are positive, set to 1
+        P[P > 0] = 1
     P_pushed = EMDU.push_up_L1(P, Tint, lint, nodes_in_order)
     return file, P_pushed
 
@@ -62,6 +65,8 @@ def argument_parser():
     parser.add_argument('--diffab', action='store_true', help='Also return the difference abundance vectors.')
     parser.add_argument('-v', help="Be verbose", action="store_const", dest="loglevel", const=logging.INFO,
                         default=logging.WARNING)
+    parser.add_argument('--unweighted', help="Compute unweighted unifrac instead of the default weighted version",
+                        action="store_true")
     return parser
 
 
@@ -79,6 +84,7 @@ def main():
     num_threads = args.threads
     brite = args.brite
     make_diffab = args.diffab
+    unweighted = args.unweighted
     if brite not in BRITES:
         raise ValueError(f'Invalid BRITE ID: {brite}. Must be one of {BRITES}')
     if not exists(edge_list_file):
@@ -115,7 +121,7 @@ def main():
     pool = multiprocessing.Pool(args.threads)
     results = pool.imap(map_star, zip(fun_files, repeat(Tint), repeat(lint), repeat(nodes_in_order),
                                       repeat(EMDU_index_2_node),
-                                      repeat(abundance_key)),
+                                      repeat(abundance_key), repeat(unweighted)),
                         chunksize=max(2, len(fun_files) // num_threads))
     pool.close()
     pool.join()
