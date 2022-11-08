@@ -14,8 +14,8 @@ else:
     os.chdir("/Users/dmk333/Dropbox/Repositories/FunUniFrac/experiments/TwinsStudy")
 metadata = pd.read_csv("metadata/metadata_with_file_prefix_and_sample_name.csv", sep=None, engine='python')
 # import the pw unifrac distances
-pairwise_dists_file = "output/merged_pw_fu_motifs_scale_10000_k_11_f_unique_weighted.np.npy"
-#pairwise_dists_file = "output/merged_pw_fu_AAI_scale_10000_k_11_f_unique_weighted.np.npy"
+#pairwise_dists_file = "output/merged_pw_fu_motifs_scale_10000_k_11_f_unique_weighted.np.npy"
+pairwise_dists_file = "output/merged_pw_fu_AAI_scale_10000_k_15_f_unique_weighted.np.npy"
 pw_unifrac = np.load(pairwise_dists_file)
 # import the basis, handling the case that numpy may auto-add the .npy extension
 basis_file = f"{pairwise_dists_file}.basis.txt"
@@ -119,19 +119,6 @@ print(f"DZ_mean_paired: {np.mean(unifrac_of_DZ_twin_pairs)}")
 print(f"MZ_mean_paired: {np.mean(unifrac_of_MZ_twin_pairs)}")
 print(f"unrelated_mean_paired: {np.mean(unifrac_of_unrelated_pairs)}")
 
-# Make a boxplot of each of the sets of samples
-sns.set_style("whitegrid")
-sns.set_context("paper")
-fig, ax = plt.subplots()
-ax = sns.violinplot(data=[unifrac_of_DZ_twin_pairs, unifrac_of_MZ_twin_pairs, unifrac_of_unrelated_pairs], inner="quartile")
-ax.set_xticklabels(['DZ', 'MZ', 'UN'])
-ax.set_ylabel("Weighted FunUniFrac Distance")
-ax.set_xlabel("Zygosity")
-# set a title
-ax.set_title("Weighted FunUniFrac Distance Between paired individuals vs unrelated individuals")
-plt.savefig("output/zygosity_boxplot_paired.png", dpi=300, bbox_inches='tight')
-plt.show()
-
 # run a wilcoxon signed rank test (doesn't work since I don't have matched data)
 #from scipy.stats import wilcoxon
 #print(wilcoxon(unifrac_of_DZ_twin_pairs, unifrac_of_MZ_twin_pairs))
@@ -195,5 +182,3 @@ ax.plot([x1+.05, x1+.05, x2, x2], [y, y+h, y+h, y], lw=1.5, c=col)
 ax.text((x1+x2)*.5, y+h, "p=" + "{0:.5g}".format(p12.pvalue), ha='center', va='bottom', color=col)
 plt.savefig("output/zygosity_boxplot_paired.png", dpi=300, bbox_inches='tight')
 plt.show()
-
-
