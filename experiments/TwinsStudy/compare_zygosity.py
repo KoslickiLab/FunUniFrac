@@ -114,6 +114,7 @@ for sample_name in basis_revised:
             if sample_name != other_sample_name and name_to_twin[sample_name] != name_to_twin[other_sample_name]:
                 unifrac_of_unrelated_pairs.append(pw_unifrac_df.loc[sample_name, other_sample_name])
 
+
 print(f"DZ_mean_paired: {np.mean(unifrac_of_DZ_twin_pairs)}")
 print(f"MZ_mean_paired: {np.mean(unifrac_of_MZ_twin_pairs)}")
 print(f"unrelated_mean_paired: {np.mean(unifrac_of_unrelated_pairs)}")
