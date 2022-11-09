@@ -438,7 +438,7 @@ def push_up_L1(P, Tint, lint, nodes_in_order):
         if lint[i, Tint[i]] == 0:
             lint[i, Tint[i]] = epsilon
         P_pushed[Tint[i]] += P_pushed[i] #push mass up
-        P_pushed[i] *=lint[i, Tint[i]]
+        P_pushed[i] *= lint[i, Tint[i]]
     return P_pushed
 
 
@@ -463,6 +463,30 @@ def EMD_L1_and_diffab_on_pushed(P, Q):
     """
     Z = np.sum(np.abs(P-Q))
     diffab = P-Q
+    return Z, diffab
+
+
+def EMD_L2_on_pushed(P, Q):
+    """
+    Computes the L2 earth movers distance on the **pushed up** vectors. Note that this is technically the L2 UniFrac^2
+
+    :param P: numpy vector
+    :param Q: numpy vector
+    :return: float
+    """
+    return np.sum(np.abs(P-Q)**2)
+
+
+def EMD_L2_and_diffab_on_pushed(P, Q):
+    """
+    Computes the L2 earth movers distance on the **pushed up** vectors. Also returns the differential abundance vectors
+
+    :param P: numpy vector
+    :param Q: numpy vector
+    :return: float, diffab vector
+    """
+    Z = np.sum(np.abs(P-Q)**2)
+    diffab = (P-Q)**2
     return Z, diffab
 
 
