@@ -28,13 +28,16 @@ from blist import blist
 import sparse
 
 
-def map_func(file, Tint, lint, nodes_in_order, EMDU_index_2_node, abundance_key, unweighted):
+def map_func(file, Tint, lint, nodes_in_order, EMDU_index_2_node, abundance_key, unweighted, is_L2):
     P = EMDU.functional_profile_to_EMDU_vector(file, EMDU_index_2_node,
                                                abundance_key=abundance_key, normalize=True)
     if unweighted:
         # if entries are positive, set to 1
         P[P > 0] = 1
-    P_pushed = EMDU.push_up_L1(P, Tint, lint, nodes_in_order)
+    if is_L2:
+        P_pushed = EMDU.push_up_L2(P, Tint, lint, nodes_in_order)
+    else:
+        P_pushed = EMDU.push_up_L1(P, Tint, lint, nodes_in_order)
     return file, P_pushed
 
 
@@ -67,6 +70,7 @@ def argument_parser():
                         default=logging.WARNING)
     parser.add_argument('--unweighted', help="Compute unweighted unifrac instead of the default weighted version",
                         action="store_true")
+    parser.add_argument('--L2', help="Use L2 UniFrac instead of L1", action="store_true")
     return parser
 
 
@@ -85,6 +89,7 @@ def main():
     brite = args.brite
     make_diffab = args.diffab
     unweighted = args.unweighted
+    is_L2 = args.L2
     if brite not in BRITES:
         raise ValueError(f'Invalid BRITE ID: {brite}. Must be one of {BRITES}')
     if not exists(edge_list_file):
@@ -121,7 +126,7 @@ def main():
     pool = multiprocessing.Pool(args.threads)
     results = pool.imap(map_star, zip(fun_files, repeat(Tint), repeat(lint), repeat(nodes_in_order),
                                       repeat(EMDU_index_2_node),
-                                      repeat(abundance_key), repeat(unweighted)),
+                                      repeat(abundance_key), repeat(unweighted), repeat(is_L2)),
                         chunksize=max(2, len(fun_files) // num_threads))
     pool.close()
     pool.join()
@@ -139,9 +144,15 @@ def main():
     diffab_dims = (len(fun_files), len(fun_files), len(nodes_in_order))
     for i, j in combinations(range(len(fun_files)), 2):
         if not make_diffab:
-            dists[i, j] = dists[j, i] = EMDU.EMD_L1_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+            if not is_L2:
+                dists[i, j] = dists[j, i] = EMDU.EMD_L1_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+            else:
+                dists[i, j] = dists[j, i] = EMDU.EMD_L2_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
         else:
-            Z, diffab = EMDU.EMD_L1_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+            if not is_L2:
+                Z, diffab = EMDU.EMD_L1_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+            else:
+                Z, diffab = EMDU.EMD_L2_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             dists[i, j] = dists[j, i] = Z
             nonzero_diffab_locs = np.nonzero(diffab)[0]
             i_coords.extend([i] * len(nonzero_diffab_locs))
