@@ -438,7 +438,7 @@ def push_up_L1(P, Tint, lint, nodes_in_order):
         if lint[i, Tint[i]] == 0:
             lint[i, Tint[i]] = epsilon
         P_pushed[Tint[i]] += P_pushed[i] #push mass up
-        P_pushed[i] *=lint[i, Tint[i]]
+        P_pushed[i] *= lint[i, Tint[i]]
     return P_pushed
 
 
