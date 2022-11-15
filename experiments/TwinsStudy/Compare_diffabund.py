@@ -9,6 +9,10 @@ import sparse
 import os
 import src.EMDU as EMDU
 import src.LP_EMD_helper as LH
+from src.KEGG_helpers import make_nodes_readable
+from networkx.drawing.nx_pydot import graphviz_layout
+import matplotlib.pyplot as plt
+import networkx as nx
 # import the metadata
 if platform == "win32":
     os.chdir("C:/Users/dmk333/PycharmProjects/FunUniFrac/experiments/TwinsStudy")
@@ -147,15 +151,15 @@ else:
     ax.set_title(f"Weighted UniFrac, Tree: {method}, kSize: {kSize}, scale: {scale}, {metric}")
 max_val = max([max(unifrac_of_DZ_twin_pairs), max(unifrac_of_MZ_twin_pairs), max(unifrac_of_unrelated_pairs)])
 x1, x2 = 0, 1
-y, h, col = max_val*(1 + 0.03), 0.01*max_val*(1 + 0.03), 'k'
+y, h, col = max_val*(1 + 0.05), 0.01*max_val*(1 + 0.05), 'k'
 ax.plot([x1, x1, x2 - 0.05, x2 - 0.05], [y, y+h, y+h, y], lw=1.5, c=col)
 ax.text((x1+x2)*.5, y+h, "p=" + "{0:.5g}".format(p01.pvalue), ha='center', va='bottom', color=col)
 x1, x2 = 0, 2
-y, h, col = max_val*(1 + 0.04), 0.01*max_val*(1 + 0.04), 'k'
+y, h, col = max_val*(1 + 0.09), 0.01*max_val*(1 + 0.09), 'k'
 ax.plot([x1, x1, x2, x2], [y, y+h, y+h, y], lw=1.5, c=col)
 ax.text((x1+x2)*.5, y+h, "p=" + "{0:.5g}".format(p02.pvalue), ha='center', va='bottom', color=col)
 x1, x2 = 1, 2
-y, h, col = max_val*(1 + 0.03), 0.01*max_val*(1 + 0.03), 'k'
+y, h, col = max_val*(1 + 0.05), 0.01*max_val*(1 + 0.05), 'k'
 ax.plot([x1+.05, x1+.05, x2, x2], [y, y+h, y+h, y], lw=1.5, c=col)
 ax.text((x1+x2)*.5, y+h, "p=" + "{0:.5g}".format(p12.pvalue), ha='center', va='bottom', color=col)
 plt.show()
@@ -180,27 +184,98 @@ for twin_pair in DZ_twin_pairs:
     twin_pair_to_dab[twin_pair] = diffabs[basis_to_index[twin_pair[0]], basis_to_index[twin_pair[1]]].todense()
 
 DZ_ave_diffabs = np.mean(list(twin_pair_to_dab.values()), axis=0)
+DZ_var_diffabs = np.var(list(twin_pair_to_dab.values()), axis=0)
 
 twin_pair_to_dab = dict()
 for twin_pair in MZ_twin_pairs:
     twin_pair_to_dab[twin_pair] = diffabs[basis_to_index[twin_pair[0]], basis_to_index[twin_pair[1]]].todense()
 
 MZ_ave_diffabs = np.mean(list(twin_pair_to_dab.values()), axis=0)
+MZ_var_diffabs = np.var(list(twin_pair_to_dab.values()), axis=0)
 
-# FIXME: Something is off, the diffabs aren't summing to the unifrac value
-print(f"Sum of abs diffab: {np.sum(np.abs(twin_pair_to_dab[twin_pair]))}")
-print(f"FUF: {pw_unifrac_df.loc[twin_pair[0], twin_pair[1]]}")
+# There's an interesting outlier in the variances
+sns.scatterplot(x=DZ_var_diffabs, y=MZ_var_diffabs)
+plt.show()
+
+large_var_DZ = np.argmax(DZ_var_diffabs)
+large_var_MZ = np.argmax(MZ_var_diffabs)
+print(f"Large var DZ: {diffab_3rd_dim_basis[large_var_DZ]}")
+print(f"Large var MZ: {diffab_3rd_dim_basis[large_var_MZ]}")
 
 
+
+# Let's see if we can visualize these on a tree
 edge_file = os.path.join('data', "kegg_ko_edge_df_br_ko00001.txt_motifs_lengths_n_50_f_10_r_100.txt")
 Gdir = LH.import_graph(edge_file, directed=True)
 Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(Gdir)
-diffab_indexer = EMDU.DiffabArrayIndexer(diffabs, nodes_in_order, basis, EMDU_index_2_node)
+# set all edge lengths to zero
+for u, v in Gdir.edges():
+    Gdir[u][v]['edge_length'] = 0
+    Gdir[u][v]['weight'] = .00000000000000000000001
+    Gdir[u][v]['color'] = 'k'
 
-val = 0
-for i in range(len(basis)):
-    new_val = np.sum(np.abs(diffabs[0, i, :]))
-    if new_val > val:
-        print(f"{i}: {new_val}")
-        val = new_val
+
+# So it looks like the largest variance ones in DZ are: protein kinases, iron complex outermembrane receptors,
+# bacterial motility proteins, and quorum sensing.
+# Same with the MZ ones, interestingly
+
+indexer = EMDU.DiffabArrayIndexer(diffabs, nodes_in_order, basis, EMDU_index_2_node)
+#for twin_pair in MZ_twin_pairs:
+#    print(indexer.get_diffab_for_node(twin_pair[0]+".sig.zip_gather_k_7.csv", twin_pair[1]+".sig.zip_gather_k_7.csv",
+#                                      "K00463").todense())
+
+
+topN = 20
+diffab_of_interest = MZ_ave_diffabs
+# Get the top 10 diffabs
+top_diffabs = np.argsort(np.abs(diffab_of_interest))[-topN:]
+# add all the weights to Gdir
+for i, diff_val in enumerate(diffab_of_interest):
+    u = diffab_3rd_dim_basis[i]
+    if u != 'root':
+        v = list(Gdir.predecessors(u))[0]
+        Gdir[v][u]['weight'] = np.abs(diff_val)
+        if diff_val > 0:
+            Gdir[v][u]['color'] = 'r'
+        else:
+            Gdir[v][u]['color'] = 'b'
+# then select the nodes corresponding to the top_diffabs
+important_vertices = set()
+for i in top_diffabs:
+    u = diffab_3rd_dim_basis[i]
+    if u != 'root':
+        v = list(Gdir.predecessors(u))[0]
+        important_vertices.add(u)
+        important_vertices.add(v)
+    else:
+        important_vertices.add(u)
+# also add all the ancestors of the top diffabs
+ancestors_of_importants = set()
+for u in important_vertices:
+    ancestors_of_importants.update(list(nx.ancestors(Gdir, u)))
+important_vertices.update(ancestors_of_importants)
+T = Gdir.subgraph(important_vertices)
+T = make_nodes_readable(T)
+# rename nodes to escape : in the names
+T = nx.relabel_nodes(T, {node: node.replace(':', '_') for node in T.nodes()})
+
+node_size_by_degree = [ T.degree(node)*15 for node in T.nodes() ]
+new_labels = {}
+for u in T.nodes():
+    if T.degree(u) <= 5:
+        new_labels[u] = u
+        # new_labels[u] = ''
+    else:
+        new_labels[u] = u
+widths_orig = np.array([T[u][v]['weight'] for u, v in T.edges()])
+widths = widths_orig / np.max(widths_orig) * 30
+#widths = np.array([1e7*T[u][v]['weight'] for u, v in T.edges()])
+widths += 1
+colors = [T[u][v]['color'] for u, v in T.edges()]
+pos = graphviz_layout(T, prog="twopi")
+plt.figure(figsize=(50, 50))
+nx.draw(T, pos, node_size=node_size_by_degree, alpha=0.7, with_labels=True, arrows=False, arrowsize=0, width=widths,
+        edge_color=colors, labels=new_labels, font_size=20)
+plt.savefig('MZ_ave_diffabs_top_20.png')
+
 
