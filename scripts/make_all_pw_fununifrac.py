@@ -26,6 +26,7 @@ from src.LP_EMD_helper import get_descendants
 import logging
 from blist import blist
 import sparse
+import pickle
 
 
 def map_func(file, Tint, lint, nodes_in_order, EMDU_index_2_node, abundance_key, unweighted, is_L2):
@@ -71,6 +72,7 @@ def argument_parser():
     parser.add_argument('--unweighted', help="Compute unweighted unifrac instead of the default weighted version",
                         action="store_true")
     parser.add_argument('--L2', help="Use L2 UniFrac instead of L1", action="store_true")
+    parser.add_argument('--Ppushed', help="Flag indicating you want the pushed vectors to be saved.", action="store_true")
     return parser
 
 
@@ -90,6 +92,7 @@ def main():
     make_diffab = args.diffab
     unweighted = args.unweighted
     is_L2 = args.L2
+    save_Ppushed = args.Ppushed
     if brite not in BRITES:
         raise ValueError(f'Invalid BRITE ID: {brite}. Must be one of {BRITES}')
     if not exists(edge_list_file):
@@ -184,6 +187,13 @@ def main():
     with open(out_file + '.basis.txt', 'w') as f:
         for file in fun_files:
             f.write(f"{file}\n")
+    # if asked, save the pushed profiles
+    if save_Ppushed:
+        logging.info(f"Saving pushed profiles")
+        ppushed_out_file = out_file + '.ppushed.pkl'
+        with open(ppushed_out_file, 'wb') as f:
+            pickle.dump(Ps_pushed, f)
+        logging.info(f"Saved pushed profiles to {ppushed_out_file}")
 
 
 if __name__ == '__main__':

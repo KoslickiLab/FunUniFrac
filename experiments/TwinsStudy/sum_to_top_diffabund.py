@@ -1,4 +1,6 @@
-# This will compare the diffabund vectors of the most promising FUF plots
+# This script will take the differential abundance vectors between DZ and MZ, take the top few from the means
+# or vars, and then sum the gather results up to this internal node. Then we can perform a t-test on these internal
+# nodes to see if they are significantly different between DZ and MZ.
 import pandas as pd
 import os
 import numpy as np
@@ -12,8 +14,8 @@ import src.LP_EMD_helper as LH
 from src.KEGG_helpers import make_nodes_readable
 from networkx.drawing.nx_pydot import graphviz_layout
 import matplotlib.pyplot as plt
-from scipy.stats import ttest_ind
 import networkx as nx
+from scipy.stats import ttest_ind
 # import the metadata
 if platform == "win32":
     os.chdir("C:/Users/dmk333/PycharmProjects/FunUniFrac/experiments/TwinsStudy")
@@ -23,12 +25,16 @@ else:
     os.chdir("/Users/dmk333/Dropbox/Repositories/FunUniFrac/experiments/TwinsStudy")
 metadata = pd.read_csv("metadata/metadata_with_file_prefix_and_sample_name.csv", sep=None, engine='python')
 
+
+
 # Promising
 metric = "L1"
 scale = 1000
 method = "motifs"
 kSize = 7
 approach = "weighted"
+
+gather_dir = f"data/merged/sketches_{scale}/gather_{kSize}"
 
 # another promising one
 #metric = "L2"
@@ -116,58 +122,6 @@ for sample_name in basis_revised:
             if sample_name != other_sample_name and name_to_twin[sample_name] != name_to_twin[other_sample_name]:
                 unifrac_of_unrelated_pairs.append(pw_unifrac_df.loc[sample_name, other_sample_name])
 
-
-print(f"DZ_mean_paired: {np.mean(unifrac_of_DZ_twin_pairs)}")
-print(f"MZ_mean_paired: {np.mean(unifrac_of_MZ_twin_pairs)}")
-print(f"unrelated_mean_paired: {np.mean(unifrac_of_unrelated_pairs)}")
-
-from scipy.stats import mannwhitneyu
-p01 = mannwhitneyu(unifrac_of_DZ_twin_pairs, unifrac_of_MZ_twin_pairs)
-p02 = mannwhitneyu(unifrac_of_DZ_twin_pairs, unifrac_of_unrelated_pairs)
-p12 = mannwhitneyu(unifrac_of_MZ_twin_pairs, unifrac_of_unrelated_pairs)
-print(p01.pvalue)
-print(p02.pvalue)
-print(p12.pvalue)
-
-from scipy.stats import ranksums
-p01 = ranksums(unifrac_of_DZ_twin_pairs, unifrac_of_MZ_twin_pairs)
-p02 = ranksums(unifrac_of_DZ_twin_pairs, unifrac_of_unrelated_pairs)
-p12 = ranksums(unifrac_of_MZ_twin_pairs, unifrac_of_unrelated_pairs)
-print(p01.pvalue)
-print(p02.pvalue)
-print(p12.pvalue)
-
-# add these p-values to the plot
-sns.set_style("whitegrid")
-sns.set_context("paper")
-fig, ax = plt.subplots()
-ax = sns.boxplot(data=[unifrac_of_DZ_twin_pairs, unifrac_of_MZ_twin_pairs, unifrac_of_unrelated_pairs])
-ax.set_xticklabels(['DZ', 'MZ', 'UN'])
-ax.set_ylabel("Weighted FunUniFrac Distance")
-ax.set_xlabel("Zygosity")
-# add a title
-if approach == "unweighted":
-    ax.set_title(f"Unweighted UniFrac, Tree: {method}, kSize: {kSize}, scale: {scale}, {metric}")
-else:
-    ax.set_title(f"Weighted UniFrac, Tree: {method}, kSize: {kSize}, scale: {scale}, {metric}")
-max_val = max([max(unifrac_of_DZ_twin_pairs), max(unifrac_of_MZ_twin_pairs), max(unifrac_of_unrelated_pairs)])
-x1, x2 = 0, 1
-y, h, col = max_val*(1 + 0.05), 0.01*max_val*(1 + 0.05), 'k'
-ax.plot([x1, x1, x2 - 0.05, x2 - 0.05], [y, y+h, y+h, y], lw=1.5, c=col)
-ax.text((x1+x2)*.5, y+h, "p=" + "{0:.5g}".format(p01.pvalue), ha='center', va='bottom', color=col)
-x1, x2 = 0, 2
-y, h, col = max_val*(1 + 0.09), 0.01*max_val*(1 + 0.09), 'k'
-ax.plot([x1, x1, x2, x2], [y, y+h, y+h, y], lw=1.5, c=col)
-ax.text((x1+x2)*.5, y+h, "p=" + "{0:.5g}".format(p02.pvalue), ha='center', va='bottom', color=col)
-x1, x2 = 1, 2
-y, h, col = max_val*(1 + 0.05), 0.01*max_val*(1 + 0.05), 'k'
-ax.plot([x1+.05, x1+.05, x2, x2], [y, y+h, y+h, y], lw=1.5, c=col)
-ax.text((x1+x2)*.5, y+h, "p=" + "{0:.5g}".format(p12.pvalue), ha='center', va='bottom', color=col)
-plt.show()
-
-
-# Get the differential abundance vectors for each twin pair
-# remove the npy file extension
 pairwise_dists_file_no_npy = os.path.splitext(pairwise_dists_file)[0]
 diffabs_file = pairwise_dists_file_no_npy + ".diffab.npz"
 diffabs_basis_file = diffabs_file + ".nodes.txt"
@@ -194,89 +148,58 @@ for twin_pair in MZ_twin_pairs:
 MZ_ave_diffabs = np.mean(list(twin_pair_to_dab.values()), axis=0)
 MZ_var_diffabs = np.var(list(twin_pair_to_dab.values()), axis=0)
 
-# There's an interesting outlier in the variances
-sns.scatterplot(x=DZ_var_diffabs, y=MZ_var_diffabs)
-plt.show()
 
-large_var_DZ = np.argmax(DZ_var_diffabs)
-large_var_MZ = np.argmax(MZ_var_diffabs)
-print(f"Large var DZ: {diffab_3rd_dim_basis[large_var_DZ]}")
-print(f"Large var MZ: {diffab_3rd_dim_basis[large_var_MZ]}")
+large_ave_DZ = np.argmax(DZ_ave_diffabs)
+large_ave_MZ = np.argmax(MZ_ave_diffabs)
+print(f"Large mean DZ: {diffab_3rd_dim_basis[large_ave_DZ]}")
+print(f"Large mean MZ: {diffab_3rd_dim_basis[large_ave_MZ]}")
+#important_node = "ko01001"
+important_node = "K03654"
 
-
-
-# Let's see if we can visualize these on a tree
+# get the tree so we can keep track of internal node descendants
 edge_file = os.path.join('data', "kegg_ko_edge_df_br_ko00001.txt_motifs_lengths_n_50_f_10_r_100.txt")
 Gdir = LH.import_graph(edge_file, directed=True)
-Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(Gdir)
-# set all edge lengths to zero
-for u, v in Gdir.edges():
-    Gdir[u][v]['edge_length'] = 0
-    Gdir[u][v]['weight'] = .00000000000000000000001
-    Gdir[u][v]['color'] = 'k'
+leaves = LH.get_leaf_descendants_from_node(Gdir, important_node)
+leaves.add(important_node)
+leaves_with_prefix = [f"ko:{leaf}" for leaf in leaves]
 
+# Now sum up the relative abundances of these leaf nodes for each sample
+sample_to_important_node_abundances = {}
+for sample_name in basis_revised:
+    sample_to_important_node_abundances[sample_name] = 0
+    gather_results = pd.read_csv(os.path.join(gather_dir, f"{sample_name}.sig.zip_gather_k_{kSize}.csv"), sep=',',
+                                 engine='pyarrow')
+    sample_to_important_node_abundances[sample_name] = np.sum(gather_results[gather_results['name'].isin(
+        leaves_with_prefix)]['f_unique_weighted'])
 
-# So it looks like the largest variance ones in DZ are: protein kinases, iron complex outermembrane receptors,
-# bacterial motility proteins, and quorum sensing.
-# Same with the MZ ones, interestingly
+# plot a histogram of the relative abundances of the important node
+plt.figure()
+plt.hist(sample_to_important_node_abundances.values(), bins=100)
+plt.xlabel("Relative abundance of important node")
+plt.ylabel("Number of samples")
+plt.show()
 
-indexer = EMDU.DiffabArrayIndexer(diffabs, nodes_in_order, basis, EMDU_index_2_node)
-#for twin_pair in MZ_twin_pairs:
-#    print(indexer.get_diffab_for_node(twin_pair[0]+".sig.zip_gather_k_7.csv", twin_pair[1]+".sig.zip_gather_k_7.csv",
-#                                      "K00463").todense())
+# now seperate out the DZ and MZ samples
+important_node_abundances_DZ = []
+important_node_abundances_MZ = []
+for sample_name in MZ_sample_names:
+    important_node_abundances_MZ.append(sample_to_important_node_abundances[sample_name])
+for sample_name in DZ_sample_names:
+    important_node_abundances_DZ.append(sample_to_important_node_abundances[sample_name])
 
+# make boxplots of the relative abundances of the important node
+plt.figure()
+sns.set_style("whitegrid")
+sns.set_context("paper")
+fig, ax = plt.subplots()
+ax = sns.boxplot(data=[important_node_abundances_MZ, important_node_abundances_DZ])
+ax.set_xticklabels(['MZ', 'DZ'])
+ax.set_ylabel(f"Total relative abundance of important node {important_node}")
+ax.set_xlabel("Zygosity")
+plt.show()
 
-topN = 20
-diffab_of_interest = MZ_ave_diffabs
-# Get the top 10 diffabs
-top_diffabs = np.argsort(np.abs(diffab_of_interest))[-topN:]
-# add all the weights to Gdir
-for i, diff_val in enumerate(diffab_of_interest):
-    u = diffab_3rd_dim_basis[i]
-    if u != 'root':
-        v = list(Gdir.predecessors(u))[0]
-        Gdir[v][u]['weight'] = np.abs(diff_val)
-        if diff_val > 0:
-            Gdir[v][u]['color'] = 'r'
-        else:
-            Gdir[v][u]['color'] = 'b'
-# then select the nodes corresponding to the top_diffabs
-important_vertices = set()
-for i in top_diffabs:
-    u = diffab_3rd_dim_basis[i]
-    if u != 'root':
-        v = list(Gdir.predecessors(u))[0]
-        important_vertices.add(u)
-        important_vertices.add(v)
-    else:
-        important_vertices.add(u)
-# also add all the ancestors of the top diffabs
-ancestors_of_importants = set()
-for u in important_vertices:
-    ancestors_of_importants.update(list(nx.ancestors(Gdir, u)))
-important_vertices.update(ancestors_of_importants)
-T = Gdir.subgraph(important_vertices)
-T = make_nodes_readable(T)
-# rename nodes to escape : in the names
-T = nx.relabel_nodes(T, {node: node.replace(':', '_') for node in T.nodes()})
+# run a t-test to see if the relative abundances of the important node are significantly different between MZ and DZ
+t, p = ttest_ind(important_node_abundances_MZ, important_node_abundances_DZ)
 
-node_size_by_degree = [ T.degree(node)*15 for node in T.nodes() ]
-new_labels = {}
-for u in T.nodes():
-    if T.degree(u) <= 5:
-        new_labels[u] = u
-        # new_labels[u] = ''
-    else:
-        new_labels[u] = u
-widths_orig = np.array([T[u][v]['weight'] for u, v in T.edges()])
-widths = widths_orig / np.max(widths_orig) * 30
-#widths = np.array([1e7*T[u][v]['weight'] for u, v in T.edges()])
-widths += 1
-colors = [T[u][v]['color'] for u, v in T.edges()]
-pos = graphviz_layout(T, prog="twopi")
-plt.figure(figsize=(50, 50))
-nx.draw(T, pos, node_size=node_size_by_degree, alpha=0.7, with_labels=True, arrows=False, arrowsize=0, width=widths,
-        edge_color=colors, labels=new_labels, font_size=20)
-plt.savefig('MZ_ave_diffabs_top_20.png')
-
-
+# Ok, not much is showing up with the differential abundance vectors. Let's go ahead and do it on the pushed up vectors,
+# each internal node
