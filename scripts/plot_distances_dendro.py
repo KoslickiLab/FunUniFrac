@@ -54,10 +54,13 @@ def main():
         raise FileNotFoundError(f"Could not find {meta_data_file}")
     # check if basis file exists
     basis_file = f"{pairwise_dists_file}.basis.txt"
+    if not os.path.exists(basis_file):  # handle the case when the file extension npy wasn't included
+        pw_dists_no_ext = os.path.splitext(pairwise_dists_file)[0]
+        basis_file = f"{pw_dists_no_ext}.basis.txt"
     if not os.path.exists(basis_file):
         raise FileNotFoundError(f"Could not find {basis_file}")
     # load the metadata
-    meta_data = pd.read_csv(meta_data_file, sep='\t')
+    meta_data = pd.read_csv(meta_data_file, sep=None, engine='python')  #infer the delimiter
     # load the distances
     pairwise_dists = np.load(pairwise_dists_file)
     # scipy expects a condensed distance matrix (i.e. not the full matrix)
@@ -66,12 +69,32 @@ def main():
     with open(basis_file, 'r') as f:
         basis = [os.path.basename(line.strip()) for line in f]
     # get the sample name from the file names
-    sample_names = [os.path.basename(name).split('.')[0] for name in basis]
-    prefix = meta_data['sample_name'][0].split('.')[0]  # get the prefix of the sample names. eg "13984."
-    prefix = prefix + "."
-    sample_names_with_prefix = [prefix + x for x in sample_names]
+    #sample_names = [os.path.basename(name).split('.')[0] for name in basis]
+    sample_names = [os.path.basename(name) for name in basis]
+    # TODO: figure out how to make this work with QIITA experiments too
+    # TODO: change sample_name to file_name
+    #prefix = str(meta_data['sample_name'][0]).split('.')[0]  # get the prefix of the sample names. eg "13984."
+    #prefix = prefix + "."
+    #sample_names_with_prefix = [prefix + x for x in sample_names]
+    #sample_names_with_prefix = sample_names
     # get the metadata for the samples
     #meta_data_of_dist = meta_data[meta_data['sample_name'].isin(sample_names_with_prefix)]
+    # match sample names with the basis
+    # take the basis names and progressively shorten them from the end, stopping when it hits a sample_name
+    sample_names = set(meta_data['sample_name'])
+    basis_revised = []
+    for basis_elem in basis:
+        found_flag = False
+        for i in range(len(basis_elem)):
+            basis_prefix = basis_elem[:-i]
+            if basis_prefix in sample_names:
+                found_flag = True
+                #print(basis_prefix)
+                basis_revised.append(basis_prefix)
+                break
+        if not found_flag:
+            raise Exception(f"Could not find a match for {basis_elem} in the metadata")
+
     # cluster the pairwise distances
     Z = linkage(pairwise_dists_cond, method='ward')
     # plot the dendrogram
@@ -80,12 +103,12 @@ def main():
     plt.xlabel('sample index')
     plt.ylabel('distance')
     #dendrogram(Z, labels=sample_names_with_prefix)
-    labels = [meta_data.loc[meta_data['sample_name'] == sample_names_with_prefix[x]][key].values[0] for x in
-              range(len(sample_names_with_prefix))]
+    labels = [meta_data.loc[meta_data['sample_name'] == basis_revised[x]][key].values[0] for x in
+              range(len(basis_revised))]
     dendrogram(Z, labels=labels, orientation='left', leaf_font_size=7)
     # make the labels bigger
     plt.rcParams.update({'font.size': 22})
-    plt.savefig(os.path.join(out_dir, f"dendro_{os.path.basename(pairwise_dists_file)}.png"), dpi=600)
+    plt.savefig(os.path.join(out_dir, f"dendro_{os.path.basename(pairwise_dists_file)}_{key}.png"), dpi=600)
     # re-order the distances based on the dendrogram
     # get the order of the leaves
     leaves = leaves_list(Z)
@@ -95,7 +118,7 @@ def main():
     # plot a heatmap of the distances
     plt.figure(figsize=(20, 20), dpi=600)
     plt.imshow(pairwise_dists_reordered, cmap='hot', interpolation='nearest')
-    plt.savefig(os.path.join(out_dir, f"heatmap_{os.path.basename(pairwise_dists_file)}.png"), dpi=600)
+    plt.savefig(os.path.join(out_dir, f"heatmap_{os.path.basename(pairwise_dists_file)}_{key}.png"), dpi=600)
 
     # prepare the json dump of the clusters as we move the cutoff to the right
     # These are the values on the x-axis of the dendrogram where clusters are merged
@@ -121,7 +144,7 @@ def main():
         cut_to_clusters[int(cut_ind)] = clusts
 
     # write the clusters to a json file
-    with open(os.path.join(out_dir, f"dendro_{os.path.basename(pairwise_dists_file)}_clusters.json"), 'w') as f:
+    with open(os.path.join(out_dir, f"dendro_{os.path.basename(pairwise_dists_file)}_{key}_clusters.json"), 'w') as f:
         json.dump(cut_to_clusters, f, indent=4)
 
 

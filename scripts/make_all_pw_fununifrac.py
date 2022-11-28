@@ -26,12 +26,19 @@ from src.LP_EMD_helper import get_descendants
 import logging
 from blist import blist
 import sparse
+import pickle
 
 
-def map_func(file, Tint, lint, nodes_in_order, EMDU_index_2_node, abundance_key):
+def map_func(file, Tint, lint, nodes_in_order, EMDU_index_2_node, abundance_key, unweighted, is_L2):
     P = EMDU.functional_profile_to_EMDU_vector(file, EMDU_index_2_node,
                                                abundance_key=abundance_key, normalize=True)
-    P_pushed = EMDU.push_up_L1(P, Tint, lint, nodes_in_order)
+    if unweighted:
+        # if entries are positive, set to 1
+        P[P > 0] = 1
+    if is_L2:
+        P_pushed = EMDU.push_up_L2(P, Tint, lint, nodes_in_order)
+    else:
+        P_pushed = EMDU.push_up_L1(P, Tint, lint, nodes_in_order)
     return file, P_pushed
 
 
@@ -53,8 +60,8 @@ def argument_parser():
     parser.add_argument('-o', '--out_file', help='Output file name: will be a numpy array.', required=True)
     parser.add_argument('-f', '--force', help='Overwrite the output file if it exists', action='store_true')
     parser.add_argument('-a', '--abundance_key',
-                        help='Key in the gather results to use for abundance. Default is `median_abund`',
-                        default='median_abund')
+                        help='Key in the gather results to use for abundance. Default is `f_unique_weighted`',
+                        default='f_unique_weighted')
     parser.add_argument('-t', '--threads', help='Number of threads to use. Default is half the cores available.',
                         default=int(multiprocessing.cpu_count() / 2), type=int)
     parser.add_argument('-b', '--brite', help='Use the subtree of the KEGG hierarchy rooted at the given BRITE ID. '
@@ -62,6 +69,10 @@ def argument_parser():
     parser.add_argument('--diffab', action='store_true', help='Also return the difference abundance vectors.')
     parser.add_argument('-v', help="Be verbose", action="store_const", dest="loglevel", const=logging.INFO,
                         default=logging.WARNING)
+    parser.add_argument('--unweighted', help="Compute unweighted unifrac instead of the default weighted version",
+                        action="store_true")
+    parser.add_argument('--L2', help="Use L2 UniFrac instead of L1", action="store_true")
+    parser.add_argument('--Ppushed', help="Flag indicating you want the pushed vectors to be saved.", action="store_true")
     return parser
 
 
@@ -79,6 +90,9 @@ def main():
     num_threads = args.threads
     brite = args.brite
     make_diffab = args.diffab
+    unweighted = args.unweighted
+    is_L2 = args.L2
+    save_Ppushed = args.Ppushed
     if brite not in BRITES:
         raise ValueError(f'Invalid BRITE ID: {brite}. Must be one of {BRITES}')
     if not exists(edge_list_file):
@@ -115,7 +129,7 @@ def main():
     pool = multiprocessing.Pool(args.threads)
     results = pool.imap(map_star, zip(fun_files, repeat(Tint), repeat(lint), repeat(nodes_in_order),
                                       repeat(EMDU_index_2_node),
-                                      repeat(abundance_key)),
+                                      repeat(abundance_key), repeat(unweighted), repeat(is_L2)),
                         chunksize=max(2, len(fun_files) // num_threads))
     pool.close()
     pool.join()
@@ -133,9 +147,15 @@ def main():
     diffab_dims = (len(fun_files), len(fun_files), len(nodes_in_order))
     for i, j in combinations(range(len(fun_files)), 2):
         if not make_diffab:
-            dists[i, j] = dists[j, i] = EMDU.EMD_L1_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+            if not is_L2:
+                dists[i, j] = dists[j, i] = EMDU.EMD_L1_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+            else:
+                dists[i, j] = dists[j, i] = EMDU.EMD_L2_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
         else:
-            Z, diffab = EMDU.EMD_L1_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+            if not is_L2:
+                Z, diffab = EMDU.EMD_L1_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+            else:
+                Z, diffab = EMDU.EMD_L2_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             dists[i, j] = dists[j, i] = Z
             nonzero_diffab_locs = np.nonzero(diffab)[0]
             i_coords.extend([i] * len(nonzero_diffab_locs))
@@ -167,6 +187,13 @@ def main():
     with open(out_file + '.basis.txt', 'w') as f:
         for file in fun_files:
             f.write(f"{file}\n")
+    # if asked, save the pushed profiles
+    if save_Ppushed:
+        logging.info(f"Saving pushed profiles")
+        ppushed_out_file = out_file + '.ppushed.pkl'
+        with open(ppushed_out_file, 'wb') as f:
+            pickle.dump(Ps_pushed, f)
+        logging.info(f"Saved pushed profiles to {ppushed_out_file}")
 
 
 if __name__ == '__main__':

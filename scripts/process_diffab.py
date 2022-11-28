@@ -36,8 +36,8 @@ percentage_of_edges_to_keep = 10
 
 edge_list_file = "experiments/KOtree/kegg_ko_edge_df_br_ko00001.txt_lengths_n_50_f_10_r_100.txt"
 brite = "ko00001"
-clusters_file = 'experiments/QIITA_study/dendro_uniform_pw_fu_ko00001.npy_clusters.json'
-pw_dist_file = 'experiments/QIITA_study/AAI_pw_fu_ko00001_all.npy'
+clusters_file = 'experiments/QIITA_study/dendro_AAI_pw_fu_ko00001.npy_clusters.json'
+pw_dist_file = 'experiments/QIITA_study/AAI_pw_fu_ko00001.npy'
 pw_dist_file_basis = pw_dist_file + ".basis.txt"
 diffabs_file = pw_dist_file + ".diffab.npy"
 diffabs_basis_file = pw_dist_file + ".diffab.nodes.txt"

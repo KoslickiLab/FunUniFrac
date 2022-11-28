@@ -11,3 +11,5 @@ sparse
 coverage
 graphviz
 pygraphviz
+seaborn
+scikit-bio
