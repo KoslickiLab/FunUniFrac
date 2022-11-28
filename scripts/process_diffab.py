@@ -1,7 +1,4 @@
 import sys, os
-
-import sparse
-
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import src.LP_EMD_helper as LH
 import src.EMDU as EMDU
@@ -20,9 +17,12 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import matplotlib
 from src.KEGG_helpers import make_nodes_readable
-import sparse
 #matplotlib.use('MacOSX')
 matplotlib.use('Agg')
+
+
+percentage_of_edges_to_keep = 10
+
 
 # The code above is a bit messy, but it should be fairly easy to follow. The main thing to note is that the diffabs
 # are stored in a 3D array, where the first two dimensions are the pairwise distances between the samples in the two
@@ -46,8 +46,7 @@ std_dev_factor = 0  # number of standard deviations above the mean to plot
 with open(clusters_file) as f:
     clustered_samples = json.load(f)
 # import the diffabs
-#diffabs = np.load(diffabs_file)
-diffabs = sparse.load_npz(diffabs_file)
+diffabs = np.load(diffabs_file)
 # import the file basis (rows and columns of the distances, as well as the indices of the first two dimensions of the
 # diffabs)
 file_basis = []
@@ -115,17 +114,61 @@ for i, mean_val in enumerate(mean_diffab_bet_clusters):
             important_vertices.append(v)
 
 T = Gdir.subgraph(important_vertices)
-# relable the nodes to make the human readable
+# relabel the nodes to make them human readable
 T = make_nodes_readable(T)
 # rename nodes to escape : in the names
 T = nx.relabel_nodes(T, {node: node.replace(':', '_') for node in T.nodes()})
 #pos = graphviz_layout(T, prog="dot")
-pos = graphviz_layout(T, prog="twopi", root="KEGG Orthology (KO)")
 
-pos = nx.layout.kamada_kawai_layout(T)
 plt.figure(figsize=(50, 50))
-widths = [2000*T[u][v]['weight'] for u, v in T.edges()]
+widths = [5000*T[u][v]['weight'] for u, v in T.edges()]
 colors = [T[u][v]['color'] for u, v in T.edges()]
-nx.draw(T, pos, node_size=1, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors)
-plt.savefig('test.png')
 
+all_weights = [ T[u][v]['weight'] for u,v in T.edges() ]
+all_weights.sort(reverse=True)
+num_edges = len(all_weights)
+num_edges_to_keep = int(num_edges * percentage_of_edges_to_keep / 100.0)
+min_edge_weight = all_weights[num_edges_to_keep]
+
+vertices_to_keep = set()
+for u,v in T.edges():
+    if T[u][v]['weight'] >= min_edge_weight:
+        vertices_to_keep.add(u)
+        vertices_to_keep.add(v)
+
+vertices_to_keep.add('KEGG Orthology (KO)')
+print('Num of vertices to keep: ' + str(len(vertices_to_keep)))
+vertices_in_final_subtree = set()
+vertices_in_final_subtree.add('KEGG Orthology (KO)')
+
+print(nx.is_tree(T))
+vertex_root = 'KEGG Orthology (KO)'
+vertex_2 = 'Amino acid metabolism'
+vertex_3 = 'Fatty acid biosynthesis'
+paths_from_root = nx.shortest_path(T, vertex_root)
+
+for vertex in list(vertices_to_keep):
+    for intermediate_vertex in paths_from_root[vertex]:
+        vertices_in_final_subtree.add(intermediate_vertex)
+
+T = T.subgraph( list(vertices_in_final_subtree) )
+pos = graphviz_layout(T, prog="twopi")
+print(pos)
+print('Checking if this is still a tree')
+print(nx.is_tree(T))
+
+
+# this bit of code will relabel based on degree
+new_labels = {}
+for u in T.nodes():
+    if T.degree(u) <= 5:
+        new_labels[u] = u
+        # new_labels[u] = ''
+    else:
+        new_labels[u] = u
+
+
+node_size_by_degree = [ T.degree(node)*15 for node in T.nodes() ]
+
+nx.draw(T, pos, node_size=node_size_by_degree, alpha=0.7, with_labels=True, arrows=False, arrowsize=0, width=widths, edge_color=colors, labels=new_labels)
+plt.savefig('test_mrh.png')
