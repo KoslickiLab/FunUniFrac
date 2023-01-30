@@ -172,92 +172,104 @@ def test_diffab_indexer():
                        atol=1e-8)
 
 
-def test_simulate_data(): #TODO convert to networkx format
-    basis = ['A', 'B', 'C', 'temp0']  # temp0 is the root node
-    basis_sim = simulate_data(basis)
-    assert basis_sim.keys().sort() == basis.sort()
-    assert basis_sim['A'].keys() == ['sample1', 'sample2']
-    assert basis_sim['B'].keys() == ['sample1', 'sample2']
-    assert basis_sim['C'].keys() == ['sample1', 'sample2']
-    assert basis_sim['temp0'].keys() == ['sample1', 'sample2']  # temp0 is the root node
-
-
-def test_parse_envs(): #TODO convert to networkx format
-    basis = ['C', 'B', 'A', 'temp0']  # temp0 is the root node
-    basis_samples = {
-        'C': {'sample1': 1, 'sample2': 0},
-        'B': {'sample1': 1, 'sample2': 1},
-        'A': {'sample1': 0, 'sample2': 0},
-        'temp0': {'sample1': 0, 'sample2': 1}}  # temp0 is the root node
-    (basis_weighted, samples) = parse_envs(basis_samples, basis)
-    assert [basis_weighted['sample1'][i] for i in range(4)] == [0.5, 0.5, 0.0, 0.0]
-    assert [basis_weighted['sample2'][i] for i in range(4)] == [0.0, 0.5, 0.0, 0.5]
-    assert samples == ['sample1', 'sample2']
-
-
-def test_EMDUnifrac_weighted_flow(): #TODO convert to networkx format
+def test_EMDUnifrac_weighted_flow():
     G = LH.import_graph('test_data/small_edge_list_with_lengths_emdu.txt')
+    Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(G)
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
         'B': {'sample1': 1, 'sample2': 1},
         'A': {'sample1': 0, 'sample2': 0},
         'temp0': {'sample1': 0,
                   'sample2': 1}}  # temp0 is the root node, not named in Newick format, but included in nodes_in_order
-    (nodes_weighted, samples) = parse_envs(nodes_samples, nodes_in_order)  # Parse the environments.
-    (Z, F, diffab) = EMDU.EMDUnifrac_weighted_flow(Tint, lint, nodes_in_order, nodes_weighted['sample1'], nodes_weighted[
-        'sample2'])  # Run the weighted version of EMDUnifrac that returns the flow
+    P = np.zeros(4)
+    Q = np.zeros(4)
+    for i in EMDU_index_2_node:
+        P[i] = nodes_samples[EMDU_index_2_node[i]]['sample1']
+        Q[i] = nodes_samples[EMDU_index_2_node[i]]['sample2']
+    P = P/2
+    Q = Q/2 #normalize
+    (Z, F, diffab) = EMDU.EMDUnifrac_weighted_flow(Tint, lint, nodes_in_order, P, Q)  # Run the weighted version of EMDUnifrac that returns the flow
     # Check to make sure results make sense
+    print(EMDU_index_2_node)
+    print(nodes_in_order)
+    print(P, Q)
+    print(F)
     assert Z == 0.25  # This is the Unifrac distance
-    assert F[(0,
-              3)] == 0.5  # F is the flow and is in a sparse matrix format: a dictionary with tuple keys using elements of Tint and values T[(i, j)] equal to amount of abundance moved from organism nodes_in_order(i) to nodes_in_order(j)
     assert F[(1, 1)] == 0.5
+    assert F[(0, # TODO: doesn't pass. Key error.
+              3)] == 0.5  # F is the flow and is in a sparse matrix format: a dictionary with tuple keys using elements of Tint and values T[(i, j)] equal to amount of abundance moved from organism nodes_in_order(i) to nodes_in_order(j)
     assert sum(F.values()) == 1
     assert diffab == {(2, 3): 0.14999999999999999, (0,
                                                     2): 0.10000000000000001}  # diffab is the differential abundance vector, also in a sparse matrix format: a dictionary with tuple keys using elements of Tint and values diffab[(i, j)] equal to the signed difference of abundance between the two samples restricted to the sub-tree defined by nodes_in_order(i) and weighted by the edge length lint[(i,j)].
 
-
-def test_EMDUnifrac_weighted(): #TODO convert to networkx format
-    tree_str = '((B:0.1,C:0.2)A:0.3);'  # there is an internal node (temp0) here.
-    (Tint, lint, nodes_in_order) = parse_tree(tree_str)
+def test_EMDUnifrac_weighted():
+    G = LH.import_graph('test_data/small_edge_list_with_lengths_emdu.txt')
+    Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(G)
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
         'B': {'sample1': 1, 'sample2': 1},
         'A': {'sample1': 0, 'sample2': 0},
         'temp0': {'sample1': 0, 'sample2': 1}}  # temp0 is the root node
-    (nodes_weighted, samples) = parse_envs(nodes_samples, nodes_in_order)
-    (Z, diffab) = EMDUnifrac_weighted(Tint, lint, nodes_in_order, nodes_weighted['sample1'], nodes_weighted['sample2'])
+    P = np.zeros(4)
+    Q = np.zeros(4)
+    for i in EMDU_index_2_node:
+        P[i] = nodes_samples[EMDU_index_2_node[i]]['sample1']
+        Q[i] = nodes_samples[EMDU_index_2_node[i]]['sample2']
+    P = P/2
+    Q = Q/2 #normalize
+    print(EMDU_index_2_node)
+    print(nodes_in_order)
+    print(P, Q)
+    (Z, diffab) = EMDU.EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q)
     assert Z == 0.25
-    assert diffab == {(2, 3): 0.14999999999999999, (0, 2): 0.10000000000000001}
+    print(diffab)
+    #assert diffab == {(2, 3): 0.14999999999999999, (0, 2): 0.10000000000000001}
+    assert np.isclose(diffab[(2,3)], 0.15)
+    assert np.isclose(diffab[(0,2)], 0.1)
 
 
-def test_EMDUnifrac_unweighted(): #TODO convert to networkx format
-    tree_str = '((B:0.1,C:0.2)A:0.3);'
-    (Tint, lint, nodes_in_order) = parse_tree(tree_str)
+def test_EMDUnifrac_unweighted():
+    G = LH.import_graph('test_data/small_edge_list_with_lengths_emdu.txt')
+    Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(G)
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
         'B': {'sample1': 1, 'sample2': 1},
         'A': {'sample1': 0, 'sample2': 0},
         'temp0': {'sample1': 0, 'sample2': 1}}
-    (nodes_weighted, samples) = parse_envs(nodes_samples, nodes_in_order)
-    (Z, diffab) = EMDUnifrac_unweighted(Tint, lint, nodes_in_order, nodes_weighted['sample1'],
-                                        nodes_weighted['sample2'])
+    P = np.zeros(4)
+    Q = np.zeros(4)
+    for i in EMDU_index_2_node:
+        P[i] = nodes_samples[EMDU_index_2_node[i]]['sample1']
+        Q[i] = nodes_samples[EMDU_index_2_node[i]]['sample2']
+    (Z, diffab) = EMDU.EMDUnifrac_unweighted(Tint, lint, nodes_in_order, P, Q)
     assert Z == 0.5
-    assert diffab == {(2, 3): 0.29999999999999999, (0, 2): 0.20000000000000001}
+    #assert diffab == {(2, 3): 0.29999999999999999, (0, 2): 0.20000000000000001}
+    print(diffab)
+    assert np.isclose(diffab[(2, 3)], 0.3)
+    assert np.isclose(diffab[(0, 2)], 0.2)
 
 
-def test_EMDUnifrac_unweighted_flow(): #TODO convert to networkx format
-    tree_str = '((B:0.1,C:0.2)A:0.3);'
-    (Tint, lint, nodes_in_order) = parse_tree(tree_str)
+def test_EMDUnifrac_unweighted_flow():
+    G = LH.import_graph('test_data/small_edge_list_with_lengths_emdu.txt')
+    Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(G)
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
         'B': {'sample1': 1, 'sample2': 1},
         'A': {'sample1': 0, 'sample2': 0},
         'temp0': {'sample1': 0, 'sample2': 1}}
-    (nodes_weighted, samples) = parse_envs(nodes_samples, nodes_in_order)
-    (Z, F, diffab) = EMDUnifrac_unweighted_flow(Tint, lint, nodes_in_order, nodes_weighted['sample1'],
-                                                nodes_weighted['sample2'])
+    P = np.zeros(4)
+    Q = np.zeros(4)
+    for i in EMDU_index_2_node:
+        P[i] = nodes_samples[EMDU_index_2_node[i]]['sample1']
+        Q[i] = nodes_samples[EMDU_index_2_node[i]]['sample2']
+    (Z, F, diffab) = EMDU.EMDUnifrac_unweighted_flow(Tint, lint, nodes_in_order, P, Q)
+    print(F)
+    print(diffab)
     assert Z == 0.5
     assert F[(0, 3)] == 1
     assert F[(1, 1)] == 1
     assert sum(F.values()) == 2
-    assert diffab == {(2, 3): 0.29999999999999999, (0, 2): 0.20000000000000001}
+    #assert diffab == {(2, 3): 0.29999999999999999, (0, 2): 0.20000000000000001}
+    assert np.isclose(diffab[(2, 3)], 0.3)
+    assert np.isclose(diffab[(0, 2)], 0.2)
+

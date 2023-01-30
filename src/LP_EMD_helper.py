@@ -1,6 +1,5 @@
 import itertools
 import os.path
-
 from pyemd import emd, emd_with_flow
 import numpy as np
 import pandas as pd
@@ -476,8 +475,8 @@ def get_EMDUniFrac_from_functional_profiles(profile1, profile2, distance_matrix,
             sample_vector1[i] = abund1[id1.index(id)]
         elif id in id2:
             sample_vector2[2] = abund2[id2.index(id)]
-    normed_sample1 = sample_vector1 / np.linalg.norm(sample_vector1)
-    normed_sample2 = sample_vector2 / np.linalg.norm(sample_vector2)
+    normed_sample1 = sample_vector1 / np.sum(sample_vector1)
+    normed_sample2 = sample_vector2 / np.sum(sample_vector2)
     unifrac = emd(normed_sample1, normed_sample2, distance_matrix)
     print(unifrac)
     print(time.time() - start)
