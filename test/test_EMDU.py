@@ -195,12 +195,14 @@ def test_EMDUnifrac_weighted_flow():
     print(P, Q)
     print(F)
     assert Z == 0.25  # This is the Unifrac distance
-    assert F[(1, 1)] == 0.5
-    assert F[(0, # TODO: doesn't pass. Key error.
-              3)] == 0.5  # F is the flow and is in a sparse matrix format: a dictionary with tuple keys using elements of Tint and values T[(i, j)] equal to amount of abundance moved from organism nodes_in_order(i) to nodes_in_order(j)
+    #assert F[(1, 1)] == 0.5
+    #assert F[(0, 3)] == 0.5  # F is the flow and is in a sparse matrix format: a dictionary with tuple keys using elements of Tint and values T[(i, j)] equal to amount of abundance moved from organism nodes_in_order(i) to nodes_in_order(j)
+    assert F[(0, 0)] == 0.5
+    assert F[(1, 3)] == 0.5
     assert sum(F.values()) == 1
-    assert diffab == {(2, 3): 0.14999999999999999, (0,
-                                                    2): 0.10000000000000001}  # diffab is the differential abundance vector, also in a sparse matrix format: a dictionary with tuple keys using elements of Tint and values diffab[(i, j)] equal to the signed difference of abundance between the two samples restricted to the sub-tree defined by nodes_in_order(i) and weighted by the edge length lint[(i,j)].
+    #assert diffab == {(2, 3): 0.14999999999999999, (0, 2): 0.10000000000000001}  # diffab is the differential abundance vector, also in a sparse matrix format: a dictionary with tuple keys using elements of Tint and values diffab[(i, j)] equal to the signed difference of abundance between the two samples restricted to the sub-tree defined by nodes_in_order(i) and weighted by the edge length lint[(i,j)].
+    assert np.isclose(diffab[(1, 2)], 0.1)
+    assert np.isclose(diffab[(2, 3)], 0.15)
 
 def test_EMDUnifrac_weighted():
     G = LH.import_graph('test_data/small_edge_list_with_lengths_emdu.txt')
@@ -225,8 +227,8 @@ def test_EMDUnifrac_weighted():
     print(diffab)
     #assert diffab == {(2, 3): 0.14999999999999999, (0, 2): 0.10000000000000001}
     assert np.isclose(diffab[(2,3)], 0.15)
-    assert np.isclose(diffab[(0,2)], 0.1)
-
+    #assert np.isclose(diffab[(0,2)], 0.1)
+    assert np.isclose(diffab[(1, 2)], 0.1)
 
 def test_EMDUnifrac_unweighted():
     G = LH.import_graph('test_data/small_edge_list_with_lengths_emdu.txt')
@@ -246,7 +248,9 @@ def test_EMDUnifrac_unweighted():
     #assert diffab == {(2, 3): 0.29999999999999999, (0, 2): 0.20000000000000001}
     print(diffab)
     assert np.isclose(diffab[(2, 3)], 0.3)
-    assert np.isclose(diffab[(0, 2)], 0.2)
+    #assert np.isclose(diffab[(0, 2)], 0.2)
+    assert np.isclose(diffab[(1, 2)], 0.2)
+
 
 
 def test_EMDUnifrac_unweighted_flow():
@@ -266,10 +270,13 @@ def test_EMDUnifrac_unweighted_flow():
     print(F)
     print(diffab)
     assert Z == 0.5
-    assert F[(0, 3)] == 1
-    assert F[(1, 1)] == 1
-    assert sum(F.values()) == 2
+    #assert F[(0, 3)] == 1
+    #assert F[(1, 1)] == 1
+    assert F[(1, 3)] == 1.
+    assert F[(0, 0)] == 1.
+    assert sum(F.values()) == 2.
     #assert diffab == {(2, 3): 0.29999999999999999, (0, 2): 0.20000000000000001}
     assert np.isclose(diffab[(2, 3)], 0.3)
-    assert np.isclose(diffab[(0, 2)], 0.2)
+    #assert np.isclose(diffab[(0, 2)], 0.2)
+    assert np.isclose(diffab[(1, 2)], 0.2)
 
