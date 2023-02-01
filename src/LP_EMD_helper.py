@@ -6,7 +6,7 @@ import pandas as pd
 import time
 import networkx as nx
 import multiprocessing
-from .CONSTANTS import BRITES
+#from .CONSTANTS import BRITES
 
 
 # FIXME: this says to delete, but it is used below
@@ -545,3 +545,20 @@ def make_edge_list_file_len_1_tmp():
     df.to_csv('data/kegg_ko_edge_df_len1.txt', sep='\t', index=None)
 
 
+#### temp
+G = import_graph('../test/test_data/small_edge_list_with_lengths_emdu.txt')
+Tint, lint, nodes_in_order, EMDU_index_2_node = weighted_tree_to_EMDU_input(G)
+nodes_samples = {
+    'C': {'sample1': 1, 'sample2': 0},
+    'B': {'sample1': 1, 'sample2': 1},
+    'A': {'sample1': 0, 'sample2': 0},
+    'temp0': {'sample1': 0,
+              'sample2': 1}}  # temp0 is the root node, not named in Newick format, but included in nodes_in_order
+P = np.zeros(4)
+Q = np.zeros(4)
+for i in EMDU_index_2_node:
+    P[i] = nodes_samples[EMDU_index_2_node[i]]['sample1']
+    Q[i] = nodes_samples[EMDU_index_2_node[i]]['sample2']
+P = P/2
+Q = Q/2 #normalize
+print(P)
