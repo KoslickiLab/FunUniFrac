@@ -6,7 +6,7 @@ import pandas as pd
 import time
 import networkx as nx
 import multiprocessing
-#from .CONSTANTS import BRITES
+from .CONSTANTS import BRITES
 
 
 # FIXME: this says to delete, but it is used below
