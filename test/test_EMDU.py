@@ -202,6 +202,8 @@ def test_EMDUnifrac_weighted_flow():
     assert diffab == {(2, 3): 0.14999999999999999, (0,
                                                     2): 0.10000000000000001}  # diffab is the differential abundance vector, also in a sparse matrix format: a dictionary with tuple keys using elements of Tint and values diffab[(i, j)] equal to the signed difference of abundance between the two samples restricted to the sub-tree defined by nodes_in_order(i) and weighted by the edge length lint[(i,j)].
 
+test_EMDUnifrac_weighted_flow()
+
 def test_EMDUnifrac_weighted():
     G = LH.import_graph('test_data/small_edge_list_with_lengths_emdu.txt')
     Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(G)
