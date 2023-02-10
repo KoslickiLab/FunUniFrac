@@ -18,7 +18,7 @@ def test_small_edge_lengths():
     profile1 = "test_data/small_sim_10_KOs_gather.csv"
     profile2 = "test_data/small_sim2_10_KOs_gather.csv"
     profile3 = "test_data/small_sim3_10_KOs_gather.csv"
-    out_file = "test_data/pairwise_dists.npy"
+    out_file = "test_output/pairwise_dists.npy"
     # remove the out file if it exists
     basis_file = f"{out_file}.basis.txt"
     if exists(out_file):
@@ -56,7 +56,7 @@ def test_small_edge_lengths():
     # now also check the diffabs
     cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} -d " \
               f"{directory} -o {out_file} --force -b {brite} -a median_abund --diffab"
-    diffab_out_file = "test_data/pairwise_dists.npy.diffab.npz"
+    diffab_out_file = "test_output/pairwise_dists.npy.diffab.npz"
     basis_file = f"{out_file}.basis.txt"
     # remove all files if they exist
     if exists(out_file):
@@ -111,10 +111,10 @@ def test_diffab_order():
     profile1 = "test_data/small_sim_10_KOs_gather.csv"  # P
     profile2 = "test_data/small_sim2_10_KOs_gather.csv"  # Q
     profile3 = "test_data/small_sim3_10_KOs_gather.csv"  # R
-    out_file = "test_data/pairwise_dists.npy"
+    out_file = "test_output/pairwise_dists.npy"
     # remove the out file if it exists
     basis_file = f"{out_file}.basis.txt"
-    diffab_out_file = "test_data/pairwise_dists.npy.diffab.npz"
+    diffab_out_file = "test_output/pairwise_dists.npy.diffab.npz"
     if exists(out_file):
         os.remove(out_file)
     if exists(basis_file):
@@ -180,7 +180,7 @@ def test_small_edge_lengthsL2():
     profile1 = "test_data/small_sim_10_KOs_gather.csv"
     profile2 = "test_data/small_sim2_10_KOs_gather.csv"
     profile3 = "test_data/small_sim3_10_KOs_gather.csv"
-    out_file = "test_data/pairwise_dists.npy"
+    out_file = "test_output/pairwise_dists.npy"
     # remove the out file if it exists
     basis_file = f"{out_file}.basis.txt"
     if exists(out_file):
@@ -220,7 +220,7 @@ def test_small_edge_lengthsL2():
     # now also check the diffabs
     cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} -d " \
               f"{directory} -o {out_file} --force -b {brite} -a median_abund --diffab --L2"
-    diffab_out_file = "test_data/pairwise_dists.npy.diffab.npz"
+    diffab_out_file = "test_output/pairwise_dists.npy.diffab.npz"
     basis_file = f"{out_file}.basis.txt"
     # remove all files if they exist
     if exists(out_file):
