@@ -29,7 +29,7 @@ def test_small_edge_list():
     """
     edge_list = "test_data/small_edge_list.txt"
     distances_file = "test_data/small_pairwise_distances.npy"
-    out_dir = "test_data"
+    out_dir = "test_output"
     brite = "ko00001"
     out_file = os.path.join(out_dir, f"{brite}_{os.path.basename(distances_file)}_A.npz")
     # delete the output file if it exists
