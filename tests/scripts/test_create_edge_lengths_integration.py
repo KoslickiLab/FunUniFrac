@@ -14,7 +14,7 @@ def test_small_edge_lengths():
     """
     edge_list = "test_data/small_edge_list.txt"
     distances_file = "test_data/small_pairwise_distances.npy"
-    out_file = "test_data/small_edge_list_with_lengths.txt"
+    out_file = "test_output/small_edge_list_with_lengths.txt"
     brite = "ko00001"
     A_file = f"test_data/{brite}_{os.path.basename(distances_file)}_A.npz"
     cmd = f"python ../scripts/create_edge_lengths.py -e {edge_list} -d {distances_file} -o {out_file} -b {brite} -A {A_file} -n 10 -f 2 -r 100 --force --distance"
