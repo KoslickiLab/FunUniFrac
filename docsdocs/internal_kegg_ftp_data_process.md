@@ -125,28 +125,25 @@ cut -d":" -f 1 linkfile_extra_ko_gene.txt | sort | uniq -c | awk '{print $2"\t"$
 | merged_KO_genes.faa | 22555590 (unique) |                            | 13888067   |
 | KO number           | 25416             | 25485                      | 14606      |
 
-1. 22551679 - 22529393 < 47198 different links -> indicates that there are mismatches for both, possibly due to non-update of the record link file
+manually checking of the missings turned out to be mismatches between the link file and the kff file for organism, e.g.
+```
+# check this distribution file
+/data/shared_data/temp_shaopeng_process_kegg/explore_record_dif/dist_count_extra_link_file.txt
 
-2. manually checking of the missings turned out to be mismatches between the link file and the kff file for organism, e.g.
-   ```
-   # check this distribution file
-   /data/shared_data/temp_shaopeng_process_kegg/explore_record_dif/dist_count_extra_link_file.txt
-   
-   #### several organisms have lots of mismatch
-   mtr     11745   # no KO record in organism mtr
-   tva     5248 # no KO record in organism tva
-   vp      264 # no organism vp
-   nvi     77 # no KO record in organism nvi
-   
-   
-   
-   
-   #### there are many organisms with few mismatchs, e.g.
-   # in link file:
-   ko:K18967	woc:BA177_15925
-   
-   # in kff file (NO KO information)
-   woc:BA177_15925 CDS     383     1152    complement(3515487..3516638)            ANO52474                hypothetical protein
-   ```
-   
-   
+#### several organisms have lots of mismatch
+mtr     11745   # no KO record in organism mtr
+tva     5248 # no KO record in organism tva
+vp      264 # no organism vp
+nvi     77 # no KO record in organism nvi
+
+
+
+
+#### there are many organisms with few mismatchs, e.g.
+# in link file:
+ko:K18967	woc:BA177_15925
+
+# in kff file (NO KO information)
+woc:BA177_15925 CDS     383     1152    complement(3515487..3516638)            ANO52474                hypothetical protein
+```
+
