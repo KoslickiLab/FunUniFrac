@@ -44,6 +44,8 @@ target_dir=/data/shared_data/temp_shaopeng_process_kegg
 kegg_dir=/data/shared_data/KEGG_FTP/kegg
 single_organism_dir=/data/shared_data/KEGG_FTP/kegg/genes/organisms
 py_code=/data/shared_data/temp_shaopeng_process_kegg/script/build_single_organism_ko_gene_map.py
+virus_dir=/data/shared_data/KEGG_FTP/kegg/genes/viruses
+addendum_dir=/data/shared_data/KEGG_FTP/kegg/genes/addendum
 
 # get ko-gene match files only
 cd ${target_dir}
@@ -59,6 +61,27 @@ cd single_organism_gene_ko_map
 
 # required python modules: Bio, gzip
 python ${py_code} -i ${single_organism_dir} -o ${PWD}
+
+# also add virus and addendum genes
+mkdir -p temp_virus_addendum
+cd temp_virus_addendum
+ln -s ${virus_dir} .
+ln -s ${addendum_dir} .
+python ${py_code} -i ${PWD} -o ${PWD}
+
+# addendum will fail because it has no DNA sequence, need manually check
+# manually run the "collection_single_folder" function
+# 1. set df_nuc = df_pep.copy(), then change all values to "No_seq" after merge. 
+# 2. delete output fna files for addendum
+
+rm addendum viruses
+cat running_log.txt >> ../running_log.txt && rm running_log.txt
+mv *.csv ..
+mv *.fna ..
+mv *.faa ..
+cd ..
+rmdir temp_virus_addendum
+
 
 # merge files
 mkdir -p all_record_csv
@@ -81,14 +104,15 @@ cat ./KO_gene_aa/KO_genes_*.faa > ../merged_KO_genes.faa
 cd ..
 
 # count records number and compare to the ref file
+grep "^>" merged_KO_genes.faa | wc -l
 grep "^>" merged_KO_genes.fna | wc -l
 wc -l ko_genes.list
 
 # check the mismatches
-# grep "^>" merged_KO_genes.fna | cut -d"|" -f 1 | sed 's/>//g'  > temp_all_gene_hits.txt
+# grep "^>" merged_KO_genes.faa | cut -d"|" -f 1 | sed 's/>//g'  > temp_all_gene_hits.txt
 # cut -f 2 ko_genes.list > temp_expected_hits.txt
-### grep too slow, use py set
-### grep -f temp_all_gene_hits.txt -v <(cut -f 2 ko_genes.list) > temp_extra_ko_gene_link.txt
+### grep too slow, use py set difference
+cut -d":" -f 1 linkfile_extra_ko_gene.txt | sort | uniq -c | awk '{print $2"\t"$1}' | sort -k2,2rn > dist_count_extra_link_file.txt
 ```
 
 
@@ -97,45 +121,32 @@ wc -l ko_genes.list
 
 | Filename            | Record number     | Expected number from KEGG  | Old number |
 | ------------------- | ----------------- | -------------------------- | ---------- |
-| merged_KO_genes.fna | 22529393 (no dup) | 22573108 (dedup: 22551679) | 14250334   |
-| merged_KO_genes.faa | 22529393          |                            | 13888067   |
-| KO number           | 24262             | 25485                      | 14606      |
+| merged_KO_genes.fna | 22551531 (unique) | 22573108 (dedup: 22551679) | 14250334   |
+| merged_KO_genes.faa | 22555590 (unique) |                            | 13888067   |
+| KO number           | 25416             | 25485                      | 14606      |
 
 1. 22551679 - 22529393 < 47198 different links -> indicates that there are mismatches for both, possibly due to non-update of the record link file
 
-2. manually checking of the missings turned out to be organisms that are NOT included in original KEGG folder, e.g.. So should be accused for the out-of-data status
+2. manually checking of the missings turned out to be mismatches between the link file and the kff file for organism, e.g.
    ```
-   0       ag:BAB07799
-   1       tva:TVAG_333190
-   2       ag:AAX54673
-   3       ag:ACD75398
-   4       vg:29056246
-   5       mtr:MTR_2g069490
-   6       vsr:Vspart_04487
-   7       vg:60290057
-   8       vp:919920-7
-   9       tva:TVAG_464210
-   10      vg:4363320
-   11      vg:1487293
-   12      vg:23678899
+   # check this distribution file
+   /data/shared_data/temp_shaopeng_process_kegg/explore_record_dif/dist_count_extra_link_file.txt
    
-   # no vg folder
-   sml6467@e5-cse-cbdmk01:/data/shared_data/KEGG_FTP/kegg/genes/organisms$ ls -1 -d *vg*
-   avg
-   bvg
-   cvg
-   dvg
-   fvg
-   gvg
-   mvg
-   pvg
-   vga
-   vgi
-   vgo
-   vgu
+   #### several organisms have lots of mismatch
+   mtr     11745   # no KO record in organism mtr
+   tva     5248 # no KO record in organism tva
+   vp      264 # no organism vp
+   nvi     77 # no KO record in organism nvi
    
-   # no tva record: TVAG_333190
-   less /data/shared_data/KEGG_FTP/kegg/genes/organisms/tva/T01022.nuc.gz | grep TVAG_333190
+   
+   
+   
+   #### there are many organisms with few mismatchs, e.g.
+   # in link file:
+   ko:K18967	woc:BA177_15925
+   
+   # in kff file (NO KO information)
+   woc:BA177_15925 CDS     383     1152    complement(3515487..3516638)            ANO52474                hypothetical protein
    ```
-
+   
    
