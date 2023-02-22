@@ -1,0 +1,21 @@
+name: fununifrac
+channels:
+  - defaults
+  - conda-forge
+  - pypi
+  - bioconda
+dependencies:
+  - python>=3.9, <3.10
+  - pip
+  - setuptools
+  - blist
+  - pip:
+    - scipy==1.8.0
+    - networkx==2.8.4
+    - numpy==1.23.2
+    - pandas==1.4.3
+    - pyemd==0.5.1
+    - matplotlib
+    - pytest
+    - sparse
+

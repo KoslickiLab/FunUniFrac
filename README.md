@@ -4,7 +4,8 @@ A repository to implement UniFrac, but on functional profiles of metagenomic dat
 ## Installation
 To install the package, run the following command:
 ```bash
-conda create -n fununifrac -c bioconda -c conda-forge -c conda --file requirements.txt
+# conda create -n fununifrac -c bioconda -c conda-forge -c conda --file requirements.txt
+conda env update -f FunUniFrac.yml
 conda activate fununifrac
 ```
 
