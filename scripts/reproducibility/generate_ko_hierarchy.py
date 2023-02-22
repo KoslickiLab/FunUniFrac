@@ -4,6 +4,17 @@ import argparse
 import pandas as pd
 import requests
 import re
+# relative imports
+try:
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+    SCRIPT_DIR = os.path.join(SCRIPT_DIR, "../")
+    if SCRIPT_DIR.endswith("scripts"):
+        sys.path.append(os.path.dirname(SCRIPT_DIR))
+    else:
+        print("python path for /scripts not added")
+except:
+    pass
+
 
 class KEGG_KO_Extraction:
 
