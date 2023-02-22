@@ -8,7 +8,10 @@ import logging
 # relative imports
 try:
     SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-    sys.path.append(os.path.dirname(SCRIPT_DIR))
+    if SCRIPT_DIR.endswith("scripts"):
+        sys.path.append(os.path.dirname(SCRIPT_DIR))
+    else:
+        print("python path for /scripts not added")
 except:
     pass
 from src.commands import make_all_pw_fununifrac
