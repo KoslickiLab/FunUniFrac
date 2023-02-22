@@ -1,5 +1,6 @@
-ls# FunUnifrac
-A repository to implement UniFrac, but on functional profiles of metagenomic data.
+
+# Tutorial
+A tutorial on the usage of Functional UniFrac.
 
 ## Installation
 To install the package, run the following command:
@@ -9,6 +10,13 @@ conda activate fununifrac
 ```
 
 ## Usage
+
+### Getting pairwise functional unifrac from a directory containing functional profiles.
+This is the core function of the functional unifrac package. It is performed by running the make_all_pw_fununifrac 
+command. It requires three inputs: 1. a file representing the underlying functional hierarchy in the form of an edge list.
+For now, the accepted data is a KEGG hierarchy file. An example is provided in the `data` directory, with the name
+`kegg_ko_edge_df_br_ko00001.txt`. 2. 
+
 
 ### Setting edge lengths
 
