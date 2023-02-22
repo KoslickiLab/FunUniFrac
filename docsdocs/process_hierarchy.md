@@ -37,7 +37,7 @@ rm organism
 import pandas as pd
 
 ## use shaopeng's data
-ko_file = '/data/shared_data/temp_shaopeng_process_kegg/ko_genes.list'
+ko_file = '/data/shared_data/cleaned_KEGG_FTP_2022_NOV/ko_genes.list'
 
 ## read ko file
 ko_gene_table = pd.read_csv(ko_file, sep='\t', header=None)
@@ -60,4 +60,4 @@ python ${script_dir}/generate_ko_hierarchy.py --brite_list "ko00001" --saved_kos
 ```
 
 #### Results
-I saved the output files of above two cases into the directory `/data/shared_data/temp_chunyuma_process_kegg` on the CPU server. The file `kegg_ko_edge_df_br:ko00001.txt` contains 25,650 KO IDs while the file `kegg_ko_edge_df_filtered_br:ko00001.txt` contains KO IDs that are all microbe-assocaited KOs.
+I saved the output files of above two cases into the directory `/data/shared_data/temp_chunyuma_process_kegg` on the CPU server. The file `kegg_ko_edge_df_ko00001.txt` contains 25,650 KO IDs while the file `kegg_ko_edge_df_filtered_ko00001.txt` contains KO IDs that are all microbe-assocaited KOs.
