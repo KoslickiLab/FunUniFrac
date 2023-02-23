@@ -1,16 +1,6 @@
-#!/usr/bin/env python
-import argparse
-import os
-import sys
-# relative imports
-try:
-    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-    if SCRIPT_DIR.endswith("scripts"):
-        sys.path.append(os.path.dirname(SCRIPT_DIR))
-    else:
-        print("python path for /scripts not added")
-except:
-    pass
+import os, sys, argparse
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(ROOT_DIR)
 from src.commands import graph_to_path_matrix
 
 
