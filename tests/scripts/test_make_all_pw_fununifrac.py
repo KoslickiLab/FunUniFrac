@@ -1,11 +1,9 @@
 import subprocess
-from os.path import exists
-import tempfile
 import numpy as np
 import os
 from scipy import sparse
-import pandas as pd
 import sparse
+import data
 
 
 def test_small_edge_lengths():
@@ -13,34 +11,26 @@ def test_small_edge_lengths():
     Uses a complete binary tree with 4 leaf nodes, all branch lengths set to 1
     :return: None
     """
-    edge_list = "test_data/small_edge_list_with_lengths.txt"
-    directory = "test_data"
-    profile1 = "test_data/small_sim_10_KOs_gather.csv"
-    profile2 = "test_data/small_sim2_10_KOs_gather.csv"
-    profile3 = "test_data/small_sim3_10_KOs_gather.csv"
+    edge_list = "small_edge_list_with_lengths.txt"
+    profile1 = "small_sim_10_KOs_gather.csv"
+    profile2 = "small_sim2_10_KOs_gather.csv"
+    profile3 = "small_sim3_10_KOs_gather.csv"
     out_file = "test_output/pairwise_dists.npy"
     # remove the out file if it exists
     basis_file = f"{out_file}.basis.txt"
-    if exists(out_file):
-        os.remove(out_file)
-    if exists(basis_file):
-        os.remove(basis_file)
     brite = "ko00001"
-    cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} -d " \
-          f"{directory} -o {out_file} --force -b {brite} -a median_abund"
+    cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} " \
+        f" -o {out_file} --force -b {brite} -a median_abund"
     res = subprocess.run(cmd, shell=True, check=True)
-    # check that the output file exists
-    assert exists(out_file)
+    
     # check that the output file is correct
-    pw_dists = np.load(out_file)
+    pw_dists = np.load(data.get_data_abspath(out_file))
     # This has been computed by hand
     known_pw_dists = np.array([[0.0, 13/14, 10/21], [13/14, 0.0, 4/3], [10/21, 4/3, 0.0]])
     assert np.allclose(pw_dists, known_pw_dists, atol=1e-3)
     # check that the basis file has been created and is correct
-    assert exists(basis_file)
-    # open the basis file
     fun_files = []
-    with open(basis_file, "r") as f:
+    with open(data.get_data_abspath(basis_file), "r") as f:
         basis = os.path.basename(f.readline().strip())
         fun_files.append(basis)
         assert basis == os.path.basename(profile2)  # Q
@@ -54,28 +44,18 @@ def test_small_edge_lengths():
         assert f.readline() == ""
 
     # now also check the diffabs
-    cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} -d " \
-              f"{directory} -o {out_file} --force -b {brite} -a median_abund --diffab"
-    diffab_out_file = "test_output/pairwise_dists.npy.diffab.npz"
-    basis_file = f"{out_file}.basis.txt"
-    # remove all files if they exist
-    if exists(out_file):
-        os.remove(out_file)
-    if exists(diffab_out_file):
-        os.remove(diffab_out_file)
-    if exists(basis_file):
-        os.remove(basis_file)
+    cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} " \
+              f" -o {out_file} --force -b {brite} -a median_abund --diffab"
     res = subprocess.run(cmd, shell=True, check=True)
     # check that the output file exists
-    assert exists(out_file)
+    diffab_out_file = data.get_data_abspath("test_output/pairwise_dists.npy.diffab.npz")
+    basis_file = data.get_data_abspath(f"{out_file}.basis.txt")
     # check that the output file is correct
-    pw_dists = np.load(out_file)
+    pw_dists = np.load(data.get_data_abspath(out_file))
     # This has been computed by hand
     known_pw_dists = np.array([[0.0, 13/14, 10/21], [13/14, 0.0, 4/3], [10/21, 4/3, 0.0]])
     assert np.allclose(pw_dists, known_pw_dists, atol=1e-3)
     # check that the basis file has been created and is correct
-    assert exists(basis_file)
-    # open the basis file
     fun_files = []
     with open(basis_file, "r") as f:
         basis = os.path.basename(f.readline().strip())
@@ -90,12 +70,9 @@ def test_small_edge_lengths():
         # check that the end of the file has been reached
         assert f.readline() == ""
     # Check that the diffabs file is correct
-    assert exists(diffab_out_file)
-    #diffabs = np.load(diffab_out_file)
     diffabs = sparse.load_npz(diffab_out_file)
     known_diffab = np.array([-1/14, -1/21, -5/42, 5/42, 0, 5/42, 0])
     zeros = np.zeros_like(known_diffab)
-    nodes_in_order = [0, 1, 2, 3, 4, 5, 6]
     vec = diffabs[0, 2, :].todense()
     assert np.allclose(vec, known_diffab, atol=1e-3)
     vec = diffabs[2, 0, :].todense()
@@ -106,29 +83,22 @@ def test_small_edge_lengths():
     assert np.allclose(vec, zeros, atol=1e-3)
 
 def test_diffab_order():
-    edge_list = "test_data/small_edge_list_with_lengths.txt"
-    directory = "test_data"
-    profile1 = "test_data/small_sim_10_KOs_gather.csv"  # P
-    profile2 = "test_data/small_sim2_10_KOs_gather.csv"  # Q
-    profile3 = "test_data/small_sim3_10_KOs_gather.csv"  # R
+    edge_list = "small_edge_list_with_lengths.txt"
+    profile1 = "small_sim_10_KOs_gather.csv"  # P
+    profile2 = "small_sim2_10_KOs_gather.csv"  # Q
+    profile3 = "small_sim3_10_KOs_gather.csv"  # R
     out_file = "test_output/pairwise_dists.npy"
-    # remove the out file if it exists
-    basis_file = f"{out_file}.basis.txt"
-    diffab_out_file = "test_output/pairwise_dists.npy.diffab.npz"
-    if exists(out_file):
-        os.remove(out_file)
-    if exists(basis_file):
-        os.remove(basis_file)
-    if exists(diffab_out_file):
-        os.remove(diffab_out_file)
     brite = "ko00001"
-    cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} -d " \
-          f"{directory} -o {out_file} --force -b {brite} -a median_abund --diffab"
+    cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} " \
+          f"-o {out_file} --force -b {brite} -a median_abund --diffab"
     res = subprocess.run(cmd, shell=True, check=True)
-    assert exists(diffab_out_file)
-    #diffabs = np.load(diffab_out_file)
+    
+    # file paths
+    basis_file = f"{out_file}.basis.txt"
+    basis_file = data.get_data_abspath(basis_file)
+    diffab_out_file = "test_output/pairwise_dists.npy.diffab.npz"
+    diffab_out_file = data.get_data_abspath(diffab_out_file)
     diffabs = sparse.load_npz(diffab_out_file)
-    known_fun_files_order = [profile2, profile3, profile1]
     fun_files = []
     with open(basis_file, "r") as f:
         basis = os.path.basename(f.readline().strip())
@@ -175,33 +145,27 @@ def test_small_edge_lengthsL2():
     Uses a complete binary tree with 4 leaf nodes, all branch lengths set to 1
     :return: None
     """
-    edge_list = "test_data/small_edge_list_with_lengths.txt"
-    directory = "test_data"
-    profile1 = "test_data/small_sim_10_KOs_gather.csv"
-    profile2 = "test_data/small_sim2_10_KOs_gather.csv"
-    profile3 = "test_data/small_sim3_10_KOs_gather.csv"
+    edge_list = "small_edge_list_with_lengths.txt"
+    profile1 = "small_sim_10_KOs_gather.csv"
+    profile2 = "small_sim2_10_KOs_gather.csv"
+    profile3 = "small_sim3_10_KOs_gather.csv"
     out_file = "test_output/pairwise_dists.npy"
-    # remove the out file if it exists
-    basis_file = f"{out_file}.basis.txt"
-    if exists(out_file):
-        os.remove(out_file)
-    if exists(basis_file):
-        os.remove(basis_file)
     brite = "ko00001"
-    cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} -d " \
-          f"{directory} -o {out_file} --force -b {brite} -a median_abund --L2"
+    # command
+    cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} " \
+          f"-o {out_file} --force -b {brite} -a median_abund --L2"
     res = subprocess.run(cmd, shell=True, check=True)
-    # check that the output file exists
-    assert exists(out_file)
+    
+    # data paths
+    basis_file = f"{out_file}.basis.txt"
+    basis_file = data.get_data_abspath(basis_file)
+    out_file = data.get_data_abspath(out_file)
     # check that the output file is correct
     pw_dists = np.load(out_file)
     # This has been computed by hand
-    #known_pw_dists = np.array([[0.0, 13/14, 10/21], [13/14, 0.0, 4/3], [10/21, 4/3, 0.0]])
     known_pw_dists = np.array([[0.0, np.sqrt(37)/14, np.sqrt(22)/21], [np.sqrt(37)/14, 0.0, np.sqrt(13)/6],
                                [np.sqrt(22)/21, np.sqrt(13)/6, 0.0]])**2
     assert np.allclose(pw_dists, known_pw_dists, atol=1e-3)
-    # check that the basis file has been created and is correct
-    assert exists(basis_file)
     # open the basis file
     fun_files = []
     with open(basis_file, "r") as f:
@@ -217,29 +181,26 @@ def test_small_edge_lengthsL2():
         # check that the end of the file has been reached
         assert f.readline() == ""
 
-    # now also check the diffabs
-    cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} -d " \
-              f"{directory} -o {out_file} --force -b {brite} -a median_abund --diffab --L2"
     diffab_out_file = "test_output/pairwise_dists.npy.diffab.npz"
     basis_file = f"{out_file}.basis.txt"
-    # remove all files if they exist
-    if exists(out_file):
-        os.remove(out_file)
-    if exists(diffab_out_file):
-        os.remove(diffab_out_file)
-    if exists(basis_file):
-        os.remove(basis_file)
+    out_file = "test_output/pairwise_dists.npy"
+    
+    # command
+    cmd = f"python ../scripts/make_all_pw_fununifrac.py -e {edge_list} " \
+              f"-o {out_file} --force -b {brite} -a median_abund --diffab --L2"
     res = subprocess.run(cmd, shell=True, check=True)
+    
     # check that the output file exists
-    assert exists(out_file)
+    basis_file = data.get_data_abspath(basis_file)
+    diffab_out_file = data.get_data_abspath(diffab_out_file)
+    out_file = data.get_data_abspath(out_file)
+    
     # check that the output file is correct
     pw_dists = np.load(out_file)
     # This has been computed by hand
     known_pw_dists = np.array([[0.0, np.sqrt(37) / 14, np.sqrt(22) / 21], [np.sqrt(37) / 14, 0.0, np.sqrt(13) / 6],
                                [np.sqrt(22) / 21, np.sqrt(13) / 6, 0.0]]) ** 2
     assert np.allclose(pw_dists, known_pw_dists, atol=1e-3)
-    # check that the basis file has been created and is correct
-    assert exists(basis_file)
     # open the basis file
     fun_files = []
     with open(basis_file, "r") as f:
@@ -254,8 +215,6 @@ def test_small_edge_lengthsL2():
         assert basis == os.path.basename(profile1)  # P
         # check that the end of the file has been reached
         assert f.readline() == ""
-    # Check that the diffabs file is correct
-    assert exists(diffab_out_file)
     #diffabs = np.load(diffab_out_file)
     diffabs = sparse.load_npz(diffab_out_file)
     # QP diffab
