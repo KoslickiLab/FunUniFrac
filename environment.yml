@@ -2,7 +2,6 @@ name: fununifrac
 channels:
   - defaults
   - conda-forge
-  - pypi
   - bioconda
 dependencies:
   - python>=3.9, <3.10
