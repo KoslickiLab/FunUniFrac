@@ -1,8 +1,9 @@
 import networkx as nx
-import numpy as np
+import pandas as pd
 from itertools import combinations
-
-edge_lengths_solutions = {}
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
 
 class KeggTree():
     #a tree from edge_list with branch lengths
@@ -145,6 +146,39 @@ def write_dict_to_file(d, filename):
     with open(filename, 'w') as f:
         for k, v in d.items():
             f.write(str(k) + '\t' + str(v) + '\n')
+    return
+
+
+def visualize_diff(edge_lengths_solution, G, outfile_name):
+    '''
+
+    :param edge_lengths_solution:
+    :param G: KeggTree object
+    :return:
+    '''
+    inferred_edges = [k for k in list(edge_lengths_solution.keys())]
+    inferred_edges.sort()
+    inferred_lengths = [edge_lengths_solution[e] for e in inferred_edges]
+    actual = {(start, end):v  for (start, end, v) in G.tree.edges(data=True)}
+    actual_lengths = [actual[k]['edge_length'] for k in inferred_edges]
+    df = pd.DataFrame(columns=['edge', 'inferred_length',  'actual_length'])
+    df['edge'] = inferred_edges
+    df['actual_length'] = actual_lengths
+    df['inferred_length'] = inferred_lengths
+    print(df)
+    sns.scatterplot(data=df, x='inferred_length', y='actual_length')
+    #plt.show()
+    plt.savefig(outfile_name)
+    return
+
+def L1_norm(edge_lengths_solution, G):
+    actual_edges = [(start, end) for (start, end, _) in G.tree.edges(data=True)]
+    solution_lengths = [edge_lengths_solution[e] for e in actual_edges]
+    actual_lengths = [a['edge_length'] for (_, _, a) in G.tree.edges(data=True)]
+    print(actual_lengths[:5])
+    print(solution_lengths[:5])
+    print(np.linalg.norm(np.array(actual_lengths) - np.array(solution_lengths), 1))
+    return
 
 
 if __name__ == "__main__":
@@ -161,5 +195,7 @@ if __name__ == "__main__":
     edge_lengths_solution = {}
     pw_dist = real_sub_tree.pw_dist
     assign_branch_lengths(real_sub_tree, real_sub_tree.leaf_nodes, pw_dist, edge_lengths_solution)
-    write_dict_to_file(edge_lengths_solution, './edge_lengths_solution_09149aging.txt')
-    nx.write_edgelist(real_sub_tree.tree, './sub_tree_09149aging_original_edge_lengths.txt')
+    #L1_norm(edge_lengths_solution, real_sub_tree)
+    visualize_diff(edge_lengths_solution, real_sub_tree, 'scatter_plot_age09149aging.png')
+    #write_dict_to_file(edge_lengths_solution, './edge_lengths_solution_09149aging.txt')
+    #nx.write_edgelist(real_sub_tree.tree, './sub_tree_09149aging_original_edge_lengths.txt')
