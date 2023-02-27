@@ -180,22 +180,48 @@ def L1_norm(edge_lengths_solution, G):
     print(np.linalg.norm(np.array(actual_lengths) - np.array(solution_lengths), 1))
     return
 
+def write_subgraph_file(G, subgraph_nodes, out_file):
+    '''
+    Not really going to use because most subgraph files are created making jupyter notebook.
+    Just include for completeness
+    :param G:
+    :param subgraph_nodes:
+    :param out_file:
+    :return:
+    '''
+    sub_tree = G.subgraph(subgraph_nodes)
+    with open(out_file, 'w') as f:
+        f.write("#parent\tchild\tedge_length\n")
+        for edge in sub_tree.edges(data=True):
+            parent = edge[0]
+            child = edge[1]
+            edge_length = edge[2]['edge_length']
+            print(parent, child, edge_length)
+            f.write(f"{parent}\t{child}\t{edge_length}\n")
+        return
+
+def get_KeggTree_from_edgelist(file):
+    '''
+
+    :param file:
+    :return: KeggTree
+    '''
+    G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
+                         data=(('edge_length', float),))
+    keggTree = KeggTree(G)
+    return keggTree
 
 if __name__ == "__main__":
     edge_list_file = 'kegg_ko_edge_df_br_ko00001.txt_AAI_lengths_n_50_f_10_r_100.txt'
     G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
                          data=(('edge_length', float),))
-    subgraph_nodes = ['K19768', 'K19773', 'K19765', 'K22878', 'K19767', 'K19764', 'K19774', 'K10141', 'K19766',
-                      'K19805', '04212 Longevity regulating pathway - worm', 'K11204', 'K14938', 'K20394',
-                      '04213 Longevity regulating pathway - multiple species', 'K19772', 'K13356', 'K17705',
-                      '09149 Aging',
-                      'K01768', 'K19769', 'K19770', 'K19771', 'K01440', '04211 Longevity regulating pathway']
-    sub_tree = G.subgraph(subgraph_nodes)
-    real_sub_tree = KeggTree(sub_tree)
+    sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes.txt')
+    print(sub_tree.tree.edges)
     edge_lengths_solution = {}
-    pw_dist = real_sub_tree.pw_dist
-    assign_branch_lengths(real_sub_tree, real_sub_tree.leaf_nodes, pw_dist, edge_lengths_solution)
-    #L1_norm(edge_lengths_solution, real_sub_tree)
-    visualize_diff(edge_lengths_solution, real_sub_tree, 'scatter_plot_age09149aging.png')
+    pw_dist = sub_tree.pw_dist
+    print(pw_dist)
+    assign_branch_lengths(sub_tree, sub_tree.leaf_nodes, pw_dist, edge_lengths_solution)
+    L1_norm(edge_lengths_solution, sub_tree)
+    visualize_diff(edge_lengths_solution, sub_tree, 'scatter_plot_age09151ImmuneSystem.png')
     #write_dict_to_file(edge_lengths_solution, './edge_lengths_solution_09149aging.txt')
     #nx.write_edgelist(real_sub_tree.tree, './sub_tree_09149aging_original_edge_lengths.txt')
