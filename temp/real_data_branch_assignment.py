@@ -19,6 +19,7 @@ class KeggTree():
         self.pw_dist = {}
         self.get_pw_dist()
         self.size = len(self.tree.nodes())
+        self.root = [node for node in self.tree if self.in_degree(node) == 0][0]
 
     def get_pw_dist(self):
         undir_tree = self.tree.to_undirected()
@@ -36,6 +37,8 @@ class KeggTree():
             for n in self.tree.successors(p):
                 siblings.add(n)
         siblings.remove(node) #remove the node itself
+        if len(siblings) == 0:
+            print(f"{node} has no siblings")
         return siblings
 
     def get_parent(self, node):
@@ -47,6 +50,17 @@ class KeggTree():
         #get one child
         for c in self.tree.successors(node):
             return c
+
+    def merge_single_child_branches(self):
+        single_child_parents = [node for node in self.tree if self.tree.output(node) == 1]
+        for n in single_child_parents:
+            n_parent = self.get_parent(n)
+            n_child = self.get_child(n)
+            new_edge_length = self.tree.get_edge_data(n_parent, n)['edge_length'] + \
+                              self.tree.get_edge_data(n, n_child)['edge_length']
+            self.tree.add_edge(n_parent, n_child, edge_length=new_edge_length)
+            self.remove_node(n)
+        pass
 
 
 def get_subtree(edge_list, sub_root):
@@ -142,6 +156,7 @@ def assign_branch_lengths(G, leaf_nodes, pw_dist, edge_lengths_solution):
                           edge_lengths_solution[(a, a_child)] - edge_lengths_solution[(b, b_child)]
     assign_branch_lengths(G, list(parent_nodes), pw_dist, edge_lengths_solution)
 
+
 def write_dict_to_file(d, filename):
     with open(filename, 'w') as f:
         for k, v in d.items():
@@ -200,7 +215,7 @@ def write_subgraph_file(G, subgraph_nodes, out_file):
             f.write(f"{parent}\t{child}\t{edge_length}\n")
         return
 
-def get_KeggTree_from_edgelist(file):
+def get_KeggTree_from_edgelist(edge_list_file):
     '''
 
     :param file:
