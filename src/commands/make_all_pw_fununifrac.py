@@ -2,31 +2,22 @@
 # Script to compute all pairwise functional unifrac from a directory of functional profiles
 import argparse
 import os
-import sys
-from os.path import exists
 import numpy as np
 import networkx as nx
 from scipy import sparse
 import pandas as pd
 from scipy.optimize import lsq_linear
-# relative imports
-try:
-    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-    sys.path.append(os.path.dirname(SCRIPT_DIR))
-except:
-    pass
-import src.CONSTANTS as CONSTANTS
 import src.LP_EMD_helper as LH
 import src.EMDU as EMDU
 import multiprocessing
 from itertools import combinations, repeat
-import glob
 from src.CONSTANTS import BRITES
 from src.LP_EMD_helper import get_descendants
 import logging
 from blist import blist
 import sparse
 import pickle
+import data
 
 
 def map_func(file, Tint, lint, nodes_in_order, EMDU_index_2_node, abundance_key, unweighted, is_L2):
@@ -49,7 +40,6 @@ def map_star(args):
 def main(args):
     logging.basicConfig(level=args.loglevel, format='%(asctime)s %(levelname)s: %(message)s')
     edge_list_file = args.edge_list
-    directory = args.directory
     out_file = args.out_file
     file_pattern = args.file_pattern
     force = args.force
@@ -62,18 +52,13 @@ def main(args):
     save_Ppushed = args.Ppushed
     if brite not in BRITES:
         raise ValueError(f'Invalid BRITE ID: {brite}. Must be one of {BRITES}')
-    if not exists(edge_list_file):
-        raise FileNotFoundError(f"Could not find {edge_list_file}")
-    if not exists(directory):
-        raise FileNotFoundError(f"Could not find {directory}")
-    if exists(out_file) and not force:
-        raise FileExistsError(f"{out_file} already exists. Please delete or rename it, or use --force.")
+    edge_list_file = data.get_data_abspath(edge_list_file)
+    out_file = data.get_data_abspath(out_file, raise_if_not_found=False)
+    if os.path.exists(out_file) and not force:
+        raise FileExistsError(f"{out_file} already exists. Please delete it or choose another name, or use --force.")
     # look for files in that directory with that file pattern
-    fun_files = glob.glob(os.path.join(directory, file_pattern))
-    if len(fun_files) == 0:
-        raise FileNotFoundError(f"No files in {directory} match the pattern {file_pattern}.")
+    fun_files = data.get_data_abspaths(file_pattern)
     fun_files = sorted(fun_files)
-    logging.info(f"Found {len(fun_files)} files in {directory} matching {file_pattern}")
     logging.info(f"Parsing graph")
     # Parse the graph and get the FunUniFrac objects Tint, length, and edge_list
     Gdir = LH.import_graph(edge_list_file, directed=True)

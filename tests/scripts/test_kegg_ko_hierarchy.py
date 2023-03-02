@@ -6,4 +6,4 @@ def test_get_ko00001_tree():
     assert True
     # ko_extractor = KEGG_KO_Extraction()
     # substree_dict = ko_extractor.run('br:ko00001')
-    # assert len(substree_dict) == 25651
+    # assert len(substree_dict) > 0

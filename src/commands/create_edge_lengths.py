@@ -10,7 +10,7 @@ import multiprocessing
 from itertools import repeat
 from src.CONSTANTS import BRITES
 from src.LP_EMD_helper import get_descendants, get_descendant, get_KO_labels_and_index
-
+import data
 
 def map_func(itr, A, y, factor, reg_factor):
     num_rows = int(factor * A.shape[1])
@@ -48,31 +48,20 @@ def main(args):
         raise ValueError('Factor must be at least 1')
 
     # check that the files exist
-    if not exists(edge_list):
-        raise FileNotFoundError(f"Could not find {edge_list}")
-    if not exists(distances_file):
-        raise FileNotFoundError(f"Could not find {distances_file}")
-    if not exists(f"{distances_file}.labels.txt"):
-        raise FileNotFoundError(f"Could not find {distances_file}.labels.txt in the same directory as {distances_file}")
-    distances_labels_file = f"{distances_file}.labels.txt"
+    edge_list = data.get_data_abspath(edge_list)
+    distances_file = data.get_data_abspath(distances_file)
+    distances_labels_file = data.get_data_abspath(f"{distances_file}.labels.txt")
+    A_matrix_file = data.get_data_abspath(A_matrix_file)
+    if A_matrix_file.endswith('_A.npz'):
+        basis_name = f"{A_matrix_file[:-len('_A.npz')]}_column_basis.txt"
+    else:
+        raise FileNotFoundError(f"Could not find the basis file that should accompany {A_matrix_file}. It appears the "
+                                    f"matrix file does not end in '_A.npz'. Was it created with graph_to_path_matrix.py?")    
+    out_file = data.get_data_abspath(out_file, raise_if_not_found=False)
     if os.path.exists(out_file) and not force:
         raise FileExistsError(f"{out_file} already exists. Please delete it or choose another name, or use --force.")
-    if not exists(A_matrix_file):
-        raise FileNotFoundError(f"Could not find {A_matrix_file}")
-    try:
-        basis_name = f"{A_matrix_file.removesuffix('_A.npz')}_column_basis.txt"
-    except AttributeError:
-        if A_matrix_file.endswith('_A.npz'):
-            basis_name = f"{A_matrix_file[:-6]}_column_basis.txt"
-        else:
-            raise FileNotFoundError(f"Could not find the basis file that should accompany {A_matrix_file}. It appears the "
-                                    f"matrix file does not end in '_A.npz'. Was it created with graph_to_path_matrix.py?")
-    if not exists(basis_name):
-        raise FileNotFoundError(f"Could not find the basis file {basis_name} that should accompany {A_matrix_file}.")
-
     if brite not in BRITES:
         raise ValueError(f"{brite} is not a valid BRITE ID. Choices are: {BRITES}")
-
 
     # import the basis of the A matrix (the shortest path matrix)
     with open(basis_name, 'r') as f:

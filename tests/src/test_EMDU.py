@@ -2,8 +2,8 @@ import src.LP_EMD_helper as LH
 import src.EMDU as EMDU
 import numpy as np
 import pytest
-import glob
 import os
+import data
 
 
 def test_emdu_vs_pyemd_simple():
@@ -11,7 +11,7 @@ def test_emdu_vs_pyemd_simple():
     Compare PyEMD with EMDUniFrac
     :return: None
     """
-    test_edge_file = 'test_data/small_edge_list_with_lengths.txt'
+    test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
     distance_matrix, node_list = LH.get_distance_matrix_from_edge_list(test_edge_file)
     # simple known distributions
     P = np.array([0, 0, 0, 0, 0, 0, 1])
@@ -42,7 +42,7 @@ def test_emdu_vs_pyemd_random():
     Compare PyEMD with EMDUniFrac with a bunch of random Ps and Qs
     :return: None
     """
-    test_edge_file = 'test_data/small_edge_list_with_lengths.txt'
+    test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
     distance_matrix, node_list = LH.get_distance_matrix_from_edge_list(test_edge_file)
     Gdir = LH.import_graph(test_edge_file, directed=True)
     Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(Gdir)
@@ -73,8 +73,8 @@ def test_emdu_vs_pyemd_random():
 
 # Test functional profile conversion
 def test_func_profile_convert():
-    test_edge_file = 'test_data/small_edge_list_with_lengths.txt'
-    functional_profile_file = 'test_data/small_sim_10_KOs_gather.csv'
+    test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
+    functional_profile_file = data.get_data_abspath('small_sim_10_KOs_gather.csv')
     Gdir = LH.import_graph(test_edge_file, directed=True)
     Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(Gdir)
     node_2_EMDU_index = {val: key for key, val in EMDU_index_2_node.items()}
@@ -100,7 +100,7 @@ def test_func_profile_convert():
 
 
 def test_push_up_L1():
-    test_edge_file = 'test_data/small_edge_list_with_lengths.txt'
+    test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
     distance_matrix, node_list = LH.get_distance_matrix_from_edge_list(test_edge_file)
     Gdir = LH.import_graph(test_edge_file, directed=True)
     Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(Gdir)
@@ -126,11 +126,10 @@ def test_push_up_L1():
 
 
 def test_diffab_indexer():
-    edge_list_file = "test_data/small_edge_list_with_lengths.txt"
-    directory = "test_data"
+    edge_list_file = data.get_data_abspath("small_edge_list_with_lengths.txt")
     brite = "ko00001"
     file_pattern = "*_gather.csv"
-    fun_files = glob.glob(os.path.join(directory, file_pattern))
+    fun_files = data.get_data_abspaths(file_pattern)
     fun_files = sorted(fun_files)
     Gdir = LH.import_graph(edge_list_file, directed=True)
     descendants = LH.get_descendants(Gdir, brite)
@@ -173,7 +172,8 @@ def test_diffab_indexer():
 
 
 def test_EMDUnifrac_weighted_flow():
-    G = LH.import_graph('test_data/small_edge_list_with_lengths_emdu.txt')
+    path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
+    G = LH.import_graph(path)
     Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(G)
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
@@ -204,10 +204,10 @@ def test_EMDUnifrac_weighted_flow():
     assert np.isclose(diffab[(1, 2)], 0.1)
     assert np.isclose(diffab[(2, 3)], 0.15)
 
-test_EMDUnifrac_weighted_flow()
 
 def test_EMDUnifrac_weighted():
-    G = LH.import_graph('test_data/small_edge_list_with_lengths_emdu.txt')
+    path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
+    G = LH.import_graph(path)
     Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(G)
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
@@ -233,7 +233,8 @@ def test_EMDUnifrac_weighted():
     assert np.isclose(diffab[(1, 2)], 0.1)
 
 def test_EMDUnifrac_unweighted():
-    G = LH.import_graph('test_data/small_edge_list_with_lengths_emdu.txt')
+    path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
+    G = LH.import_graph(path)
     Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(G)
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
@@ -256,7 +257,8 @@ def test_EMDUnifrac_unweighted():
 
 
 def test_EMDUnifrac_unweighted_flow():
-    G = LH.import_graph('test_data/small_edge_list_with_lengths_emdu.txt')
+    path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
+    G = LH.import_graph(path)
     Tint, lint, nodes_in_order, EMDU_index_2_node = LH.weighted_tree_to_EMDU_input(G)
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},

@@ -3,25 +3,18 @@ import networkx as nx
 import numpy as np
 import tempfile
 import pytest
+import data
 
 from src.LP_EMD_helper import get_EMD_pyemd,\
-get_EMDUniFrac_from_functional_profiles,\
-get_EMD_from_edge_file,\
-get_ID_index_dict,\
 get_distance_matrix_from_edge_list,\
-get_leaf_nodes,\
-get_leaf_nodes_only_graph,\
 get_distance_matrix_from_edge_list,\
-make_edge_list_file_len_1_tmp,\
-parse_edge_list,\
-simulate_leaf_supported_vector,\
 get_graphs_and_index,\
 LeafDistributionSimulator,\
 get_distance_matrix_on_leaves_from_edge_list
 
 
 def test_get_distance_matrix_from_edge_list():
-    test_edge_file ='test_data/small_edge_list_with_lengths.txt'
+    test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
     distance_matrix, node_list = get_distance_matrix_from_edge_list(test_edge_file)
     # test that the distance matrix is the right size
     assert distance_matrix.shape == (len(node_list), len(node_list))
@@ -39,7 +32,7 @@ def test_get_distance_matrix_from_edge_list():
 
 def test_get_distance_matrix_on_leaves_from_edge_list():
     # first test is all the branch lengths = 1
-    test_edge_file ='test_data/small_edge_list_with_lengths.txt'
+    test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
     distance_matrix, leaf_node_list = get_distance_matrix_on_leaves_from_edge_list(test_edge_file)
     # test that the distance matrix is the right size
     assert distance_matrix.shape == (len(leaf_node_list), len(leaf_node_list))
@@ -123,7 +116,7 @@ def test_get_EMD():
 
 
 def test_get_graphs_and_index():
-    test_edge_file ='test_data/small_edge_list.txt'
+    test_edge_file = data.get_data_abspath('small_edge_list.txt')
     Gdir, Gundir, basis, index = get_graphs_and_index(test_edge_file, "ko00001")
     assert len(Gdir.edges()) == 6
     assert len(Gundir.edges()) == 6
@@ -135,9 +128,9 @@ def test_get_graphs_and_index():
 
 
 def test_leaf_node_simulator():
-    edge_list_file = 'test_data/small_edge_list.txt'
+    test_edge_file = data.get_data_abspath('small_edge_list.txt')
     brite = 'ko00001'
-    l = LeafDistributionSimulator(edge_list_file, brite)
+    l = LeafDistributionSimulator(test_edge_file, brite)
     assert len(l.basis) == 7
     P = l.get_random_dist_on_leaves()
     # check that the simulated distribution is a valid probability distribution

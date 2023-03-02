@@ -1,8 +1,9 @@
 import networkx as nx
-import numpy as np
+import pandas as pd
 from itertools import combinations
-
-edge_lengths_solutions = {}
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
 
 class KeggTree():
     #a tree from edge_list with branch lengths
@@ -18,6 +19,7 @@ class KeggTree():
         self.pw_dist = {}
         self.get_pw_dist()
         self.size = len(self.tree.nodes())
+        self.root = [node for node in self.tree if self.in_degree(node) == 0][0]
 
     def get_pw_dist(self):
         undir_tree = self.tree.to_undirected()
@@ -35,6 +37,8 @@ class KeggTree():
             for n in self.tree.successors(p):
                 siblings.add(n)
         siblings.remove(node) #remove the node itself
+        if len(siblings) == 0:
+            print(f"{node} has no siblings")
         return siblings
 
     def get_parent(self, node):
@@ -46,6 +50,17 @@ class KeggTree():
         #get one child
         for c in self.tree.successors(node):
             return c
+
+    def merge_single_child_branches(self):
+        single_child_parents = [node for node in self.tree if self.tree.output(node) == 1]
+        for n in single_child_parents:
+            n_parent = self.get_parent(n)
+            n_child = self.get_child(n)
+            new_edge_length = self.tree.get_edge_data(n_parent, n)['edge_length'] + \
+                              self.tree.get_edge_data(n, n_child)['edge_length']
+            self.tree.add_edge(n_parent, n_child, edge_length=new_edge_length)
+            self.remove_node(n)
+        pass
 
 
 def get_subtree(edge_list, sub_root):
@@ -141,25 +156,87 @@ def assign_branch_lengths(G, leaf_nodes, pw_dist, edge_lengths_solution):
                           edge_lengths_solution[(a, a_child)] - edge_lengths_solution[(b, b_child)]
     assign_branch_lengths(G, list(parent_nodes), pw_dist, edge_lengths_solution)
 
+
 def write_dict_to_file(d, filename):
     with open(filename, 'w') as f:
         for k, v in d.items():
             f.write(str(k) + '\t' + str(v) + '\n')
+    return
 
+
+def visualize_diff(edge_lengths_solution, G, outfile_name):
+    '''
+
+    :param edge_lengths_solution:
+    :param G: KeggTree object
+    :return:
+    '''
+    inferred_edges = [k for k in list(edge_lengths_solution.keys())]
+    inferred_edges.sort()
+    inferred_lengths = [edge_lengths_solution[e] for e in inferred_edges]
+    actual = {(start, end):v  for (start, end, v) in G.tree.edges(data=True)}
+    actual_lengths = [actual[k]['edge_length'] for k in inferred_edges]
+    df = pd.DataFrame(columns=['edge', 'inferred_length',  'actual_length'])
+    df['edge'] = inferred_edges
+    df['actual_length'] = actual_lengths
+    df['inferred_length'] = inferred_lengths
+    print(df)
+    sns.scatterplot(data=df, x='inferred_length', y='actual_length')
+    #plt.show()
+    plt.savefig(outfile_name)
+    return
+
+def L1_norm(edge_lengths_solution, G):
+    actual_edges = [(start, end) for (start, end, _) in G.tree.edges(data=True)]
+    solution_lengths = [edge_lengths_solution[e] for e in actual_edges]
+    actual_lengths = [a['edge_length'] for (_, _, a) in G.tree.edges(data=True)]
+    print(actual_lengths[:5])
+    print(solution_lengths[:5])
+    print(np.linalg.norm(np.array(actual_lengths) - np.array(solution_lengths), 1))
+    return
+
+def write_subgraph_file(G, subgraph_nodes, out_file):
+    '''
+    Not really going to use because most subgraph files are created making jupyter notebook.
+    Just include for completeness
+    :param G:
+    :param subgraph_nodes:
+    :param out_file:
+    :return:
+    '''
+    sub_tree = G.subgraph(subgraph_nodes)
+    with open(out_file, 'w') as f:
+        f.write("#parent\tchild\tedge_length\n")
+        for edge in sub_tree.edges(data=True):
+            parent = edge[0]
+            child = edge[1]
+            edge_length = edge[2]['edge_length']
+            print(parent, child, edge_length)
+            f.write(f"{parent}\t{child}\t{edge_length}\n")
+        return
+
+def get_KeggTree_from_edgelist(edge_list_file):
+    '''
+
+    :param file:
+    :return: KeggTree
+    '''
+    G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
+                         data=(('edge_length', float),))
+    keggTree = KeggTree(G)
+    return keggTree
 
 if __name__ == "__main__":
     edge_list_file = 'kegg_ko_edge_df_br_ko00001.txt_AAI_lengths_n_50_f_10_r_100.txt'
     G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
                          data=(('edge_length', float),))
-    subgraph_nodes = ['K19768', 'K19773', 'K19765', 'K22878', 'K19767', 'K19764', 'K19774', 'K10141', 'K19766',
-                      'K19805', '04212 Longevity regulating pathway - worm', 'K11204', 'K14938', 'K20394',
-                      '04213 Longevity regulating pathway - multiple species', 'K19772', 'K13356', 'K17705',
-                      '09149 Aging',
-                      'K01768', 'K19769', 'K19770', 'K19771', 'K01440', '04211 Longevity regulating pathway']
-    sub_tree = G.subgraph(subgraph_nodes)
-    real_sub_tree = KeggTree(sub_tree)
+    sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes.txt')
+    print(sub_tree.tree.edges)
     edge_lengths_solution = {}
-    pw_dist = real_sub_tree.pw_dist
-    assign_branch_lengths(real_sub_tree, real_sub_tree.leaf_nodes, pw_dist, edge_lengths_solution)
-    write_dict_to_file(edge_lengths_solution, './edge_lengths_solution_09149aging.txt')
-    nx.write_edgelist(real_sub_tree.tree, './sub_tree_09149aging_original_edge_lengths.txt')
+    pw_dist = sub_tree.pw_dist
+    print(pw_dist)
+    assign_branch_lengths(sub_tree, sub_tree.leaf_nodes, pw_dist, edge_lengths_solution)
+    L1_norm(edge_lengths_solution, sub_tree)
+    visualize_diff(edge_lengths_solution, sub_tree, 'scatter_plot_age09151ImmuneSystem.png')
+    #write_dict_to_file(edge_lengths_solution, './edge_lengths_solution_09149aging.txt')
+    #nx.write_edgelist(real_sub_tree.tree, './sub_tree_09149aging_original_edge_lengths.txt')
