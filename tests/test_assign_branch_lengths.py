@@ -23,3 +23,7 @@ def test_get_siblings():
     siblings = kegg_tree.get_siblings('K01768')
     assert len(siblings) == 7
     assert 'K01440' in siblings
+
+
+def test_merge_branches():
+    pass
