@@ -4,10 +4,11 @@ from itertools import combinations
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
+from data import get_data_abspath
 
 class KeggTree():
     #a tree from edge_list with branch lengths
-    def __init__(self, tree):
+    def __init__(self, tree, write_merged_file=False, merged_outfile=None):
         self.tree = tree #an nx.DiGraph
         try:
             self.tree.remove_edge('parent','child')
@@ -15,11 +16,12 @@ class KeggTree():
             self.tree.remove_node('child')
         except:
             print("'parent' and 'child' are not in the edge list")
+        self.merge_single_child_branches(write_file=write_merged_file, outfile=merged_outfile)
         self.leaf_nodes = [node for node in self.tree if self.tree.out_degree(node) == 0]
         self.pw_dist = {}
         self.get_pw_dist()
         self.size = len(self.tree.nodes())
-        self.root = [node for node in self.tree if self.in_degree(node) == 0][0]
+        #self.root = [node for node in self.tree if self.tree.in_degree(node) == 0][0]
 
     def get_pw_dist(self):
         undir_tree = self.tree.to_undirected()
@@ -51,16 +53,24 @@ class KeggTree():
         for c in self.tree.successors(node):
             return c
 
-    def merge_single_child_branches(self):
-        single_child_parents = [node for node in self.tree if self.tree.output(node) == 1]
+    def merge_single_child_branches(self, write_file=False, outfile=None):
+        single_child_parents = [node for node in self.tree if self.tree.out_degree(node) == 1]
+        if len(single_child_parents) == 0:
+            return
+        print("single_child_parents: ", single_child_parents)
+        single_child_parents.reverse()
         for n in single_child_parents:
-            n_parent = self.get_parent(n)
-            n_child = self.get_child(n)
-            new_edge_length = self.tree.get_edge_data(n_parent, n)['edge_length'] + \
-                              self.tree.get_edge_data(n, n_child)['edge_length']
-            self.tree.add_edge(n_parent, n_child, edge_length=new_edge_length)
-            self.remove_node(n)
-        pass
+            single_child = self.get_child(n)
+            n_grands = self.tree.successors(single_child)
+            for grand in n_grands:
+                new_edge_length = self.tree.get_edge_data(n, single_child)['edge_length'] + \
+                              self.tree.get_edge_data(single_child, grand)['edge_length']
+                self.tree.add_edge(n, grand, edge_length=new_edge_length)
+            self.tree.remove_node(single_child)
+        if write_file:
+            outfile = outfile if outfile is not None else 'tree_with_no_single_child.txt'
+            nx.write_weighted_edgelist(self.tree, outfile, delimiter='\t')
+
 
 
 def get_subtree(edge_list, sub_root):
@@ -215,7 +225,7 @@ def write_subgraph_file(G, subgraph_nodes, out_file):
             f.write(f"{parent}\t{child}\t{edge_length}\n")
         return
 
-def get_KeggTree_from_edgelist(edge_list_file):
+def get_KeggTree_from_edgelist(edge_list_file, write_file=False, outfile=None):
     '''
 
     :param file:
@@ -223,18 +233,19 @@ def get_KeggTree_from_edgelist(edge_list_file):
     '''
     G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
                          data=(('edge_length', float),))
-    keggTree = KeggTree(G)
+    keggTree = KeggTree(G, write_merged_file=write_file, merged_outfile=outfile)
     return keggTree
 
 if __name__ == "__main__":
     edge_list_file = 'kegg_ko_edge_df_br_ko00001.txt_AAI_lengths_n_50_f_10_r_100.txt'
-    G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
-                         data=(('edge_length', float),))
-    sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes.txt')
-    print(sub_tree.tree.edges)
+    edge_list_file = get_data_abspath(edge_list_file)
+    #G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
+     #                    data=(('edge_length', float),))
+    #sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes.txt', write_file=True, outfile='sub_tree_09151ImmuneSystem_83nodes_merged.txt')
+    sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes_merged.txt')
     edge_lengths_solution = {}
     pw_dist = sub_tree.pw_dist
-    print(pw_dist)
+
     assign_branch_lengths(sub_tree, sub_tree.leaf_nodes, pw_dist, edge_lengths_solution)
     L1_norm(edge_lengths_solution, sub_tree)
     visualize_diff(edge_lengths_solution, sub_tree, 'scatter_plot_age09151ImmuneSystem.png')

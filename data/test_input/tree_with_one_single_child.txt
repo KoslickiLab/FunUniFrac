@@ -1,0 +1,4 @@
+#parent	child	edge_length
+A	B	1
+B	C	2
+B	D	3	
