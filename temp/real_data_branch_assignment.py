@@ -16,12 +16,12 @@ class KeggTree():
             self.tree.remove_node('child')
         except:
             print("'parent' and 'child' are not in the edge list")
+        self.root = [node for node in self.tree if self.tree.in_degree(node) == 0][0]
         self.merge_single_child_branches(write_file=write_merged_file, outfile=merged_outfile)
         self.leaf_nodes = [node for node in self.tree if self.tree.out_degree(node) == 0]
         self.pw_dist = {}
         self.get_pw_dist()
         self.size = len(self.tree.nodes())
-        #self.root = [node for node in self.tree if self.tree.in_degree(node) == 0][0]
 
     def get_pw_dist(self):
         undir_tree = self.tree.to_undirected()
@@ -58,6 +58,8 @@ class KeggTree():
         if len(single_child_parents) == 0:
             return
         print("single_child_parents: ", single_child_parents)
+        if self.root in single_child_parents:
+            single_child_parents.remove(self.root)
         single_child_parents.reverse()
         for n in single_child_parents:
             single_child = self.get_child(n)
@@ -103,6 +105,7 @@ def assign_branch_lengths(G, leaf_nodes, pw_dist, edge_lengths_solution):
     :return:
     '''
     if len(leaf_nodes) == 1:
+        #root
         return
     if len(leaf_nodes) == 2:
         #first assume no single child
@@ -242,7 +245,7 @@ if __name__ == "__main__":
     #G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
      #                    data=(('edge_length', float),))
     #sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes.txt', write_file=True, outfile='sub_tree_09151ImmuneSystem_83nodes_merged.txt')
-    sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes_merged.txt')
+    sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes.txt')
     edge_lengths_solution = {}
     pw_dist = sub_tree.pw_dist
 
