@@ -18,4 +18,5 @@ dependencies:
     - pytest
     - sparse
     - requests
+    - seaborn
 
