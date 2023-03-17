@@ -1,0 +1,4 @@
+#parent	child	edge_length
+root	h	1
+root	g	4
+root	f	8

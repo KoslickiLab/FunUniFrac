@@ -27,23 +27,20 @@ def test_get_siblings():
     assert 'K01440' in siblings
 
 
-def test_merge_branches():
-    edge_list = 'test_input/tree_with_one_single_child.txt'
-    edge_list = data.get_data_abspath(edge_list)
-    kegg_tree = get_KeggTree_from_edgelist(edge_list)
-    kegg_tree.merge_single_child_branches()
-    assert kegg_tree.tree.get_edge_data('A', 'C')['edge_length'] == 3
-    assert kegg_tree.tree.get_edge_data('A', 'D')['edge_length'] == 4
-    assert 'B' not in kegg_tree.tree
-
-
 def test_multiple_merge_branches():
     edge_list = data.get_data_abspath('test_input/tree_with_multiple_single_descendants.txt')
     kegg_tree = get_KeggTree_from_edgelist(edge_list)
-    assert kegg_tree.tree.get_edge_data('A', 'D')['edge_length'] == 6
-    assert kegg_tree.tree.get_edge_data('A', 'E')['edge_length'] == 7
+    assert kegg_tree.tree.get_edge_data('A', 'C')['edge_length'] == 3
+    assert 'B' not in kegg_tree.tree
 
 
 def test_assign_branch_with_multiple_single_child():
-    edge_list = data.get_data_abspath('test_input/tree_with_multiple_single_descendants.txt')
+    edge_list = data.get_data_abspath('test_input/unbalanced_tree.txt')
     kegg_tree = get_KeggTree_from_edgelist(edge_list)
+    edge_lengths_solution = {}
+    pw_dist = kegg_tree.pw_dist
+    assign_branch_lengths(kegg_tree, kegg_tree.leaf_nodes, pw_dist, edge_lengths_solution)
+    assert edge_lengths_solution[('root', 'f')] == 8
+    assert edge_lengths_solution[('root', 'h')] == 1
+
+

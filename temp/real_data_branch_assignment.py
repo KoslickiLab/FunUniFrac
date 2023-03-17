@@ -55,20 +55,18 @@ class KeggTree():
 
     def merge_single_child_branches(self, write_file=False, outfile=None):
         single_child_parents = [node for node in self.tree if self.tree.out_degree(node) == 1]
+        #assume root is not a single parent first
         if len(single_child_parents) == 0:
             return
         print("single_child_parents: ", single_child_parents)
-        if self.root in single_child_parents:
-            single_child_parents.remove(self.root)
         single_child_parents.reverse()
-        for n in single_child_parents:
-            single_child = self.get_child(n)
-            n_grands = self.tree.successors(single_child)
-            for grand in n_grands:
-                new_edge_length = self.tree.get_edge_data(n, single_child)['edge_length'] + \
-                              self.tree.get_edge_data(single_child, grand)['edge_length']
-                self.tree.add_edge(n, grand, edge_length=new_edge_length)
-            self.tree.remove_node(single_child)
+        for p in single_child_parents:
+            single_child = self.get_child(p)
+            single_child_grand = self.get_parent(p)
+            new_edge_length = self.tree.get_edge_data(p, single_child)['edge_length'] + \
+                              self.tree.get_edge_data(single_child_grand, p)['edge_length']
+            self.tree.add_edge(single_child_grand, single_child, edge_length=new_edge_length)
+            self.tree.remove_node(p)
         if write_file:
             outfile = outfile if outfile is not None else 'tree_with_no_single_child.txt'
             nx.write_weighted_edgelist(self.tree, outfile, delimiter='\t')
@@ -104,6 +102,8 @@ def assign_branch_lengths(G, leaf_nodes, pw_dist, edge_lengths_solution):
     :param G: KeggTree object
     :return:
     '''
+
+
     if len(leaf_nodes) == 1:
         #root
         return
@@ -117,6 +117,7 @@ def assign_branch_lengths(G, leaf_nodes, pw_dist, edge_lengths_solution):
             edge_lengths_solution[(parent, leaf_nodes[1])] = edge_length
         return
     else: #at least 2 parents => at least 3 leaf nodes
+        parent_nodes = set()
         leaf_a = leaf_nodes[0]
         siblings = G.get_siblings(leaf_a)
         leaf_b = siblings.pop() #a and b are siblings
@@ -130,10 +131,15 @@ def assign_branch_lengths(G, leaf_nodes, pw_dist, edge_lengths_solution):
         e1 = (d1 + d2 - d3)/2
         e2 = d1 - e1
         parent = G.get_parent(leaf_a)
+        parent_nodes.add(parent)
         edge_lengths_solution[(parent, leaf_a)] = e1
         edge_lengths_solution[(parent, leaf_b)] = e2
-        for i, n in enumerate(leaf_nodes[1:]):
+        if G.get_parent(leaf_c) == parent:
+            e3 = d2 - e1
+            edge_lengths_solution[(parent, leaf_c)] = e3
+        for i, n in enumerate(leaf_nodes[2:]):
             parent = G.get_parent(n)
+            parent_nodes.add(parent)
             if (parent, n) in edge_lengths_solution:
                 continue
             else:
@@ -153,11 +159,6 @@ def assign_branch_lengths(G, leaf_nodes, pw_dist, edge_lengths_solution):
                     e2 = d1 - e1
                     edge_lengths_solution[(parent, n)] = e1
                     edge_lengths_solution[(parent, sibling)] = e2
-    #get all parent nodes
-    parent_nodes = set()
-    for n in leaf_nodes:
-        parent = G.get_parent(n)
-        parent_nodes.add(parent)
     #update pw_dist
     for (a, b) in combinations(parent_nodes, 2):
         if a > b:
@@ -245,7 +246,7 @@ if __name__ == "__main__":
     #G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
      #                    data=(('edge_length', float),))
     #sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes.txt', write_file=True, outfile='sub_tree_09151ImmuneSystem_83nodes_merged.txt')
-    sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes.txt')
+    sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_small.txt')
     edge_lengths_solution = {}
     pw_dist = sub_tree.pw_dist
 
