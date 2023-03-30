@@ -73,6 +73,12 @@ class KeggTree():
             outfile = outfile if outfile is not None else 'tree_with_no_single_child.txt'
             nx.write_weighted_edgelist(self.tree, outfile, delimiter='\t')
 
+    def make_full_tree(self):
+        #process tree from root down until the deepest level, if any node has only one child, add a dummy node with
+        #length 0
+        tree = self.tree
+
+        pass
 
 
 def get_subtree(edge_list, sub_root):
