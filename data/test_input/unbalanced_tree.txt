@@ -2,3 +2,8 @@
 root	h	1
 root	g	4
 root	f	8
+h	a	2
+h	b	3
+g	c	5
+g	d	6
+g	e	7

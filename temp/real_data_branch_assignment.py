@@ -17,11 +17,13 @@ class KeggTree():
         except:
             print("'parent' and 'child' are not in the edge list")
         self.root = [node for node in self.tree if self.tree.in_degree(node) == 0][0]
-        self.merge_single_child_branches(write_file=write_merged_file, outfile=merged_outfile)
-        self.leaf_nodes = [node for node in self.tree if self.tree.out_degree(node) == 0]
+        self.nodes_by_depth = dict()
+        self.group_nodes_by_depth()
+        self.make_full_tree()
+        self.leaf_nodes = self.nodes_by_depth[len(self.nodes_by_depth)-1]
         self.pw_dist = {}
         self.get_pw_dist()
-        self.size = len(self.tree.nodes())
+        self.size = len(list(self.tree.nodes()))
 
     def get_pw_dist(self):
         undir_tree = self.tree.to_undirected()
@@ -72,11 +74,24 @@ class KeggTree():
             nx.write_weighted_edgelist(self.tree, outfile, delimiter='\t')
 
     def make_full_tree(self):
-        #process tree from root down until the deepest level, if any node has only one child, add a dummy node with
-        #length 0
-        tree = self.tree
+        #process tree from root down until the deepest level, if any node has no child, add a dummy node
+        dummy_node_count = 0
+        for i in range(len(self.nodes_by_depth)):
+            for node in self.nodes_by_depth[i]:
+                if not self.tree.successors(node):
+                    dummy_node = 'dummy' + str(dummy_node_count)
+                    self.tree.add_edge(node, dummy_node, edge_length=0)
+                    self.nodes_by_depth[i].append(dummy_node)
+                    dummy_node_count += 1
 
-        pass
+    def group_nodes_by_depth(self):
+        for node in self.tree.nodes():
+            depth = nx.shortest_path_length(self.tree, self.root, node)
+            if depth in self.nodes_by_depth:
+                self.nodes_by_depth[depth].append(node)
+            else:
+                self.nodes_by_depth[depth] = [node]
+
 
 
 def get_subtree(edge_list, sub_root):
@@ -126,45 +141,53 @@ def assign_branch_lengths(G, leaf_nodes, pw_dist, edge_lengths_solution):
         parent_nodes = set()
         leaf_a = leaf_nodes[0]
         siblings = G.get_siblings(leaf_a)
-        leaf_b = siblings.pop() #a and b are siblings
-        if leaf_b == leaf_nodes[1]:
-            leaf_c = leaf_nodes[2]
+        if len(siblings) == 0:
+            parent = G.get_parent(leaf_a)
+            parent_nodes.add(parent)
+            edge_lengths_solution[(parent, leaf_a)] = 0
         else:
-            leaf_c = leaf_nodes[1]
-        d1 = pw_dist[(leaf_a, leaf_b)] if leaf_a < leaf_b else pw_dist[(leaf_b, leaf_a)]
-        d2 = pw_dist[(leaf_a, leaf_c)] if leaf_a < leaf_c else pw_dist[(leaf_c, leaf_a)]
-        d3 = pw_dist[(leaf_b, leaf_c)] if leaf_b < leaf_c else pw_dist[(leaf_c, leaf_b)]
-        e1 = (d1 + d2 - d3)/2
-        e2 = d1 - e1
-        parent = G.get_parent(leaf_a)
-        parent_nodes.add(parent)
-        edge_lengths_solution[(parent, leaf_a)] = e1
-        edge_lengths_solution[(parent, leaf_b)] = e2
-        if G.get_parent(leaf_c) == parent:
-            e3 = d2 - e1
-            edge_lengths_solution[(parent, leaf_c)] = e3
-        for i, n in enumerate(leaf_nodes[2:]):
+            leaf_b = siblings.pop() #a and b are siblings
+            if leaf_b == leaf_nodes[1]:
+                leaf_c = leaf_nodes[2]
+            else:
+                leaf_c = leaf_nodes[1]
+            d1 = pw_dist[(leaf_a, leaf_b)] if leaf_a < leaf_b else pw_dist[(leaf_b, leaf_a)]
+            d2 = pw_dist[(leaf_a, leaf_c)] if leaf_a < leaf_c else pw_dist[(leaf_c, leaf_a)]
+            d3 = pw_dist[(leaf_b, leaf_c)] if leaf_b < leaf_c else pw_dist[(leaf_c, leaf_b)]
+            e1 = (d1 + d2 - d3)/2
+            e2 = d1 - e1
+            parent = G.get_parent(leaf_a)
+            parent_nodes.add(parent)
+            edge_lengths_solution[(parent, leaf_a)] = e1
+            edge_lengths_solution[(parent, leaf_b)] = e2
+            if G.get_parent(leaf_c) == parent:
+                e3 = d2 - e1
+                edge_lengths_solution[(parent, leaf_c)] = e3
+        for i, n in enumerate(leaf_nodes[1:]):
             parent = G.get_parent(n)
             parent_nodes.add(parent)
             if (parent, n) in edge_lengths_solution:
                 continue
             else:
                 siblings = G.get_siblings(n)
-                sibling = siblings.pop()
-                if sibling == leaf_a:
-                    another_sibling = siblings.pop()
-                    siblings.add(sibling)
-                    sibling = another_sibling
-                d1 = pw_dist[(n, sibling)] if n < sibling else pw_dist[(sibling, n)]
-                if (parent, sibling) in edge_lengths_solution:
-                    edge_lengths_solution[(parent, n)] = d1 - edge_lengths_solution[(parent, sibling)]
+                if len(siblings) == 0:
+                    edge_lengths_solution[(parent, n)] = 0
                 else:
-                    d2 = pw_dist[(n, leaf_a)] if n < leaf_a else pw_dist[(leaf_a, n)]
-                    d3 = pw_dist[(sibling, leaf_a)] if sibling < leaf_a else pw_dist[(leaf_a, sibling)]
-                    e1 = (d1 + d2 - d3)/2
-                    e2 = d1 - e1
-                    edge_lengths_solution[(parent, n)] = e1
-                    edge_lengths_solution[(parent, sibling)] = e2
+                    sibling = siblings.pop()
+                    if sibling == leaf_a:
+                        another_sibling = siblings.pop()
+                        siblings.add(sibling)
+                        sibling = another_sibling
+                    d1 = pw_dist[(n, sibling)] if n < sibling else pw_dist[(sibling, n)]
+                    if (parent, sibling) in edge_lengths_solution:
+                        edge_lengths_solution[(parent, n)] = d1 - edge_lengths_solution[(parent, sibling)]
+                    else:
+                        d2 = pw_dist[(n, leaf_a)] if n < leaf_a else pw_dist[(leaf_a, n)]
+                        d3 = pw_dist[(sibling, leaf_a)] if sibling < leaf_a else pw_dist[(leaf_a, sibling)]
+                        e1 = (d1 + d2 - d3)/2
+                        e2 = d1 - e1
+                        edge_lengths_solution[(parent, n)] = e1
+                        edge_lengths_solution[(parent, sibling)] = e2
     #update pw_dist
     for (a, b) in combinations(parent_nodes, 2):
         if a > b:
@@ -200,7 +223,7 @@ def visualize_diff(edge_lengths_solution, G, outfile_name):
     df['edge'] = inferred_edges
     df['actual_length'] = actual_lengths
     df['inferred_length'] = inferred_lengths
-    print(df)
+    print(df.to_string())
     sns.scatterplot(data=df, x='inferred_length', y='actual_length')
     #plt.show()
     plt.savefig(outfile_name)
@@ -252,12 +275,13 @@ if __name__ == "__main__":
     #G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
      #                    data=(('edge_length', float),))
     #sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes.txt', write_file=True, outfile='sub_tree_09151ImmuneSystem_83nodes_merged.txt')
-    sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_small.txt')
+    sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes.txt')
     edge_lengths_solution = {}
     pw_dist = sub_tree.pw_dist
 
     assign_branch_lengths(sub_tree, sub_tree.leaf_nodes, pw_dist, edge_lengths_solution)
-    L1_norm(edge_lengths_solution, sub_tree)
-    visualize_diff(edge_lengths_solution, sub_tree, 'scatter_plot_age09151ImmuneSystem.png')
+    #L1_norm(edge_lengths_solution, sub_tree)
+    print(sub_tree.tree.nodes)
+    visualize_diff(edge_lengths_solution, sub_tree, 'scatter_plot_age09151ImmuneSystem_83_merged.png')
     #write_dict_to_file(edge_lengths_solution, './edge_lengths_solution_09149aging.txt')
     #nx.write_edgelist(real_sub_tree.tree, './sub_tree_09149aging_original_edge_lengths.txt')

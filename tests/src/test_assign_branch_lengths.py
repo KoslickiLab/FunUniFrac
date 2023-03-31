@@ -44,3 +44,11 @@ def test_assign_branch_with_multiple_single_child():
     assert edge_lengths_solution[('root', 'h')] == 1
 
 
+def test_make_full_tree():
+    edge_list = data.get_data_abspath('test_input/tree_with_multiple_single_descendants.txt')
+    kegg_tree = get_KeggTree_from_edgelist(edge_list)
+    kegg_tree.make_full_tree()
+    assert kegg_tree.size == 7
+
+
+

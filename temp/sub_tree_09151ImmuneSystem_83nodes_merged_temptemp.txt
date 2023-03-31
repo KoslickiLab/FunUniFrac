@@ -1,0 +1,78 @@
+04622 RIG*I*like receptor signaling pathway-K00863
+04622 RIG*I*like receptor signaling pathway-K12651
+04622 RIG*I*like receptor signaling pathway-K12652
+04622 RIG*I*like receptor signaling pathway-K12656
+04662 B cell receptor signaling pathway-K07367
+04662 B cell receptor signaling pathway-K12230
+04662 B cell receptor signaling pathway-K12229
+04621 NOD*like receptor signaling pathway-K03462
+04621 NOD*like receptor signaling pathway-K12797
+04621 NOD*like receptor signaling pathway-K12792
+04621 NOD*like receptor signaling pathway-K12796
+04621 NOD*like receptor signaling pathway-K20909
+04621 NOD*like receptor signaling pathway-K20910
+04621 NOD*like receptor signaling pathway-K12801
+04621 NOD*like receptor signaling pathway-K12802
+04621 NOD*like receptor signaling pathway-K20911
+04621 NOD*like receptor signaling pathway-K12806
+04621 NOD*like receptor signaling pathway-K20897
+04621 NOD*like receptor signaling pathway-K20898
+04621 NOD*like receptor signaling pathway-K20914
+04621 NOD*like receptor signaling pathway-K20915
+04621 NOD*like receptor signaling pathway-K20916
+04621 NOD*like receptor signaling pathway-K20899
+04657 IL*17 signaling pathway-K21124
+04657 IL*17 signaling pathway-K21129
+04611 Platelet activation-K17704
+04611 Platelet activation-K06264
+04670 Leukocyte transendothelial migration-K05702
+04670 Leukocyte transendothelial migration-K08013
+04670 Leukocyte transendothelial migration-K05690
+04670 Leukocyte transendothelial migration-K06787
+04623 Cytosolic DNA*sensing pathway-K12966
+04623 Cytosolic DNA*sensing pathway-K12971
+04650 Natural killer cell mediated cytotoxicity-K07986
+04650 Natural killer cell mediated cytotoxicity-K07988
+04650 Natural killer cell mediated cytotoxicity-K07987
+09151 Immune system-04622 RIG*I*like receptor signaling pathway
+09151 Immune system-04621 NOD*like receptor signaling pathway
+09151 Immune system-04670 Leukocyte transendothelial migration
+09151 Immune system-04611 Platelet activation
+09151 Immune system-04662 B cell receptor signaling pathway
+09151 Immune system-04624 Toll and Imd signaling pathway
+09151 Immune system-04657 IL*17 signaling pathway
+09151 Immune system-04610 Complement and coagulation cascades
+09151 Immune system-04623 Cytosolic DNA*sensing pathway
+09151 Immune system-04650 Natural killer cell mediated cytotoxicity
+09151 Immune system-K24669
+09151 Immune system-K20735
+09151 Immune system-K08059
+09151 Immune system-K06779
+04624 Toll and Imd signaling pathway-K20703
+04624 Toll and Imd signaling pathway-K20692
+04624 Toll and Imd signaling pathway-K20697
+04624 Toll and Imd signaling pathway-K01446
+04624 Toll and Imd signaling pathway-K20693
+04624 Toll and Imd signaling pathway-K20694
+04624 Toll and Imd signaling pathway-K18809
+04624 Toll and Imd signaling pathway-K20695
+04624 Toll and Imd signaling pathway-K20702
+04624 Toll and Imd signaling pathway-K20696
+04624 Toll and Imd signaling pathway-K24097
+04624 Toll and Imd signaling pathway-K24076
+04624 Toll and Imd signaling pathway-K24096
+04624 Toll and Imd signaling pathway-K24092
+04624 Toll and Imd signaling pathway-K24093
+04624 Toll and Imd signaling pathway-K24074
+04624 Toll and Imd signaling pathway-K24075
+04624 Toll and Imd signaling pathway-K24077
+04624 Toll and Imd signaling pathway-K20701
+04624 Toll and Imd signaling pathway-K20699
+04624 Toll and Imd signaling pathway-K20700
+04610 Complement and coagulation cascades-K03899
+04610 Complement and coagulation cascades-K03902
+04610 Complement and coagulation cascades-K03908
+04610 Complement and coagulation cascades-K19822
+04610 Complement and coagulation cascades-K23815
+04610 Complement and coagulation cascades-K23816
+04610 Complement and coagulation cascades-K23817
