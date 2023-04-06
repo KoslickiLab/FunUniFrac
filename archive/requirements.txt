@@ -1,0 +1,15 @@
+pyemd
+pandas
+networkx
+scipy
+numpy
+blist
+pytest
+matplotlib
+pydot
+sparse
+coverage
+graphviz
+pygraphviz
+seaborn
+scikit-bio
