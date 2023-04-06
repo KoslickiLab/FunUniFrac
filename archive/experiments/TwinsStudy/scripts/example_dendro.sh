@@ -1,1 +1,0 @@
-./plot_distances_dendro.py -d /data/shared_data/TwinsStudy/output/merged_pw_fu_AAI_scale_10000_k_15_f_unique_weighted.np.npy -o /data/shared_data/TwinsStudy/output/plots -m /data/shared_data/TwinsStudy/metadata/metadata_with_file_prefix_and_sample_name.csv -k Zygosity -s 2
