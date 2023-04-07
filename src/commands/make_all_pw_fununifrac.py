@@ -8,7 +8,7 @@ from scipy import sparse
 import pandas as pd
 from scipy.optimize import lsq_linear
 import src.LP_EMD_helper as LH
-import src.EMDU as EMDU
+from src.EarthMoverDistanceUniFrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
 import multiprocessing
 from itertools import combinations, repeat
 from src.CONSTANTS import BRITES
@@ -19,17 +19,18 @@ import sparse
 import pickle
 import data
 
+solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver() 
 
 def map_func(file, Tint, lint, nodes_in_order, EMDU_index_2_node, abundance_key, unweighted, is_L2):
-    P = EMDU.functional_profile_to_EMDU_vector(file, EMDU_index_2_node,
+    P = solver.functional_profile_to_EMDU_vector(file, EMDU_index_2_node,
                                                abundance_key=abundance_key, normalize=True)
     if unweighted:
         # if entries are positive, set to 1
         P[P > 0] = 1
     if is_L2:
-        P_pushed = EMDU.push_up_L2(P, Tint, lint, nodes_in_order)
+        P_pushed = solver.push_up_L2(P, Tint, lint, nodes_in_order)
     else:
-        P_pushed = EMDU.push_up_L1(P, Tint, lint, nodes_in_order)
+        P_pushed = solver.push_up_L1(P, Tint, lint, nodes_in_order)
     return file, P_pushed
 
 
@@ -91,14 +92,14 @@ def pairwise_dist_cal():
     for i, j in combinations(range(len(fun_files)), 2):
         if not make_diffab:
             if not is_L2:
-                dists[i, j] = dists[j, i] = EMDU.EMD_L1_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                dists[i, j] = dists[j, i] = solver.EMD_L1_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             else:
-                dists[i, j] = dists[j, i] = EMDU.EMD_L2_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                dists[i, j] = dists[j, i] = solver.EMD_L2_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
         else:
             if not is_L2:
-                Z, diffab = EMDU.EMD_L1_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                Z, diffab = solver.EMD_L1_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             else:
-                Z, diffab = EMDU.EMD_L2_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                Z, diffab = solver.EMD_L2_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             dists[i, j] = dists[j, i] = Z
             nonzero_diffab_locs = np.nonzero(diffab)[0]
             i_coords.extend([i] * len(nonzero_diffab_locs))
@@ -221,14 +222,14 @@ def main(args):
     for i, j in combinations(range(len(fun_files)), 2):
         if not make_diffab:
             if not is_L2:
-                dists[i, j] = dists[j, i] = EMDU.EMD_L1_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                dists[i, j] = dists[j, i] = solver.EMD_L1_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             else:
-                dists[i, j] = dists[j, i] = EMDU.EMD_L2_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                dists[i, j] = dists[j, i] = solver.EMD_L2_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
         else:
             if not is_L2:
-                Z, diffab = EMDU.EMD_L1_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                Z, diffab = solver.EMD_L1_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             else:
-                Z, diffab = EMDU.EMD_L2_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                Z, diffab = solver.EMD_L2_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             dists[i, j] = dists[j, i] = Z
             nonzero_diffab_locs = np.nonzero(diffab)[0]
             i_coords.extend([i] * len(nonzero_diffab_locs))
