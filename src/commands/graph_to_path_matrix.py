@@ -9,7 +9,7 @@ try:
     from blist import blist
 except ModuleNotFoundError:
     print("Warning: Could not import blist. Please install blist to speed up the path matrix calculation.")
-from src.CONSTANTS import BRITES
+import src.utils.kegg_db as kegg_db
 from src.LP_EMD_helper import get_descendants, get_descendant, get_KO_labels_and_index
 from itertools import repeat
 
@@ -42,8 +42,8 @@ def main(args):
         os.mkdir(out_dir)
 
     # check if brite is legit
-    if brite not in BRITES:
-        raise ValueError(f"{brite} is not a valid BRITE ID. Choices are: {BRITES}")
+    if brite not in kegg_db.instance.brites:
+        raise ValueError(f"{brite} is not a valid BRITE ID. Choices are: {kegg_db.instance.brites}")
 
     matrix_name = f"{brite}_{os.path.basename(distances_file)}_A.npz"
     basis_name = f"{brite}_{os.path.basename(distances_file)}_column_basis.txt"

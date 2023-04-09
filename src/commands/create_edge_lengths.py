@@ -8,7 +8,7 @@ import pandas as pd
 from scipy.optimize import lsq_linear
 import multiprocessing
 from itertools import repeat
-from src.CONSTANTS import BRITES
+import src.utils.kegg_db as kegg_db
 from src.LP_EMD_helper import get_descendants, get_descendant, get_KO_labels_and_index
 import data
 
@@ -60,8 +60,8 @@ def main(args):
     out_file = data.get_data_abspath(out_file, raise_if_not_found=False)
     if os.path.exists(out_file) and not force:
         raise FileExistsError(f"{out_file} already exists. Please delete it or choose another name, or use --force.")
-    if brite not in BRITES:
-        raise ValueError(f"{brite} is not a valid BRITE ID. Choices are: {BRITES}")
+    if brite not in kegg_db.instance.brites:
+        raise ValueError(f"{brite} is not a valid BRITE ID. Choices are: {kegg_db.instance.brites}")
 
     # import the basis of the A matrix (the shortest path matrix)
     with open(basis_name, 'r') as f:

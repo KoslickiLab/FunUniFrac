@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import os
 import sys
-import src.CONSTANTS as CONSTANTS
+import src.utils.kegg_db as kegg_db
 
 
 def make_nodes_readable(G):
@@ -23,10 +23,10 @@ def make_nodes_readable(G):
         # default to the old name
         rename_map[old_node] = old_node
         # try to see if it's a KO term
-        new_node = CONSTANTS.KO_TO_NAME_NO_PREFIX.get(old_node)
+        new_node = kegg_db.instance.koids_human_names.get(old_node)
         if not new_node:
             # try if it's a BRITE term
-            new_node = CONSTANTS.BRITE_TO_NAME_NO_PREFIX.get(old_node)
+            new_node = kegg_db.instance.brite_names.get(old_node)
         if not new_node:
             # see if it's a pathway and starts with a number
             first_part = old_node.split()[0]

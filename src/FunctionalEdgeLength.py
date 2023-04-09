@@ -6,7 +6,7 @@ import pandas as pd
 import time
 import networkx as nx
 import multiprocessing
-from .CONSTANTS import BRITES
+import src.utils.kegg_db as kegg_db
 
 
 # FIXME: this says to delete, but it is used below
@@ -337,8 +337,8 @@ def get_graphs_and_index(edge_list_file, brite):
     :return: (directed networkx graph, undirected networkx graph, basis of node names, dictionary mapping node names to
     indices in that basis)
     """
-    if brite not in BRITES:
-        raise ValueError(f"brite must be one of {BRITES}. I received {brite}.")
+    if brite not in kegg_db.BRITES:
+        raise ValueError(f"brite ({brite}) does not exist.")
     G = import_graph(edge_list_file, directed=True)
     # get the descendants of the brite
     descendants = get_descendants(G, brite)

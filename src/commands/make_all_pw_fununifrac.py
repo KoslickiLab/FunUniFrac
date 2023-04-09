@@ -11,7 +11,7 @@ import src.LP_EMD_helper as LH
 from src.EarthMoverDistanceUniFrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
 import multiprocessing
 from itertools import combinations, repeat
-from src.CONSTANTS import BRITES
+import src.utils.kegg_db as kegg_db
 from src.LP_EMD_helper import get_descendants
 import logging
 from blist import blist
@@ -172,8 +172,8 @@ def main(args):
     unweighted = args.unweighted
     is_L2 = args.L2
     save_Ppushed = args.Ppushed
-    if brite not in BRITES:
-        raise ValueError(f'Invalid BRITE ID: {brite}. Must be one of {BRITES}')
+    if brite not in kegg_db.instance.brites:
+        raise ValueError(f"{brite} is not a valid BRITE ID. Choices are: {kegg_db.instance.brites}")
     edge_list_file = data.get_data_abspath(edge_list_file)
     out_file = data.get_data_abspath(out_file, raise_if_not_found=False)
     if os.path.exists(out_file) and not force:

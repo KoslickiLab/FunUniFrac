@@ -5,7 +5,7 @@ REL_DIR = "data"
 def get_data_abspath(path, raise_if_not_found=True):
     abspath = os.path.join(ROOT_DIR, REL_DIR, path)
     if not os.path.exists(abspath) and raise_if_not_found:
-        raise Exception(f"data not found: {path} does not exist in {REL_DIR} folder")
+        raise Exception(f"data not found: {path} does not exist in {REL_DIR} folder. Full: {abspath}")
     return abspath
 
 
