@@ -10,7 +10,7 @@ try:
 except ModuleNotFoundError:
     print("Warning: Could not import blist. Please install blist to speed up the path matrix calculation.")
 import src.utils.kegg_db as kegg_db
-from src.LP_EMD_helper import get_descendants, get_descendant, get_KO_labels_and_index
+from src.algorithms.lp_edge_length import get_descendants, get_descendant, get_KO_labels_and_index
 from itertools import repeat
 
 

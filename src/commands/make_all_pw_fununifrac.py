@@ -7,12 +7,12 @@ import networkx as nx
 from scipy import sparse
 import pandas as pd
 from scipy.optimize import lsq_linear
-import src.LP_EMD_helper as LH
-from src.algorithms.earth_mover_distance_uni_frac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
+import src.algorithms.lp_edge_length as LH
+from src.algorithms.emd_uni_frac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
 import multiprocessing
 from itertools import combinations, repeat
 import src.utils.kegg_db as kegg_db
-from src.LP_EMD_helper import get_descendants
+from src.algorithms.lp_edge_length import get_descendants
 import logging
 from blist import blist
 import sparse

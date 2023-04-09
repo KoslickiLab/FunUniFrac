@@ -9,7 +9,7 @@ from scipy.optimize import lsq_linear
 import multiprocessing
 from itertools import repeat
 import src.utils.kegg_db as kegg_db
-from src.LP_EMD_helper import get_descendants, get_descendant, get_KO_labels_and_index
+from src.algorithms.lp_edge_length import get_descendants, get_descendant, get_KO_labels_and_index
 import data
 
 def map_func(itr, A, y, factor, reg_factor):

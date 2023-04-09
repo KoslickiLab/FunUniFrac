@@ -5,7 +5,7 @@ import tempfile
 import pytest
 import data
 
-from src.LP_EMD_helper import get_EMD_pyemd,\
+from src.algorithms.lp_edge_length import get_EMD_pyemd,\
 get_distance_matrix_from_edge_list,\
 get_distance_matrix_from_edge_list,\
 get_graphs_and_index,\
