@@ -3,7 +3,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 import multiprocessing
 import logging
-from src.commands import make_all_pw_fununifrac
+from src import make_all_pw_fununifrac
 
 
 if __name__ == '__main__':

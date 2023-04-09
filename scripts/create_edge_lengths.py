@@ -1,7 +1,7 @@
 import os, sys, argparse
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
-from src.commands import create_edge_lengths
+from src import create_edge_lengths
 
 
 if __name__ == '__main__':
