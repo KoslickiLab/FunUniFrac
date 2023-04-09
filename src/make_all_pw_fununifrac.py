@@ -8,7 +8,7 @@ from scipy import sparse
 import pandas as pd
 from scipy.optimize import lsq_linear
 import src.algorithms.lp_edge_length as LH
-from src.algorithms.emd_uni_frac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
+from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
 import multiprocessing
 from itertools import combinations, repeat
 import src.utils.kegg_db as kegg_db

@@ -1,5 +1,5 @@
 import src.algorithms.lp_edge_length as LH
-from src.algorithms.emd_uni_frac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver, DiffabArrayIndexer
+from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver, DiffabArrayIndexer
 import numpy as np
 import pytest
 import os
