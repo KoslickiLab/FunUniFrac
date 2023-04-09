@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: [ubuntu-latest]
+    defaults:
+      run:
+        shell: bash -l {0}
     strategy:
       matrix:
         python-version: ["3.9"]
@@ -21,6 +24,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           conda env create -f environment.yml --force
+          conda activate fununifrac 
       - name: Lint with flake8
         run: |
           $CONDA/bin/conda install flake8
