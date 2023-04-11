@@ -16,7 +16,7 @@ def test_small_edge_lengths():
     brite = "ko00001"
     A_file = f"{brite}_{distances_file}_A.npz"
     cmd = f"python ../scripts/create_edge_lengths.py -e {edge_list} -d {distances_file} -o {out_file} -b {brite} -A {A_file} -n 10 -f 2 -r 100 --force --distance"
-    subprocess.run(cmd, shell=False, check=True)
+    subprocess.run(cmd, shell=True, check=True, executable='/usr/bin/bash')
     
     # check that the output file is correct
     df = pd.read_csv(data.get_data_abspath(out_file), sep="\t", header=0)
