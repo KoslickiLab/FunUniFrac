@@ -61,7 +61,7 @@ jobs:
           channels: conda-forge,bioconda,defaults
           auto-activate-base: false
           activate-environment: fununifrac
-          environment-file: environment.yaml
+          environment-file: environment.yml
       
       - name: check solution
         run: |
