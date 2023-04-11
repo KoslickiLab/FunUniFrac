@@ -1,7 +1,7 @@
 import os, sys, argparse
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
-from src import graph_to_path_matrix
+from src import create_func_edge_matrix
 
 
 if __name__ == '__main__':
@@ -18,4 +18,4 @@ if __name__ == '__main__':
     parser.add_argument('-b', '--brite_id', help='Brite ID of the KEGG hierarchy you want to focus on. Eg. ko00001',
                         required=True)
     # call main function
-    graph_to_path_matrix.main(parser.parse_args())
+    create_func_edge_matrix.main(parser.parse_args())

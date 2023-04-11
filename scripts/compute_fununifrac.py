@@ -3,7 +3,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 import multiprocessing
 import logging
-from src import make_all_pw_fununifrac
+from src import compute_all_pairwise_fununifrac
 
 
 if __name__ == '__main__':
@@ -33,6 +33,6 @@ if __name__ == '__main__':
     parser.add_argument('--Ppushed', help="Flag indicating you want the pushed vectors to be saved.", action="store_true")
     
     # call main function
-    make_all_pw_fununifrac.main(parser.parse_args())
+    compute_all_pairwise_fununifrac.main(parser.parse_args())
 
 

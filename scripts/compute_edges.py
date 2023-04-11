@@ -1,7 +1,7 @@
 import os, sys, argparse
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
-from src import create_edge_lengths
+from src import compute_func_edge_lengths
 
 
 if __name__ == '__main__':
@@ -27,4 +27,4 @@ if __name__ == '__main__':
                         help='Flag indicating that the input matrix is a distance (0=identical). If not, it is assumed to be a similarity (1=identical).',
                         action='store_true')
     # call main function
-    create_edge_lengths.main(parser.parse_args())
+    compute_func_edge_lengths.main(parser.parse_args())
