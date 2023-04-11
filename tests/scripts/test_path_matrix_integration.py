@@ -15,7 +15,7 @@ def test_small_edge_list():
     distances_file = "small_pairwise_distances.npy.labels.txt"
     brite = "ko00001"
     out_dir = "test_output"
-    cmd = f"python ../scripts/create_edge_matrix.py -e {edge_file} -d {distances_file} -o {out_dir} -b {brite}"
+    cmd = f"python ../scripts/create_func_edge_matrix.py -e {edge_file} -d {distances_file} -o {out_dir} -b {brite}"
     subprocess.run(cmd, shell=True, check=True)
     
     # check that the output file exists

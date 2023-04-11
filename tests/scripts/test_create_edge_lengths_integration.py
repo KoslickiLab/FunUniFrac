@@ -15,7 +15,7 @@ def test_small_edge_lengths():
     out_file = "test_output/small_edge_list_with_lengths.txt"
     brite = "ko00001"
     A_file = f"{brite}_{distances_file}_A.npz"
-    cmd = f"python ../scripts/compute_edges.py -e {edge_list} -d {distances_file} -o {out_file} -b {brite} -A {A_file} -n 10 -f 2 -r 100 --force --distance"
+    cmd = f"python ../scripts/compute_func_edges.py -e {edge_list} -d {distances_file} -o {out_file} -b {brite} -A {A_file} -n 10 -f 2 -r 100 --force --distance"
     subprocess.run(cmd, shell=True, check=True)
     
     # check that the output file is correct
