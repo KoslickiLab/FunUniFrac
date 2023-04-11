@@ -1,0 +1,2 @@
+A_MATRIX__FILE_NAME = 'A.npz'
+A_MATRIX_BASIS__FILE_NAME = 'A_basis.txt'

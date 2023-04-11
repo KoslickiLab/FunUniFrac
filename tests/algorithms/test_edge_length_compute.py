@@ -5,7 +5,7 @@ import numpy as np
 from scipy import sparse
 import networkx as nx
 from src.algorithms.edge_length_computation import EdgeLengthSolver
-from src.utils.func_tree import FuncTree
+from src.base.func_tree import FuncTree
 from src.algorithms.kegg_process import get_KO_indices
 
 

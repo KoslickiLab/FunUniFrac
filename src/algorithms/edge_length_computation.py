@@ -7,7 +7,7 @@ try:
 except ModuleNotFoundError:
     print("Warning: Could not import blist. Please install blist to speed up the path matrix calculation.")
 from src.algorithms.lp_edge_length import get_descendant
-from src.utils.func_tree import FuncTree
+from src.base.func_tree import FuncTree
 from itertools import repeat
 
 
