@@ -1,10 +1,48 @@
-# name: Python package
-
+name: Python test on Mamba
 on:
   push:
     branches:
       - main
       - 'releases/**'
+jobs:
+  create-env:
+    name: ${{ matrix.os }} 
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -l {0}
+        
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v3
+        
+      - name: create environment with mamba
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          mamba-version: "*"
+          channels: conda-forge,bioconda,defaults
+          auto-activate-base: false
+          activate-environment: fununifrac
+          environment-file: environment.yml
+      
+      - name: check env
+        run: |
+          mamba env export
+      
+      - name: pytest
+        run: |
+          cd ./tests
+          pytest .
+
+# I have tried below setup but failed with it because it basically does not activate any environment.
+# It is not a problem until we use subprocess.run in the test. Then subprocess try to use conda environment, which is not activated,
+# resulting in ModuleNotFoundError for any pip modules. 
+
 # jobs:
 #   build:
 #     runs-on: [ubuntu-latest]
@@ -35,39 +73,3 @@ on:
 #         run: |
 #           cd ./tests
 #           $CONDA/bin/pytest .
-
-
-jobs:
-  create-env:
-    name: ${{ matrix.os }} 
-    runs-on: ${{ matrix.os }}
-    defaults:
-      run:
-        shell: bash -l {0}
-        
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
-        
-    steps:
-      - name: checkout repository
-        uses: actions/checkout@v3
-        
-      - name: create environment with mamba
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          mamba-version: "*"
-          channels: conda-forge,bioconda,defaults
-          auto-activate-base: false
-          activate-environment: fununifrac
-          environment-file: environment.yml
-      
-      - name: check solution
-        run: |
-          mamba env export
-      
-      - name: test
-        run: |
-          cd ./tests
-          pytest .
