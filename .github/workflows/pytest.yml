@@ -34,6 +34,7 @@ jobs:
       - name: Test with pytest
         run: |
           # conda activate fununifrac 
-          pip install numpy
+          # pip install numpy
+          $CONDA/bin/conda env update --file environment.yml --name base 
           cd ./tests
-          $CONDA/bin/pytest
+          $CONDA/bin/pytest .
