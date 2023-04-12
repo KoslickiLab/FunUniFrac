@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import networkx as nx
+import numpy as np
 from scipy import sparse
 import multiprocessing
 try:
@@ -8,14 +9,16 @@ except ModuleNotFoundError:
     print("Warning: Could not import blist. Please install blist to speed up the path matrix calculation.")
 from src.algorithms.lp_edge_length import get_descendant
 from src.base.func_tree import FuncTree
+from src.base.pairwise_dist import PairwiseDistance
 from itertools import repeat
+from scipy.optimize import lsq_linear
 
 
 class EdgeLengthSolver:
     def __init__(self) -> None:
         pass
 
-    def map_star(self, args):
+    def shortest_path_parallel(self, args):
         def map_func(node_i, G):
             if node_i in G:
                 return {node_i: nx.single_source_dijkstra_path(G, node_i)}
@@ -62,7 +65,7 @@ class EdgeLengthSolver:
         print("Getting all shortest paths...")
         num_processes = multiprocessing.cpu_count() // 2
         pool = multiprocessing.Pool(num_processes)
-        paths_list = pool.imap(self.map_star, zip(pairwise_distances, repeat(G_undirected)), chunksize=max(1, len(pairwise_distances) // num_processes))
+        paths_list = pool.imap(self.shortest_path_parallel, zip(pairwise_distances, repeat(G_undirected)), chunksize=max(1, len(pairwise_distances) // num_processes))
         # The results should be ordered the same as the pairwise_dist_KOs
         print("Done getting all shortest paths")
 
@@ -100,51 +103,50 @@ class EdgeLengthSolver:
         return basis, A
 
 
+    def least_square_parallel(self, args):
+        def map_func(itr, A, y, factor, reg_factor):
+            num_rows = int(factor * A.shape[1])
+            row_indices = np.random.choice(A.shape[0], num_rows, replace=False)
+            A_small = A[row_indices, :]
+            y_small = y[row_indices]
+            # append a row of 1's to A_small
+            A_small = sparse.vstack([reg_factor * A_small, sparse.csr_matrix(np.ones(A_small.shape[1]))])
+            # append a 0 to y_small
+            y_small = np.append(reg_factor * y_small, 0)
+            # Use lsq_linear to solve the NNLS problem
+            res = lsq_linear(A_small, y_small, bounds=(0, 1), verbose=2)
+            x = res.x
+            return x
+        return map_func(*args)
 
 
-# def main(args):
-#         edge_list = args.edge_list
-#         out_dir = args.out_dir
-#         distances_file = args.distances
-#         brite = args.brite_id
-#         # check that the files exist
-#         # if not exists(edge_list):
-#         #     raise FileNotFoundError(f"Could not find {edge_list}")
-#         # if not exists(distances_file):
-#         #     raise FileNotFoundError(f"Could not find {distances_file}")
-#         # if not exists(f"{distances_file}.labels.txt"):
-#         #     raise FileNotFoundError(f"Could not find {distances_file}.labels.txt in the same directory as {distances_file}")
-#         edge_list = data.get_data_abspath(edge_list)
-#         distances_file = data.get_data_abspath(distances_file)
-#         distances_labels_file = data.get_data_abspath(f"{distances_file}.labels.txt")
-#         if not exists(out_dir):
-#             os.mkdir(out_dir)
+    def compute_edges(self, A, basis, edge_list, pairwise_distances: PairwiseDistance,
+                      num_iter, factor, reg_factor, isdistance):
+        # create the y vector of all pairwise distances
+        y = pairwise_distances.get_pairwise_vector(isdistance)
+        
+        if num_iter < 1:
+            raise ValueError('Number of iterations must be at least 1')
+        if factor < 1:
+            raise ValueError('Factor must be at least 1')
+        
+        if A.shape[0] != y.shape[0]:
+            raise ValueError(f"The A matrix has {A.shape[0]} rows, but the y vector has {y.shape[0]} elements. "
+                            f"Something is wrong.")
+        
+        num_threads = 1  # numpy apparently uses all PHYSICAL cores, twice that for hyperthreading
+        pool = multiprocessing.Pool(num_threads)
+        xs = np.array(pool.map(self.least_square_parallel, zip(range(num_iter), repeat(A), repeat(y), repeat(factor), repeat(reg_factor)), chunksize=num_iter // num_threads))
 
-#         # check if brite is legit
-#         if brite not in kegg_db.instance.brites:
-#             raise ValueError(f"{brite} is not a valid BRITE ID. Choices are: {kegg_db.instance.brites}")
+        # take the average of the solutions
+        x = np.mean(xs, axis=0)
 
-#         matrix_name = f"{brite}_{os.path.basename(distances_file)}_A.npz"
-#         basis_name = f"{brite}_{os.path.basename(distances_file)}_column_basis.txt"
-
-#         # import pairwise distances
-#         pairwise_dist = np.load(distances_file)
-#         # import label names
-#         pairwise_dist_KOs, pairwise_dist_KO_index = get_KO_labels_and_index(distances_labels_file, basis=basis)
-
-#         ########################################################################################################################
-#         # Let's do the following: since I've already computed all pairwise distances, we can just make a large
-#         # least squares problem fitting the tree distances to the pairwise distances
-#         # Let's get the matrix describing which edges are traversed between all pairs of nodes
-#         # This is a sparse matrix, so we'll need to use scipy.sparse
-
-#         # read in the edge list
-#         G = nx.read_edgelist(edge_list, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
-
-#         # Save the basis
-#         with open(f"{os.path.join(out_dir, basis_name)}", 'w') as f:
-#             f.write('\n'.join(basis))
-
-#         # save the sparse matrix
-#         print(f"Saving sparse matrix to {os.path.join(out_dir, matrix_name)}")
-#         sparse.save_npz(os.path.join(out_dir, matrix_name), A)
+        df = edge_list
+        # add a new column for the edge lengths
+        df['edge_length'] = np.nan
+        # iterate through the basis and add the edge lengths to the dataframe
+        for i, tail in enumerate(basis):
+            df.loc[df['child'] == tail, 'edge_length'] = x[i]
+        # remove all the rows that aren't in the basis, so only focusing on the subtree defined by the given brite
+        df = df[df['child'].isin(basis)]
+        return df
