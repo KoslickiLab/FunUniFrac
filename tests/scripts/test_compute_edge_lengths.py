@@ -3,6 +3,7 @@ import numpy as np
 from scipy import sparse
 import pandas as pd
 import data
+from src.base import constant
 
 
 def test_small_edge_lengths():
@@ -12,13 +13,14 @@ def test_small_edge_lengths():
     """
     edge_list = "small_edge_list.txt"
     distances_file = "small_pairwise_distances.npy"
-    out_file = "test_output/small_edge_list_with_lengths.txt"
+    out_dir = "test_output"
+    out_id = "test"
     brite = "ko00001"
-    A_file = f"{brite}_{distances_file}_A.npz"
-    cmd = f"python ../scripts/compute_func_edges.py -e {edge_list} -d {distances_file} -o {out_file} -b {brite} -A {A_file} -n 10 -f 2 -r 100 --force --distance"
+    cmd = f"python ../scripts/compute_func_edges.py -e {edge_list} -d {distances_file} -o {out_dir} -i {out_id} -b {brite} -n 10 -f 2 -r 100 --distance"
     subprocess.run(cmd, shell=True, check=True)
     
     # check that the output file is correct
+    out_file = f"{out_dir}/{constant.EDGE_LIST_OUT__FILE_NAME.format(out_id)}"
     df = pd.read_csv(data.get_data_abspath(out_file), sep="\t", header=0)
     # get the edge lengths
     edge_lengths = df["edge_length"].values

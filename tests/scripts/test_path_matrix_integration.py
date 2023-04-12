@@ -12,7 +12,7 @@ def test_small_edge_list():
     :return: None
     """
     edge_file = "small_edge_list.txt"
-    distances_file = "small_pairwise_distances.npy.labels.txt"
+    distances_file = "small_pairwise_distances.npy"
     brite = "ko00001"
     out_dir = "test_output"
     cmd = f"python ../scripts/create_func_edge_matrix.py -e {edge_file} -d {distances_file} -o {out_dir} -b {brite}"

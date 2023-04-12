@@ -26,19 +26,22 @@ class EdgeLengthSolver:
                 return {}
         return map_func(*args)
 
-    def get_A_matrix(self, tree: FuncTree, pairwise_distances):
+    def get_A_matrix(self, tree: FuncTree, pairwise_distances: PairwiseDistance):
         ########################################################################################################################
         # Let's do the following: since I've already computed all pairwise distances, we can just make a large
         # least squares problem fitting the tree distances to the pairwise distances
         # Let's get the matrix describing which edges are traversed between all pairs of nodes
         # This is a sparse matrix, so we'll need to use scipy.sparse
+        ########################################################################################################################
         tree.check_subtree_valid()
         G = tree.current_subtree
         G_undirected = tree.current_subtree_undirected 
         basis = tree.basis
         basis_index = tree.basis_index
-
+        pw_dist_labels, _ = pairwise_distances.filter_labels(basis)
+        ########################################################################################################################
         # Let's go with a csr_array to store the (pairwise_distance, edge_list) matrix
+        ########################################################################################################################
         try:
             d = blist([])
             row_inds = blist([])
@@ -47,9 +50,9 @@ class EdgeLengthSolver:
             d = []
             row_inds = []
             col_inds = []
-
-        ########
+        ########################################################################################################################
         # for all pairs of edges, find which of the two connected nodes is the descendant of the other
+        ########################################################################################################################
         edge_2_descendant = {}
         edges = list(G.edges())
         num_edges = len(edges)
@@ -59,25 +62,26 @@ class EdgeLengthSolver:
             desc = get_descendant(G, v1, v2)
             edge_2_descendant[(v1, v2)] = desc
             edge_2_descendant[(v2, v1)] = desc
-
+        ########################################################################################################################
         # iterate over the pairs of nodes for which we have pairwise distances
         # In parallel, get all shortest paths
+        ########################################################################################################################
         print("Getting all shortest paths...")
         num_processes = multiprocessing.cpu_count() // 2
         pool = multiprocessing.Pool(num_processes)
-        paths_list = pool.imap(self.shortest_path_parallel, zip(pairwise_distances, repeat(G_undirected)), chunksize=max(1, len(pairwise_distances) // num_processes))
+        paths_list = pool.imap(self.shortest_path_parallel, zip(pw_dist_labels, repeat(G_undirected)), chunksize=max(1, len(pw_dist_labels) // num_processes))
         # The results should be ordered the same as the pairwise_dist_KOs
         print("Done getting all shortest paths")
 
         row_ind = -1
-        for i, node_i in enumerate(pairwise_distances):
+        for i, node_i in enumerate(pw_dist_labels):
             # Some KOs may not be in the subtree selected, so append a row of zeros for those (i.e. don't add to the data list).
             # That won't affect the least squares fit
             if node_i in G_undirected:
                 paths = next(paths_list)
             else:
                 paths = dict()
-            for node_j in pairwise_distances:
+            for node_j in pw_dist_labels:
                 row_ind += 1
                 # if the nodes are the same, skip since this row of the matrix is all zeros
                 if node_i != node_j:
@@ -98,9 +102,9 @@ class EdgeLengthSolver:
                         # if there is no path between the two nodes, skip
                         pass
                 if row_ind % 100000 == 0:
-                    print(f"Finished {row_ind}/{len(pairwise_distances)**2} rows")
-        A = sparse.csr_matrix((d, (row_inds, col_inds)), shape=(len(pairwise_distances)**2, len(basis)))
-        return basis, A
+                    print(f"Finished {row_ind}/{len(pw_dist_labels)**2} rows")
+        A = sparse.csr_matrix((d, (row_inds, col_inds)), shape=(len(pw_dist_labels)**2, len(basis)))
+        return A
 
 
     def least_square_parallel(self, args):
@@ -123,7 +127,7 @@ class EdgeLengthSolver:
     def compute_edges(self, A, basis, edge_list, pairwise_distances: PairwiseDistance,
                       num_iter, factor, reg_factor, isdistance):
         # create the y vector of all pairwise distances
-        y = pairwise_distances.get_pairwise_vector(isdistance)
+        y = pairwise_distances.get_pairwise_vector(basis=basis, isdistance=isdistance)
         
         if num_iter < 1:
             raise ValueError('Number of iterations must be at least 1')

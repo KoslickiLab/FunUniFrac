@@ -1,5 +1,7 @@
 import networkx as nx
 import src.utils.kegg_db as kegg_db
+import src.base.pairwise_dist as pairwise_dist
+import numpy as np
 
 
 def make_nodes_readable(G):
@@ -42,21 +44,19 @@ def make_nodes_readable(G):
     return Gret
 
 
-def get_KO_indices(distances_labels, basis=None):
+def get_KO_pairwise_dist(distance_file, distances_label_file) -> pairwise_dist.PairwiseDistance:
     """ 
-    Given a file containing the basis for the rows of the pairwise KO distance matrix, return a list of labels and a
-    dictionary mapping labels to indices. Only include the labels in the basis if specified.
-
+    Given KO distance files, return pairwise distance object.
+    :param distances_file: npz file containing the distances from the output of sourmash compare
     :param distances_labels_file: text file containing the labels from the output of sourmash compare
-    :param basis: list of labels to include in the output
-    :return: (list of labels, dictionary mapping labels to indices)
     """
-    # import label names
-    pairwise_dist_KOs = distances_labels
-    pairwise_dist_KO_index = {node: i for i, node in enumerate(pairwise_dist_KOs)}
-    if basis is not None:
-        # remove those that are not in the basis
-        pairwise_dist_KOs = [x for x in pairwise_dist_KOs if x in basis]
-        # also remove them from the pairwise dist KO index
-        pairwise_dist_KO_index = {x: pairwise_dist_KO_index[x] for x in pairwise_dist_KOs}
-    return pairwise_dist_KOs, pairwise_dist_KO_index
+    pw_dist = np.load(distance_file)
+    KO_dist_labels = []
+    with open(distances_label_file, 'r') as f:
+        for line in f.readlines():
+            ko = line.strip().split('|')[-1]  # KO number is the last in the pip-delim list
+            ko = ko.split(':')[-1]  # remove the ko: prefix
+            KO_dist_labels.append(ko)
+    KO_dist_indices = {node: i for i, node in enumerate(KO_dist_labels)}
+    
+    return pairwise_dist.PairwiseDistance(pw_dist, KO_dist_labels, KO_dist_indices)

@@ -9,12 +9,13 @@ if __name__ == '__main__':
         description='This will take the matrix made by graph_to_path_matrix.py and the all '
                     'pairwise distance matrix and solve the least squares problem of '
                     'inferring the edge lengths of the graph.')
-    parser.add_argument('-e', '--edge_list', help='Input edge list file of the KEGG hierarchy', required=True)
-    parser.add_argument('-d', '--distances', help='File containing all pairwise distances between KOs. Use sourmash '
+    parser.add_argument('-e', '--edge_file', help='Input edge list file of the KEGG hierarchy', required=True)
+    parser.add_argument('-d', '--distance_file', help='File containing all pairwise distances between KOs. Use sourmash '
                                                   'compare', required=True)
-    parser.add_argument('-o', '--out_file', help='Output file name: edge list with lengths in the last column',
+    parser.add_argument('-o', '--out_dir', help='Output directory: the location to place the output file with edge list with lengths in the last column',
                         required=True)
-    parser.add_argument('-A', '--A_matrix', help='A matrix file created by graph_to_path_matrix.py', required=True)
+    parser.add_argument('-i', '--out_id', help='Test purpose: give an identifier to the output file so that tester can recognize it',
+                        required=True)
     parser.add_argument('-b', '--brite_id', help='Brite ID of the KEGG hierarchy you want to focus on. Eg. ko00001',
                         required=True)
     parser.add_argument('-n', '--num_iter', help='Number of random selections on which to perform the NNLS',
@@ -22,7 +23,6 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--factor', help='Selects <--factor>*(A.shape[1]) rows for which to do the NNLS',
                         default=5)
     parser.add_argument('-r', '--reg_factor', help='Regularization factor for the NNLS', default=1)
-    parser.add_argument('--force', help='Overwrite the output file if it exists', action='store_true')
     parser.add_argument('--distance',
                         help='Flag indicating that the input matrix is a distance (0=identical). If not, it is assumed to be a similarity (1=identical).',
                         action='store_true')
