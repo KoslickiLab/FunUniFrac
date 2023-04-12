@@ -19,7 +19,7 @@ def test_small_edge_lengths():
     # remove the out file if it exists
     basis_file = f"{out_file}.basis.txt"
     brite = "ko00001"
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} " \
+    cmd = f"python ../scripts/fununifrac.py -e {edge_list} " \
         f" -o {out_file} --force -b {brite} -a median_abund"
     res = subprocess.run(cmd, shell=True, check=True)
     
@@ -44,7 +44,7 @@ def test_small_edge_lengths():
         assert f.readline() == ""
 
     # now also check the diffabs
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} " \
+    cmd = f"python ../scripts/fununifrac.py -e {edge_list} " \
               f" -o {out_file} --force -b {brite} -a median_abund --diffab"
     res = subprocess.run(cmd, shell=True, check=True)
     # check that the output file exists
@@ -89,7 +89,7 @@ def test_diffab_order():
     profile3 = "small_sim3_10_KOs_gather.csv"  # R
     out_file = "test_output/pairwise_dists.npy"
     brite = "ko00001"
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} " \
+    cmd = f"python ../scripts/fununifrac.py -e {edge_list} " \
           f"-o {out_file} --force -b {brite} -a median_abund --diffab"
     res = subprocess.run(cmd, shell=True, check=True)
     
@@ -152,7 +152,7 @@ def test_small_edge_lengthsL2():
     out_file = "test_output/pairwise_dists.npy"
     brite = "ko00001"
     # command
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} " \
+    cmd = f"python ../scripts/fununifrac.py -e {edge_list} " \
           f"-o {out_file} --force -b {brite} -a median_abund --L2"
     res = subprocess.run(cmd, shell=True, check=True)
     
@@ -186,7 +186,7 @@ def test_small_edge_lengthsL2():
     out_file = "test_output/pairwise_dists.npy"
     
     # command
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} " \
+    cmd = f"python ../scripts/fununifrac.py -e {edge_list} " \
               f"-o {out_file} --force -b {brite} -a median_abund --diffab --L2"
     res = subprocess.run(cmd, shell=True, check=True)
     
