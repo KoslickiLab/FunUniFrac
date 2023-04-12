@@ -11,7 +11,7 @@ import src.algorithms.lp_edge_length as LH
 from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
 import multiprocessing
 from itertools import combinations, repeat
-import src.utils.kegg_db as kegg_db
+import src.kegg.kegg_db as kegg_db
 from src.algorithms.lp_edge_length import get_descendants
 import logging
 from blist import blist

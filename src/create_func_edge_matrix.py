@@ -3,9 +3,9 @@ import os
 from os.path import exists
 import networkx as nx
 from scipy import sparse
-import src.utils.kegg_db as kegg_db
+import src.kegg.kegg_db as kegg_db
 import src.base.func_tree as func_tree
-import src.utils.kegg_process as kegg_process
+import src.kegg.kegg_process as kegg_process
 import src.algorithms.edge_length_computation as edge_length_computation
 import src.base.constant as constant
 import data

@@ -6,7 +6,7 @@ import pandas as pd
 from src.algorithms.edge_length_computation import EdgeLengthSolver
 from src.base.func_tree import FuncTree
 from src.base.pairwise_dist import PairwiseDistance
-from src.utils.kegg_process import get_KO_pairwise_dist
+from src.kegg.kegg_process import get_KO_pairwise_dist
 
 
 def test__create_A_matrix__with_small_edge_list():

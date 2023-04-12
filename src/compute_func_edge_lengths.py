@@ -3,9 +3,9 @@ import os
 import datetime
 import pandas as pd
 import networkx as nx
-import src.utils.kegg_db as kegg_db
+import src.kegg.kegg_db as kegg_db
 import src.base.func_tree as func_tree
-import src.utils.kegg_process as kegg_process
+import src.kegg.kegg_process as kegg_process
 import src.algorithms.edge_length_computation as edge_length_computation
 import data
 import src.base.constant as constant

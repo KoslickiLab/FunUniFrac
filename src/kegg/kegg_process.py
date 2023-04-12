@@ -1,5 +1,5 @@
 import networkx as nx
-import src.utils.kegg_db as kegg_db
+import src.kegg.kegg_db as kegg_db
 import src.base.pairwise_dist as pairwise_dist
 import numpy as np
 
