@@ -8,8 +8,8 @@ try:
 except ModuleNotFoundError:
     print("Warning: Could not import blist. Please install blist to speed up the path matrix calculation.")
 from src.algorithms.lp_edge_length import get_descendant
-from src.base.func_tree import FuncTree
-from src.base.pairwise_dist import PairwiseDistance
+from src.objects.func_tree import FuncTree
+from src.objects.pairwise_dist import PairwiseDistance
 from itertools import repeat
 from scipy.optimize import lsq_linear
 

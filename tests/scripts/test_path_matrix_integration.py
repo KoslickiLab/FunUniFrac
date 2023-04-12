@@ -3,7 +3,7 @@ import numpy as np
 import os
 from scipy import sparse
 import data
-import src.base.constant as constant
+import src.utility.constant as constant
 
 
 def test_small_edge_list():

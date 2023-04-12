@@ -6,7 +6,7 @@ import pandas as pd
 import time
 import networkx as nx
 import multiprocessing
-import src.kegg.kegg_db as kegg_db
+import src.utility.kegg_db as kegg_db
 
 
 # FIXME: this says to delete, but it is used below

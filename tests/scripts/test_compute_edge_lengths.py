@@ -3,7 +3,7 @@ import numpy as np
 from scipy import sparse
 import pandas as pd
 import data
-from src.base import constant
+from src.utility import constant
 
 
 def test_small_edge_lengths():

@@ -3,11 +3,11 @@ import os
 from os.path import exists
 import networkx as nx
 from scipy import sparse
-import src.kegg.kegg_db as kegg_db
-import src.base.func_tree as func_tree
-import src.kegg.kegg_process as kegg_process
+import src.utility.kegg_db as kegg_db
+import src.objects.func_tree as func_tree
+import src.factory.make_pairwise_distance as make_pairwise_distance
 import src.algorithms.edge_length_computation as edge_length_computation
-import src.base.constant as constant
+import src.utility.constant as constant
 import data
 
 
@@ -33,7 +33,7 @@ def main(args):
     G = nx.read_edgelist(edge_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
     tree = func_tree.FuncTree(G)
     tree.apply_classification(brite_id)
-    pairwise_distances = kegg_process.get_KO_pairwise_dist(distance_file, distance_label_file)
+    pairwise_distances = make_pairwise_distance.get_KO_pairwise_dist(distance_file, distance_label_file)
     ##############################################################################
     # Get A matrix
     ##############################################################################
