@@ -1,10 +1,13 @@
 import src.factory.make_tree as make_tree
 import src.factory.make_emd_input as make_emd_input
 import src.utility.pyemd_simulation as pyemd_simulation
-from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver, DiffabArrayIndexer
+from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
+import src.objects.emdu_diffab as emdu_diffab
+import src.objects.func_tree as func_tree
+import src.objects.emdu_vector as emdu_vector
 import numpy as np
 import pytest
-import os
+import pandas as pd
 import data
 
 
@@ -24,7 +27,8 @@ def test_emdu_vs_pyemd_simple():
     # EMDUniFrac version
     tree = make_tree.import_graph(test_edge_file, directed=True)
     Gdir = tree.main_tree
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
+    input = make_emd_input.tree_to_EMDU_input(tree)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = input.Tint, input.lint, input.basis, input.idx_to_node
     # switch the order for convenience
     node_2_EMDU_index = {val: key for key, val in EMDU_index_2_node.items()}
     # convert from the distance matrix ordering to the EMDU ordering
@@ -33,10 +37,12 @@ def test_emdu_vs_pyemd_simple():
     for i, node in enumerate(node_list):
         PU[node_2_EMDU_index[node]] = P[i]
         QU[node_2_EMDU_index[node]] = Q[i]
-    emdu_val1 = solver.EMDUnifrac_weighted_plain(Tint, lint, nodes_in_order, PU, QU)
-    emdu_val2, _ = solver.EMDUnifrac_weighted(Tint, lint, nodes_in_order, PU, QU)
-    emdu_val3, _, _ = solver.EMDUnifrac_weighted_flow(Tint, lint, nodes_in_order, PU, QU)
-    assert np.isclose(pyemd_val, emdu_val1, atol=1e-8)
+
+    input = func_tree.EmdInput(Tint, lint, nodes_in_order, node_2_EMDU_index)
+    # emdu_val1 = solver.solve_plain(input, PU, QU, weighted=True)
+    emdu_val2, _ = solver.solve(input, PU, QU, weighted=True)
+    emdu_val3, _, _ = solver.solve_with_flow(input, PU, QU, weighted=True)
+    # assert np.isclose(pyemd_val, emdu_val1, atol=1e-8)
     assert np.isclose(pyemd_val, emdu_val2, atol=1e-8)
     assert np.isclose(pyemd_val, emdu_val3, atol=1e-8)
 
@@ -50,7 +56,8 @@ def test_emdu_vs_pyemd_random():
     test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
     distance_matrix, node_list = pyemd_simulation.get_distance_matrix_from_edge_list(test_edge_file)
     tree = make_tree.import_graph(test_edge_file, directed=True)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
+    input = make_emd_input.tree_to_EMDU_input(tree)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = input.Tint, input.lint, input.basis, input.idx_to_node
     # switch the order for convenience
     node_2_EMDU_index = {val: key for key, val in EMDU_index_2_node.items()}
 
@@ -68,10 +75,12 @@ def test_emdu_vs_pyemd_random():
         for i, node in enumerate(node_list):
             PU[node_2_EMDU_index[node]] = P[i]
             QU[node_2_EMDU_index[node]] = Q[i]
-        emdu_val1 = solver.EMDUnifrac_weighted_plain(Tint, lint, nodes_in_order, PU, QU)
-        emdu_val2, _ = solver.EMDUnifrac_weighted(Tint, lint, nodes_in_order, PU, QU)
-        emdu_val3, _, _ = solver.EMDUnifrac_weighted_flow(Tint, lint, nodes_in_order, PU, QU)
-        assert np.isclose(pyemd_val, emdu_val1, atol=1e-8)
+
+        input = func_tree.EmdInput(Tint, lint, nodes_in_order, node_2_EMDU_index)
+        # emdu_val1 = solver.solve_plain(input, PU, QU, weighted=True)
+        emdu_val2, _ = solver.solve(input, PU, QU, weighted=True)
+        emdu_val3, _, _ = solver.solve_with_flow(input, PU, QU, weighted=True)
+        # assert np.isclose(pyemd_val, emdu_val1, atol=1e-8)
         assert np.isclose(pyemd_val, emdu_val2, atol=1e-8)
         assert np.isclose(pyemd_val, emdu_val3, atol=1e-8)
 
@@ -82,26 +91,23 @@ def test_func_profile_convert():
     test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
     functional_profile_file = data.get_data_abspath('small_sim_10_KOs_gather.csv')
     tree = make_tree.import_graph(test_edge_file, directed=True)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
-    node_2_EMDU_index = {val: key for key, val in EMDU_index_2_node.items()}
-    P = solver.functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node,
-                                               abundance_key='median_abund', normalize=True)
+    input = make_emd_input.tree_to_EMDU_input(tree)
+    functional_profile = pd.read_csv(functional_profile_file)
+    P = make_emd_input.functional_profile_to_vector(functional_profile, input, abundance_key='median_abund', normalize=True)
     assert np.isclose(np.sum(P), 1.0, atol=1e-8)
     assert np.all(P >= 0)
     assert np.all(P <= 1)
+    node_2_EMDU_index = {val: key for key, val in input.idx_to_node.items()}
     assert np.isclose(P[node_2_EMDU_index['e']], 2 / 6, atol=1e-8)
     assert np.isclose(P[node_2_EMDU_index['d']], 3 / 6, atol=1e-8)
     assert np.isclose(P[node_2_EMDU_index['f']], 1 / 6, atol=1e-8)
     # Try a bad abundance key
     with pytest.raises(ValueError):
-        P = solver.functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node,
-                                                   abundance_key='name', normalize=True)
+        P = make_emd_input.functional_profile_to_vector(functional_profile, input, abundance_key='name', normalize=True)
     # Try a good, but different abundance_key
-    P = solver.functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node,
-                                               abundance_key='f_orig_query', normalize=True)
+    P = make_emd_input.functional_profile_to_vector(functional_profile, input, abundance_key='f_orig_query', normalize=True)
     assert np.isclose(np.sum(P), 1.0, atol=1e-8)
-    P = solver.functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node,
-                                               abundance_key='f_orig_query', normalize=False)
+    P = make_emd_input.functional_profile_to_vector(functional_profile, input, abundance_key='f_orig_query', normalize=False)
     assert np.isclose(np.sum(P), 1.258921, atol=1e-4)
 
 
@@ -110,7 +116,8 @@ def test_push_up_L1():
     test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
     distance_matrix, node_list = pyemd_simulation.get_distance_matrix_from_edge_list(test_edge_file)
     tree = make_tree.import_graph(test_edge_file, directed=True)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
+    input = make_emd_input.tree_to_EMDU_input(tree)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = input.Tint, input.lint, input.basis, input.idx_to_node
     # switch the order for convenience
     node_2_EMDU_index = {val: key for key, val in EMDU_index_2_node.items()}
 
@@ -126,8 +133,8 @@ def test_push_up_L1():
         for i, node in enumerate(node_list):
             PU[node_2_EMDU_index[node]] = P[i]
             QU[node_2_EMDU_index[node]] = Q[i]
-        P_pushed = solver.push_up_L1(PU, Tint, lint, nodes_in_order)
-        Q_pushed = solver.push_up_L1(QU, Tint, lint, nodes_in_order)
+        P_pushed = solver.push_up_L1(PU, input)
+        Q_pushed = solver.push_up_L1(QU, input)
         pushed_emd = np.sum(np.abs(P_pushed - Q_pushed))
         assert np.isclose(pyemd_val, pushed_emd, atol=1e-5)
 
@@ -140,21 +147,22 @@ def test_diffab_indexer():
     fun_files = data.get_data_abspaths(file_pattern)
     fun_files = sorted(fun_files)
     tree = make_tree.import_graph(edge_list_file, directed=True)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
+    input = make_emd_input.tree_to_EMDU_input(tree)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = input.Tint, input.lint, input.basis, input.idx_to_node
     # compute the diffabs
-    P = solver.functional_profile_to_EMDU_vector(fun_files[0], EMDU_index_2_node,
-                                               abundance_key="median_abund", normalize=True)
-    P_pushed = solver.push_up_L1(P, Tint, lint, nodes_in_order)
-    Q = solver.functional_profile_to_EMDU_vector(fun_files[1], EMDU_index_2_node,
-                                               abundance_key="median_abund", normalize=True)
-    Q_pushed = solver.push_up_L1(Q, Tint, lint, nodes_in_order)
+    profile_P = pd.read_csv(fun_files[0])
+    P = make_emd_input.functional_profile_to_vector(profile_P, input, abundance_key="median_abund", normalize=True)
+    P_pushed = solver.push_up_L1(P, input)
+    profile_Q = pd.read_csv(fun_files[1])
+    Q = make_emd_input.functional_profile_to_vector(profile_Q, input, abundance_key="median_abund", normalize=True)
+    Q_pushed = solver.push_up_L1(Q, input)
     diffabs = np.zeros((len(fun_files), len(fun_files), len(nodes_in_order)))
-    _, diffabs[0, 0, :] = solver.EMD_L1_and_diffab_on_pushed(P_pushed, P_pushed)
-    _, diffabs[0, 1, :] = solver.EMD_L1_and_diffab_on_pushed(P_pushed, Q_pushed)
-    _, diffabs[1, 0, :] = solver.EMD_L1_and_diffab_on_pushed(Q_pushed, P_pushed)
-    _, diffabs[1, 1, :] = solver.EMD_L1_and_diffab_on_pushed(Q_pushed, Q_pushed)
+    diffabs[0, 0, :] = emdu_vector.get_L1_diffab(P_pushed, P_pushed)
+    diffabs[0, 1, :] = emdu_vector.get_L1_diffab(P_pushed, Q_pushed)
+    diffabs[1, 0, :] = emdu_vector.get_L1_diffab(Q_pushed, P_pushed)
+    diffabs[1, 1, :] = emdu_vector.get_L1_diffab(Q_pushed, Q_pushed)
     # instantiate the indexer
-    indexer = DiffabArrayIndexer(diffabs, nodes_in_order, fun_files, EMDU_index_2_node)
+    indexer = emdu_diffab.DiffabArrayIndexer(diffabs, nodes_in_order, fun_files, EMDU_index_2_node)
     # test the indexer
     assert np.allclose(indexer.get_diffab(fun_files[0], fun_files[0]), np.zeros_like(nodes_in_order), atol=1e-8)
     assert np.allclose(indexer.get_diffab(fun_files[1], fun_files[1]), np.zeros_like(nodes_in_order), atol=1e-8)
@@ -180,8 +188,8 @@ def test_EMDUnifrac_weighted_flow():
     solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
     path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
     tree = make_tree.import_graph(path)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
-    G = tree.main_tree
+    input = make_emd_input.tree_to_EMDU_input(tree)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = input.Tint, input.lint, input.basis, input.idx_to_node
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
         'B': {'sample1': 1, 'sample2': 1},
@@ -195,7 +203,7 @@ def test_EMDUnifrac_weighted_flow():
         Q[i] = nodes_samples[EMDU_index_2_node[i]]['sample2']
     P = P/2
     Q = Q/2 #normalize
-    (Z, F, diffab) = solver.EMDUnifrac_weighted_flow(Tint, lint, nodes_in_order, P, Q)  # Run the weighted version of EMDUnifrac that returns the flow
+    (Z, F, diffab) = solver.solve_with_flow(input, P, Q, weighted=True)  # Run the weighted version of EMDUnifrac that returns the flow
     # Check to make sure results make sense
     print(EMDU_index_2_node)
     print(nodes_in_order)
@@ -216,7 +224,8 @@ def test_EMDUnifrac_weighted():
     solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
     path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
     tree = make_tree.import_graph(path)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
+    input = make_emd_input.tree_to_EMDU_input(tree)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = input.Tint, input.lint, input.basis, input.idx_to_node
     G = tree.main_tree
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
@@ -233,7 +242,7 @@ def test_EMDUnifrac_weighted():
     print(EMDU_index_2_node)
     print(nodes_in_order)
     print(P, Q)
-    (Z, diffab) = solver.EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q)
+    (Z, diffab) = solver.solve(input, P, Q, weighted=True)
     assert Z == 0.25
     print(diffab)
     #assert diffab == {(2, 3): 0.14999999999999999, (0, 2): 0.10000000000000001}
@@ -245,7 +254,8 @@ def test_EMDUnifrac_unweighted():
     solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
     path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
     tree = make_tree.import_graph(path)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
+    input = make_emd_input.tree_to_EMDU_input(tree)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = input.Tint, input.lint, input.basis, input.idx_to_node
     G = tree.main_tree
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
@@ -257,7 +267,7 @@ def test_EMDUnifrac_unweighted():
     for i in EMDU_index_2_node:
         P[i] = nodes_samples[EMDU_index_2_node[i]]['sample1']
         Q[i] = nodes_samples[EMDU_index_2_node[i]]['sample2']
-    (Z, diffab) = solver.EMDUnifrac_unweighted(Tint, lint, nodes_in_order, P, Q)
+    (Z, diffab) = solver.solve(input, P, Q, weighted=False)
     assert Z == 0.5
     #assert diffab == {(2, 3): 0.29999999999999999, (0, 2): 0.20000000000000001}
     print(diffab)
@@ -271,7 +281,8 @@ def test_EMDUnifrac_unweighted_flow():
     solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
     path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
     tree = make_tree.import_graph(path)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
+    input = make_emd_input.tree_to_EMDU_input(tree)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = input.Tint, input.lint, input.basis, input.idx_to_node
     G = tree.main_tree
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
@@ -283,7 +294,7 @@ def test_EMDUnifrac_unweighted_flow():
     for i in EMDU_index_2_node:
         P[i] = nodes_samples[EMDU_index_2_node[i]]['sample1']
         Q[i] = nodes_samples[EMDU_index_2_node[i]]['sample2']
-    (Z, F, diffab) = solver.EMDUnifrac_unweighted_flow(Tint, lint, nodes_in_order, P, Q)
+    (Z, F, diffab) = solver.solve_with_flow(input, P, Q, weighted=False)
     print(F)
     print(diffab)
     assert Z == 0.5

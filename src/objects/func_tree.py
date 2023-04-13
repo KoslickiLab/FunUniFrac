@@ -1,4 +1,13 @@
 import networkx as nx
+import dataclasses
+
+
+@dataclasses.dataclass
+class EmdInput:
+    Tint: dict # ancestor dictionary
+    lint: dict # lengths dictionary
+    basis: list
+    idx_to_node: dict # emdu index to node
 
 
 class FuncTree:

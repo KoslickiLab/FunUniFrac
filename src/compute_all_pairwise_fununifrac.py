@@ -2,6 +2,7 @@
 # Script to compute all pairwise functional unifrac from a directory of functional profiles
 import os
 import numpy as np
+import pandas as pd
 from scipy import sparse
 from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
 import multiprocessing
@@ -12,25 +13,26 @@ from blist import blist
 import sparse
 import pickle
 import data
+import src.objects.func_tree as func_tree
+import src.objects.emdu_vector as emdu_vector
 import src.factory.make_tree as make_tree
 import src.factory.make_emd_input as make_emd_input
 
 solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver() 
 
-def map_func(file, Tint, lint, nodes_in_order, EMDU_index_2_node, abundance_key, unweighted, is_L2):
-    P = solver.functional_profile_to_EMDU_vector(file, EMDU_index_2_node,
-                                               abundance_key=abundance_key, normalize=True)
-    if unweighted:
-        # if entries are positive, set to 1
-        P[P > 0] = 1
-    if is_L2:
-        P_pushed = solver.push_up_L2(P, Tint, lint, nodes_in_order)
-    else:
-        P_pushed = solver.push_up_L1(P, Tint, lint, nodes_in_order)
-    return file, P_pushed
 
-
-def map_star(args):
+def get_func_profiles_parallel(args):
+    def map_func(file, input: func_tree.EmdInput, abundance_key, unweighted, is_L2):
+        df = pd.read_csv(file)
+        P = make_emd_input.functional_profile_to_vector(df, input, abundance_key=abundance_key, normalize=True)
+        if unweighted:
+            # if entries are positive, set to 1
+            P[P > 0] = 1
+        if is_L2:
+            P_pushed = solver.push_up_L2(P, input)
+        else:
+            P_pushed = solver.push_up_L1(P, input)
+        return file, P_pushed
     return map_func(*args)
 
 
@@ -62,19 +64,17 @@ def main(args):
 
     logging.info(f"Converting graph into EMDUniFrac format")
     # Then create the inputs for EMDUniFrac
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree, brite)
+    input: func_tree.EmdInput = make_emd_input.tree_to_EMDU_input(tree, brite)
 
     logging.info(f"Computing pairwise distances in parallel")
     # convert the functional profiles to vectors and push them up in parallel
     Ps_pushed = {}
     pool = multiprocessing.Pool(args.threads)
-    results = pool.imap(map_star, zip(fun_files, repeat(Tint), repeat(lint), repeat(nodes_in_order),
-                                      repeat(EMDU_index_2_node),
-                                      repeat(abundance_key), repeat(unweighted), repeat(is_L2)),
+    results = pool.imap(get_func_profiles_parallel, zip(fun_files, repeat(input), repeat(abundance_key), repeat(unweighted), repeat(is_L2)),
                         chunksize=max(2, len(fun_files) // num_threads))
     pool.close()
     pool.join()
-    #results = map(map_star, zip(fun_files))
+    
     for file, P_pushed in results:
         Ps_pushed[file] = P_pushed
 
@@ -85,18 +85,20 @@ def main(args):
     j_coords = blist([])
     k_coords = blist([])
     data_vals = blist([])
-    diffab_dims = (len(fun_files), len(fun_files), len(nodes_in_order))
+    diffab_dims = (len(fun_files), len(fun_files), len(input.basis))
     for i, j in combinations(range(len(fun_files)), 2):
         if not make_diffab:
             if not is_L2:
-                dists[i, j] = dists[j, i] = solver.EMD_L1_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                dists[i, j] = dists[j, i] = emdu_vector.get_L1(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             else:
-                dists[i, j] = dists[j, i] = solver.EMD_L2_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                dists[i, j] = dists[j, i] = emdu_vector.get_L2(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
         else:
             if not is_L2:
-                Z, diffab = solver.EMD_L1_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                Z = emdu_vector.get_L1(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                diffab = emdu_vector.get_L1_diffab(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             else:
-                Z, diffab = solver.EMD_L2_and_diffab_on_pushed(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                Z = emdu_vector.get_L2(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                diffab = emdu_vector.get_L2_diffab(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             dists[i, j] = dists[j, i] = Z
             nonzero_diffab_locs = np.nonzero(diffab)[0]
             i_coords.extend([i] * len(nonzero_diffab_locs))
@@ -122,8 +124,8 @@ def main(args):
         logging.info(f"Saved difference abundance diffabs to {diffabs_out_file}")
         # save the nodes in order, but using the original node names
         with open(diffabs_out_file + '.nodes.txt', 'w') as f:
-            for node in nodes_in_order:
-                f.write(f'{EMDU_index_2_node[node]}\n')
+            for node in input.basis:
+                f.write(f'{input.idx_to_node[node]}\n')
     # save the basis
     with open(out_file + '.basis.txt', 'w') as f:
         for file in fun_files:
@@ -135,10 +137,6 @@ def main(args):
         with open(ppushed_out_file, 'wb') as f:
             pickle.dump(Ps_pushed, f)
         logging.info(f"Saved pushed profiles to {ppushed_out_file}")
-
-
-if __name__ == '__main__':
-    main()
 
 
 
