@@ -1,6 +1,6 @@
-import src.algorithms.lp_edge_length as LH
 import src.factory.make_tree as make_tree
 import src.factory.make_emd_input as make_emd_input
+import src.utility.pyemd_simulation as pyemd_simulation
 from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver, DiffabArrayIndexer
 import numpy as np
 import pytest
@@ -15,15 +15,16 @@ def test_emdu_vs_pyemd_simple():
     """
     solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
     test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
-    distance_matrix, node_list = LH.get_distance_matrix_from_edge_list(test_edge_file)
+    distance_matrix, node_list = pyemd_simulation.get_distance_matrix_from_edge_list(test_edge_file)
     # simple known distributions
     P = np.array([0, 0, 0, 0, 0, 0, 1])
     Q = np.array([0, 0, 0, 0, 0, 1, 0])
     # pyemd version
-    pyemd_val = LH.get_EMD_pyemd(P, Q, distance_matrix)
+    pyemd_val = pyemd_simulation.get_EMD_pyemd(P, Q, distance_matrix)
     # EMDUniFrac version
-    Gdir = make_tree.import_graph(test_edge_file, directed=True)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(Gdir)
+    tree = make_tree.import_graph(test_edge_file, directed=True)
+    Gdir = tree.main_tree
+    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
     # switch the order for convenience
     node_2_EMDU_index = {val: key for key, val in EMDU_index_2_node.items()}
     # convert from the distance matrix ordering to the EMDU ordering
@@ -47,9 +48,9 @@ def test_emdu_vs_pyemd_random():
     """
     solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
     test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
-    distance_matrix, node_list = LH.get_distance_matrix_from_edge_list(test_edge_file)
-    Gdir = make_tree.import_graph(test_edge_file, directed=True)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(Gdir)
+    distance_matrix, node_list = pyemd_simulation.get_distance_matrix_from_edge_list(test_edge_file)
+    tree = make_tree.import_graph(test_edge_file, directed=True)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
     # switch the order for convenience
     node_2_EMDU_index = {val: key for key, val in EMDU_index_2_node.items()}
 
@@ -60,7 +61,7 @@ def test_emdu_vs_pyemd_random():
         P = np.random.dirichlet(np.ones(len(node_list)))
         Q = np.random.dirichlet(np.ones(len(node_list)))
         # pyemd version
-        pyemd_val = LH.get_EMD_pyemd(P, Q, distance_matrix)
+        pyemd_val = pyemd_simulation.get_EMD_pyemd(P, Q, distance_matrix)
         # The EMDU version needs the distributions in the order of the nodes_in_order list
         PU = np.zeros_like(P)
         QU = np.zeros_like(Q)
@@ -80,8 +81,8 @@ def test_func_profile_convert():
     solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
     test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
     functional_profile_file = data.get_data_abspath('small_sim_10_KOs_gather.csv')
-    Gdir = make_tree.import_graph(test_edge_file, directed=True)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(Gdir)
+    tree = make_tree.import_graph(test_edge_file, directed=True)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
     node_2_EMDU_index = {val: key for key, val in EMDU_index_2_node.items()}
     P = solver.functional_profile_to_EMDU_vector(functional_profile_file, EMDU_index_2_node,
                                                abundance_key='median_abund', normalize=True)
@@ -107,9 +108,9 @@ def test_func_profile_convert():
 def test_push_up_L1():
     solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
     test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
-    distance_matrix, node_list = LH.get_distance_matrix_from_edge_list(test_edge_file)
-    Gdir = make_tree.import_graph(test_edge_file, directed=True)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(Gdir)
+    distance_matrix, node_list = pyemd_simulation.get_distance_matrix_from_edge_list(test_edge_file)
+    tree = make_tree.import_graph(test_edge_file, directed=True)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
     # switch the order for convenience
     node_2_EMDU_index = {val: key for key, val in EMDU_index_2_node.items()}
 
@@ -119,7 +120,7 @@ def test_push_up_L1():
         P = np.random.dirichlet(np.ones(len(node_list)))
         Q = np.random.dirichlet(np.ones(len(node_list)))
         # pyemd version
-        pyemd_val = LH.get_EMD_pyemd(P, Q, distance_matrix)
+        pyemd_val = pyemd_simulation.get_EMD_pyemd(P, Q, distance_matrix)
         PU = np.zeros_like(P)
         QU = np.zeros_like(Q)
         for i, node in enumerate(node_list):
@@ -138,8 +139,8 @@ def test_diffab_indexer():
     file_pattern = "*_gather.csv"
     fun_files = data.get_data_abspaths(file_pattern)
     fun_files = sorted(fun_files)
-    Gdir = make_tree.import_graph(edge_list_file, directed=True)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(Gdir)
+    tree = make_tree.import_graph(edge_list_file, directed=True)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
     # compute the diffabs
     P = solver.functional_profile_to_EMDU_vector(fun_files[0], EMDU_index_2_node,
                                                abundance_key="median_abund", normalize=True)
@@ -178,8 +179,9 @@ def test_diffab_indexer():
 def test_EMDUnifrac_weighted_flow():
     solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
     path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
-    G = make_tree.import_graph(path)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(G)
+    tree = make_tree.import_graph(path)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
+    G = tree.main_tree
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
         'B': {'sample1': 1, 'sample2': 1},
@@ -213,8 +215,9 @@ def test_EMDUnifrac_weighted_flow():
 def test_EMDUnifrac_weighted():
     solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
     path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
-    G = make_tree.import_graph(path)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(G)
+    tree = make_tree.import_graph(path)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
+    G = tree.main_tree
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
         'B': {'sample1': 1, 'sample2': 1},
@@ -241,8 +244,9 @@ def test_EMDUnifrac_weighted():
 def test_EMDUnifrac_unweighted():
     solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
     path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
-    G = make_tree.import_graph(path)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(G)
+    tree = make_tree.import_graph(path)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
+    G = tree.main_tree
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
         'B': {'sample1': 1, 'sample2': 1},
@@ -266,8 +270,9 @@ def test_EMDUnifrac_unweighted():
 def test_EMDUnifrac_unweighted_flow():
     solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
     path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
-    G = make_tree.import_graph(path)
-    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(G)
+    tree = make_tree.import_graph(path)
+    Tint, lint, nodes_in_order, EMDU_index_2_node = make_emd_input.weighted_tree_to_EMDU_input(tree)
+    G = tree.main_tree
     nodes_samples = {
         'C': {'sample1': 1, 'sample2': 0},
         'B': {'sample1': 1, 'sample2': 1},

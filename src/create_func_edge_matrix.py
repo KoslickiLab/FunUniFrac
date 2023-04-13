@@ -32,7 +32,7 @@ def main(args):
     ##############################################################################
     G = nx.read_edgelist(edge_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
     tree = func_tree.FuncTree(G)
-    tree.make_subtree(brite_id)
+    tree.set_subtree(brite_id)
     pairwise_distances = make_pairwise_distance.get_KO_pairwise_dist(distance_file, distance_label_file)
     ##############################################################################
     # Get A matrix

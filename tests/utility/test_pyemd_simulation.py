@@ -5,17 +5,13 @@ import tempfile
 import pytest
 import data
 
-from src.algorithms.lp_edge_length import get_EMD_pyemd,\
-get_distance_matrix_from_edge_list,\
-get_distance_matrix_from_edge_list,\
-get_graphs_and_index,\
-LeafDistributionSimulator,\
-get_distance_matrix_on_leaves_from_edge_list
+import src.factory.make_tree as make_tree
+import src.utility.pyemd_simulation as pyemd_simulation 
 
 
 def test_get_distance_matrix_from_edge_list():
     test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
-    distance_matrix, node_list = get_distance_matrix_from_edge_list(test_edge_file)
+    distance_matrix, node_list = pyemd_simulation.get_distance_matrix_from_edge_list(test_edge_file)
     # test that the distance matrix is the right size
     assert distance_matrix.shape == (len(node_list), len(node_list))
     # test against precomputed distance matrix
@@ -33,7 +29,7 @@ def test_get_distance_matrix_from_edge_list():
 def test_get_distance_matrix_on_leaves_from_edge_list():
     # first test is all the branch lengths = 1
     test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
-    distance_matrix, leaf_node_list = get_distance_matrix_on_leaves_from_edge_list(test_edge_file)
+    distance_matrix, leaf_node_list = pyemd_simulation.get_distance_matrix_on_leaves_from_edge_list(test_edge_file)
     # test that the distance matrix is the right size
     assert distance_matrix.shape == (len(leaf_node_list), len(leaf_node_list))
     # test against precomputed distance matrix
@@ -53,7 +49,7 @@ def test_get_distance_matrix_on_leaves_from_edge_list():
         tmp.write("b\te\t2\n")
         tmp.write("c\tf\t2\n")
         tmp.write("c\tg\t2\n")
-    distance_matrix, leaf_node_list = get_distance_matrix_on_leaves_from_edge_list(tmp.name)
+    distance_matrix, leaf_node_list = pyemd_simulation.get_distance_matrix_on_leaves_from_edge_list(tmp.name)
     known_D = np.array([[0, 4, 8, 8],
                         [4, 0, 8, 8],
                         [8, 8, 0, 4],
@@ -68,7 +64,7 @@ def test_get_distance_matrix_on_leaves_from_edge_list():
         tmp.write("b\tm\t4\n")
         tmp.write("r\tq\t5\n")
         tmp.write("r\ts\t6\n")
-    distance_matrix, leaf_node_list = get_distance_matrix_on_leaves_from_edge_list(tmp.name)
+    distance_matrix, leaf_node_list = pyemd_simulation.get_distance_matrix_on_leaves_from_edge_list(tmp.name)
     known_D = np.array([[0, 7, 12, 13],
                         [7, 0, 11, 12],
                         [12, 11, 0, 11],
@@ -82,7 +78,7 @@ def test_get_distance_matrix_on_leaves_from_edge_list():
         tmp.write("d\te\t3\n")
     # the following should throw an error
     with pytest.raises(ValueError):
-        distance_matrix, leaf_node_list = get_distance_matrix_on_leaves_from_edge_list(tmp.name)
+        distance_matrix, leaf_node_list = pyemd_simulation.get_distance_matrix_on_leaves_from_edge_list(tmp.name)
 
 
 def test_get_EMD():
@@ -95,29 +91,33 @@ def test_get_EMD():
                   [2, 3, 1, 4, 4, 2, 0]])
     P = np.array([0, 0, 0, 0, 0, 0, 1])
     Q = np.array([0, 0, 0, 0, 0, 1, 0])
-    emd = get_EMD_pyemd(P, Q, D)
+    emd = pyemd_simulation.get_EMD_pyemd(P, Q, D)
     assert np.isclose(emd, 2, atol=1e-2)
     P = np.array([0, 0, 0, 0, 0, 0, 1])
     Q = np.array([0, 0, 0, 0, 1, 0, 0])
-    emd = get_EMD_pyemd(P, Q, D)
+    emd = pyemd_simulation.get_EMD_pyemd(P, Q, D)
     assert np.isclose(emd, 4, atol=1e-2)
     P = np.array([0, 0, 0, 0, 0, 0, 2])
     Q = np.array([0, 0, 0, 0, 0, 2, 0])
     # the following should fail since P and Q are not normalized
     try:
-        emd = get_EMD_pyemd(P, Q, D)
+        emd = pyemd_simulation.get_EMD_pyemd(P, Q, D)
         assert False
     except:
         assert True
     P = np.array([1, 0, 0, 0, 0, 0, 0])
     Q = np.array([0, 0, 0, 0, 0, 1, 0])
-    emd = get_EMD_pyemd(P, Q, D)
+    emd = pyemd_simulation.get_EMD_pyemd(P, Q, D)
     assert np.isclose(emd, 2, atol=1e-2)
 
 
 def test_get_graphs_and_index():
     test_edge_file = data.get_data_abspath('small_edge_list.txt')
-    Gdir, Gundir, basis, index = get_graphs_and_index(test_edge_file, "ko00001")
+    tree = make_tree.import_graph(test_edge_file)
+    Gdir = tree.set_subtree("ko00001")
+    Gundir = Gdir.to_undirected()
+    basis = tree.basis
+    index = tree.basis_index
     assert len(Gdir.edges()) == 6
     assert len(Gundir.edges()) == 6
     assert len(basis) == 7
@@ -129,8 +129,9 @@ def test_get_graphs_and_index():
 
 def test_leaf_node_simulator():
     test_edge_file = data.get_data_abspath('small_edge_list.txt')
+    tree = make_tree.import_graph(test_edge_file)
     brite = 'ko00001'
-    l = LeafDistributionSimulator(test_edge_file, brite)
+    l = pyemd_simulation.LeafDistributionSimulator(tree, brite)
     assert len(l.basis) == 7
     P = l.get_random_dist_on_leaves()
     # check that the simulated distribution is a valid probability distribution

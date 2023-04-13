@@ -21,7 +21,7 @@ def test__create_A_matrix__with_small_edge_list():
     distances_labels_file = data.get_data_abspath(f"sourmash/{dist_name}.labels.txt")
     G = nx.read_edgelist(edge_list, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
     tree = FuncTree(G)
-    tree.make_subtree(brite)
+    tree.set_subtree(brite)
     pairwise_distances: PairwiseDistance = get_KO_pairwise_dist(distances_file, distances_labels_file)
 
     solver = EdgeLengthSolver()

@@ -7,7 +7,6 @@ from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthM
 import multiprocessing
 from itertools import combinations, repeat
 import src.utility.kegg_db as kegg_db
-from src.algorithms.lp_edge_length import get_descendants
 import logging
 from blist import blist
 import sparse

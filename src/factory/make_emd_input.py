@@ -1,5 +1,7 @@
 import src.objects.func_tree as func_tree
+import src.factory.make_tree as make_tree
 import networkx as nx
+import numpy as np
 
 
 def weighted_tree_to_EMDU_input(tree: func_tree.FuncTree, brite=None, edge_len_property=None):
@@ -11,12 +13,12 @@ def weighted_tree_to_EMDU_input(tree: func_tree.FuncTree, brite=None, edge_len_p
     :return: (Tint dict, lint dict, nodes_in_order array, index_2_node dict)
     """
     if brite is not None:
-        G = tree.make_subtree(brite)
+        G = tree.set_subtree(brite)
     else:
         G = tree.main_tree
     # first determine the edge_length attribute
     if edge_len_property is None:
-        edge_len_property = infer_edge_len_property(G)
+        edge_len_property = func_tree.FuncTree.infer_edge_len_property(G)
     Tint = {}
     nodes = G.nodes()
     for node in nodes:
@@ -34,7 +36,7 @@ def weighted_tree_to_EMDU_input(tree: func_tree.FuncTree, brite=None, edge_len_p
         weight = data[edge_len_property]
         lint[(i, j)] = weight
         lint[(j, i)] = weight
-    root = get_root_of_tree(G)
+    root = func_tree.FuncTree.get_root_of_tree(G)
     nodes_in_order = list(nx.dfs_postorder_nodes(G, source=root))
     # Tint, lint, and nodes_in_order require these to be integers, so let's map everything to that
     node_2_EMDU_index = {node: i for i, node in enumerate(nodes_in_order)}
@@ -49,30 +51,4 @@ def weighted_tree_to_EMDU_input(tree: func_tree.FuncTree, brite=None, edge_len_p
     return Tint, lint, nodes_in_order, EMDU_index_2_node
 
 
-def infer_edge_len_property(G):
-    """
-    From a networkx graph, find out the name of the edge length property
 
-    :param G: graph
-    :return: name of the edge length property
-    """
-    edge_properties = list(list(G.edges(data=True))[0][-1].keys())
-    if len(edge_properties) > 1:
-        raise ValueError(f'I found multiple edge properties: {edge_properties}. I don\'t know which one to use for '
-                         f'edge lengths.')
-    else:
-        edge_len_property = edge_properties[0]
-    return edge_len_property
-
-
-def get_root_of_tree(G:nx.DiGraph):
-    """
-    Returns the root node of a directed tree
-
-    :param G: directed tree
-    :return: root node name
-    """
-    roots = [n for n, d in G.in_degree() if d == 0]
-    if len(roots) > 1:
-        raise Exception(f"The graph has multiple roots: {roots}")
-    return roots[0]

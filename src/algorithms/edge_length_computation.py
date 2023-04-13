@@ -7,7 +7,6 @@ try:
     from blist import blist
 except ModuleNotFoundError:
     print("Warning: Could not import blist. Please install blist to speed up the path matrix calculation.")
-from src.algorithms.lp_edge_length import get_descendant
 from src.objects.func_tree import FuncTree
 from src.objects.pairwise_dist import PairwiseDistance
 from itertools import repeat
@@ -33,7 +32,6 @@ class EdgeLengthSolver:
         # Let's get the matrix describing which edges are traversed between all pairs of nodes
         # This is a sparse matrix, so we'll need to use scipy.sparse
         ########################################################################################################################
-        tree.check_subtree_valid()
         G = tree.current_subtree
         G_undirected = tree.current_subtree.to_undirected() 
         basis = tree.basis
@@ -59,7 +57,7 @@ class EdgeLengthSolver:
         for i, (v1, v2) in enumerate(edges):
             if i % 100 == 0:
                 print(f"descendant iteration: {i}/{num_edges}")
-            desc = get_descendant(G, v1, v2)
+            desc = FuncTree.get_descendant(G, v1, v2)
             edge_2_descendant[(v1, v2)] = desc
             edge_2_descendant[(v2, v1)] = desc
         ########################################################################################################################
