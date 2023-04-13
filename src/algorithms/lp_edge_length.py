@@ -227,17 +227,17 @@ def get_EMD_pyemd(P, Q, distance_matrix, with_flow=False):
     return emd(P, Q, distance_matrix)
 
 
-def get_root_of_tree(G:nx.DiGraph):
-    """
-    Returns the root node of a directed tree
+# def get_root_of_tree(G:nx.DiGraph):
+#     """
+#     Returns the root node of a directed tree
 
-    :param G: directed tree
-    :return: root node name
-    """
-    roots = [n for n, d in G.in_degree() if d == 0]
-    if len(roots) > 1:
-        raise Exception(f"The graph has multiple roots: {roots}")
-    return roots[0]
+#     :param G: directed tree
+#     :return: root node name
+#     """
+#     roots = [n for n, d in G.in_degree() if d == 0]
+#     if len(roots) > 1:
+#         raise Exception(f"The graph has multiple roots: {roots}")
+#     return roots[0]
 
 
 # get all leaf descendants of a certain node

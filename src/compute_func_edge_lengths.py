@@ -43,7 +43,7 @@ def main(args):
     edge_list = pd.read_csv(edge_file, sep='\t', header=0)
     G = nx.read_edgelist(edge_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
     tree = func_tree.FuncTree(G)
-    tree.apply_classification(brite)
+    tree.make_subtree(brite)
     pairwise_distances = make_pairwise_distance.get_KO_pairwise_dist(distance_file, distance_label_file)
     ##############################################################################
     # First, get A matrix following the process: "create_func_edge_matrix"

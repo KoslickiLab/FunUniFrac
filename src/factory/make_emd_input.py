@@ -1,4 +1,8 @@
-def weighted_tree_to_EMDU_input(G: nx.DiGraph, edge_len_property=None):
+import src.objects.func_tree as func_tree
+import networkx as nx
+
+
+def weighted_tree_to_EMDU_input(tree: func_tree.FuncTree, brite=None, edge_len_property=None):
     """
     Convert a weighted graph to the format required by EMDUniFrac: Tint, lint, and nodes_in_order.
     Since EMDUniFrac wants everything to be integers, also return a mapping from integers to node names.
@@ -6,8 +10,10 @@ def weighted_tree_to_EMDU_input(G: nx.DiGraph, edge_len_property=None):
     :param G: weighted networkx graph
     :return: (Tint dict, lint dict, nodes_in_order array, index_2_node dict)
     """
-    if type(G) is not nx.DiGraph:
-        raise ValueError('The graph must be a directed graph')
+    if brite is not None:
+        G = tree.make_subtree(brite)
+    else:
+        G = tree.main_tree
     # first determine the edge_length attribute
     if edge_len_property is None:
         edge_len_property = infer_edge_len_property(G)
@@ -42,3 +48,31 @@ def weighted_tree_to_EMDU_input(G: nx.DiGraph, edge_len_property=None):
     EMDU_index_2_node = {i: node for node, i in node_2_EMDU_index.items()}
     return Tint, lint, nodes_in_order, EMDU_index_2_node
 
+
+def infer_edge_len_property(G):
+    """
+    From a networkx graph, find out the name of the edge length property
+
+    :param G: graph
+    :return: name of the edge length property
+    """
+    edge_properties = list(list(G.edges(data=True))[0][-1].keys())
+    if len(edge_properties) > 1:
+        raise ValueError(f'I found multiple edge properties: {edge_properties}. I don\'t know which one to use for '
+                         f'edge lengths.')
+    else:
+        edge_len_property = edge_properties[0]
+    return edge_len_property
+
+
+def get_root_of_tree(G:nx.DiGraph):
+    """
+    Returns the root node of a directed tree
+
+    :param G: directed tree
+    :return: root node name
+    """
+    roots = [n for n, d in G.in_degree() if d == 0]
+    if len(roots) > 1:
+        raise Exception(f"The graph has multiple roots: {roots}")
+    return roots[0]

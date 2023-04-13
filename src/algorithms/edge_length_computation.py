@@ -35,7 +35,7 @@ class EdgeLengthSolver:
         ########################################################################################################################
         tree.check_subtree_valid()
         G = tree.current_subtree
-        G_undirected = tree.current_subtree_undirected 
+        G_undirected = tree.current_subtree.to_undirected() 
         basis = tree.basis
         basis_index = tree.basis_index
         pw_dist_labels, _ = pairwise_distances.filter_labels(basis)
