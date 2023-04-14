@@ -13,6 +13,7 @@ if __name__ == '__main__':
     parser.add_argument('-e', '--edge_list',
                         help='Input edge list file of the KEGG hierarchy. Must have lengths in the '
                              'third column.', required=True)
+    parser.add_argument('-d', '--directory', help="Directory where sourmash gather files are contained.",  required=True)
     parser.add_argument('-fp', '--file_pattern', help="Pattern to match files in the directory. Default is "
                                                       "'*_gather.csv'", default='*_gather.csv')
     parser.add_argument('-o', '--out_file', help='Output file name: will be a numpy array.', required=True)
