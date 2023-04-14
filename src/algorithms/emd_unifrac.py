@@ -4,11 +4,14 @@ import numpy as np
 import sys
 import copy
 from src.objects.func_tree import FuncTree, FuncTreeEmduInput
-from src.objects.profile_vector import FuncProfileVector
+from src.objects.profile_vector import FuncProfileVector, get_L1, get_L1_diffab, get_L2, get_L2_diffab
 from src.objects.emdu_out import UnifracDistance, EmdFlow, DifferentialAbundance
 from typing import Tuple
 epsilon = sys.float_info.epsilon
-from itertools import repeat
+from itertools import repeat, combinations
+from blist import blist
+import sparse
+
 
 class EarthMoverDistanceUniFracAbstract(abc.ABC):
     @abc.abstractmethod
@@ -44,27 +47,6 @@ class EarthMoverDistanceUniFracAbstract(abc.ABC):
         """
         raise NotImplementedError()
     
-    # @abc.abstractmethod
-    # def EMDUnifrac_weighted_plain(ancestors, 
-    #                               edge_lengths, 
-    #                               nodes_in_order, 
-    #                               P, 
-    #                               Q):
-    #     """
-    #     Z = EMDUnifrac_weighted(ancestors, edge_lengths, nodes_in_order, P, Q)
-    #     This function takes the ancestor dictionary Tint, the lengths dictionary lint, the basis nodes_in_order
-    #     and two probability vectors P and Q (typically P = envs_prob_dict[samples[i]], Q = envs_prob_dict[samples[j]]).
-    #     Returns the weighted Unifrac distance Z.
-    #     """
-    #     raise NotImplementedError()
-    
-    # @abc.abstractmethod
-    # def EMDUnifrac_group(ancestors, 
-    #                      edge_lengths, 
-    #                      nodes_in_order, 
-    #                      rel_abund):
-    #     raise NotImplementedError()
-    
     @abc.abstractmethod
     def push_up_L2(P: FuncProfileVector, input: FuncTreeEmduInput):
         """
@@ -91,6 +73,9 @@ class EarthMoverDistanceUniFracAbstract(abc.ABC):
         """
         raise NotImplementedError()
     
+    @abc.abstractmethod
+    def pairwise_computation(self, Ps: dict[str, FuncProfileVector], vector_names, input: FuncTreeEmduInput, make_diffab, is_L2):
+        raise NotImplementedError()
     
 
 class EarthMoverDistanceUniFracSolver(EarthMoverDistanceUniFracAbstract):
@@ -217,7 +202,63 @@ class EarthMoverDistanceUniFracSolver(EarthMoverDistanceUniFracAbstract):
             P_pushed[i] *= lint[i, Tint[i]]
         return P_pushed
 
+
+    def pairwise_computation(self, Ps: dict[str, FuncProfileVector], vector_names, input: FuncTreeEmduInput, make_diffab, is_L2):
+        dists = np.zeros((len(vector_names), len(vector_names)))
+        i_coords = blist([])
+        j_coords = blist([])
+        k_coords = blist([])
+        data_vals = blist([])
+        diffab_dims = (len(vector_names), len(vector_names), len(input.basis))
+        for i, j in combinations(range(len(vector_names)), 2):
+            if not make_diffab:
+                if not is_L2:
+                    dists[i, j] = dists[j, i] = get_L1(Ps[vector_names[i]], Ps[vector_names[j]])
+                else:
+                    dists[i, j] = dists[j, i] = get_L2(Ps[vector_names[i]], Ps[vector_names[j]])
+            else:
+                if not is_L2:
+                    Z = get_L1(Ps[vector_names[i]], Ps[vector_names[j]])
+                    diffab = get_L1_diffab(Ps[vector_names[i]], Ps[vector_names[j]])
+                else:
+                    Z = get_L2(Ps[vector_names[i]], Ps[vector_names[j]])
+                    diffab = get_L2_diffab(Ps[vector_names[i]], Ps[vector_names[j]])
+                dists[i, j] = dists[j, i] = Z
+                nonzero_diffab_locs = np.nonzero(diffab)[0]
+                i_coords.extend([i] * len(nonzero_diffab_locs))
+                j_coords.extend([j] * len(nonzero_diffab_locs))
+                k_coords.extend(nonzero_diffab_locs)
+                data_vals.extend(diffab[nonzero_diffab_locs])
+        if make_diffab:
+            coords = [i_coords, j_coords, k_coords]
+            diffabs_sparse = sparse.COO(coords, data_vals, shape=diffab_dims)
+            # add the negative transpose ([[0, 1], [0, 0]] -> [[0, 1], [-1, 0]])
+            diffabs_sparse = diffabs_sparse - diffabs_sparse.transpose(axes=(1, 0, 2))
+        else:
+            diffabs_sparse = None
+        return dists, diffabs_sparse 
+
+    # @abc.abstractmethod
+    # def EMDUnifrac_weighted_plain(ancestors, 
+    #                               edge_lengths, 
+    #                               nodes_in_order, 
+    #                               P, 
+    #                               Q):
+    #     """
+    #     Z = EMDUnifrac_weighted(ancestors, edge_lengths, nodes_in_order, P, Q)
+    #     This function takes the ancestor dictionary Tint, the lengths dictionary lint, the basis nodes_in_order
+    #     and two probability vectors P and Q (typically P = envs_prob_dict[samples[i]], Q = envs_prob_dict[samples[j]]).
+    #     Returns the weighted Unifrac distance Z.
+    #     """
+    #     raise NotImplementedError()
     
+    # @abc.abstractmethod
+    # def EMDUnifrac_group(ancestors, 
+    #                      edge_lengths, 
+    #                      nodes_in_order, 
+    #                      rel_abund):
+    #     raise NotImplementedError()
+
     # def EMDUnifrac_weighted_plain(self, ancestors, edge_lengths, nodes_in_order, P, Q):
     #     num_nodes = len(nodes_in_order)
     #     Z = 0

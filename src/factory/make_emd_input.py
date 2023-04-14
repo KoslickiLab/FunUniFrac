@@ -1,7 +1,10 @@
 from src.objects.func_tree import FuncTree, FuncTreeEmduInput
+from src.objects.profile_vector import FuncProfileVector
 import networkx as nx
 import numpy as np
 import pandas as pd
+import multiprocessing
+from itertools import repeat
 
 
 def tree_to_EMDU_input(tree: FuncTree, brite=None, edge_len_property=None) -> FuncTreeEmduInput:
@@ -49,6 +52,31 @@ def tree_to_EMDU_input(tree: FuncTree, brite=None, edge_len_property=None) -> Fu
     # convert the integers to nodes
     EMDU_index_2_node = {i: node for node, i in node_2_EMDU_index.items()}
     return FuncTreeEmduInput(Tint, lint, nodes_in_order, EMDU_index_2_node)
+
+
+
+def get_func_profiles_parallel(args):
+    def map_func(file, input: FuncTreeEmduInput, abundance_key, unweighted):
+        df = pd.read_csv(file)
+        P: FuncProfileVector = functional_profile_to_vector(df, input, abundance_key=abundance_key, normalize=True)
+        if unweighted:
+            # if entries are positive, set to 1
+            P[P > 0] = 1
+        return file, P
+    return map_func(*args)
+
+
+def parallel_functional_profile_to_vector(num_threads, fun_files, input, abundance_key, unweighted)-> list[tuple[pd.DataFrame, FuncProfileVector]]:
+    pool = multiprocessing.Pool(num_threads)
+    results = pool.imap(get_func_profiles_parallel, 
+                        zip(fun_files, 
+                            repeat(input), 
+                            repeat(abundance_key), 
+                            repeat(unweighted)), 
+                            chunksize=max(2, len(fun_files) // num_threads))
+    pool.close()
+    pool.join()
+    return results
 
 
 def functional_profile_to_vector(functional_profile: pd.DataFrame, input: FuncTreeEmduInput, abundance_key='median_abund', normalize=True):

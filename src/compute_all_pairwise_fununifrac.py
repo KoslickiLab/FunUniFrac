@@ -2,38 +2,16 @@
 # Script to compute all pairwise functional unifrac from a directory of functional profiles
 import os
 import numpy as np
-import pandas as pd
 from scipy import sparse
 from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
-import multiprocessing
-from itertools import combinations, repeat
 import src.utility.kegg_db as kegg_db
 import logging
-from blist import blist
 import sparse
 import pickle
 import data
 from src.objects.func_tree import FuncTreeEmduInput
-from src.objects.profile_vector import get_L2_diffab, get_L2, get_L1, get_L1_diffab
 import src.factory.make_tree as make_tree
 import src.factory.make_emd_input as make_emd_input
-
-solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver() 
-
-
-def get_func_profiles_parallel(args):
-    def map_func(file, input: FuncTreeEmduInput, abundance_key, unweighted, is_L2):
-        df = pd.read_csv(file)
-        P = make_emd_input.functional_profile_to_vector(df, input, abundance_key=abundance_key, normalize=True)
-        if unweighted:
-            # if entries are positive, set to 1
-            P[P > 0] = 1
-        if is_L2:
-            P_pushed = solver.push_up_L2(P, input)
-        else:
-            P_pushed = solver.push_up_L1(P, input)
-        return file, P_pushed
-    return map_func(*args)
 
 
 def main(args):
@@ -49,6 +27,9 @@ def main(args):
     unweighted = args.unweighted
     is_L2 = args.L2
     save_Ppushed = args.Ppushed
+    ##############################################################################
+    # Validations
+    ##############################################################################
     if brite not in kegg_db.instance.brites:
         raise ValueError(f"{brite} is not a valid BRITE ID. Choices are: {kegg_db.instance.brites}")
     edge_list_file = data.get_data_abspath(edge_list_file)
@@ -59,59 +40,35 @@ def main(args):
     fun_files = data.get_data_abspaths(file_pattern)
     fun_files = sorted(fun_files)
     logging.info(f"Parsing graph")
+    ##############################################################################
+    # Main objects
+    ##############################################################################
+    solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver() 
     # Parse the graph and get the FunUniFrac objects Tint, length, and edge_list
     tree = make_tree.import_graph(edge_list_file, directed=True)
-
     logging.info(f"Converting graph into EMDUniFrac format")
     # Then create the inputs for EMDUniFrac
     input: FuncTreeEmduInput = make_emd_input.tree_to_EMDU_input(tree, brite)
-
     logging.info(f"Computing pairwise distances in parallel")
-    # convert the functional profiles to vectors and push them up in parallel
+    ##############################################################################
+    # Computations
+    ##############################################################################
+    # convert the functional profiles to vectors
+    results = make_emd_input.parallel_functional_profile_to_vector(num_threads, fun_files, input, abundance_key, unweighted)
+    # push vectors up in parallel
     Ps_pushed = {}
-    pool = multiprocessing.Pool(args.threads)
-    results = pool.imap(get_func_profiles_parallel, zip(fun_files, repeat(input), repeat(abundance_key), repeat(unweighted), repeat(is_L2)),
-                        chunksize=max(2, len(fun_files) // num_threads))
-    pool.close()
-    pool.join()
-    
-    for file, P_pushed in results:
+    for file, P in results:
+        if is_L2:
+            P_pushed = solver.push_up_L2(P, input)
+        else:
+            P_pushed = solver.push_up_L1(P, input)
         Ps_pushed[file] = P_pushed
-
     logging.info(f"Computing pairwise distances")
     # Then compute the pairwise distances
-    dists = np.zeros((len(fun_files), len(fun_files)))
-    i_coords = blist([])
-    j_coords = blist([])
-    k_coords = blist([])
-    data_vals = blist([])
-    diffab_dims = (len(fun_files), len(fun_files), len(input.basis))
-    for i, j in combinations(range(len(fun_files)), 2):
-        if not make_diffab:
-            if not is_L2:
-                dists[i, j] = dists[j, i] = get_L1(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
-            else:
-                dists[i, j] = dists[j, i] = get_L2(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
-        else:
-            if not is_L2:
-                Z = get_L1(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
-                diffab = get_L1_diffab(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
-            else:
-                Z = get_L2(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
-                diffab = get_L2_diffab(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
-            dists[i, j] = dists[j, i] = Z
-            nonzero_diffab_locs = np.nonzero(diffab)[0]
-            i_coords.extend([i] * len(nonzero_diffab_locs))
-            j_coords.extend([j] * len(nonzero_diffab_locs))
-            k_coords.extend(nonzero_diffab_locs)
-            data_vals.extend(diffab[nonzero_diffab_locs])
-    if make_diffab:
-        logging.info(f"Converting diffabs to sparse matrix")
-        coords = [i_coords, j_coords, k_coords]
-        diffabs_sparse = sparse.COO(coords, data_vals, shape=diffab_dims)
-        # add the negative transpose ([[0, 1], [0, 0]] -> [[0, 1], [-1, 0]])
-        diffabs_sparse = diffabs_sparse - diffabs_sparse.transpose(axes=(1, 0, 2))
-
+    dists, diffabs_sparse = solver.pairwise_computation(Ps_pushed, fun_files, input, make_diffab, is_L2)
+    ##############################################################################
+    # Save Outputs
+    ##############################################################################
     logging.info(f"Saving results")
     # save the distances
     np.save(out_file, dists)
