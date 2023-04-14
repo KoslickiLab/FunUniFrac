@@ -14,7 +14,7 @@ import sparse
 import pickle
 import data
 import src.objects.func_tree as func_tree
-import src.objects.emdu_vector as emdu_vector
+import src.objects.profile_vector as profile_vector
 import src.factory.make_tree as make_tree
 import src.factory.make_emd_input as make_emd_input
 
@@ -89,16 +89,16 @@ def main(args):
     for i, j in combinations(range(len(fun_files)), 2):
         if not make_diffab:
             if not is_L2:
-                dists[i, j] = dists[j, i] = emdu_vector.get_L1(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                dists[i, j] = dists[j, i] = profile_vector.get_L1(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             else:
-                dists[i, j] = dists[j, i] = emdu_vector.get_L2(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                dists[i, j] = dists[j, i] = profile_vector.get_L2(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
         else:
             if not is_L2:
-                Z = emdu_vector.get_L1(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
-                diffab = emdu_vector.get_L1_diffab(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                Z = profile_vector.get_L1(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                diffab = profile_vector.get_L1_diffab(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             else:
-                Z = emdu_vector.get_L2(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
-                diffab = emdu_vector.get_L2_diffab(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                Z = profile_vector.get_L2(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                diffab = profile_vector.get_L2_diffab(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             dists[i, j] = dists[j, i] = Z
             nonzero_diffab_locs = np.nonzero(diffab)[0]
             i_coords.extend([i] * len(nonzero_diffab_locs))

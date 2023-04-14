@@ -4,7 +4,7 @@ import numpy as np
 import sys
 import copy
 import src.objects.func_tree as func_tree
-import src.objects.emdu_vector as emdu_vector
+import src.objects.profile_vector as profile_vector
 epsilon = sys.float_info.epsilon
 from itertools import repeat
 
@@ -12,8 +12,8 @@ class EarthMoverDistanceUniFracAbstract(abc.ABC):
     @abc.abstractmethod
     def solve(self, 
               input: func_tree.EmdInput, 
-              P: emdu_vector.ProfileVector, 
-              Q: emdu_vector.ProfileVector, 
+              P: profile_vector.ProfileVector, 
+              Q: profile_vector.ProfileVector, 
               weighted: bool):
         """(Z, diffab) = EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q)
         This function takes the ancestor dictionary Tint, the lengths dictionary lint, the basis nodes_in_order
@@ -27,8 +27,8 @@ class EarthMoverDistanceUniFracAbstract(abc.ABC):
     @abc.abstractmethod
     def solve_with_flow(self, 
                         input: func_tree.EmdInput, 
-                        P: emdu_vector.ProfileVector, 
-                        Q: emdu_vector.ProfileVector, 
+                        P: profile_vector.ProfileVector, 
+                        Q: profile_vector.ProfileVector, 
                         weighted: bool):
         """ (Z, F, diffab) = EMDUnifrac_weighted_flow(Tint, lint, nodes_in_order, P, Q)
         This function takes the ancestor dictionary Tint, the lengths dictionary lint, the basis nodes_in_order
@@ -64,7 +64,7 @@ class EarthMoverDistanceUniFracAbstract(abc.ABC):
     #     raise NotImplementedError()
     
     @abc.abstractmethod
-    def push_up_L2(P: emdu_vector.ProfileVector, input: func_tree.EmdInput):
+    def push_up_L2(P: profile_vector.ProfileVector, input: func_tree.EmdInput):
         """
         Push the vector P up the tree, to prep the vector for L2 unifrac
 
@@ -77,7 +77,7 @@ class EarthMoverDistanceUniFracAbstract(abc.ABC):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def push_up_L1(P: emdu_vector.ProfileVector, input: func_tree.EmdInput):
+    def push_up_L1(P: profile_vector.ProfileVector, input: func_tree.EmdInput):
         """
         Push the vector P up the tree, to prep the vector for L2 unifrac
 
@@ -97,8 +97,8 @@ class EarthMoverDistanceUniFracSolver(EarthMoverDistanceUniFracAbstract):
 
     def solve(self, 
               input: func_tree.EmdInput, 
-              P: emdu_vector.ProfileVector, 
-              Q: emdu_vector.ProfileVector, 
+              P: profile_vector.ProfileVector, 
+              Q: profile_vector.ProfileVector, 
               weighted: bool):
         Tint, lint, nodes_in_order = input.Tint, input.lint, input.basis
         num_nodes = len(nodes_in_order)
@@ -127,8 +127,8 @@ class EarthMoverDistanceUniFracSolver(EarthMoverDistanceUniFracAbstract):
 
     def solve_with_flow(self, 
                         input: func_tree.EmdInput, 
-                        P: emdu_vector.ProfileVector, 
-                        Q: emdu_vector.ProfileVector, 
+                        P: profile_vector.ProfileVector, 
+                        Q: profile_vector.ProfileVector, 
                         weighted: bool):
         Tint, lint, nodes_in_order = input.Tint, input.lint, input.basis
         num_nodes = len(nodes_in_order)
@@ -194,7 +194,7 @@ class EarthMoverDistanceUniFracSolver(EarthMoverDistanceUniFracAbstract):
     
     
 
-    def push_up_L2(self, P: emdu_vector.ProfileVector, input: func_tree.EmdInput):
+    def push_up_L2(self, P: profile_vector.ProfileVector, input: func_tree.EmdInput):
         P_pushed = copy.deepcopy(P)
         Tint, lint, nodes_in_order = input.Tint, input.lint, input.basis
         for i in range(len(nodes_in_order)-1):
@@ -205,7 +205,7 @@ class EarthMoverDistanceUniFracSolver(EarthMoverDistanceUniFracAbstract):
         return P_pushed
 
 
-    def push_up_L1(self, P: emdu_vector.ProfileVector, input: func_tree.EmdInput):
+    def push_up_L1(self, P: profile_vector.ProfileVector, input: func_tree.EmdInput):
         P_pushed = copy.deepcopy(P)
         Tint, lint, nodes_in_order = input.Tint, input.lint, input.basis
         for i in range(len(nodes_in_order)-1):

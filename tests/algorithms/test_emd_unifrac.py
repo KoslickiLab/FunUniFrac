@@ -1,10 +1,10 @@
 import src.factory.make_tree as make_tree
 import src.factory.make_emd_input as make_emd_input
 import src.utility.pyemd_simulation as pyemd_simulation
+import src.utility.differential_abundance as differential_abundance
 from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
-import src.objects.emdu_diffab as emdu_diffab
 import src.objects.func_tree as func_tree
-import src.objects.emdu_vector as emdu_vector
+import src.objects.profile_vector as profile_vector
 import numpy as np
 import pytest
 import pandas as pd
@@ -157,12 +157,12 @@ def test_diffab_indexer():
     Q = make_emd_input.functional_profile_to_vector(profile_Q, input, abundance_key="median_abund", normalize=True)
     Q_pushed = solver.push_up_L1(Q, input)
     diffabs = np.zeros((len(fun_files), len(fun_files), len(nodes_in_order)))
-    diffabs[0, 0, :] = emdu_vector.get_L1_diffab(P_pushed, P_pushed)
-    diffabs[0, 1, :] = emdu_vector.get_L1_diffab(P_pushed, Q_pushed)
-    diffabs[1, 0, :] = emdu_vector.get_L1_diffab(Q_pushed, P_pushed)
-    diffabs[1, 1, :] = emdu_vector.get_L1_diffab(Q_pushed, Q_pushed)
+    diffabs[0, 0, :] = profile_vector.get_L1_diffab(P_pushed, P_pushed)
+    diffabs[0, 1, :] = profile_vector.get_L1_diffab(P_pushed, Q_pushed)
+    diffabs[1, 0, :] = profile_vector.get_L1_diffab(Q_pushed, P_pushed)
+    diffabs[1, 1, :] = profile_vector.get_L1_diffab(Q_pushed, Q_pushed)
     # instantiate the indexer
-    indexer = emdu_diffab.DiffabArrayIndexer(diffabs, nodes_in_order, fun_files, EMDU_index_2_node)
+    indexer = differential_abundance.DiffabArrayIndexer(diffabs, nodes_in_order, fun_files, EMDU_index_2_node)
     # test the indexer
     assert np.allclose(indexer.get_diffab(fun_files[0], fun_files[0]), np.zeros_like(nodes_in_order), atol=1e-8)
     assert np.allclose(indexer.get_diffab(fun_files[1], fun_files[1]), np.zeros_like(nodes_in_order), atol=1e-8)

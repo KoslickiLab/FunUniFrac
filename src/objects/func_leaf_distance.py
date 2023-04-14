@@ -1,6 +1,7 @@
 import numpy as np
 
-class PairwiseDistance:
+
+class LeafPairwiseDistances:
     def __init__(self, 
                  pairwise_dists,
                  pairwise_dist_labels,
