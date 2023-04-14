@@ -4,7 +4,7 @@ import datetime
 import pandas as pd
 import networkx as nx
 import src.utility.kegg_db as kegg_db
-import src.objects.func_tree as func_tree
+from src.objects.func_tree import FuncTree, FuncTreeEmduInput
 import src.utility.kegg_process as kegg_process
 import src.factory.make_leaf_distance as make_leaf_distance
 import src.algorithms.edge_length_computation as edge_length_computation
@@ -42,7 +42,7 @@ def main(args):
     ##############################################################################
     edge_list = pd.read_csv(edge_file, sep='\t', header=0)
     G = nx.read_edgelist(edge_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
-    tree = func_tree.FuncTree(G)
+    tree = FuncTree(G)
     tree.set_subtree(brite)
     pairwise_distances = make_leaf_distance.get_KO_pairwise_dist(distance_file, distance_label_file)
     ##############################################################################

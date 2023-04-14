@@ -7,7 +7,7 @@ import pandas as pd
 import time
 import networkx as nx
 import multiprocessing
-import src.objects.func_tree as func_tree
+from src.objects.func_tree import FuncTree, FuncTreeEmduInput
 import src.utility.kegg_db as kegg_db
 import src.factory.make_tree as make_tree
 
@@ -35,7 +35,7 @@ def get_distance_matrix_from_edge_list(edge_list_file, edge_len_property=None):
     tree = make_tree.import_graph(edge_list_file, directed=False)
     G = tree.main_tree
     if edge_len_property is None:
-        edge_len_property = func_tree.FuncTree.infer_edge_len_property(G)
+        edge_len_property = FuncTree.infer_edge_len_property(G)
     D_dict = dict(nx.all_pairs_dijkstra_path_length(G, weight=edge_len_property))
     node_list = list(G.nodes())
     distance_matrix = np.zeros((len(node_list), len(node_list)))
@@ -71,7 +71,7 @@ def get_distance_matrix_on_leaves_from_edge_list(edge_list_file, edge_len_proper
             edge_len_property = edge_properties[0]
     # get the leaf nodes
     print('Getting the leaf nodes...')
-    leaf_nodes = func_tree.FuncTree.get_leaf_nodes(Gdir)
+    leaf_nodes = FuncTree.get_leaf_nodes(Gdir)
     leaf_nodes_to_index = {n: i for i, n in enumerate(leaf_nodes)}
     # for each pair of leaf nodes, get the distance
     print('Initializing the distance matrix...')
@@ -253,7 +253,7 @@ def get_EMD_pyemd(P, Q, distance_matrix, with_flow=False):
 
 # # Create a class that will generate simulated distributions
 class LeafDistributionSimulator:
-    def __init__(self, tree: func_tree.FuncTree, brite):
+    def __init__(self, tree: FuncTree, brite):
         tree.set_subtree(brite)
         Gdir, Gundir, basis, basis_index = tree.current_subtree, tree.current_subtree.to_undirected(), tree.basis, tree.basis_index
         self.Gdir = Gdir
@@ -261,7 +261,7 @@ class LeafDistributionSimulator:
         self.basis = basis
         self.basis_index = basis_index
         self.brite = brite
-        self.leaf_nodes = func_tree.FuncTree.get_descendants(Gdir, brite, leaf_only=True)
+        self.leaf_nodes = FuncTree.get_descendants(Gdir, brite, leaf_only=True)
         self.leaf_nodes_index = {node: basis_index[node] for node in self.leaf_nodes}
 
     def get_random_dist_on_leaves(self):

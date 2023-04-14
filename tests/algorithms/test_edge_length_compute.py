@@ -5,7 +5,7 @@ import networkx as nx
 import pandas as pd
 from src.algorithms.edge_length_computation import EdgeLengthSolver
 from src.objects.func_tree import FuncTree
-from src.objects.func_leaf_distance import LeafPairwiseDistances
+from src.objects.func_leaf_distance import FuncTreeLeafPairwiseDistances
 from src.factory.make_leaf_distance import get_KO_pairwise_dist
 
 
@@ -22,7 +22,7 @@ def test__create_A_matrix__with_small_edge_list():
     G = nx.read_edgelist(edge_list, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
     tree = FuncTree(G)
     tree.set_subtree(brite)
-    pairwise_distances: LeafPairwiseDistances = get_KO_pairwise_dist(distances_file, distances_labels_file)
+    pairwise_distances: FuncTreeLeafPairwiseDistances = get_KO_pairwise_dist(distances_file, distances_labels_file)
 
     solver = EdgeLengthSolver()
     A = solver.get_A_matrix(tree, pairwise_distances)

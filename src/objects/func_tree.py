@@ -3,7 +3,7 @@ import dataclasses
 
 
 @dataclasses.dataclass
-class EmdInput:
+class FuncTreeEmduInput:
     Tint: dict # ancestor dictionary
     lint: dict # lengths dictionary
     basis: list

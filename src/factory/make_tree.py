@@ -1,9 +1,9 @@
 import os
 import networkx as nx
-import src.objects.func_tree as func_tree
+from src.objects.func_tree import FuncTree, FuncTreeEmduInput
 
 
-def import_graph(edge_list_file, directed=True) -> func_tree.FuncTree:
+def import_graph(edge_list_file, directed=True) -> FuncTree:
     """
     Import a graph from an edge list. The edge list can have 2 or 3 columns corresponding to parent, child,
     and (optionally) edge length.
@@ -39,5 +39,5 @@ def import_graph(edge_list_file, directed=True) -> func_tree.FuncTree:
             raise Exception(
                 'Could not read edge list file. Make sure it is a tab-delimited file with two columns: parent & child'
                 'or three columns: parent, child, edge_length')
-    tree = func_tree.FuncTree(G)
+    tree = FuncTree(G)
     return tree

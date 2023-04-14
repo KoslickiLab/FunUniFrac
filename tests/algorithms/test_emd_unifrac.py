@@ -3,8 +3,8 @@ import src.factory.make_emd_input as make_emd_input
 import src.utility.pyemd_simulation as pyemd_simulation
 import src.utility.differential_abundance as differential_abundance
 from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
-import src.objects.func_tree as func_tree
-import src.objects.profile_vector as profile_vector
+from src.objects.func_tree import FuncTreeEmduInput
+from src.objects.profile_vector import get_L1_diffab
 import numpy as np
 import pytest
 import pandas as pd
@@ -38,7 +38,7 @@ def test_emdu_vs_pyemd_simple():
         PU[node_2_EMDU_index[node]] = P[i]
         QU[node_2_EMDU_index[node]] = Q[i]
 
-    input = func_tree.EmdInput(Tint, lint, nodes_in_order, node_2_EMDU_index)
+    input = FuncTreeEmduInput(Tint, lint, nodes_in_order, node_2_EMDU_index)
     # emdu_val1 = solver.solve_plain(input, PU, QU, weighted=True)
     emdu_val2, _ = solver.solve(input, PU, QU, weighted=True)
     emdu_val3, _, _ = solver.solve_with_flow(input, PU, QU, weighted=True)
@@ -76,7 +76,7 @@ def test_emdu_vs_pyemd_random():
             PU[node_2_EMDU_index[node]] = P[i]
             QU[node_2_EMDU_index[node]] = Q[i]
 
-        input = func_tree.EmdInput(Tint, lint, nodes_in_order, node_2_EMDU_index)
+        input = FuncTreeEmduInput(Tint, lint, nodes_in_order, node_2_EMDU_index)
         # emdu_val1 = solver.solve_plain(input, PU, QU, weighted=True)
         emdu_val2, _ = solver.solve(input, PU, QU, weighted=True)
         emdu_val3, _, _ = solver.solve_with_flow(input, PU, QU, weighted=True)
@@ -157,10 +157,10 @@ def test_diffab_indexer():
     Q = make_emd_input.functional_profile_to_vector(profile_Q, input, abundance_key="median_abund", normalize=True)
     Q_pushed = solver.push_up_L1(Q, input)
     diffabs = np.zeros((len(fun_files), len(fun_files), len(nodes_in_order)))
-    diffabs[0, 0, :] = profile_vector.get_L1_diffab(P_pushed, P_pushed)
-    diffabs[0, 1, :] = profile_vector.get_L1_diffab(P_pushed, Q_pushed)
-    diffabs[1, 0, :] = profile_vector.get_L1_diffab(Q_pushed, P_pushed)
-    diffabs[1, 1, :] = profile_vector.get_L1_diffab(Q_pushed, Q_pushed)
+    diffabs[0, 0, :] = get_L1_diffab(P_pushed, P_pushed)
+    diffabs[0, 1, :] = get_L1_diffab(P_pushed, Q_pushed)
+    diffabs[1, 0, :] = get_L1_diffab(Q_pushed, P_pushed)
+    diffabs[1, 1, :] = get_L1_diffab(Q_pushed, Q_pushed)
     # instantiate the indexer
     indexer = differential_abundance.DiffabArrayIndexer(diffabs, nodes_in_order, fun_files, EMDU_index_2_node)
     # test the indexer

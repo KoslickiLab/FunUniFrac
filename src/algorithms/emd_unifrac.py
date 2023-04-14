@@ -3,18 +3,20 @@ import abc
 import numpy as np
 import sys
 import copy
-import src.objects.func_tree as func_tree
-import src.objects.profile_vector as profile_vector
+from src.objects.func_tree import FuncTree, FuncTreeEmduInput
+from src.objects.profile_vector import FuncProfileVector
+from src.objects.emdu_out import UnifracDistance, EmdFlow, DifferentialAbundance
+from typing import Tuple
 epsilon = sys.float_info.epsilon
 from itertools import repeat
 
 class EarthMoverDistanceUniFracAbstract(abc.ABC):
     @abc.abstractmethod
     def solve(self, 
-              input: func_tree.EmdInput, 
-              P: profile_vector.ProfileVector, 
-              Q: profile_vector.ProfileVector, 
-              weighted: bool):
+              input: FuncTreeEmduInput, 
+              P: FuncProfileVector, 
+              Q: FuncProfileVector, 
+              weighted: bool) -> Tuple[UnifracDistance, DifferentialAbundance]:
         """(Z, diffab) = EMDUnifrac_weighted(Tint, lint, nodes_in_order, P, Q)
         This function takes the ancestor dictionary Tint, the lengths dictionary lint, the basis nodes_in_order
         and two probability vectors P and Q (typically P = envs_prob_dict[samples[i]], Q = envs_prob_dict[samples[j]]).
@@ -26,10 +28,10 @@ class EarthMoverDistanceUniFracAbstract(abc.ABC):
 
     @abc.abstractmethod
     def solve_with_flow(self, 
-                        input: func_tree.EmdInput, 
-                        P: profile_vector.ProfileVector, 
-                        Q: profile_vector.ProfileVector, 
-                        weighted: bool):
+                        input: FuncTreeEmduInput, 
+                        P: FuncProfileVector, 
+                        Q: FuncProfileVector, 
+                        weighted: bool) -> Tuple[UnifracDistance, EmdFlow, DifferentialAbundance]:
         """ (Z, F, diffab) = EMDUnifrac_weighted_flow(Tint, lint, nodes_in_order, P, Q)
         This function takes the ancestor dictionary Tint, the lengths dictionary lint, the basis nodes_in_order
         and two probability vectors P and Q (typically P = envs_prob_dict[samples[i]], Q = envs_prob_dict[samples[j]]).
@@ -64,7 +66,7 @@ class EarthMoverDistanceUniFracAbstract(abc.ABC):
     #     raise NotImplementedError()
     
     @abc.abstractmethod
-    def push_up_L2(P: profile_vector.ProfileVector, input: func_tree.EmdInput):
+    def push_up_L2(P: FuncProfileVector, input: FuncTreeEmduInput):
         """
         Push the vector P up the tree, to prep the vector for L2 unifrac
 
@@ -77,7 +79,7 @@ class EarthMoverDistanceUniFracAbstract(abc.ABC):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def push_up_L1(P: profile_vector.ProfileVector, input: func_tree.EmdInput):
+    def push_up_L1(P: FuncProfileVector, input: FuncTreeEmduInput):
         """
         Push the vector P up the tree, to prep the vector for L2 unifrac
 
@@ -96,14 +98,14 @@ class EarthMoverDistanceUniFracSolver(EarthMoverDistanceUniFracAbstract):
         pass
 
     def solve(self, 
-              input: func_tree.EmdInput, 
-              P: profile_vector.ProfileVector, 
-              Q: profile_vector.ProfileVector, 
+              input: FuncTreeEmduInput, 
+              P: FuncProfileVector, 
+              Q: FuncProfileVector, 
               weighted: bool):
         Tint, lint, nodes_in_order = input.Tint, input.lint, input.basis
         num_nodes = len(nodes_in_order)
-        Z = 0
-        diffab = dict()
+        Z: UnifracDistance = 0
+        diffab: DifferentialAbundance = dict()
         
         if not weighted:
             for i in range(num_nodes):
@@ -126,16 +128,16 @@ class EarthMoverDistanceUniFracSolver(EarthMoverDistanceUniFracAbstract):
 
 
     def solve_with_flow(self, 
-                        input: func_tree.EmdInput, 
-                        P: profile_vector.ProfileVector, 
-                        Q: profile_vector.ProfileVector, 
+                        input: FuncTreeEmduInput, 
+                        P: FuncProfileVector, 
+                        Q: FuncProfileVector, 
                         weighted: bool):
         Tint, lint, nodes_in_order = input.Tint, input.lint, input.basis
         num_nodes = len(nodes_in_order)
-        F = dict()
+        F: EmdFlow = dict()
         G = dict()
-        diffab = dict()
-        Z = 0
+        Z: UnifracDistance = 0
+        diffab: DifferentialAbundance = dict()
         w = np.zeros(num_nodes)
         pos = dict()
         neg = dict()
@@ -194,7 +196,7 @@ class EarthMoverDistanceUniFracSolver(EarthMoverDistanceUniFracAbstract):
     
     
 
-    def push_up_L2(self, P: profile_vector.ProfileVector, input: func_tree.EmdInput):
+    def push_up_L2(self, P: FuncProfileVector, input: FuncTreeEmduInput)->FuncProfileVector:
         P_pushed = copy.deepcopy(P)
         Tint, lint, nodes_in_order = input.Tint, input.lint, input.basis
         for i in range(len(nodes_in_order)-1):
@@ -205,7 +207,7 @@ class EarthMoverDistanceUniFracSolver(EarthMoverDistanceUniFracAbstract):
         return P_pushed
 
 
-    def push_up_L1(self, P: profile_vector.ProfileVector, input: func_tree.EmdInput):
+    def push_up_L1(self, P: FuncProfileVector, input: FuncTreeEmduInput):
         P_pushed = copy.deepcopy(P)
         Tint, lint, nodes_in_order = input.Tint, input.lint, input.basis
         for i in range(len(nodes_in_order)-1):

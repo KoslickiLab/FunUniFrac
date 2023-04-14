@@ -8,7 +8,7 @@ try:
 except ModuleNotFoundError:
     print("Warning: Could not import blist. Please install blist to speed up the path matrix calculation.")
 from src.objects.func_tree import FuncTree
-from src.objects.func_leaf_distance import LeafPairwiseDistances
+from src.objects.func_leaf_distance import FuncTreeLeafPairwiseDistances
 from itertools import repeat
 from scipy.optimize import lsq_linear
 
@@ -25,7 +25,7 @@ class EdgeLengthSolver:
                 return {}
         return map_func(*args)
 
-    def get_A_matrix(self, tree: FuncTree, pairwise_distances: LeafPairwiseDistances):
+    def get_A_matrix(self, tree: FuncTree, pairwise_distances: FuncTreeLeafPairwiseDistances):
         ########################################################################################################################
         # Let's do the following: since I've already computed all pairwise distances, we can just make a large
         # least squares problem fitting the tree distances to the pairwise distances
@@ -122,7 +122,7 @@ class EdgeLengthSolver:
         return map_func(*args)
 
 
-    def compute_edges(self, A, basis, edge_list, pairwise_distances: LeafPairwiseDistances,
+    def compute_edges(self, A, basis, edge_list, pairwise_distances: FuncTreeLeafPairwiseDistances,
                       num_iter, factor, reg_factor, isdistance):
         # create the y vector of all pairwise distances
         y = pairwise_distances.get_pairwise_vector(basis=basis, isdistance=isdistance)

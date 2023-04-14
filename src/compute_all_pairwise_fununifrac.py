@@ -13,8 +13,8 @@ from blist import blist
 import sparse
 import pickle
 import data
-import src.objects.func_tree as func_tree
-import src.objects.profile_vector as profile_vector
+from src.objects.func_tree import FuncTreeEmduInput
+from src.objects.profile_vector import get_L2_diffab, get_L2, get_L1, get_L1_diffab
 import src.factory.make_tree as make_tree
 import src.factory.make_emd_input as make_emd_input
 
@@ -22,7 +22,7 @@ solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
 
 
 def get_func_profiles_parallel(args):
-    def map_func(file, input: func_tree.EmdInput, abundance_key, unweighted, is_L2):
+    def map_func(file, input: FuncTreeEmduInput, abundance_key, unweighted, is_L2):
         df = pd.read_csv(file)
         P = make_emd_input.functional_profile_to_vector(df, input, abundance_key=abundance_key, normalize=True)
         if unweighted:
@@ -64,7 +64,7 @@ def main(args):
 
     logging.info(f"Converting graph into EMDUniFrac format")
     # Then create the inputs for EMDUniFrac
-    input: func_tree.EmdInput = make_emd_input.tree_to_EMDU_input(tree, brite)
+    input: FuncTreeEmduInput = make_emd_input.tree_to_EMDU_input(tree, brite)
 
     logging.info(f"Computing pairwise distances in parallel")
     # convert the functional profiles to vectors and push them up in parallel
@@ -89,16 +89,16 @@ def main(args):
     for i, j in combinations(range(len(fun_files)), 2):
         if not make_diffab:
             if not is_L2:
-                dists[i, j] = dists[j, i] = profile_vector.get_L1(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                dists[i, j] = dists[j, i] = get_L1(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             else:
-                dists[i, j] = dists[j, i] = profile_vector.get_L2(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                dists[i, j] = dists[j, i] = get_L2(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
         else:
             if not is_L2:
-                Z = profile_vector.get_L1(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
-                diffab = profile_vector.get_L1_diffab(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                Z = get_L1(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                diffab = get_L1_diffab(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             else:
-                Z = profile_vector.get_L2(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
-                diffab = profile_vector.get_L2_diffab(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                Z = get_L2(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
+                diffab = get_L2_diffab(Ps_pushed[fun_files[i]], Ps_pushed[fun_files[j]])
             dists[i, j] = dists[j, i] = Z
             nonzero_diffab_locs = np.nonzero(diffab)[0]
             i_coords.extend([i] * len(nonzero_diffab_locs))

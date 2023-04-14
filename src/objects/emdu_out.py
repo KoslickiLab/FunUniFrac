@@ -1,9 +1,9 @@
 import numpy as np
-from typing import NewType, Dict
+from typing import NewType, Dict, Tuple
 
 ########################################################################
 # 
 ########################################################################
-UnifracDistance = NewType('UnifracDistance', float)
-Flow = NewType('Flow', Dict[(int,int), float])
-DifferentialAbundance = NewType('DifferentialAbundance', np.ndarray)
+UnifracDistance = float
+EmdFlow = dict[Tuple[int,int], float]
+DifferentialAbundance = np.ndarray

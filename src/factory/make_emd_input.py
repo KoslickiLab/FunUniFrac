@@ -1,10 +1,10 @@
-import src.objects.func_tree as func_tree
+from src.objects.func_tree import FuncTree, FuncTreeEmduInput
 import networkx as nx
 import numpy as np
 import pandas as pd
 
 
-def tree_to_EMDU_input(tree: func_tree.FuncTree, brite=None, edge_len_property=None) -> func_tree.EmdInput:
+def tree_to_EMDU_input(tree: FuncTree, brite=None, edge_len_property=None) -> FuncTreeEmduInput:
     """
     Convert a weighted graph to the format required by EMDUniFrac: Tint, lint, and nodes_in_order.
     Since EMDUniFrac wants everything to be integers, also return a mapping from integers to node names.
@@ -18,7 +18,7 @@ def tree_to_EMDU_input(tree: func_tree.FuncTree, brite=None, edge_len_property=N
         G = tree.main_tree
     # first determine the edge_length attribute
     if edge_len_property is None:
-        edge_len_property = func_tree.FuncTree.infer_edge_len_property(G)
+        edge_len_property = FuncTree.infer_edge_len_property(G)
     Tint = {}
     nodes = G.nodes()
     for node in nodes:
@@ -36,7 +36,7 @@ def tree_to_EMDU_input(tree: func_tree.FuncTree, brite=None, edge_len_property=N
         weight = data[edge_len_property]
         lint[(i, j)] = weight
         lint[(j, i)] = weight
-    root = func_tree.FuncTree.get_root_of_tree(G)
+    root = FuncTree.get_root_of_tree(G)
     nodes_in_order = list(nx.dfs_postorder_nodes(G, source=root))
     # Tint, lint, and nodes_in_order require these to be integers, so let's map everything to that
     node_2_EMDU_index = {node: i for i, node in enumerate(nodes_in_order)}
@@ -48,10 +48,10 @@ def tree_to_EMDU_input(tree: func_tree.FuncTree, brite=None, edge_len_property=N
     nodes_in_order = [node_2_EMDU_index[node] for node in nodes_in_order]
     # convert the integers to nodes
     EMDU_index_2_node = {i: node for node, i in node_2_EMDU_index.items()}
-    return func_tree.EmdInput(Tint, lint, nodes_in_order, EMDU_index_2_node)
+    return FuncTreeEmduInput(Tint, lint, nodes_in_order, EMDU_index_2_node)
 
 
-def functional_profile_to_vector(functional_profile: pd.DataFrame, input: func_tree.EmdInput, abundance_key='median_abund', normalize=True):
+def functional_profile_to_vector(functional_profile: pd.DataFrame, input: FuncTreeEmduInput, abundance_key='median_abund', normalize=True):
     """This function will take a sourmash functional profile and convert it to a form that can be used by EMDUniFrac
     :param functional_profile_file: csv file output from `sourmash gather`
     :param EMDU_index_2_node: dictionary that translates between the indices used by EMDUniFrac and the actual graph

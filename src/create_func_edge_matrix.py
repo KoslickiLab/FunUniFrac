@@ -4,7 +4,7 @@ from os.path import exists
 import networkx as nx
 from scipy import sparse
 import src.utility.kegg_db as kegg_db
-import src.objects.func_tree as func_tree
+from src.objects.func_tree import FuncTree, FuncTreeEmduInput
 import src.factory.make_leaf_distance as make_leaf_distance
 import src.algorithms.edge_length_computation as edge_length_computation
 import src.utility.constant as constant
@@ -31,7 +31,7 @@ def main(args):
     # Main Objects
     ##############################################################################
     G = nx.read_edgelist(edge_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
-    tree = func_tree.FuncTree(G)
+    tree = FuncTree(G)
     tree.set_subtree(brite_id)
     pairwise_distances = make_leaf_distance.get_KO_pairwise_dist(distance_file, distance_label_file)
     ##############################################################################
