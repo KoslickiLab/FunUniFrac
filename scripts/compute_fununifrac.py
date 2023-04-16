@@ -6,7 +6,7 @@ import logging
 from src import compute_all_pairwise_fununifrac
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(description="This script will take a directory of sourmash gather results and "
                                                  "a weighted edge list representing the KEGG hierarchy and compute "
                                                  "all pairwise functional unifrac distances.")
@@ -34,5 +34,8 @@ if __name__ == '__main__':
     
     # call main function
     compute_all_pairwise_fununifrac.main(parser.parse_args())
+
+if __name__ == '__main__':
+    main()
 
 

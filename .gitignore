@@ -1,2 +1,6 @@
 *pycache*
 *.pyc
+.DS_Store
+build/
+dist/
+*.egg*
