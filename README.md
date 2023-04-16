@@ -24,6 +24,19 @@ https://www.genome.jp/kegg/brite.html).
 python fununifrac.py -d sourmash_results -e kegg_ko_edge_df_br_ko00001.txt_AAI_lengths_n_50_f_10_r_100.txt -fp '*.csv' -b ko00001 -o results.npy
 ```
 
+## Producing sourmash files
+To produce the sourmash gather files of protein sequences mentioned above from DNA reads, one can do the following.
+
+### Installing sourmash
+Installation directions of sourmash can be found at https://sourmash.readthedocs.io/en/latest/.
+
+### An example usage
+The detailed explanations of the usage can be found at the same site above. To give a brief example, one can run something like
+```
+nohup sourmash sketch translate -p k=5,k=7,abund,scaled=100 -o sketches/all_sketches_k_5_7_scaled_100.sig.zip --from-file fasta_files.txt &
+```
+This process translates the DNA sequences into protein sequences and creates sketches for these protein sequences.
+
 ## A brief explanation of data structures underlying FunUniFrac
 
 ### Setting edge lengths
