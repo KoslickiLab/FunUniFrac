@@ -18,7 +18,6 @@ def main(args):
     logging.basicConfig(level=args.loglevel, format='%(asctime)s %(levelname)s: %(message)s')
     edge_list_file = args.edge_list
     out_file = args.out_file
-    sm_dir = args.directory
     file_pattern = args.file_pattern
     force = args.force
     abundance_key = args.abundance_key
@@ -38,7 +37,7 @@ def main(args):
     if os.path.exists(out_file) and not force:
         raise FileExistsError(f"{out_file} already exists. Please delete it or choose another name, or use --force.")
     # look for files in that directory with that file pattern
-    fun_files = data.get_data_abspaths('/'.join((sm_dir, file_pattern)))
+    fun_files = data.get_data_abspaths(file_pattern)
     fun_files = sorted(fun_files)
     logging.info(f"Parsing graph")
     ##############################################################################

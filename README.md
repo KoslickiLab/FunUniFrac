@@ -1,4 +1,4 @@
-# FunUniFrac
+# FunUnifrac
 A repository to implement UniFrac, but on functional profiles of metagenomic data.
 
 ## Installation
