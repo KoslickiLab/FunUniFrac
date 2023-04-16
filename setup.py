@@ -26,7 +26,7 @@ setup(
 	#license="BSD-3-Clause",  # see classifiers
 	keywords="unifrac kegg emd genomics metagenomics",
 	url="https://github.com/KoslickiLab/FunUniFrac",
-	packages=['fununifrac'],
+	packages=['data', 'scripts', 'src'],
 	install_requires=[
 	    'blist',
         'scipy==1.8.0',
