@@ -16,7 +16,7 @@ def test_small_edge_lengths():
     out_dir = "test_output"
     out_id = "test"
     brite = "ko00001"
-    cmd = f"python ../scripts/edges_computation.py -e {edge_list} -d {distances_file} -o {out_dir} -i {out_id} -b {brite} -n 10 -f 2 -r 100 --distance"
+    cmd = f"python ../scripts/compute_edges.py -e {edge_list} -d {distances_file} -o {out_dir} -i {out_id} -b {brite} -n 10 -f 2 -r 100 --distance"
     subprocess.run(cmd, shell=True, check=True)
     
     # check that the output file is correct
