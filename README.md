@@ -101,7 +101,7 @@ matrix equation of the form:
 where `d(a,b)` is the distance between the two leaves `a` and `b` derived in the previous section.
 The coefficient matrix of all edges traversed between all pairs of KOs is obtained by running:
 ```bash
-./scripts/./graph_to_path_matrix.py -e <edge list: kegg_ko_edge_df_br:ko00001.txt> -d <distance matrix: 
+./scripts/./edges_preprocess_ko.py -e <edge list: kegg_ko_edge_df_br:ko00001.txt> -d <distance matrix: 
 KOs_sketched_scaled_10_compare_5> -o <output directory> -b <BRITE: ko00001> 
 ```
 The resulting matrix will have a name such as: `ko00001_KOs_sketched_scaled_10_compare_5_A.npz` and will be a 
@@ -127,7 +127,7 @@ y' = [y; 0]
 We can then solve this problem via a randomized approach, selecting enough rows of `A'` to ensure that the rank is 
 large enough. After a bunch of iterates, the average is then taken. An example of running the code is:
 ```bash
-scripts/./create_edge_lengths.py -e kegg_ko_edge_df_br\:ko00001.txt -d KOs_sketched_scaled_10_compare_5 -A 
+scripts/./edges_computation.py -e kegg_ko_edge_df_br\:ko00001.txt -d KOs_sketched_scaled_10_compare_5 -A 
 ko00001_KOs_sketched_scaled_10_compare_5_A.npz -b ko00001 -n 100 -f 10 -r 1 --force -o kegg_ko_edge_df_br\:ko00001.txt
 ```
 The output will be an edge list with an additional column specifying the length of that edge. Eg. `kegg_ko_edge_df_br:ko00001.txt`
