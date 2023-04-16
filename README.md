@@ -5,7 +5,7 @@ A repository to implement UniFrac, but on functional profiles of metagenomic dat
 To install the package, run the following command:
 ```bash
 # conda create -n fununifrac -c bioconda -c conda-forge -c conda --file requirements.txt
-conda env update -f FunUniFrac.yml
+conda env update -f environment.yml
 conda activate fununifrac
 ```
 
@@ -24,7 +24,7 @@ https://www.genome.jp/kegg/brite.html).
 python fununifrac.py -d sourmash_results -e kegg_ko_edge_df_br_ko00001.txt_AAI_lengths_n_50_f_10_r_100.txt -fp '*.csv' -b ko00001 -o results.npy
 ```
 
-## Overview
+## A brief explanation of data structures underlying FunUniFrac
 
 ### Setting edge lengths
 
