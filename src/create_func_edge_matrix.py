@@ -23,10 +23,10 @@ def main(args):
     # check if brite is legit
     if brite_id not in kegg_db.instance.brites:
         raise ValueError(f"{brite_id} is not a valid BRITE ID. Choices are: {kegg_db.instance.brites}")
-    edge_file           =data.get_data_abspath(edge_file)
-    distance_file       =data.get_data_abspath(distance_file)
-    distance_label_file =data.get_data_abspath(distance_label_file)
-    out_dir             =data.get_data_abspath(out_dir)
+    data.check_data_abspath(edge_file)
+    data.check_data_abspath(distance_file)
+    data.check_data_abspath(distance_label_file)
+    data.check_data_abspath(out_dir)
     ##############################################################################
     # Main Objects
     ##############################################################################

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Script to compute all pairwise functional unifrac from a directory of functional profiles
-import os
+import os, glob
 import numpy as np
 from scipy import sparse
 from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
@@ -18,6 +18,7 @@ def main(args):
     logging.basicConfig(level=args.loglevel, format='%(asctime)s %(levelname)s: %(message)s')
     edge_list_file = args.edge_list
     out_file = args.out_file
+    file_dir = args.file_dir
     file_pattern = args.file_pattern
     force = args.force
     abundance_key = args.abundance_key
@@ -32,12 +33,13 @@ def main(args):
     ##############################################################################
     if brite not in kegg_db.instance.brites:
         raise ValueError(f"{brite} is not a valid BRITE ID. Choices are: {kegg_db.instance.brites}")
-    edge_list_file = data.get_data_abspath(edge_list_file)
-    out_file = data.get_data_abspath(out_file, raise_if_not_found=False)
-    if os.path.exists(out_file) and not force:
+    data.check_data_abspath(edge_list_file)
+    if data.check_data_abspath(out_file, raise_if_not_found=False) and not force:
         raise FileExistsError(f"{out_file} already exists. Please delete it or choose another name, or use --force.")
     # look for files in that directory with that file pattern
-    fun_files = data.get_data_abspaths(file_pattern)
+    file_pattern = os.path.join(file_dir, file_pattern)
+    data.check_data_abspaths(file_pattern)
+    fun_files = glob.glob(file_pattern)
     fun_files = sorted(fun_files)
     logging.info(f"Parsing graph")
     ##############################################################################

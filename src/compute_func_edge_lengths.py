@@ -31,10 +31,10 @@ def main(args):
         raise ValueError('Number of iterations must be at least 1')
     if factor < 1:
         raise ValueError('Factor must be at least 1')
-    edge_file = data.get_data_abspath(edge_file)
-    distance_file = data.get_data_abspath(distance_file)
-    distance_label_file = data.get_data_abspath(distance_label_file)
-    out_dir = data.get_data_abspath(out_dir, raise_if_not_found=False)
+    data.check_data_abspath(edge_file)
+    data.check_data_abspath(distance_file)
+    data.check_data_abspath(distance_label_file)
+    data.check_data_abspath(out_dir)
     if brite not in kegg_db.instance.brites:
         raise ValueError(f"{brite} is not a valid BRITE ID. Choices are: {kegg_db.instance.brites}")
     ##############################################################################

@@ -17,3 +17,22 @@ def get_data_abspaths(pattern, raise_if_not_found=True):
     return abspaths
 
 
+def check_data_abspath(path, raise_if_not_found=True):
+    if not os.path.exists(path):
+        if raise_if_not_found:
+            raise Exception(f"data not found: {path} does not exist.")
+        else:
+            return False
+    return True
+    
+
+def check_data_abspaths(pattern, raise_if_not_found=True):
+    abspaths = glob.glob(pattern)
+    if len(abspaths)==0: 
+        if raise_if_not_found:
+            raise Exception(f"no data found for pattern: {pattern}")
+        else:
+            return False
+    return True
+
+

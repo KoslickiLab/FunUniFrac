@@ -11,26 +11,27 @@ def test_small_edge_lengths():
     Uses a complete binary tree with 4 leaf nodes, all branch lengths set to 1
     :return: None
     """
-    edge_list = "small_edge_list_with_lengths.txt"
+    edge_list = data.get_data_abspath("small_edge_list_with_lengths.txt")
     profile1 = "small_sim_10_KOs_gather.csv"
     profile2 = "small_sim2_10_KOs_gather.csv"
     profile3 = "small_sim3_10_KOs_gather.csv"
-    out_file = "test_output/pairwise_dists.npy"
+    file_pattern_dir = data.get_data_abspath(".")
+    out_file = data.get_data_abspath("test_output/pairwise_dists.npy")
     # remove the out file if it exists
     basis_file = f"{out_file}.basis.txt"
     brite = "ko00001"
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} " \
+    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
         f" -o {out_file} --force -b {brite} -a median_abund"
     res = subprocess.run(cmd, shell=True, check=True)
     
     # check that the output file is correct
-    pw_dists = np.load(data.get_data_abspath(out_file))
+    pw_dists = np.load(out_file)
     # This has been computed by hand
     known_pw_dists = np.array([[0.0, 13/14, 10/21], [13/14, 0.0, 4/3], [10/21, 4/3, 0.0]])
     assert np.allclose(pw_dists, known_pw_dists, atol=1e-3)
     # check that the basis file has been created and is correct
     fun_files = []
-    with open(data.get_data_abspath(basis_file), "r") as f:
+    with open(basis_file, "r") as f:
         basis = os.path.basename(f.readline().strip())
         fun_files.append(basis)
         assert basis == os.path.basename(profile2)  # Q
@@ -44,14 +45,14 @@ def test_small_edge_lengths():
         assert f.readline() == ""
 
     # now also check the diffabs
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} " \
+    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
               f" -o {out_file} --force -b {brite} -a median_abund --diffab"
     res = subprocess.run(cmd, shell=True, check=True)
     # check that the output file exists
     diffab_out_file = data.get_data_abspath("test_output/pairwise_dists.npy.diffab.npz")
-    basis_file = data.get_data_abspath(f"{out_file}.basis.txt")
+    basis_file = f"{out_file}.basis.txt"
     # check that the output file is correct
-    pw_dists = np.load(data.get_data_abspath(out_file))
+    pw_dists = np.load(out_file)
     # This has been computed by hand
     known_pw_dists = np.array([[0.0, 13/14, 10/21], [13/14, 0.0, 4/3], [10/21, 4/3, 0.0]])
     assert np.allclose(pw_dists, known_pw_dists, atol=1e-3)
@@ -83,21 +84,20 @@ def test_small_edge_lengths():
     assert np.allclose(vec, zeros, atol=1e-3)
 
 def test_diffab_order():
-    edge_list = "small_edge_list_with_lengths.txt"
+    edge_list = data.get_data_abspath("small_edge_list_with_lengths.txt")
     profile1 = "small_sim_10_KOs_gather.csv"  # P
     profile2 = "small_sim2_10_KOs_gather.csv"  # Q
     profile3 = "small_sim3_10_KOs_gather.csv"  # R
-    out_file = "test_output/pairwise_dists.npy"
+    file_pattern_dir = data.get_data_abspath(".")
+    out_file = data.get_data_abspath("test_output/pairwise_dists.npy")
     brite = "ko00001"
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} " \
+    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
           f"-o {out_file} --force -b {brite} -a median_abund --diffab"
     res = subprocess.run(cmd, shell=True, check=True)
     
     # file paths
     basis_file = f"{out_file}.basis.txt"
-    basis_file = data.get_data_abspath(basis_file)
-    diffab_out_file = "test_output/pairwise_dists.npy.diffab.npz"
-    diffab_out_file = data.get_data_abspath(diffab_out_file)
+    diffab_out_file = data.get_data_abspath("test_output/pairwise_dists.npy.diffab.npz")
     diffabs = sparse.load_npz(diffab_out_file)
     fun_files = []
     with open(basis_file, "r") as f:
@@ -145,21 +145,20 @@ def test_small_edge_lengthsL2():
     Uses a complete binary tree with 4 leaf nodes, all branch lengths set to 1
     :return: None
     """
-    edge_list = "small_edge_list_with_lengths.txt"
+    edge_list = data.get_data_abspath("small_edge_list_with_lengths.txt")
     profile1 = "small_sim_10_KOs_gather.csv"
     profile2 = "small_sim2_10_KOs_gather.csv"
     profile3 = "small_sim3_10_KOs_gather.csv"
-    out_file = "test_output/pairwise_dists.npy"
+    file_pattern_dir = data.get_data_abspath(".")
+    out_file = data.get_data_abspath("test_output/pairwise_dists.npy")
     brite = "ko00001"
     # command
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} " \
+    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
           f"-o {out_file} --force -b {brite} -a median_abund --L2"
     res = subprocess.run(cmd, shell=True, check=True)
     
     # data paths
     basis_file = f"{out_file}.basis.txt"
-    basis_file = data.get_data_abspath(basis_file)
-    out_file = data.get_data_abspath(out_file)
     # check that the output file is correct
     pw_dists = np.load(out_file)
     # This has been computed by hand
@@ -181,19 +180,19 @@ def test_small_edge_lengthsL2():
         # check that the end of the file has been reached
         assert f.readline() == ""
 
-    diffab_out_file = "test_output/pairwise_dists.npy.diffab.npz"
+    diffab_out_file = data.get_data_abspath("test_output/pairwise_dists.npy.diffab.npz")
     basis_file = f"{out_file}.basis.txt"
-    out_file = "test_output/pairwise_dists.npy"
+    out_file = data.get_data_abspath("test_output/pairwise_dists.npy")
     
     # command
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} " \
+    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
               f"-o {out_file} --force -b {brite} -a median_abund --diffab --L2"
     res = subprocess.run(cmd, shell=True, check=True)
     
     # check that the output file exists
-    basis_file = data.get_data_abspath(basis_file)
-    diffab_out_file = data.get_data_abspath(diffab_out_file)
-    out_file = data.get_data_abspath(out_file)
+    data.check_data_abspath(basis_file)
+    data.check_data_abspath(diffab_out_file)
+    data.check_data_abspath(out_file)
     
     # check that the output file is correct
     pw_dists = np.load(out_file)
