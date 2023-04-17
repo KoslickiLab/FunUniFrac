@@ -4,6 +4,7 @@ import os
 from scipy import sparse
 import sparse
 import data
+import src.utility.constant as constant
 
 
 def test_small_edge_lengths():
@@ -16,20 +17,22 @@ def test_small_edge_lengths():
     profile2 = "small_sim2_10_KOs_gather.csv"
     profile3 = "small_sim3_10_KOs_gather.csv"
     file_pattern_dir = data.get_data_abspath(".")
-    out_file = data.get_data_abspath("test_output/pairwise_dists.npy")
+    out_dir = data.get_data_abspath("test_output/")
+    out_id = 'testing'
     # remove the out file if it exists
-    basis_file = f"{out_file}.basis.txt"
     brite = "ko00001"
     cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
-        f" -o {out_file} --force -b {brite} -a median_abund"
+        f" -o {out_dir} -i {out_id} --force -b {brite} -a median_abund"
     res = subprocess.run(cmd, shell=True, check=True)
     
     # check that the output file is correct
+    out_file = os.path.join(out_dir, constant.FUNUNIFRAC_OUT__MAIN_FILE_NAME.format(out_id))
     pw_dists = np.load(out_file)
     # This has been computed by hand
     known_pw_dists = np.array([[0.0, 13/14, 10/21], [13/14, 0.0, 4/3], [10/21, 4/3, 0.0]])
     assert np.allclose(pw_dists, known_pw_dists, atol=1e-3)
     # check that the basis file has been created and is correct
+    basis_file = os.path.join(out_dir, constant.FUNUNIFRAC_OUT__MAIN_BASIS__FILE_NAME.format(out_id))
     fun_files = []
     with open(basis_file, "r") as f:
         basis = os.path.basename(f.readline().strip())
@@ -46,12 +49,13 @@ def test_small_edge_lengths():
 
     # now also check the diffabs
     cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
-              f" -o {out_file} --force -b {brite} -a median_abund --diffab"
+              f" -o {out_dir} -i {out_id} --force -b {brite} -a median_abund --diffab"
     res = subprocess.run(cmd, shell=True, check=True)
     # check that the output file exists
-    diffab_out_file = data.get_data_abspath("test_output/pairwise_dists.npy.diffab.npz")
-    basis_file = f"{out_file}.basis.txt"
+    diffab_out_file = os.path.join(out_dir, constant.FUNUNIFRAC_OUT__DIFFAB_FILE_NAME.format(out_id))
+    diffab_out_file += ".npz"
     # check that the output file is correct
+    out_file = os.path.join(out_dir, constant.FUNUNIFRAC_OUT__MAIN_FILE_NAME.format(out_id))
     pw_dists = np.load(out_file)
     # This has been computed by hand
     known_pw_dists = np.array([[0.0, 13/14, 10/21], [13/14, 0.0, 4/3], [10/21, 4/3, 0.0]])
@@ -89,15 +93,17 @@ def test_diffab_order():
     profile2 = "small_sim2_10_KOs_gather.csv"  # Q
     profile3 = "small_sim3_10_KOs_gather.csv"  # R
     file_pattern_dir = data.get_data_abspath(".")
-    out_file = data.get_data_abspath("test_output/pairwise_dists.npy")
+    out_dir = data.get_data_abspath("test_output/")
+    out_id = "testing"
     brite = "ko00001"
     cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
-          f"-o {out_file} --force -b {brite} -a median_abund --diffab"
+          f"-o {out_dir} -i {out_id} --force -b {brite} -a median_abund --diffab"
     res = subprocess.run(cmd, shell=True, check=True)
     
     # file paths
-    basis_file = f"{out_file}.basis.txt"
-    diffab_out_file = data.get_data_abspath("test_output/pairwise_dists.npy.diffab.npz")
+    diffab_out_file = os.path.join(out_dir, constant.FUNUNIFRAC_OUT__DIFFAB_FILE_NAME.format(out_id))
+    diffab_out_file += ".npz"
+    basis_file = os.path.join(out_dir, constant.FUNUNIFRAC_OUT__MAIN_BASIS__FILE_NAME.format(out_id))
     diffabs = sparse.load_npz(diffab_out_file)
     fun_files = []
     with open(basis_file, "r") as f:
@@ -150,16 +156,18 @@ def test_small_edge_lengthsL2():
     profile2 = "small_sim2_10_KOs_gather.csv"
     profile3 = "small_sim3_10_KOs_gather.csv"
     file_pattern_dir = data.get_data_abspath(".")
-    out_file = data.get_data_abspath("test_output/pairwise_dists.npy")
+    out_dir = data.get_data_abspath("test_output/")
+    out_id = 'testing'
     brite = "ko00001"
     # command
     cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
-          f"-o {out_file} --force -b {brite} -a median_abund --L2"
+          f"-o {out_dir} -i {out_id} --force -b {brite} -a median_abund --L2"
     res = subprocess.run(cmd, shell=True, check=True)
     
     # data paths
-    basis_file = f"{out_file}.basis.txt"
+    basis_file = os.path.join(out_dir, constant.FUNUNIFRAC_OUT__MAIN_BASIS__FILE_NAME.format(out_id))
     # check that the output file is correct
+    out_file = os.path.join(out_dir, constant.FUNUNIFRAC_OUT__MAIN_FILE_NAME.format(out_id))
     pw_dists = np.load(out_file)
     # This has been computed by hand
     known_pw_dists = np.array([[0.0, np.sqrt(37)/14, np.sqrt(22)/21], [np.sqrt(37)/14, 0.0, np.sqrt(13)/6],
@@ -180,15 +188,17 @@ def test_small_edge_lengthsL2():
         # check that the end of the file has been reached
         assert f.readline() == ""
 
-    diffab_out_file = data.get_data_abspath("test_output/pairwise_dists.npy.diffab.npz")
-    basis_file = f"{out_file}.basis.txt"
-    out_file = data.get_data_abspath("test_output/pairwise_dists.npy")
+    diffab_out_file = os.path.join(out_dir, constant.FUNUNIFRAC_OUT__DIFFAB_FILE_NAME.format(out_id))
+    diffab_out_file += ".npz"
+    basis_file = os.path.join(out_dir, constant.FUNUNIFRAC_OUT__MAIN_BASIS__FILE_NAME.format(out_id))
+    # check that the output file is correct
+    out_file = os.path.join(out_dir, constant.FUNUNIFRAC_OUT__MAIN_FILE_NAME.format(out_id))
     
     # command
     cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
-              f"-o {out_file} --force -b {brite} -a median_abund --diffab --L2"
+              f"-o {out_dir} -i {out_id} --force -b {brite} -a median_abund --diffab --L2"
     res = subprocess.run(cmd, shell=True, check=True)
-    
+
     # check that the output file exists
     data.check_data_abspath(basis_file)
     data.check_data_abspath(diffab_out_file)

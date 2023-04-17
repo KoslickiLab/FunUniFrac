@@ -14,8 +14,7 @@ if __name__ == '__main__':
                                                   'compare', required=True)
     parser.add_argument('-o', '--out_dir', help='Output directory: the location to place the output file with edge list with lengths in the last column',
                         required=True)
-    parser.add_argument('-i', '--out_id', help='Test purpose: give an identifier to the output file so that tester can recognize it',
-                        required=True)
+    parser.add_argument('-i', '--out_id', help='Test purpose: give an identifier to the output file so that tester can recognize it')
     parser.add_argument('-b', '--brite_id', help='Brite ID of the KEGG hierarchy you want to focus on. Eg. ko00001',
                         required=True)
     parser.add_argument('-n', '--num_iter', help='Number of random selections on which to perform the NNLS',
