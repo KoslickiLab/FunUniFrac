@@ -2,7 +2,7 @@ import src.factory.make_tree as make_tree
 import src.factory.make_emd_input as make_emd_input
 import src.utility.pyemd_simulation as pyemd_simulation
 import src.utility.differential_abundance as differential_abundance
-from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
+from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracSolver
 from src.objects.func_tree import FuncTreeEmduInput
 from src.objects.profile_vector import get_L1_diffab
 import numpy as np
@@ -16,7 +16,7 @@ def test_emdu_vs_pyemd_simple():
     Compare PyEMD with EMDUniFrac
     :return: None
     """
-    solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
+    solver = EarthMoverDistanceUniFracSolver()
     test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
     distance_matrix, node_list = pyemd_simulation.get_distance_matrix_from_edge_list(test_edge_file)
     # simple known distributions
@@ -52,7 +52,7 @@ def test_emdu_vs_pyemd_random():
     Compare PyEMD with EMDUniFrac with a bunch of random Ps and Qs
     :return: None
     """
-    solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
+    solver = EarthMoverDistanceUniFracSolver()
     test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
     distance_matrix, node_list = pyemd_simulation.get_distance_matrix_from_edge_list(test_edge_file)
     tree = make_tree.import_graph(test_edge_file, directed=True)
@@ -87,7 +87,7 @@ def test_emdu_vs_pyemd_random():
 
 # Test functional profile conversion
 def test_func_profile_convert():
-    solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
+    solver = EarthMoverDistanceUniFracSolver()
     test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
     functional_profile_file = data.get_data_abspath('small_sim_10_KOs_gather.csv')
     tree = make_tree.import_graph(test_edge_file, directed=True)
@@ -112,7 +112,7 @@ def test_func_profile_convert():
 
 
 def test_push_up_L1():
-    solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
+    solver = EarthMoverDistanceUniFracSolver()
     test_edge_file = data.get_data_abspath('small_edge_list_with_lengths.txt')
     distance_matrix, node_list = pyemd_simulation.get_distance_matrix_from_edge_list(test_edge_file)
     tree = make_tree.import_graph(test_edge_file, directed=True)
@@ -140,7 +140,7 @@ def test_push_up_L1():
 
 
 def test_diffab_indexer():
-    solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
+    solver = EarthMoverDistanceUniFracSolver()
     edge_list_file = data.get_data_abspath("small_edge_list_with_lengths.txt")
     brite = "ko00001"
     file_pattern = "*_gather.csv"
@@ -185,7 +185,7 @@ def test_diffab_indexer():
 
 
 def test_EMDUnifrac_weighted_flow():
-    solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
+    solver = EarthMoverDistanceUniFracSolver()
     path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
     tree = make_tree.import_graph(path)
     input = make_emd_input.tree_to_EMDU_input(tree)
@@ -221,7 +221,7 @@ def test_EMDUnifrac_weighted_flow():
 
 
 def test_EMDUnifrac_weighted():
-    solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
+    solver = EarthMoverDistanceUniFracSolver()
     path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
     tree = make_tree.import_graph(path)
     input = make_emd_input.tree_to_EMDU_input(tree)
@@ -251,7 +251,7 @@ def test_EMDUnifrac_weighted():
     assert np.isclose(diffab[(1, 2)], 0.1)
 
 def test_EMDUnifrac_unweighted():
-    solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
+    solver = EarthMoverDistanceUniFracSolver()
     path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
     tree = make_tree.import_graph(path)
     input = make_emd_input.tree_to_EMDU_input(tree)
@@ -278,7 +278,7 @@ def test_EMDUnifrac_unweighted():
 
 
 def test_EMDUnifrac_unweighted_flow():
-    solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver()
+    solver = EarthMoverDistanceUniFracSolver()
     path = data.get_data_abspath('small_edge_list_with_lengths_emdu.txt')
     tree = make_tree.import_graph(path)
     input = make_emd_input.tree_to_EMDU_input(tree)

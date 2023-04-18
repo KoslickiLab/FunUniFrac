@@ -3,7 +3,7 @@
 import os, glob
 import numpy as np
 from scipy import sparse
-from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracAbstract, EarthMoverDistanceUniFracSolver
+from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracSolver
 import src.utility.kegg_db as kegg_db
 import logging
 import sparse
@@ -48,7 +48,7 @@ def main(args):
     ##############################################################################
     # Main objects
     ##############################################################################
-    solver: EarthMoverDistanceUniFracAbstract = EarthMoverDistanceUniFracSolver() 
+    solver = EarthMoverDistanceUniFracSolver() 
     # Parse the graph and get the FunUniFrac objects Tint, length, and edge_list
     tree = make_tree.import_graph(edge_list_file, directed=True)
     logging.info(f"Converting graph into EMDUniFrac format")
