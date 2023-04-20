@@ -8,21 +8,134 @@ conda env update -f environment.yml
 conda activate fununifrac
 ```
 
-## Running FunUniFrac
-### Required inputs
-This is the core function of the functional unifrac package. It is performed by running the `make_all_pw_fununifrac` 
-command. It requires three inputs: 1. a file representing the underlying functional hierarchy in the form of an edge list.
-For now, the accepted data is a `KEGG` hierarchy file. An example is provided in the `data` directory, with the name
-`kegg_ko_edge_df_br_ko00001.txt`. 2. a directory containing sourmash files. An additional argument `-fp` can be added to
+## Preprocessed data support
+All required resrouces are shared by Onedrive currently. [Please check here.](https://pennstateoffice365-my.sharepoint.com/:f:/g/personal/akp6031_psu_edu/Ele7H9T9yuRLuAdBY_WDS90BuTCYwk1z6VYqkmdJj9ATnQ?e=ccM4gy)
+Detailed processes of generating the files are described at the "Preprocessing" section.
+
+# Script1: compute_edges.py
+The original UniFrac uses a phylogenetic tree, allowing one to measure the difference in composition between two samples. For FunUniFrac, we use a Kegg Orthology (KO) tree and functional profiles instead of an OTU table as input samples. The only obstacle is that the KO tree does not naturally come with branch lengths. To overcome this, we use pairwise AAI (average amino acid identity) as a proxy of the pairwise distance between leaf nodes and assign the rest of the branch lengths by solving the linear system as demonstrated below.  
+<img width="708" alt="image" src="https://user-images.githubusercontent.com/90921267/233392729-db2874b3-f68e-4481-ac62-eb4175c70ef7.png">
+
+### Input
+* edge list: The KEGG hierarchy where all the ancestors of the given brite_id. 
+* pairwise distances: (KO1, KO2), edge j is on the shortest path from '
+                    'KO1 to KO2'
+                    
+```bash
+wget -O "edge_ko00001.txt" "https://pennstateoffice365-my.sharepoint.com/:t:/g/personal/akp6031_psu_edu/ETUrru_StwJFray9WJ8q4lAB9OwzSwF2Zhze_OvXv6HP4A?download=1"
+# 1.59GB
+wget -O "KOs_sketched_scaled_10_compare_5" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/ESd-RVfvWbZKpoky2lE6K8EBNktiaw8elnSbxZGZ9mbzHQ?download=1"
+wget -O "KOs_sketched_scaled_10_compare_5.labels.txt" "https://pennstateoffice365-my.sharepoint.com/:t:/g/personal/akp6031_psu_edu/EW39Mh7xqsdKsVAIxM5FWVEBnRMkR4bWs5oLvJlbR1y8fw?download=1"
+```
+### Run
+```python
+python ./scripts/compute_edges.py -e edge_ko00001.txt -d KOs_sketched_scaled_10_compare_5 -o ../fununifrac_out -b ko00001 -n 50 -f 10 -r 100 --distance
+```
+
+### Output
+* fununifrac_edge_lengths_{datetime}.csv: The edge lengths added to the original edge list
+
+# Script2(Optional): create_edge_matrix.py
+This is a sub-script called inside of compute_edges.py.
+The same input is used to generate the intermediate matrix.
+### Run
+```python
+python ./scripts/create_edge_matrix.py -e edge_ko00001.txt -d KOs_sketched_scaled_10_compare_5 -o ../fununifrac_out/large -b ko00001
+```
+### Output
+* fununifrac_A.npz: The matrix describing the least sequare problem for computing edge lengths.
+* fununifrac_A_basis.txt: The column information.
+
+# Script3: compute_fununifrac.py
+Please edit below
+```text
+This is the core function of the functional unifrac package. It requires three inputs: 1. a file representing the underlying functional hierarchy in the form of an edge list. For now, the accepted data is a `KEGG` hierarchy file. An example is provided in the `data` directory, with the name
+`kegg_ko_edge_df_br_ko00001.txt`. 2. A directory containing sourmash files. An additional argument `-fp` can be added to
 indicate the file pattern to match in this directory. An example is `*_gather.csv`, which is also the default option.
 The `KEGG` hierarchy consists of many trees each rooted at a brite (for more information on brites, refer to
 https://www.genome.jp/kegg/brite.html). 
-
-### Example 
+```
+### Input
+*
+*
 ```bash
-python compute_fununifrac.py -d sourmash_results -e kegg_ko_edge_df_br_ko00001.txt_AAI_lengths_n_50_f_10_r_100.txt -fp '*.csv' -b ko00001 -o results.npy
+wget -O "edge_ko00001_lengths.txt" "https://pennstateoffice365-my.sharepoint.com/:t:/g/personal/akp6031_psu_edu/EVbB-ieWK7xDqux7Y7u_4lEBpMi-jCyA7oDkq3RhtrueXQ?download=1"
+
+wget -O "f1077_ihmp_IBD_MSM5LLGF_P_k_5_gather.csv" "https://pennstateoffice365-my.sharepoint.com/:x:/g/personal/akp6031_psu_edu/EeSp1SOl-aJPsJOtcDylQc8B_cSWK_pxKiuPumW5CBJevQ?download=1"
+wget -O "f2103_ihmp_IBD_HSM7J4Q3_P_k_5_gather.csv" "https://pennstateoffice365-my.sharepoint.com/:x:/g/personal/akp6031_psu_edu/EVlFAOKUEDhCslA5KBk8s2QBOcUdhrlkhDJXsFRap72cKA?download=1"
+wget -O "f3158_ihmp_IBD_PSM6XBW1_P_k_5_gather.csv" "https://pennstateoffice365-my.sharepoint.com/:x:/g/personal/akp6031_psu_edu/EWnhFoHwindPp1q5JxmYbS4BQ9p2OArBGGxQwa0XCP9cSg?download=1"
+```
+### Run
+```python
+python ./scripts/compute_fununifrac.py -e {edge} -fd . -o {output} --diffab --force -b ko00001 -a median_abund --L2
+```
+### Output
+*
+*
+
+# Preprocessing
+## 0. KO tree
+[explain]
+### Download
+```bash
+wget -O "kegg_ko00001_edges.txt" "https://pennstateoffice365-my.sharepoint.com/:t:/g/personal/akp6031_psu_edu/EWWFfRZc4o5OltW7YZFH8yYBCQB8HW8IW_zLveO7eAeMPQ?download=1"
+```
+### Script
+```bash
 ```
 
+## 1. KO sketches
+[explain]
+### Download
+```bash
+wget -O "KOs_sketched_scaled_10.sig.zip" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/ESayLPk49QhIhmPExvgNyrIBHhSyk4hzkdg5dPNHMGL5Mg?download=1"
+```
+### Script
+```bash
+```
+
+## 2. KO leaf pairwise distances
+[explain]
+### Download
+```bash
+wget -O "KOs_sketched_scaled_10_compare_5" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/ESsA10lqAXtOrv0Z_mVVedABTBdgHLAXzeE3N8bZ6q9f7Q?download=1"
+wget -O "KOs_sketched_scaled_10_compare_5.labels.txt" "https://pennstateoffice365-my.sharepoint.com/:t:/g/personal/akp6031_psu_edu/Ea4iI9gCtl5Nue0bVABSqGQBIR1cv79l3fUk2bHSv6pxMA?download=1"
+```
+### Script
+```bash
+```
+
+## 3. sequence sketches
+[explain]
+### Download
+```bash
+# sequences
+wget -O "f1077_ihmp_IBD_MSM5LLGF_P.fastq" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/EeFqDGl6lZZIgGFPme4GkBMBK20P_y0qrjqDWDuWnZ6ImA?download=1"
+wget -O "f2103_ihmp_IBD_HSM7J4Q3_P.fastq" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/EaRRHDpkIK5Nid9pFf9BRAsB8Y-KT8lA4Zp1cdYv1eGJ1Q?download=1"
+wget -O "f3158_ihmp_IBD_PSM6XBW1_P.fastq" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/ER7xvoZtBSRKlw7YoYJrfZ8BiLkxdqa-43suUolSUS86Ng?download=1"
+# outputs
+wget -O "f1077_ihmp_IBD_MSM5LLGF_P.fastq.gz.sig" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/Ebzry6ZzMrpAocLia1gb8zgBzSThqyvc7YZN_lcJ8Fkofg?download=1"
+wget -O "f2103_ihmp_IBD_HSM7J4Q3_P.fastq.sig" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/EdSy4EMYhJVOmorMSHyOBCMBu5HshZMur5BKG49D7DgSAA?download=1"
+wget -O "f3158_ihmp_IBD_PSM6XBW1_P.fastq.sig" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/EQsLhGlmu09KuY6QDm6ymLMBi9PgIRADjL0ZLQCHSFEmwg?download=1"
+```
+### Script
+```bash
+```
+
+## 4. sequence and KOs comparisons
+[explain]
+### Download
+```bash
+wget -O "f1077_ihmp_IBD_MSM5LLGF_P_k_5_gather.csv" "https://pennstateoffice365-my.sharepoint.com/:x:/g/personal/akp6031_psu_edu/EYe7vV9JDBhIgY0v0otSz8IBzJ9sp-LXFZQkM2qV7n5d0Q?download=1"
+wget -O "f2103_ihmp_IBD_HSM7J4Q3_P_k_5_gather.csv" "https://pennstateoffice365-my.sharepoint.com/:x:/g/personal/akp6031_psu_edu/Ee-QM-tEoQhPsM-2sKOv3y4BdpHZWIJW_PcItrx7JPTQyQ?download=1"
+wget -O "f3158_ihmp_IBD_PSM6XBW1_P_k_5_gather.csv" "https://pennstateoffice365-my.sharepoint.com/:x:/g/personal/akp6031_psu_edu/EVN4JF7jkVhGmdHoCKoSTY4Byz3ybRFAsVtBDSv2VM2wEQ?download=1"
+```
+
+### Script
+```bash
+```
+
+# Outdated
 ## Producing sourmash files
 To produce the sourmash gather files of protein sequences mentioned above from DNA reads, one can do the following.
 
