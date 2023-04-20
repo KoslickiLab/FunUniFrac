@@ -13,7 +13,11 @@ All required resrouces are shared by Onedrive currently. [Please check here.](ht
 Detailed processes of generating the files are described at the "Preprocessing" section.
 
 # Script1: compute_edges.py
-The original UniFrac uses a phylogenetic tree, allowing one to measure the difference in composition between two samples. For FunUniFrac, we use a Kegg Orthology (KO) tree and functional profiles instead of an OTU table as input samples. The only obstacle is that the KO tree does not naturally come with branch lengths. To overcome this, we use pairwise AAI (average amino acid identity) as a proxy of the pairwise distance between leaf nodes and assign the rest of the branch lengths by solving the linear system as demonstrated below.  
+The original UniFrac uses a phylogenetic tree, allowing one to measure the difference in composition between two 
+samples. For FunUniFrac, we use a Kegg Orthology (KO) tree and functional profiles instead of an OTU table as 
+input samples. The only obstacle is that the KO tree does not naturally come with branch lengths. To overcome 
+this, we use pairwise AAI (average amino acid identity) as a proxy of the pairwise distances between leaf nodes 
+and assign the rest of the branch lengths by solving the linear system as demonstrated below.  
 <img width="708" alt="image" src="https://user-images.githubusercontent.com/90921267/233392729-db2874b3-f68e-4481-ac62-eb4175c70ef7.png">
 
 ### Input
@@ -47,17 +51,28 @@ python ./scripts/create_edge_matrix.py -e edge_ko00001.txt -d KOs_sketched_scale
 * fununifrac_A_basis.txt: The column information.
 
 # Script3: compute_fununifrac.py
-Please edit below
-```text
-This is the core function of the functional unifrac package. It requires three inputs: 1. a file representing the underlying functional hierarchy in the form of an edge list. For now, the accepted data is a `KEGG` hierarchy file. An example is provided in the `data` directory, with the name
-`kegg_ko_edge_df_br_ko00001.txt`. 2. A directory containing sourmash files. An additional argument `-fp` can be added to
-indicate the file pattern to match in this directory. An example is `*_gather.csv`, which is also the default option.
-The `KEGG` hierarchy consists of many trees each rooted at a brite (for more information on brites, refer to
-https://www.genome.jp/kegg/brite.html). 
-```
+This is the core function of the functional unifrac package. It takes a directory containing functional profiles 
+of the sample, in the format of sourmash gather files, as well as 
+an edge list file (in this case, for instance, the output of Script1 in the preprocessing steps above) describing the 
+underlying the Kegg tree. compute_fununifrac.py computes the pairwise functional UniFrac values among the sourmash gather
+files provided by the user.
+
 ### Input
-*
-*
+* A directory containing functional profiles with the option to specify the file pattern to match to. The default 
+file pattern is `*_gather.csv`.
+* An edge list file describing the underlying Kegg tree
+* A path specifying where the output directory
+
+### Run
+```python
+python ./scripts/compute_fununifrac.py -e {edge} -fd . -o {output} --diffab --force -b ko00001 -a median_abund --L2
+```
+### Output
+* Pairwise functional UniFrac distances matrix saved in .npy format
+* Basis of the above matrix in .npy format
+
+Below we provide a minimum example to demonstrate the usage of this function.
+### Download Kegg tree and sample data
 ```bash
 wget -O "edge_ko00001_lengths.txt" "https://pennstateoffice365-my.sharepoint.com/:t:/g/personal/akp6031_psu_edu/EVbB-ieWK7xDqux7Y7u_4lEBpMi-jCyA7oDkq3RhtrueXQ?download=1"
 
@@ -66,12 +81,14 @@ wget -O "f2103_ihmp_IBD_HSM7J4Q3_P_k_5_gather.csv" "https://pennstateoffice365-m
 wget -O "f3158_ihmp_IBD_PSM6XBW1_P_k_5_gather.csv" "https://pennstateoffice365-my.sharepoint.com/:x:/g/personal/akp6031_psu_edu/EWnhFoHwindPp1q5JxmYbS4BQ9p2OArBGGxQwa0XCP9cSg?download=1"
 ```
 ### Run
-```python
-python ./scripts/compute_fununifrac.py -e {edge} -fd . -o {output} --diffab --force -b ko00001 -a median_abund --L2
+```bash
+python ./scripts/compute_fununifrac.py -e ./edge_ko00001_lengths.txt -d . -o fununifrac_results --diffab
 ```
 ### Output
-*
-*
+* fununifrac_results/fununifrac_out_20230420-150954.main.basis.npy
+* fununifrac_results/fununifrac_out_20230420-150954.main.npy
+* fununifrac_results/ununifrac_out_20230420-150954.diffab.nodes.npy
+* fununifrac_results/fununifrac_out_20230420-150954.diffab.npz
 
 # Preprocessing
 ## 0. KO tree
