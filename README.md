@@ -14,7 +14,7 @@ Detailed processes of generating the files are described at the "Preprocessing" 
 
 # Script1: compute_edges.py
 The original UniFrac uses a phylogenetic tree, allowing one to measure the difference in composition between two 
-samples. For FunUniFrac, we use a Kegg Orthology (KO) tree and functional profiles instead of an OTU table as 
+samples. For FunUniFrac, we use a KEGG Orthology (KO) tree and functional profiles instead of an OTU table as 
 input samples. The only obstacle is that the KO tree does not naturally come with branch lengths. To overcome 
 this, we use pairwise AAI (average amino acid identity) as a proxy of the pairwise distances between leaf nodes 
 and assign the rest of the branch lengths by solving the linear system as demonstrated below.  
@@ -54,13 +54,13 @@ python ./scripts/create_edge_matrix.py -e edge_ko00001.txt -d KOs_sketched_scale
 This is the core function of the functional unifrac package. It takes a directory containing functional profiles 
 of the sample, in the format of sourmash gather files, as well as 
 an edge list file (in this case, for instance, the output of Script1 in the preprocessing steps above) describing the 
-underlying the Kegg tree. compute_fununifrac.py computes the pairwise functional UniFrac values among the sourmash gather
+underlying the KEGG tree. compute_fununifrac.py computes the pairwise functional UniFrac values among the sourmash gather
 files provided by the user.
 
 ### Input
 * A directory containing functional profiles with the option to specify the file pattern to match to. The default 
 file pattern is `*_gather.csv`.
-* An edge list file describing the underlying Kegg tree
+* An edge list file describing the underlying KO tree
 * A path specifying where the output directory
 
 ### Run
@@ -71,9 +71,9 @@ python ./scripts/compute_fununifrac.py -e {edge} -fd . -o {output} --diffab --fo
 * Pairwise functional UniFrac distances matrix saved in .npy format
 * Basis of the above matrix in .npy format
 
-Below we provide a minimum example to demonstrate the usage of this function.
 ### Example
-#### Download Kegg tree and sample data
+We provide a minimum example to demonstrate the usage of this function below.
+#### Download KO tree and sample data
 ```bash
 wget -O "edge_ko00001_lengths.txt" "https://pennstateoffice365-my.sharepoint.com/:t:/g/personal/akp6031_psu_edu/EVbB-ieWK7xDqux7Y7u_4lEBpMi-jCyA7oDkq3RhtrueXQ?download=1"
 
@@ -106,13 +106,22 @@ python ./scripts/reproducibility/generate_ko_hierarchy.py --outdir [Path to save
 ```
 
 ## 1. KO sketches
-[explain]
-### Download
+From the KEGG database, we downloaded all the KO's and used sourmash sketch to produce the sketch for each of the KO's.
+These sketches can be used as a reference to efficiently generate the functional profiles for metagenomic samples, which 
+will be explained in the Section 3. Sample sketches below.
+To use the pre-generated KO sketches directly, simply download using the command below. 
+Alternatively, the user can download the raw data and perform sourmash sketch using the parameters of their own choice.
+For usage of sourmash, refer to the Appendix section.
+
+### Download sketched KO
 ```bash
 wget -O "KOs_sketched_scaled_10.sig.zip" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/ESayLPk49QhIhmPExvgNyrIBHhSyk4hzkdg5dPNHMGL5Mg?download=1"
 ```
-### Script
+### Generate KO sketches from raw KO
+
+Below is command by which we generated the KO sketches above, where $INPUT is the raw KO data downloaded from KEGG.
 ```bash
+sourmash sketch fromfile -p protein,k=5,k=7,k=11,abund,scaled=${scaleFactor} -o ${OUTDIR}/KOs_sketched_scaled_${scaleFactor}.sig.zip $INPUT
 ```
 
 ## 2. KO leaf pairwise distances
@@ -155,6 +164,10 @@ wget -O "f3158_ihmp_IBD_PSM6XBW1_P_k_5_gather.csv" "https://pennstateoffice365-m
 ### Script
 ```bash
 ```
+
+## Appendix
+### sourmash
+Installation directions and usage of sourmash can be found at https://sourmash.readthedocs.io/en/latest/.
 
 # Outdated
 ## Producing sourmash files
