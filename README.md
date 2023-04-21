@@ -96,17 +96,18 @@ python ./scripts/compute_fununifrac.py -e ./edge_ko00001_lengths.txt -d . -o fun
 ## 0. KO tree
 The KEGG Orthology (KO) hierarchy tree was donwloaded using the [KEGG API](https://www.kegg.jp/kegg/rest/keggapi.html#list). The [KEGG BRITE Database](https://www.genome.jp/kegg/brite.html) is a collection of hierarchical classification system in which [ko00001](https://www.genome.jp/brite/ko00001) is the KO hierarchy. Therefore, we utilized the [get](https://www.kegg.jp/kegg/rest/keggapi.html#get) operation of KEGG API to access the [KO hierarchy](https://rest.kegg.jp/get/br:ko00001). For each KO leaf node in this hierarchy tree, we get its corresponding lineage. For instance, the lineage of KO `K03382` is "09100 Metabolism; 09111 Xenobiotics biodegradation and metabolism; 00791 Atrazine degradation; K03382  atzB; hydroxydechloroatrazine ethylaminohydrolase". With this lineage information, we save the KO hierarhical tree into a file `kegg_ko00001_edges.txt` with an edge list format.  
 
-### Download
 ```bash
 wget -O "kegg_ko00001_edges.txt" "https://pennstateoffice365-my.sharepoint.com/:t:/g/personal/akp6031_psu_edu/EWWFfRZc4o5OltW7YZFH8yYBCQB8HW8IW_zLveO7eAeMPQ?download=1"
 ```
+
 ### Script
 ```bash
-python ./scripts/reproducibility/generate_ko_hierarchy.py --outdir [Path to save the output file]
+python ./scripts/reproducibility/generate_ko_hierarchy.py --outdir ${OUTDIR}
 ```
 
 ## 1. KO sketches
-From the KEGG database, we downloaded all the KO's and used sourmash sketch to produce the sketch for each of the KO's.
+From the KEGG database, we downloaded amino acid sequences for all the genes in each KO and used Sourmash to build 
+FracMinHash sketch for each KO.
 These sketches can be used as a reference to efficiently generate the functional profiles for metagenomic samples, which 
 will be explained in the Section 3. Sample sketches below.
 To use the pre-generated KO sketches directly, simply download using the command below. 
@@ -125,24 +126,37 @@ sourmash sketch fromfile -p protein,k=5,k=7,k=11,abund,scaled=${scaleFactor} -o 
 ```
 
 ## 2. KO leaf pairwise distances
-[explain]
+With the KO sketches, we can also compute the pairwise distances among the leaf nodes of the KO tree.
+The pairwise distances among the leaf nodes of the KO tree is computed based on AAI (average amino acid identity) 
+using Sourmash. Here we use k=5. 
+
+```bash
+sourmash compare --protein --no-dna -o ${DATADIR}/compare_k_${kSize} --ani -k ${kSize} -p 50 ${DATADIR}/KOs_sketched_scaled_10.sig.zip
+```
+
+The output of the above is a pairwise distance matrix for all the KOs, along with a text file telling you which
+KO corresponds to which row/column in the matrix. Eg. of such files are: `KOs_sketched_scaled_10_compare_5`
+and `KOs_sketched_scaled_10_compare_5.labels.txt`, which can be downloaded below.
+
 ### Download
 ```bash
 wget -O "KOs_sketched_scaled_10_compare_5" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/ESsA10lqAXtOrv0Z_mVVedABTBdgHLAXzeE3N8bZ6q9f7Q?download=1"
 wget -O "KOs_sketched_scaled_10_compare_5.labels.txt" "https://pennstateoffice365-my.sharepoint.com/:t:/g/personal/akp6031_psu_edu/Ea4iI9gCtl5Nue0bVABSqGQBIR1cv79l3fUk2bHSv6pxMA?download=1"
 ```
-### Script
-```bash
-```
 
-## 3. sequence sketches
-[explain]
-### Download
+## 3. Sample sketches
+To run compute_fununifrac.py, metagenomic samples need first to be sketched into functional profiles.
+This is done using Sourmash gather. 
+We provide some sample files to illustrate this process.
+
+### Download example data
 ```bash
-# sequences
 wget -O "f1077_ihmp_IBD_MSM5LLGF_P.fastq" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/EeFqDGl6lZZIgGFPme4GkBMBK20P_y0qrjqDWDuWnZ6ImA?download=1"
 wget -O "f2103_ihmp_IBD_HSM7J4Q3_P.fastq" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/EaRRHDpkIK5Nid9pFf9BRAsB8Y-KT8lA4Zp1cdYv1eGJ1Q?download=1"
 wget -O "f3158_ihmp_IBD_PSM6XBW1_P.fastq" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/ER7xvoZtBSRKlw7YoYJrfZ8BiLkxdqa-43suUolSUS86Ng?download=1"
+```
+```bash
+# sequences
 # outputs
 wget -O "f1077_ihmp_IBD_MSM5LLGF_P.fastq.gz.sig" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/Ebzry6ZzMrpAocLia1gb8zgBzSThqyvc7YZN_lcJ8Fkofg?download=1"
 wget -O "f2103_ihmp_IBD_HSM7J4Q3_P.fastq.sig" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/EdSy4EMYhJVOmorMSHyOBCMBu5HshZMur5BKG49D7DgSAA?download=1"
