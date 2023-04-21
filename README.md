@@ -92,13 +92,15 @@ python ./scripts/compute_fununifrac.py -e ./edge_ko00001_lengths.txt -d . -o fun
 
 # Preprocessing
 ## 0. KO tree
-[explain]
+The KEGG Orthology (KO) hierarchy tree was donwloaded using the [KEGG API](https://www.kegg.jp/kegg/rest/keggapi.html#list). The [KEGG BRITE Database](https://www.genome.jp/kegg/brite.html) is a collection of hierarchical classification system in which [ko00001](https://www.genome.jp/brite/ko00001) is the KO hierarchy. Therefore, we utilized the [get](https://www.kegg.jp/kegg/rest/keggapi.html#get) operation of KEGG API to access the [KO hierarchy](https://rest.kegg.jp/get/br:ko00001). For each KO leaf node in this hierarchy tree, we get its corresponding lineage. For instance, the lineage of KO `K03382` is "09100 Metabolism; 09111 Xenobiotics biodegradation and metabolism; 00791 Atrazine degradation; K03382  atzB; hydroxydechloroatrazine ethylaminohydrolase". With this lineage information, we save the KO hierarhical tree into a file `kegg_ko00001_edges.txt` with an edge list format.  
+
 ### Download
 ```bash
 wget -O "kegg_ko00001_edges.txt" "https://pennstateoffice365-my.sharepoint.com/:t:/g/personal/akp6031_psu_edu/EWWFfRZc4o5OltW7YZFH8yYBCQB8HW8IW_zLveO7eAeMPQ?download=1"
 ```
 ### Script
 ```bash
+python ./scripts/reproducibility/generate_ko_hierarchy.py --outdir [Path to save the output file]
 ```
 
 ## 1. KO sketches
