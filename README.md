@@ -72,7 +72,8 @@ python ./scripts/compute_fununifrac.py -e {edge} -fd . -o {output} --diffab --fo
 * Basis of the above matrix in .npy format
 
 Below we provide a minimum example to demonstrate the usage of this function.
-### Download Kegg tree and sample data
+### Example
+#### Download Kegg tree and sample data
 ```bash
 wget -O "edge_ko00001_lengths.txt" "https://pennstateoffice365-my.sharepoint.com/:t:/g/personal/akp6031_psu_edu/EVbB-ieWK7xDqux7Y7u_4lEBpMi-jCyA7oDkq3RhtrueXQ?download=1"
 
@@ -80,15 +81,16 @@ wget -O "f1077_ihmp_IBD_MSM5LLGF_P_k_5_gather.csv" "https://pennstateoffice365-m
 wget -O "f2103_ihmp_IBD_HSM7J4Q3_P_k_5_gather.csv" "https://pennstateoffice365-my.sharepoint.com/:x:/g/personal/akp6031_psu_edu/EVlFAOKUEDhCslA5KBk8s2QBOcUdhrlkhDJXsFRap72cKA?download=1"
 wget -O "f3158_ihmp_IBD_PSM6XBW1_P_k_5_gather.csv" "https://pennstateoffice365-my.sharepoint.com/:x:/g/personal/akp6031_psu_edu/EWnhFoHwindPp1q5JxmYbS4BQ9p2OArBGGxQwa0XCP9cSg?download=1"
 ```
-### Run
+#### Run
 ```bash
 python ./scripts/compute_fununifrac.py -e ./edge_ko00001_lengths.txt -d . -o fununifrac_results --diffab
 ```
-### Output
+#### Output
 * fununifrac_results/fununifrac_out_20230420-150954.main.basis.npy
 * fununifrac_results/fununifrac_out_20230420-150954.main.npy
 * fununifrac_results/ununifrac_out_20230420-150954.diffab.nodes.npy
 * fununifrac_results/fununifrac_out_20230420-150954.diffab.npz
+
 
 # Preprocessing
 ## 0. KO tree
