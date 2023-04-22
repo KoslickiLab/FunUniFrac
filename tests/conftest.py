@@ -6,7 +6,7 @@ def pytest_configure(config):
     sys.path.append(ROOT_DIR)
 
     directories = os.listdir(ROOT_DIR)
-    if set(['data', 'src', 'scripts']).issubset(directories):
+    if set(['data', 'src', 'fununifrac']).issubset(directories):
         assert True
     else:    
         # directory structure may have been changed.
