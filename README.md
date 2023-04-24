@@ -145,38 +145,49 @@ wget -O "KOs_sketched_scaled_10_compare_5.labels.txt" "https://pennstateoffice36
 ```
 
 ## 3. Sample sketches
-To run compute_fununifrac.py, metagenomic samples need first to be sketched into functional profiles.
-This is done using Sourmash gather. 
+This procedure uses Sourmash sketch to convert the raw metagenomic samples in DNA sequences into protein sequences and 
+creates a sketch for each sample. 
 We provide some sample files to illustrate this process.
 
-### Download example data
+### Download sample input data
 ```bash
 wget -O "f1077_ihmp_IBD_MSM5LLGF_P.fastq" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/EeFqDGl6lZZIgGFPme4GkBMBK20P_y0qrjqDWDuWnZ6ImA?download=1"
 wget -O "f2103_ihmp_IBD_HSM7J4Q3_P.fastq" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/EaRRHDpkIK5Nid9pFf9BRAsB8Y-KT8lA4Zp1cdYv1eGJ1Q?download=1"
 wget -O "f3158_ihmp_IBD_PSM6XBW1_P.fastq" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/ER7xvoZtBSRKlw7YoYJrfZ8BiLkxdqa-43suUolSUS86Ng?download=1"
 ```
+
+### Sketch samples to produce functional profiles
 ```bash
-# sequences
+sourmash sketch translate -f -p scaled=1000,k=5,abund f1077_ihmp_IBD_MSM5LLGF_P.fastq.gz -o f1077_ihmp_IBD_MSM5LLGF_P.fastq.gz.sig
+sourmash sketch translate -f -p scaled=1000,k=5,abund f2103_ihmp_IBD_HSM7J4Q3_P.fastq.gz -o f2103_ihmp_IBD_HSM7J4Q3_P.fastq.gz.sig
+sourmash sketch translate -f -p scaled=1000,k=5,abund f3158_ihmp_IBD_PSM6XBW1_P.fastq.gz -o f3158_ihmp_IBD_PSM6XBW1_P.fastq.gz.sig
+```
+
+You can also directly download the output using the following command.
+```bash
 # outputs
 wget -O "f1077_ihmp_IBD_MSM5LLGF_P.fastq.gz.sig" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/Ebzry6ZzMrpAocLia1gb8zgBzSThqyvc7YZN_lcJ8Fkofg?download=1"
 wget -O "f2103_ihmp_IBD_HSM7J4Q3_P.fastq.sig" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/EdSy4EMYhJVOmorMSHyOBCMBu5HshZMur5BKG49D7DgSAA?download=1"
 wget -O "f3158_ihmp_IBD_PSM6XBW1_P.fastq.sig" "https://pennstateoffice365-my.sharepoint.com/:u:/g/personal/akp6031_psu_edu/EQsLhGlmu09KuY6QDm6ymLMBi9PgIRADjL0ZLQCHSFEmwg?download=1"
 ```
-### Script
-```bash
-```
 
 ## 4. sequence and KOs comparisons
-[explain]
+Using the output of the previous process, we then produce the functional profile for each sample which will then be used
+as the input for functional UniFrac computation. 
+The input data for this process include a sample sketch, which is the output of step 3, as well as the sketched KO, the 
+output of step 1.
+
+```bash
+sourmash gather --protein -k 5 --estimate-ani-ci --threshold-bp 500 f3158_ihmp_IBD_PSM6XBW1_P.fastq.gz.sig KOs_sketched_scaled_10.sig.zip  -o f3158_ihmp_IBD_PSM6XBW1_P_k_5_gather.csv
+sourmash gather --protein -k 5 --estimate-ani-ci --threshold-bp 500 f2103_ihmp_IBD_HSM7J4Q3_P.fastq.sig KOs_sketched_scaled_10.sig.zip  -o f2103_ihmp_IBD_HSM7J4Q3_P_k_5_gather.csv
+sourmash gather --protein -k 5 --estimate-ani-ci --threshold-bp 500 f1077_ihmp_IBD_MSM5LLGF_P.fastq.gz.sig KOs_sketched_scaled_10.sig.zip  -o f1077_ihmp_IBD_MSM5LLGF_P_k_5_gather.csv
+```
+The output of the above will be three sourmash gather files which you can also download directly as follows.
 ### Download
 ```bash
 wget -O "f1077_ihmp_IBD_MSM5LLGF_P_k_5_gather.csv" "https://pennstateoffice365-my.sharepoint.com/:x:/g/personal/akp6031_psu_edu/EYe7vV9JDBhIgY0v0otSz8IBzJ9sp-LXFZQkM2qV7n5d0Q?download=1"
 wget -O "f2103_ihmp_IBD_HSM7J4Q3_P_k_5_gather.csv" "https://pennstateoffice365-my.sharepoint.com/:x:/g/personal/akp6031_psu_edu/Ee-QM-tEoQhPsM-2sKOv3y4BdpHZWIJW_PcItrx7JPTQyQ?download=1"
 wget -O "f3158_ihmp_IBD_PSM6XBW1_P_k_5_gather.csv" "https://pennstateoffice365-my.sharepoint.com/:x:/g/personal/akp6031_psu_edu/EVN4JF7jkVhGmdHoCKoSTY4Byz3ybRFAsVtBDSv2VM2wEQ?download=1"
-```
-
-### Script
-```bash
 ```
 
 ## Appendix
