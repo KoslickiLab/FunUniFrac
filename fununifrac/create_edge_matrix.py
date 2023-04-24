@@ -3,8 +3,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 from src import create_func_edge_matrix
 
-
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(
         description='Given the KEGG hierarchy, first this will select the subtree consisting of'
                     ' all the ancestors of the given brite_id. Then, it will create a matrix '
@@ -19,3 +18,7 @@ if __name__ == '__main__':
                         required=True)
     # call main function
     create_func_edge_matrix.main(parser.parse_args())
+
+    
+if __name__ == '__main__':
+    main()

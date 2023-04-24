@@ -33,7 +33,7 @@ wget -O "KOs_sketched_scaled_10_compare_5.labels.txt" "https://pennstateoffice36
 ```
 ### Run
 ```python
-python ./scripts/compute_edges.py -e edge_ko00001.txt -d KOs_sketched_scaled_10_compare_5 -o ../fununifrac_out -b ko00001 -n 50 -f 10 -r 100 --distance
+python ./fununifrac/compute_edges.py -e edge_ko00001.txt -d KOs_sketched_scaled_10_compare_5 -o ../fununifrac_out -b ko00001 -n 50 -f 10 -r 100 --distance
 ```
 
 ### Output
@@ -44,7 +44,7 @@ This is a sub-script called inside of compute_edges.py.
 The same input is used to generate the intermediate matrix.
 ### Run
 ```python
-python ./scripts/create_edge_matrix.py -e edge_ko00001.txt -d KOs_sketched_scaled_10_compare_5 -o ../fununifrac_out/large -b ko00001
+python ./fununifrac/create_edge_matrix.py -e edge_ko00001.txt -d KOs_sketched_scaled_10_compare_5 -o ../fununifrac_out/large -b ko00001
 ```
 ### Output
 * fununifrac_A.npz: The matrix describing the least sequare problem for computing edge lengths.
@@ -65,7 +65,7 @@ file pattern is `*_gather.csv`.
 
 ### Run
 ```python
-python ./scripts/compute_fununifrac.py -e {edge} -fd . -o {output} --diffab --force -b ko00001 -a median_abund --L2
+python ./fununifrac/compute_fununifrac.py -e {edge} -fd . -o {output} --diffab --force -b ko00001 -a median_abund --L2
 ```
 ### Output
 * Pairwise functional UniFrac distances matrix saved in .npy format
@@ -83,7 +83,7 @@ wget -O "f3158_ihmp_IBD_PSM6XBW1_P_k_5_gather.csv" "https://pennstateoffice365-m
 ```
 #### Run
 ```bash
-python ./scripts/compute_fununifrac.py -e ./edge_ko00001_lengths.txt -d . -o fununifrac_results --diffab
+python ./fununifrac/compute_fununifrac.py -e ./edge_ko00001_lengths.txt -d . -o fununifrac_results --diffab
 ```
 #### Output
 * fununifrac_results/fununifrac_out_20230420-150954.main.basis.npy
@@ -102,7 +102,7 @@ wget -O "kegg_ko00001_edges.txt" "https://pennstateoffice365-my.sharepoint.com/:
 
 ### Script
 ```bash
-python ./scripts/reproducibility/generate_ko_hierarchy.py --outdir ${OUTDIR}
+python ./fununifrac/reproducibility/generate_ko_hierarchy.py --outdir ${OUTDIR}
 ```
 
 ## 1. KO sketches
@@ -272,7 +272,7 @@ matrix equation of the form:
 where `d(a,b)` is the distance between the two leaves `a` and `b` derived in the previous section.
 The coefficient matrix of all edges traversed between all pairs of KOs is obtained by running:
 ```bash
-./scripts/./edges_preprocess_ko.py -e <edge list: kegg_ko_edge_df_br:ko00001.txt> -d <distance matrix: 
+./fununifrac/./edges_preprocess_ko.py -e <edge list: kegg_ko_edge_df_br:ko00001.txt> -d <distance matrix: 
 KOs_sketched_scaled_10_compare_5> -o <output directory> -b <BRITE: ko00001> 
 ```
 The resulting matrix will have a name such as: `ko00001_KOs_sketched_scaled_10_compare_5_A.npz` and will be a 

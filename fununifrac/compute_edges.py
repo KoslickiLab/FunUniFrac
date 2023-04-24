@@ -4,7 +4,7 @@ sys.path.append(ROOT_DIR)
 from src import compute_func_edge_lengths
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(
         description='This will take the matrix made by graph_to_path_matrix.py and the all '
                     'pairwise distance matrix and solve the least squares problem of '
@@ -27,3 +27,7 @@ if __name__ == '__main__':
                         action='store_true')
     # call main function
     compute_func_edge_lengths.main(parser.parse_args())
+
+    
+if __name__ == '__main__':
+    main()

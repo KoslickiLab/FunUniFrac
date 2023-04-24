@@ -6,10 +6,10 @@ from setuptools import setup, find_packages
 # README file and 2) it's easier to type in the README file than to put a raw
 # string in below ...
 
-SCRIPTS = []
-SCRIPTS.extend([os.path.join("scripts", script)
-				for script in os.listdir(os.path.join(os.path.dirname(__file__), "scripts"))
-				if script.endswith(".py")])
+# SCRIPTS = []
+# SCRIPTS.extend([os.path.join("scripts", script)
+# 				for script in os.listdir(os.path.join(os.path.dirname(__file__), "scripts"))
+# 				if script.endswith(".py")])
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, 'README.md'), 'r') as fid:
@@ -25,8 +25,7 @@ setup(
 	#license="BSD-3-Clause",  # see classifiers
 	keywords="unifrac kegg emd genomics metagenomics",
 	url="https://github.com/KoslickiLab/FunUniFrac",
-	# packages=find_packages(include=['fununifrac']),
-	packages=['fununifrac'],
+	packages=find_packages(),
 	install_requires=[
 	    'blist',
         'scipy==1.8.0',
@@ -40,7 +39,14 @@ setup(
     ],
 	zip_safe=False,
 	# package_data={'CMash': ['data/*.fna', 'tests/Organisms/*.fna.gz']},
-	scripts=SCRIPTS,
+	# scripts=SCRIPTS,
+	entry_points={
+        'console_scripts': [ 
+            'compute_fununifrac.py = fununifrac.compute_fununifrac:main',
+	    	'compute_edges.py = fununifrac.compute_edges:main',
+		    'create_edge_matrix.py = fununifrac.create_edge_matrix:main'
+        ]
+    },
 	classifiers=[
 		"Development Status :: 3 - Alpha",
 		"Topic :: Scientific/Engineering :: Bio-Informatics",

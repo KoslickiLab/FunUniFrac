@@ -1,6 +1,6 @@
 import os
 import sys
-from scripts.reproducibility.generate_ko_hierarchy import KEGG_KO_Extraction
+from fununifrac.reproducibility.generate_ko_hierarchy import KEGG_KO_Extraction
 
 def test_get_ko00001_tree():
     assert True

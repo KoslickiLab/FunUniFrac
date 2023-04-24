@@ -21,7 +21,7 @@ def test_small_edge_lengths():
     out_id = 'testing'
     # remove the out file if it exists
     brite = "ko00001"
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
+    cmd = f"python ../fununifrac/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
         f" -o {out_dir} -i {out_id} --force -b {brite} -a median_abund"
     res = subprocess.run(cmd, shell=True, check=True)
     
@@ -48,7 +48,7 @@ def test_small_edge_lengths():
         assert f.readline() == ""
 
     # now also check the diffabs
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
+    cmd = f"python ../fununifrac/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
               f" -o {out_dir} -i {out_id} --force -b {brite} -a median_abund --diffab"
     res = subprocess.run(cmd, shell=True, check=True)
     # check that the output file exists
@@ -96,7 +96,7 @@ def test_diffab_order():
     out_dir = data.get_data_abspath("test_output/")
     out_id = "testing"
     brite = "ko00001"
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
+    cmd = f"python ../fununifrac/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
           f"-o {out_dir} -i {out_id} --force -b {brite} -a median_abund --diffab"
     res = subprocess.run(cmd, shell=True, check=True)
     
@@ -160,7 +160,7 @@ def test_small_edge_lengthsL2():
     out_id = 'testing'
     brite = "ko00001"
     # command
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
+    cmd = f"python ../fununifrac/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
           f"-o {out_dir} -i {out_id} --force -b {brite} -a median_abund --L2"
     res = subprocess.run(cmd, shell=True, check=True)
     
@@ -195,7 +195,7 @@ def test_small_edge_lengthsL2():
     out_file = os.path.join(out_dir, constant.FUNUNIFRAC_OUT__MAIN_FILE_NAME.format(out_id))
     
     # command
-    cmd = f"python ../scripts/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
+    cmd = f"python ../fununifrac/compute_fununifrac.py -e {edge_list} -fd {file_pattern_dir} " \
               f"-o {out_dir} -i {out_id} --force -b {brite} -a median_abund --diffab --L2"
     res = subprocess.run(cmd, shell=True, check=True)
 
