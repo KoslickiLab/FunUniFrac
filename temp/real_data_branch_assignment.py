@@ -4,18 +4,17 @@ from itertools import combinations
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
+sys.path.append('../data')
+sys.path.append('..')
 from data import get_data_abspath
+import argparse
+
 
 class KeggTree():
     #a tree from edge_list with branch lengths
     def __init__(self, tree, write_merged_file=False, merged_outfile=None):
         self.tree = tree #an nx.DiGraph
-        try:
-            self.tree.remove_edge('parent','child')
-            self.tree.remove_node('parent')
-            self.tree.remove_node('child')
-        except:
-            print("'parent' and 'child' are not in the edge list")
         self.root = [node for node in self.tree if self.tree.in_degree(node) == 0][0]
         self.nodes_by_depth = dict()
         self.group_nodes_by_depth()
@@ -217,7 +216,7 @@ def visualize_diff(edge_lengths_solution, G, outfile_name):
     inferred_edges = [k for k in list(edge_lengths_solution.keys())]
     inferred_edges.sort()
     inferred_lengths = [edge_lengths_solution[e] for e in inferred_edges]
-    actual = {(start, end):v  for (start, end, v) in G.tree.edges(data=True)}
+    actual = {(start, end): v for (start, end, v) in G.tree.edges(data=True)}
     actual_lengths = [actual[k]['edge_length'] for k in inferred_edges]
     df = pd.DataFrame(columns=['edge', 'inferred_length',  'actual_length'])
     df['edge'] = inferred_edges
@@ -269,19 +268,27 @@ def get_KeggTree_from_edgelist(edge_list_file, write_file=False, outfile=None):
     keggTree = KeggTree(G, write_merged_file=write_file, merged_outfile=outfile)
     return keggTree
 
-if __name__ == "__main__":
-    edge_list_file = 'kegg_ko_edge_df_br_ko00001.txt_AAI_lengths_n_50_f_10_r_100.txt'
-    edge_list_file = get_data_abspath(edge_list_file)
-    #G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
-     #                    data=(('edge_length', float),))
-    #sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes.txt', write_file=True, outfile='sub_tree_09151ImmuneSystem_83nodes_merged.txt')
-    sub_tree = get_KeggTree_from_edgelist('sub_tree_09151ImmuneSystem_83nodes.txt')
-    edge_lengths_solution = {}
-    pw_dist = sub_tree.pw_dist
 
-    assign_branch_lengths(sub_tree, sub_tree.leaf_nodes, pw_dist, edge_lengths_solution)
-    #L1_norm(edge_lengths_solution, sub_tree)
-    print(sub_tree.tree.nodes)
-    visualize_diff(edge_lengths_solution, sub_tree, 'scatter_plot_age09151ImmuneSystem_83_merged.png')
-    #write_dict_to_file(edge_lengths_solution, './edge_lengths_solution_09149aging.txt')
-    #nx.write_edgelist(real_sub_tree.tree, './sub_tree_09149aging_original_edge_lengths.txt')
+def main():
+    parser = argparse.ArgumentParser(description="At this point the script takes in an edge-list file WITH branch lengths"
+                                                 " and tries to recompute the edge lengths using the algorithm and compare "
+                                                 "the accuracy. With that being said, any sub tree would need to be created"
+                                                 " prior to passing into the script. ")
+    parser.add_argument('-e', '--edge_list',
+                        help='Input edge list file of the KEGG hierarchy. Must have lengths in the '
+                             'third column.', required=True)
+    parser.add_argument('-s', '--save', help='Path to save the output file.', default='edge_length_solution.png')
+
+    args = parser.parse_args()
+    #edge_list = get_data_abspath(args.edge_list)
+    edge_list = args.edge_list
+    kegg_tree = get_KeggTree_from_edgelist(edge_list)
+    edge_lengths_solution = {}
+    pw_dist = kegg_tree.pw_dist
+    print("preparation done.")
+    assign_branch_lengths(kegg_tree, kegg_tree.leaf_nodes, pw_dist, edge_lengths_solution)
+    visualize_diff(edge_lengths_solution, kegg_tree,args.save)
+
+
+if __name__ == "__main__":
+    main()
