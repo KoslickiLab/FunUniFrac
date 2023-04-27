@@ -24,9 +24,13 @@ class KeggTree():
         #self.get_pw_dist()
         self.size = len(list(self.tree.nodes()))
 
-    def get_pw_dist(self, dist_matrix=None):
+    def get_pw_dist(self, dist_matrix=None, labels=None):
         if dist_matrix:
             #read from dist_matrix file
+            dist_ma = np.load(dist_matrix)
+            with open(labels, 'r') as f:
+                labels = f.readlines()
+                labels = [l.strip() for l in labels]
             pass
         else:
             undir_tree = self.tree.to_undirected()
