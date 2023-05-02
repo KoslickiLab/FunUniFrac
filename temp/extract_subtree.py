@@ -31,7 +31,7 @@ def perturb_edges(subgraph):
     return new_tree
 
 
-sub_tree = extract_subtree_by_level_random(G, 2)
+sub_tree = extract_subtree_by_level_random(G, 3)
 new_tree = perturb_edges(sub_tree)
 outfile_name = 'subtree_size' + str(new_tree.size()) + '.txt'
 print(outfile_name)
