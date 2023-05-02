@@ -278,6 +278,7 @@ def main():
                         help='Input edge list file of the KEGG hierarchy. Must have lengths in the '
                              'third column.', required=True)
     parser.add_argument('-s', '--save', help='Path to save the output file.', default='edge_length_solution.png')
+    parser.add_argument('-dm', '--dist_matrix', help='Pairwise KO distance matrix file.', default='')
 
     args = parser.parse_args()
     #edge_list = get_data_abspath(args.edge_list)
