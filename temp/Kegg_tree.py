@@ -284,15 +284,3 @@ def post_process(edge_length_solution, kegg_tree):
     '''
     pass
 
-
-def main():
-    edge_list = 'subtree_size36.txt'
-    kegg_tree = get_KeggTree_from_edgelist(edge_list)
-    edge_lengths_solution = {}
-    kegg_tree.get_pw_dist()
-    pw_dist = kegg_tree.pw_dist
-    assign_branch_lengths(kegg_tree, kegg_tree.leaf_nodes, pw_dist, edge_lengths_solution)
-    #visualize_diff(edge_lengths_solution, kegg_tree,args.save)
-
-
-#main()

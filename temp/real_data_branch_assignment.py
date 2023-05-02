@@ -7,7 +7,6 @@ import numpy as np
 import sys
 sys.path.append('../data')
 sys.path.append('..')
-from data import get_data_abspath
 import argparse
 
 
@@ -287,7 +286,8 @@ def main():
     pw_dist = kegg_tree.pw_dist
     print("preparation done.")
     assign_branch_lengths(kegg_tree, kegg_tree.leaf_nodes, pw_dist, edge_lengths_solution)
-    visualize_diff(edge_lengths_solution, kegg_tree,args.save)
+
+    visualize_diff(edge_lengths_solution, kegg_tree, args.save)
 
 
 if __name__ == "__main__":
