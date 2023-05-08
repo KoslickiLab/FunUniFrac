@@ -13,33 +13,25 @@ import argparse
 
 class KeggTree():
     #a tree from edge_list with branch lengths
-    def __init__(self, tree):
+    def __init__(self, tree, write_merged_file=False, merged_outfile=None):
         self.tree = tree #an nx.DiGraph
         self.root = [node for node in self.tree if self.tree.in_degree(node) == 0][0]
-        #self.root = [node for node in self.tree if self.tree.in_degree(node) == 0]
         self.nodes_by_depth = dict()
+        self.group_nodes_by_depth()
         self.make_full_tree()
-        self.leaf_nodes = [node for node in self.tree if self.tree.out_degree(node) == 0]
+        self.leaf_nodes = self.nodes_by_depth[len(self.nodes_by_depth)-1]
         self.pw_dist = {}
-        #self.get_pw_dist()
+        self.get_pw_dist()
         self.size = len(list(self.tree.nodes()))
 
-    def get_pw_dist(self, dist_matrix=None, labels=None):
-        if dist_matrix:
-            #read from dist_matrix file
-            dist_ma = np.load(dist_matrix)
-            with open(labels, 'r') as f:
-                labels = f.readlines()
-                labels = [l.strip() for l in labels]
-            pass
-        else:
-            undir_tree = self.tree.to_undirected()
-            for pair in combinations(self.leaf_nodes, 2):
-                distance = nx.shortest_path_length(undir_tree, source=pair[0], target=pair[1], weight='edge_length')
-                if pair[0] > pair[1]:
-                    self.pw_dist[(pair[1], pair[0])] = distance
-                else:
-                    self.pw_dist[(pair[0], pair[1])] = distance
+    def get_pw_dist(self):
+        undir_tree = self.tree.to_undirected()
+        for pair in combinations(self.leaf_nodes, 2):
+            distance = nx.shortest_path_length(undir_tree, source=pair[0], target=pair[1], weight='edge_length')
+            if pair[0] > pair[1]:
+                self.pw_dist[(pair[1], pair[0])] = distance
+            else:
+                self.pw_dist[(pair[0], pair[1])] = distance
 
     def get_siblings(self, node):
         siblings = set()
@@ -92,13 +84,12 @@ class KeggTree():
                     dummy_node_count += 1
 
     def group_nodes_by_depth(self):
-        for node in self.tree.nodes:
+        for node in self.tree.nodes():
             depth = nx.shortest_path_length(self.tree, self.root, node)
             if depth in self.nodes_by_depth:
                 self.nodes_by_depth[depth].append(node)
             else:
                 self.nodes_by_depth[depth] = [node]
-
 
 
 def get_subtree(edge_list, sub_root):
@@ -261,10 +252,11 @@ def write_subgraph_file(G, subgraph_nodes, out_file):
             parent = edge[0]
             child = edge[1]
             edge_length = edge[2]['edge_length']
+            print(parent, child, edge_length)
             f.write(f"{parent}\t{child}\t{edge_length}\n")
         return
 
-def get_KeggTree_from_edgelist(edge_list_file):
+def get_KeggTree_from_edgelist(edge_list_file, write_file=False, outfile=None):
     '''
 
     :param file:
@@ -272,7 +264,7 @@ def get_KeggTree_from_edgelist(edge_list_file):
     '''
     G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
                          data=(('edge_length', float),))
-    keggTree = KeggTree(G)
+    keggTree = KeggTree(G, write_merged_file=write_file, merged_outfile=outfile)
     return keggTree
 
 def post_process(edge_length_solution, kegg_tree):
