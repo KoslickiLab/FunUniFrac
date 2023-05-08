@@ -5,6 +5,12 @@ from src import compute_func_edge_lengths
 
 
 def main():
+    """
+    This function takes the matrix output of graph_to_path_matrix.py as well as the pairwise distance matrix, and solve
+    the least squares problem of inferring the edge lengths of the graph.
+
+    :return: an edge list file with branch lengths, ouput into user-specified directory.
+    """
     parser = argparse.ArgumentParser(
         description='This will take the matrix made by graph_to_path_matrix.py and the all '
                     'pairwise distance matrix and solve the least squares problem of '
