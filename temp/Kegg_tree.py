@@ -11,17 +11,17 @@ from data import get_data_abspath
 import argparse
 
 
-class KeggTree():
+class KeggTree:
     #a tree from edge_list with branch lengths
     def __init__(self, tree, write_merged_file=False, merged_outfile=None):
         self.tree = tree #an nx.DiGraph
         self.root = [node for node in self.tree if self.tree.in_degree(node) == 0][0]
         self.nodes_by_depth = dict()
-        self.group_nodes_by_depth()
+        #self.group_nodes_by_depth()
         self.make_full_tree()
-        self.leaf_nodes = self.nodes_by_depth[len(self.nodes_by_depth)-1]
+        self.leaf_nodes = [node for node in self.tree if self.tree.out_degree(node) == 0]
         self.pw_dist = {}
-        self.get_pw_dist()
+        #self.get_pw_dist()
         self.size = len(list(self.tree.nodes()))
 
     def get_pw_dist(self):
@@ -90,6 +90,72 @@ class KeggTree():
                 self.nodes_by_depth[depth].append(node)
             else:
                 self.nodes_by_depth[depth] = [node]
+
+    def preprocess_pw_dist(self, pw_dist_file, label_file):
+        '''
+        Create a nested dictionary to store pw distance. Hopefully this can significantly reduce the size
+        :param pw_dist_file:
+        :param label_file:
+        :return:
+        '''
+        pw_dist_dict = dict()
+        first_node = self.leaf_nodes[0]
+        last_node = self.leaf_nodes[-1]
+        pw_dist = np.load(pw_dist_file)
+        labels = [line.strip() for line in open(label_file, 'r')]
+        label_pos = {k:v for v, k in enumerate(labels)}
+        print(len(self.leaf_nodes))
+        print(self.size)
+    ####temp####
+        i = 1
+        while first_node not in labels:
+            i+=1
+            first_node = self.leaf_nodes[i]
+        j=-1
+        while last_node not in labels:
+            j-=1
+            last_node = self.leaf_nodes[j]
+        print(i,j)
+    ####temp####
+        first_node_index = label_pos[first_node]
+        last_node_index = label_pos[last_node]
+        for node in self.leaf_nodes[1:]:
+            if node in labels: #temp
+                sibs = self.get_siblings(node)
+                if len(sibs) == 0:
+                    continue
+                else:
+                    sib = sibs.pop()
+                    node_index = label_pos[node]
+                    sib_index = label_pos[sib]
+                    if node not in pw_dist_dict:
+                        pw_dist_dict[node] = dict()
+                    if sib not in pw_dist_dict[node]:
+                        pw_dist_dict[node][sib] = pw_dist[node_index][sib_index]
+                    if sib == first_node:
+                        pw_dist_dict[node][last_node] = pw_dist[node_index][last_node_index]
+                    else:
+                        pw_dist_dict[node][first_node] = pw_dist[node_index][first_node_index]
+        #special handling: first node
+        sibs = self.get_siblings(first_node)
+        sib = sibs.pop()
+        pw_dist_dict[first_node] = dict()
+        sib_index = label_pos[sib]
+        pw_dist_dict[first_node][sib] = pw_dist[first_node_index][sib_index]
+        if sib == last_node:
+            second_node = self.leaf_nodes[1]
+            second_node_index = label_pos[second_node]
+            pw_dist_dict[first_node][second_node] = pw_dist[first_node_index][second_node_index]
+        else:
+            pw_dist_dict[first_node][last_node] = pw_dist[first_node_index][last_node_index]
+        self.pw_dist = pw_dist_dict
+
+    def write_pw_dist(self, file_name):
+        with open(file_name, 'w') as f:
+            for k in self.pw_dist:
+                for k2 in self.pw_dist[k]:
+                    f.write(f"{k}\t{k2}\t{self.pw_dist[k][k2]}")
+
 
 
 def get_subtree(edge_list, sub_root):
@@ -256,13 +322,16 @@ def write_subgraph_file(G, subgraph_nodes, out_file):
             f.write(f"{parent}\t{child}\t{edge_length}\n")
         return
 
-def get_KeggTree_from_edgelist(edge_list_file, write_file=False, outfile=None):
+def get_KeggTree_from_edgelist(edge_list_file, write_file=False, outfile=None, edge_length=True):
     '''
 
     :param file:
     :return: KeggTree
     '''
-    G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
+    if not edge_length:
+        G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph)
+    else:
+        G = nx.read_edgelist(edge_list_file, delimiter='\t', nodetype=str, create_using=nx.DiGraph,
                          data=(('edge_length', float),))
     keggTree = KeggTree(G, write_merged_file=write_file, merged_outfile=outfile)
     return keggTree
