@@ -11,7 +11,10 @@ def main():
     args = parser.parse_args()
 
     kegg_tree = get_KeggTree_from_edgelist(args.file, edge_length=False)
+    start_time = time.time()
     kegg_tree.preprocess_pw_dist(args.pw_dist, args.label_file)
+    end_time = time.time()
+    print(f"time: {(end_time - start_time)/60} min")
     kegg_tree.write_pw_dist(args.save)
 
 
