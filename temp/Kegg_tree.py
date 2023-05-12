@@ -154,7 +154,7 @@ class KeggTree:
         with open(file_name, 'w') as f:
             for k in self.pw_dist:
                 for k2 in self.pw_dist[k]:
-                    f.write(f"{k}\t{k2}\t{self.pw_dist[k][k2]}")
+                    f.write(f"{k}\t{k2}\t{self.pw_dist[k][k2]}\n")
 
 
 
