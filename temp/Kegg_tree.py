@@ -5,10 +5,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
+import json
 sys.path.append('../data')
 sys.path.append('..')
-from data import get_data_abspath
-import argparse
 
 
 class KeggTree:
@@ -20,7 +19,7 @@ class KeggTree:
         #self.group_nodes_by_depth()
         self.make_full_tree()
         self.leaf_nodes = [node for node in self.tree if self.tree.out_degree(node) == 0]
-        self.pw_dist = {}
+        self.pw_dist = dict()
         #self.get_pw_dist()
         self.size = len(list(self.tree.nodes()))
 
@@ -94,68 +93,69 @@ class KeggTree:
     def preprocess_pw_dist(self, pw_dist_file, label_file):
         '''
         Create a nested dictionary to store pw distance. Hopefully this can significantly reduce the size
-        :param pw_dist_file:
+        :param pw_dist_file: a nested dict, each value has 4 keys: sib, this_sib_dist, this_another_dist,
+        sib_another_dist. If no sib, value of sib key is 0
         :param label_file:
         :return:
         '''
         pw_dist_dict = dict()
-        first_node = self.leaf_nodes[0]
-        last_node = self.leaf_nodes[-1]
+        leaves_set = set(self.leaf_nodes)
+        first_node = leaves_set.pop()
         pw_dist = np.load(pw_dist_file)
         labels = [line.strip() for line in open(label_file, 'r')]
-        label_pos = {k:v for v, k in enumerate(labels)}
-        print(len(self.leaf_nodes))
-        print(self.size)
-    ####temp####
-        i = 1
-        while first_node not in labels:
-            i+=1
-            first_node = self.leaf_nodes[i]
-        j=-1
-        while last_node not in labels:
-            j-=1
-            last_node = self.leaf_nodes[j]
-        print(i,j)
-    ####temp####
+        label_pos = {k: v for v, k in enumerate(labels)}
         first_node_index = label_pos[first_node]
-        last_node_index = label_pos[last_node]
-        for node in self.leaf_nodes[1:]:
-            if node in labels: #temp
-                sibs = self.get_siblings(node)
-                if len(sibs) == 0:
-                    continue
-                else:
-                    sib = sibs.pop()
-                    node_index = label_pos[node]
-                    sib_index = label_pos[sib]
-                    if node not in pw_dist_dict:
-                        pw_dist_dict[node] = dict()
-                    if sib not in pw_dist_dict[node]:
-                        pw_dist_dict[node][sib] = pw_dist[node_index][sib_index]
-                    if sib == first_node:
-                        pw_dist_dict[node][last_node] = pw_dist[node_index][last_node_index]
-                    else:
-                        pw_dist_dict[node][first_node] = pw_dist[node_index][first_node_index]
-        #special handling: first node
         sibs = self.get_siblings(first_node)
-        sib = sibs.pop()
-        pw_dist_dict[first_node] = dict()
-        sib_index = label_pos[sib]
-        pw_dist_dict[first_node][sib] = pw_dist[first_node_index][sib_index]
-        if sib == last_node:
-            second_node = self.leaf_nodes[1]
-            second_node_index = label_pos[second_node]
-            pw_dist_dict[first_node][second_node] = pw_dist[first_node_index][second_node_index]
+        backup_node = leaves_set.pop() #in case first node is the sib of some node
+        backup_node_index = label_pos[backup_node]
+        leaves_set.add(backup_node)
+        if len(sibs) == 0:
+            pw_dist_dict[first_node] = dict()
+            pw_dist_dict[first_node]['sib'] = 0
         else:
-            pw_dist_dict[first_node][last_node] = pw_dist[first_node_index][last_node_index]
+            sib = sibs.pop()
+            pw_dist_dict[first_node] = dict()
+            pw_dist_dict[first_node]['sib'] = sib
+            another_node = leaves_set.pop()
+            if another_node == sib:
+                yet_another_node = leaves_set.pop()
+                leaves_set.add(another_node)
+                another_node = yet_another_node
+            sib_index = label_pos[sib]
+            another_index = label_pos[another_node]
+            pw_dist_dict[first_node]['this_sib_dist'] = pw_dist[first_node_index][sib_index]
+            pw_dist_dict[first_node]['this_another_dist'] = pw_dist[first_node_index][another_index]
+            pw_dist_dict[first_node]['sib_another_dist'] = pw_dist[sib_index][another_index]
+            leaves_set.add(another_node) #important
+            leaves_set.discard(sib)
+
+        while len(leaves_set) > 0:
+            this_node = leaves_set.pop()
+            sibs = self.get_siblings(this_node)
+            if len(sibs) == 0:
+                pw_dist_dict[this_node] = dict()
+                pw_dist_dict[this_node]['sib'] = 0
+            else:
+                sib = sibs.pop()
+                pw_dist_dict[this_node] = dict()
+                pw_dist_dict[this_node]['sib'] = sib
+                sib_index = label_pos[sib]
+                this_index = label_pos[this_node]
+                if sib == first_node:
+                    pw_dist_dict[this_node]['this_sib_dist'] = pw_dist[this_index][sib_index]  # another = first_node
+                    pw_dist_dict[this_node]['this_another_dist'] = pw_dist[this_index][backup_node_index]
+                    pw_dist_dict[this_node]['sib_another_dist'] = pw_dist[sib_index][backup_node_index]
+                else:
+                    pw_dist_dict[this_node]['this_sib_dist'] = pw_dist[this_index][sib_index] #another = first_node
+                    pw_dist_dict[this_node]['this_another_dist'] = pw_dist[this_index][first_node_index]
+                    pw_dist_dict[this_node]['sib_another_dist'] = pw_dist[sib_index][first_node_index]
+                leaves_set.discard(sib)
+        print(pw_dist_dict)
         self.pw_dist = pw_dist_dict
 
     def write_pw_dist(self, file_name):
         with open(file_name, 'w') as f:
-            for k in self.pw_dist:
-                for k2 in self.pw_dist[k]:
-                    f.write(f"{k}\t{k2}\t{self.pw_dist[k][k2]}\n")
-
+            json.dump(self.pw_dist, f)
 
 
 def get_subtree(edge_list, sub_root):
@@ -318,7 +318,6 @@ def write_subgraph_file(G, subgraph_nodes, out_file):
             parent = edge[0]
             child = edge[1]
             edge_length = edge[2]['edge_length']
-            print(parent, child, edge_length)
             f.write(f"{parent}\t{child}\t{edge_length}\n")
         return
 
@@ -335,6 +334,68 @@ def get_KeggTree_from_edgelist(edge_list_file, write_file=False, outfile=None, e
                          data=(('edge_length', float),))
     keggTree = KeggTree(G, write_merged_file=write_file, merged_outfile=outfile)
     return keggTree
+
+def edge_length_solver2(pw_dist_dict, kegg_tree, edge_length_solutions):
+    '''
+    This function functions the same as assign_branch_lengths but uses a different input and iteration.
+    Hopefully this can be more space and time efficient.
+    :param pw_dist_dict:
+    :param kegg_tree:
+    :param edge_length_solutions:
+    :return:
+    '''
+    if len(pw_dist_dict) < 1:
+        return
+    parents = set()
+    parents_pw_dist_dict = dict()
+    first_node, first_node_values = pw_dist_dict.popitem()
+
+    first_parent = kegg_tree.get_parent(first_node)
+    uncles = kegg_tree.get_sibling(first_parent)
+    if len(uncles) == 0:
+        parents_pw_dist_dict[first_parent] = dict()
+        parents_pw_dist_dict[first_parent]['sib'] = 0
+    else:
+        uncle = uncles.pop()
+        parents_pw_dist_dict[first_parent] = dict()
+        parents_pw_dist_dict[first_parent]['sib'] = uncle
+        # solve for the first 2 nodes
+        sib = pw_dist_dict[first_node]['sib']
+        d1 = pw_dist_dict[first_node]['this_sib_dist']
+        d2 = pw_dist_dict[first_node]['this_another_dist']
+        d3 = pw_dist_dict[first_node]['sib_another_dist']
+        e1 = (d1+d2-d3)/2
+        e2 = d1 - e1
+        edge_length_solutions[(first_parent, first_node)] = e1
+        edge_length_solutions[(first_parent, sib)] = e2
+    # for node in pw_dist_dict:
+    #     parent = kegg_tree.get_parent(node)
+    #     parents.add(parent)
+    #     if pw_dist_dict[node]['sib'] == 0:
+    #         edge_length_solutions[(parent, node)] = 0 #single child -> length 0
+    #     else:
+    #         sib = pw_dist_dict[node]['sib']
+    #         if (parent, node) in edge_length_solutions: #solved or partially solved
+    #             if (parent, sib) in edge_length_solutions:
+    #                 continue #all solved
+    #             else: #solve (parent, sib)
+    #                 edge_length_solutions[(parent, sib)] = pw_dist_dict[node]['this_sib_dist'] - \
+    #                                                        edge_length_solutions[(parent, node)]
+    #         elif (parent, sib) in edge_length_solutions:
+    #             edge_length_solutions[(parent, node)] = pw_dist_dict[node]['this_sib_dist'] - \
+    #                                                     edge_length_solutions[(parent, sib)]
+    #         else: #both unsolved
+    #             d1 = pw_dist_dict[node]['this_sib_dist']
+    #             d2 = pw_dist_dict[node]['this_another_dist']
+    #             d3 = pw_dist_dict[node]['sib_another_dist']
+    #             e1 = (d1+d2-d3)/2
+    #             e2 = d1 - e1
+    #             edge_length_solutions[(parent, node)] = e1
+    #             edge_length_solutions[(parent, sib)] = e2
+        #update pw_dist
+        new_pw_dist = dict()
+
+
 
 def post_process(edge_length_solution, kegg_tree):
     '''

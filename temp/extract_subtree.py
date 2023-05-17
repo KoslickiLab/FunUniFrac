@@ -1,6 +1,7 @@
 import networkx as nx
 from Kegg_tree import KeggTree, write_subgraph_file
 import random
+import argparse
 
 #original tree
 edge_list = '../data/kegg_ko_edge_df_br_ko00001.txt_AAI_lengths_n_50_f_10_r_100.txt'
@@ -31,8 +32,12 @@ def perturb_edges(subgraph):
     return new_tree
 
 
-sub_tree = extract_subtree_by_level_random(G, 3)
-new_tree = perturb_edges(sub_tree)
-outfile_name = 'subtree_size' + str(new_tree.size()) + '.txt'
-print(outfile_name)
-write_subgraph_file(new_tree, new_tree.nodes, outfile_name)
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-l', '--level', type=int, default=3)
+    args = parser.parse_args()
+    sub_tree = extract_subtree_by_level_random(G, args.level)
+    new_tree = perturb_edges(sub_tree)
+    outfile_name = 'subtree_size' + str(new_tree.size()) + '.txt'
+    print(outfile_name)
+    write_subgraph_file(new_tree, new_tree.nodes, outfile_name)

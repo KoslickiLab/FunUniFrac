@@ -1,6 +1,7 @@
 from Kegg_tree import get_KeggTree_from_edgelist
 import argparse
 import numpy as np
+import time
 
 """
 This script takes an edge list file with branch lengths and converts the distances between leaves into a pairwise
@@ -16,13 +17,15 @@ def main():
     kegg_tree = get_KeggTree_from_edgelist(args.file)
     kegg_tree.get_pw_dist() #in dict form
     pw_dist = np.ndarray((len(kegg_tree.leaf_nodes), len(kegg_tree.leaf_nodes)))
+    start_time = time.time()
     for i, node in enumerate(kegg_tree.leaf_nodes):
         for j, another_node in enumerate(kegg_tree.leaf_nodes):
             if i == j:
                 continue
             pw_dist[i][j] = pw_dist[j][i] = kegg_tree.pw_dist[(node, another_node)] if node < \
             another_node else kegg_tree.pw_dist[(another_node, node)]
-    print(pw_dist)
+    end_time = time.time()
+    print(f"time used: {end_time-start_time}")
     np.save(args.prefix, pw_dist)
     label_file = open(args.prefix+"_labels.txt", 'w+')
     label_file.write('\n'.join(kegg_tree.leaf_nodes))
