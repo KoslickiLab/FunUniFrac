@@ -20,6 +20,7 @@ class KeggTree:
         self.make_full_tree()
         self.leaf_nodes = [node for node in self.tree if self.tree.out_degree(node) == 0]
         self.pw_dist = dict()
+        self.first_child_dict = dict()
         #self.get_pw_dist()
         self.size = len(list(self.tree.nodes()))
 
@@ -89,6 +90,30 @@ class KeggTree:
                 self.nodes_by_depth[depth].append(node)
             else:
                 self.nodes_by_depth[depth] = [node]
+
+    def _get_first_children(self, nodes):
+        '''
+        Given a set of nodes, return a set of first child nodes
+        :return:
+        '''
+        first_children = set()
+        for node in nodes:
+            first_children.add(self.get_child(node))
+        return first_children
+
+    def get_first_child_dict(self, pw_dist):
+        '''
+        Preprocessing step. Not all pw distances between first children will be
+        found at this point. When a tree is just initialized, only leaf level will
+        be computed.
+        Has to first perform group nodes by depth
+        :param pw_dist: a numpy array. Can be obtained from a .npy file
+        :return:
+        '''
+        for level in self.nodes_by_depth:
+
+
+        pass
 
     def preprocess_pw_dist(self, pw_dist_file, label_file):
         '''
@@ -394,8 +419,6 @@ def edge_length_solver2(pw_dist_dict, kegg_tree, edge_length_solutions):
     #             edge_length_solutions[(parent, sib)] = e2
         #update pw_dist
         new_pw_dist = dict()
-
-
 
 def post_process(edge_length_solution, kegg_tree):
     '''
