@@ -75,7 +75,7 @@ class KeggTree:
     def make_full_tree(self):
         #process tree from root down until the deepest level, if any node has no child, add a dummy node
         dummy_node_count = 0
-        for i in range(len(self.nodes_by_depth)):
+        for i in range(len(self.nodes_by_depth)-1):
             for node in self.nodes_by_depth[i]:
                 if not self.tree.successors(node):
                     dummy_node = 'dummy' + str(dummy_node_count)
@@ -110,9 +110,17 @@ class KeggTree:
         :param pw_dist: a numpy array. Can be obtained from a .npy file
         :return:
         '''
-        for level in self.nodes_by_depth:
-
-
+        for i in range(len(self.nodes_by_depth)-1):
+            if i == 0:
+                continue
+            else:
+                first_children = set()
+                for p in self.nodes_by_depth[i]:
+                    child = self.get_child(p)
+                    first_children.add(child)
+                for (a, b) in combinations(first_children, 2):
+                    self.first_child_dict[(a, b)] = self.first_child_dict[(b, a)] = 0
+        
         pass
 
     def preprocess_pw_dist(self, pw_dist_file, label_file):
