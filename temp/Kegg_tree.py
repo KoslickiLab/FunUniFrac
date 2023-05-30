@@ -101,7 +101,7 @@ class KeggTree:
             first_children.add(self.get_child(node))
         return first_children
 
-    def get_first_child_dict(self, pw_dist):
+    def get_first_child_dict(self, pw_dist_file, label_file):
         '''
         Preprocessing step. Not all pw distances between first children will be
         found at this point. When a tree is just initialized, only leaf level will
@@ -110,18 +110,27 @@ class KeggTree:
         :param pw_dist: a numpy array. Can be obtained from a .npy file
         :return:
         '''
-        for i in range(len(self.nodes_by_depth)-1):
+        for i in range(len(self.nodes_by_depth)-2):
             if i == 0:
                 continue
             else:
                 first_children = set()
                 for p in self.nodes_by_depth[i]:
                     child = self.get_child(p)
-                    first_children.add(child)
+                    if child:
+                        first_children.add(child)
                 for (a, b) in combinations(first_children, 2):
                     self.first_child_dict[(a, b)] = self.first_child_dict[(b, a)] = 0
-        
-        pass
+        pw_dist = np.load(pw_dist_file)
+        labels = [line.strip() for line in open(label_file, 'r')]
+        label_pos = {k: v for v, k in enumerate(labels)}
+        first_child_leaves = set()
+        for p in self.nodes_by_depth[len(self.nodes_by_depth)-2]: #parents of leaves
+            child = self.get_child(p)
+            if child:
+                first_child_leaves.add(child)
+        for (a, b) in combinations(first_child_leaves, 2):
+            self.first_child_dict[(a, b)] = self.first_child_dict[(b, a)] = pw_dist[label_pos[a]][label_pos[b]]
 
     def preprocess_pw_dist(self, pw_dist_file, label_file):
         '''
@@ -368,7 +377,7 @@ def get_KeggTree_from_edgelist(edge_list_file, write_file=False, outfile=None, e
     keggTree = KeggTree(G, write_merged_file=write_file, merged_outfile=outfile)
     return keggTree
 
-def edge_length_solver2(pw_dist_dict, kegg_tree, edge_length_solutions):
+def edge_length_solver2(pw_dist_dict, kegg_tree, edge_length_solutions, first_child_dict):
     '''
     This function functions the same as assign_branch_lengths but uses a different input and iteration.
     Hopefully this can be more space and time efficient.
@@ -401,30 +410,7 @@ def edge_length_solver2(pw_dist_dict, kegg_tree, edge_length_solutions):
         e2 = d1 - e1
         edge_length_solutions[(first_parent, first_node)] = e1
         edge_length_solutions[(first_parent, sib)] = e2
-    # for node in pw_dist_dict:
-    #     parent = kegg_tree.get_parent(node)
-    #     parents.add(parent)
-    #     if pw_dist_dict[node]['sib'] == 0:
-    #         edge_length_solutions[(parent, node)] = 0 #single child -> length 0
-    #     else:
-    #         sib = pw_dist_dict[node]['sib']
-    #         if (parent, node) in edge_length_solutions: #solved or partially solved
-    #             if (parent, sib) in edge_length_solutions:
-    #                 continue #all solved
-    #             else: #solve (parent, sib)
-    #                 edge_length_solutions[(parent, sib)] = pw_dist_dict[node]['this_sib_dist'] - \
-    #                                                        edge_length_solutions[(parent, node)]
-    #         elif (parent, sib) in edge_length_solutions:
-    #             edge_length_solutions[(parent, node)] = pw_dist_dict[node]['this_sib_dist'] - \
-    #                                                     edge_length_solutions[(parent, sib)]
-    #         else: #both unsolved
-    #             d1 = pw_dist_dict[node]['this_sib_dist']
-    #             d2 = pw_dist_dict[node]['this_another_dist']
-    #             d3 = pw_dist_dict[node]['sib_another_dist']
-    #             e1 = (d1+d2-d3)/2
-    #             e2 = d1 - e1
-    #             edge_length_solutions[(parent, node)] = e1
-    #             edge_length_solutions[(parent, sib)] = e2
+
         #update pw_dist
         new_pw_dist = dict()
 
