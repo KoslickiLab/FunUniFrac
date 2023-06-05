@@ -20,18 +20,24 @@ def main():
                         help='Input edge list file of the KEGG hierarchy. Must have lengths in the '
                              'third column.', required=True)
     parser.add_argument('-s', '--save', help='Path to save the output file.', default='edge_length_solution.png')
-    parser.add_argument('-dm', '--dist_matrix', help='Pairwise KO distance matrix file.', default='')
+    parser.add_argument('-dm', '--dist_matrix', help='Pairwise KO distance matrix file. A .npy file', default='')
+    parser.add_argument('-l', '--label_file', help='Label file for the distance matrix.')
 
     args = parser.parse_args()
     #edge_list = get_data_abspath(args.edge_list)
     edge_list = args.edge_list
-    kegg_tree = get_KeggTree_from_edgelist(edge_list)
+    kegg_tree = get_KeggTree_from_edgelist(edge_list, edge_length=False)
     edge_lengths_solution = {}
-    pw_dist = kegg_tree.pw_dist
-    print("preparation done.")
-    assign_branch_lengths(kegg_tree, kegg_tree.leaf_nodes, pw_dist, edge_lengths_solution)
+    kegg_tree.group_nodes_by_depth()
+    print('grouped by depth')
+    print(kegg_tree.nodes_by_depth)
+    kegg_tree.get_first_child_dict(args.dist_matrix, args.label_file)
+    print(kegg_tree.first_child_dict)
 
-    visualize_diff(edge_lengths_solution, kegg_tree, args.save)
+    #print("preparation done.")
+    #assign_branch_lengths(kegg_tree, kegg_tree.leaf_nodes, pw_dist, edge_lengths_solution)
+
+    #visualize_diff(edge_lengths_solution, kegg_tree, args.save)
 
 
 if __name__ == "__main__":
