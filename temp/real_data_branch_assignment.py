@@ -29,10 +29,10 @@ def main():
     kegg_tree = get_KeggTree_from_edgelist(edge_list, edge_length=False)
     edge_lengths_solution = {}
     kegg_tree.group_nodes_by_depth()
-    print('grouped by depth')
-    print(kegg_tree.nodes_by_depth)
-    kegg_tree.get_first_child_dict(args.dist_matrix, args.label_file)
-    print(kegg_tree.first_child_dict)
+    kegg_tree.get_needed_pairs()
+
+    kegg_tree.fill_leaf_pairs_distances(args.dist_matrix, args.label_file)
+    print(kegg_tree.needed_pairs[3])
 
     #print("preparation done.")
     #assign_branch_lengths(kegg_tree, kegg_tree.leaf_nodes, pw_dist, edge_lengths_solution)
