@@ -27,13 +27,13 @@ def main():
     #edge_list = get_data_abspath(args.edge_list)
     edge_list = args.edge_list
     kegg_tree = get_KeggTree_from_edgelist(edge_list, edge_length=False)
-    edge_lengths_solution = {}
+    edge_lengths_solution = dict()
     kegg_tree.group_nodes_by_depth()
     kegg_tree.get_needed_pairs()
 
     kegg_tree.fill_leaf_pairs_distances(args.dist_matrix, args.label_file)
-    print(kegg_tree.needed_pairs[3])
-
+    kegg_tree.solve_branch_lengths(edge_lengths_solution, len(kegg_tree.nodes_by_depth)-1)
+    write_edge_list_preserve_order(edge_lengths_solution, edge_list, args.save)
     #print("preparation done.")
     #assign_branch_lengths(kegg_tree, kegg_tree.leaf_nodes, pw_dist, edge_lengths_solution)
 

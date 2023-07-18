@@ -75,7 +75,6 @@ class KeggTree:
                 if c != node:
                     return c
 
-
     def get_parent(self, node):
         #get one parent
         for p in self.tree.predecessors(node):
@@ -133,22 +132,11 @@ class KeggTree:
             first_children.add(self.get_child(node))
         return first_children
 
-    def update_first_child_dist(self, level, edge_lengths_solutions):
-        if level >= len(self.nodes_by_depth):
-            print(f"level {level} is too big. Max level allowed is {len(self.nodes_by_depth)-1}.")
-            return
-        for (a, b) in self.needed_pairs[level]:
-            a_child = self.get_child(a)
-            b_child = self.get_child(b)
-            a_child_b_child_dist = self.needed_pairs[level+1]
-            self.needed_pairs[level][(a,b)] = a_child_b_child_dist - edge_lengths_solutions[(a, a_child)] - \
-                edge_lengths_solutions[(b, b_child)]
-
     def get_needed_pairs(self):
         for i in range(len(self.nodes_by_depth)-1):
             if i == 0: #not many, add all
+                self.needed_pairs[1] = dict()
                 for (a, b) in combinations(self.nodes_by_depth[1], 2):
-                    self.needed_pairs[1] = dict()
                     self.needed_pairs[1][(a, b)] = self.needed_pairs[1][(b, a)] = 0
                 if len(self.nodes_by_depth[1]) > 2:
                     node_set = set(self.nodes_by_depth[1])
@@ -156,6 +144,7 @@ class KeggTree:
                     first_node = self.nodes_by_depth[1][0]
                     sib = self.nodes_by_depth[1][1]
                     last_node = self.nodes_by_depth[1][-1]
+                    backup_node = self.nodes_by_depth[1][1]
                     self.needed_pairs[1][(first_node, sib)] = 0
                     self.needed_pairs[1][(sib, last_node)] = 0
                     self.needed_pairs[1][(first_node, last_node)] = 0
@@ -167,9 +156,14 @@ class KeggTree:
                         sib = self.get_sibling(next_node)
                         if sib == first_node:
                             self.needed_pairs[1][(next_node, sib)] = 0
-                            self.needed_pairs[1][(next_node, last_node)] = 0
-                            self.needed_pairs[1][(sib, last_node)] = 0
-                            self.partners[1][next_node] = [sib, last_node]
+                            if next_node != last_node:
+                                self.needed_pairs[1][(next_node, last_node)] = 0
+                                self.needed_pairs[1][(sib, last_node)] = 0
+                                self.partners[1][next_node] = [sib, last_node]
+                            else: #next node == last node, sib = first node. use backup node.
+                                self.needed_pairs[1][(next_node, sib)] = 0
+                                self.needed_pairs[1][(sib, backup_node)] = 0
+                                self.needed_pairs[1][(next_node, backup_node)] = 0
                         else:
                             self.needed_pairs[1][(next_node, sib)] = 0
                             self.needed_pairs[1][(next_node, first_node)] = 0
@@ -199,19 +193,34 @@ class KeggTree:
                         self.needed_pairs[i+1][(sib, last_node)] = 0
                         self.partners[i+1][first_node] = [sib, last_node]
                     node_set.discard(sib)
+                    node_set.discard(first_node)
                     while len(node_set) > 0:
                         next_node = node_set.pop()
                         sib = self.get_sibling(next_node)
                         if sib == first_node:
                             self.needed_pairs[i+1][(next_node, sib)] = 0
-                            self.needed_pairs[i+1][(next_node, last_node)] = 0
-                            self.needed_pairs[i+1][(sib, last_node)] = 0
-                            self.partners[i+1][next_node] = [sib, last_node]
-                        else:
-                            self.needed_pairs[i+1][(next_node, sib)] = 0
-                            self.needed_pairs[i+1][(next_node, first_node)] = 0
-                            self.needed_pairs[i+1][(sib, first_node)] = 0
-                            self.partners[i+1][next_node] = [sib, first_node]
+                            if next_node == last_node:
+                                self.needed_pairs[i + 1][(next_node, backup_node)] = 0
+                                self.needed_pairs[i + 1][(sib, backup_node)] = 0
+                                self.partners[i + 1][next_node] = [sib, backup_node]
+                            else:
+                                self.needed_pairs[i+1][(next_node, last_node)] = 0
+                                self.needed_pairs[i+1][(sib, last_node)] = 0
+                                self.partners[i+1][next_node] = [sib, last_node]
+                        else: #first node = "another node"
+                            if next_node == first_node:
+                                self.needed_pairs[i+1][(next_node, sib)] = 0
+                                if sib != backup_node:
+                                    self.needed_pairs[i+1][(next_node, backup_node)] = 0
+                                    self.needed_pairs[i+1][(sib, backup_node)] = 0
+                                else:
+                                    self.needed_pairs[i+1][(next_node, last_node)] = 0
+                                    self.needed_pairs[i+1][(sib, last_node)] = 0
+                            else:
+                                self.needed_pairs[i+1][(next_node, sib)] = 0
+                                self.needed_pairs[i+1][(next_node, first_node)] = 0
+                                self.needed_pairs[i+1][(sib, first_node)] = 0
+                                self.partners[i+1][next_node] = [sib, first_node]
                         node_set.discard(sib)
                 for (a, b) in combinations(first_children, 2):
                     self.needed_pairs[i+1][(a, b)] = self.needed_pairs[i+1][(b, a)] = 0
@@ -232,6 +241,35 @@ class KeggTree:
                 b_index = label_pos[b]
                 self.needed_pairs[len(self.nodes_by_depth)-1][(a, b)] = pw_dist[a_index][b_index]
 
+    def solve_branch_lengths(self, edge_length_solutions, level):
+        if level < 1:
+            return
+        for node in self.partners[level]:
+            sib = self.partners[level][node][0]
+            another = self.partners[level][node][1]
+            d1 = self.needed_pairs[level][(node, sib)]
+            d2 = self.needed_pairs[level][(node, another)]
+            d3 = self.needed_pairs[level][(sib, another)]
+            e1 = (d1+d2-d3)/2
+            e2 = d1 - e1
+            parent = self.get_parent(node)
+            edge_length_solutions[(parent, node)] = e1
+            edge_length_solutions[(parent, sib)] = e2
+        self.update_needed_pairs(level-1, edge_length_solutions)
+        self.solve_branch_lengths(edge_length_solutions, level-1)
+
+    def update_needed_pairs(self, level, edge_length_solutions):
+        if level >= len(self.nodes_by_depth):
+            print(f"level {level} is too big. Max level allowed is {len(self.nodes_by_depth)-1}.")
+            return
+        if level < 1:
+            return
+        for (a, b) in self.needed_pairs[level]:
+            a_child = self.get_child(a)
+            b_child = self.get_child(b)
+            a_child_b_child_dist = self.needed_pairs[level+1][(a_child, b_child)]
+            self.needed_pairs[level][(a, b)] = a_child_b_child_dist - edge_length_solutions[(a, a_child)] - \
+                edge_length_solutions[(b, b_child)]
 
     def preprocess_pw_dist(self, pw_dist_file, label_file):
         '''
@@ -305,6 +343,27 @@ class KeggTree:
         '''
         with open(file_name, 'w') as f:
             json.dump(self.needed_pairs[len(self.nodes_by_depth)-1], f)
+
+def write_edge_list_preserve_order(edge_length_solutions, original_file, file_name):
+    '''
+    This function writes out the edge list file after computing edge lengths in the format of parent\child\edge_length.
+    This function preserves the order of the original file for easy comparison.
+    :param edge_length_solutions: a dict. (parent, child):edge_length
+    :param original_file: original file with no length. with heading #parent\t child. no edge_length
+    :param file_name: file name to save the new file as
+    :return: 
+    '''
+    with open(original_file, 'r') as f:
+        pairs = f.readlines()
+    with open(file_name, 'w') as f:
+        f.write("#parent\tchild\tedge_length\n")
+        for pair in pairs:
+            pair = pair.strip()
+            (p, c) = pair.split('\t')
+            if (p, c) in edge_length_solutions:
+                f.write(f"{p}\t{c}\t{edge_length_solutions[(p, c)]}\n")
+            else:
+                f.write(f"{p}\t{c}\'NA'\n")
 
 
 def get_subtree(edge_list, sub_root):
@@ -483,43 +542,6 @@ def get_KeggTree_from_edgelist(edge_list_file, write_file=False, outfile=None, e
                          data=(('edge_length', float),))
     keggTree = KeggTree(G, write_merged_file=write_file, merged_outfile=outfile)
     return keggTree
-
-def edge_length_solver2(pw_dist_dict, kegg_tree, edge_length_solutions, needed_pairs):
-    '''
-    This function functions the same as assign_branch_lengths but uses a different input and iteration.
-    Hopefully this can be more space and time efficient.
-    :param pw_dist_dict:
-    :param kegg_tree:
-    :param edge_length_solutions:
-    :return:
-    '''
-    if len(pw_dist_dict) < 1:
-        return
-    parents = set()
-    parents_pw_dist_dict = dict()
-    first_node, first_node_values = pw_dist_dict.popitem()
-
-    first_parent = kegg_tree.get_parent(first_node)
-    uncles = kegg_tree.get_sibling(first_parent)
-    if len(uncles) == 0:
-        parents_pw_dist_dict[first_parent] = dict()
-        parents_pw_dist_dict[first_parent]['sib'] = 0
-    else:
-        uncle = uncles.pop()
-        parents_pw_dist_dict[first_parent] = dict()
-        parents_pw_dist_dict[first_parent]['sib'] = uncle
-        # solve for the first 2 nodes
-        sib = pw_dist_dict[first_node]['sib']
-        d1 = pw_dist_dict[first_node]['this_sib_dist']
-        d2 = pw_dist_dict[first_node]['this_another_dist']
-        d3 = pw_dist_dict[first_node]['sib_another_dist']
-        e1 = (d1+d2-d3)/2
-        e2 = d1 - e1
-        edge_length_solutions[(first_parent, first_node)] = e1
-        edge_length_solutions[(first_parent, sib)] = e2
-
-        #update pw_dist
-        new_pw_dist = dict()
 
 
 def post_process(edge_length_solution, kegg_tree):
