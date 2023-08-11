@@ -479,25 +479,21 @@ def write_dict_to_file(d, filename):
     return
 
 
-def visualize_diff(edge_lengths_solution, G, outfile_name):
+def visualize_diff(edge_list_inferred, edge_list_actual, outfile_name):
     '''
 
     :param edge_lengths_solution:
     :param G: KeggTree object
     :return:
     '''
-    inferred_edges = [k for k in list(edge_lengths_solution.keys())]
-    inferred_edges.sort()
-    inferred_lengths = [edge_lengths_solution[e] for e in inferred_edges]
-    actual = {(start, end): v for (start, end, v) in G.tree.edges(data=True)}
-    actual_lengths = [actual[k]['edge_length'] for k in inferred_edges]
+    inferred_df = pd.read_table(edge_list_inferred, header=0)
+    reference_df = pd.read_table(edge_list_actual, header=0)
     df = pd.DataFrame(columns=['edge', 'inferred_length',  'actual_length'])
-    df['edge'] = inferred_edges
-    df['actual_length'] = actual_lengths
-    df['inferred_length'] = inferred_lengths
+    df['actual_length'] = reference_df['edge_length']
+    df['inferred_length'] = inferred_df['edge_length']
     print(df.to_string())
     sns.scatterplot(data=df, x='inferred_length', y='actual_length')
-    #plt.show()
+    plt.show()
     plt.savefig(outfile_name)
     return
 
