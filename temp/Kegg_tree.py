@@ -18,7 +18,7 @@ class KeggTree:
         self.tree = tree #an nx.DiGraph
         self.root = [node for node in self.tree if self.tree.in_degree(node) == 0][0]
         self.nodes_by_depth = dict()
-        #self.group_nodes_by_depth()
+        self.group_nodes_by_depth()
         self.make_full_tree()
         self.leaf_nodes = [node for node in self.tree if self.tree.out_degree(node) == 0]
         self.pw_dist = dict()
@@ -104,14 +104,14 @@ class KeggTree:
             nx.write_weighted_edgelist(self.tree, outfile, delimiter='\t')
 
     def make_full_tree(self):
-        #process tree from root down until the deepest level, if any node has no child, add a dummy node
+        #process tree from root down until the deepest level, if any node has only one child, add a dummy node
         dummy_node_count = 0
         for i in range(len(self.nodes_by_depth)-1):
             for node in self.nodes_by_depth[i]:
-                if not self.tree.successors(node):
+                if sum(1 for _ in self.tree.successors(node)) == 1:
                     dummy_node = 'dummy' + str(dummy_node_count)
                     self.tree.add_edge(node, dummy_node, edge_length=0)
-                    self.nodes_by_depth[i].append(dummy_node)
+                    self.nodes_by_depth[i+1].append(dummy_node)
                     dummy_node_count += 1
 
     def group_nodes_by_depth(self):
@@ -136,8 +136,8 @@ class KeggTree:
         for i in range(len(self.nodes_by_depth)-1):
             if i == 0: #not many, add all
                 self.needed_pairs[1] = dict()
-                for (a, b) in combinations(self.nodes_by_depth[1], 2):
-                    self.needed_pairs[1][(a, b)] = self.needed_pairs[1][(b, a)] = 0
+                #for (a, b) in combinations(self.nodes_by_depth[1], 2):
+                #    self.needed_pairs[1][(a, b)] = self.needed_pairs[1][(b, a)] = 0
                 if len(self.nodes_by_depth[1]) > 2:
                     node_set = set(self.nodes_by_depth[1])
                     self.partners[1] = dict()
@@ -354,6 +354,7 @@ def write_edge_list_preserve_order(edge_length_solutions, original_file, file_na
     :return: 
     '''
     with open(original_file, 'r') as f:
+        f.readline()
         pairs = f.readlines()
     with open(file_name, 'w') as f:
         f.write("#parent\tchild\tedge_length\n")
@@ -491,7 +492,6 @@ def visualize_diff(edge_list_inferred, edge_list_actual, outfile_name):
     df = pd.DataFrame(columns=['edge', 'inferred_length',  'actual_length'])
     df['actual_length'] = reference_df['edge_length']
     df['inferred_length'] = inferred_df['edge_length']
-    print(df.to_string())
     sns.scatterplot(data=df, x='inferred_length', y='actual_length')
     plt.show()
     plt.savefig(outfile_name)

@@ -1,9 +1,3 @@
-import networkx as nx
-import pandas as pd
-from itertools import combinations
-import seaborn as sns
-import matplotlib.pyplot as plt
-import numpy as np
 import sys
 sys.path.append('../data')
 sys.path.append('..')
@@ -28,7 +22,6 @@ def main():
     edge_list = args.edge_list
     kegg_tree = get_KeggTree_from_edgelist(edge_list, edge_length=False)
     edge_lengths_solution = dict()
-    kegg_tree.group_nodes_by_depth()
     kegg_tree.get_needed_pairs()
 
     kegg_tree.fill_leaf_pairs_distances(args.dist_matrix, args.label_file)
