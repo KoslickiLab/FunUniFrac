@@ -578,10 +578,32 @@ def get_KeggTree_from_edgelist(edge_list_file, write_file=False, outfile=None, e
 
 def post_process(edge_length_solution, kegg_tree):
     '''
-    Even out edges with branch length 0 by sharing half with the ancestor
+    Even out edges with branch length 0 by sharing half of the ancestor
     :param edge_length_solution:
     :param kegg_tree:
     :return:
     '''
-    pass
+    for i in range(len(kegg_tree.nodes_by_depth)):
+        for node in kegg_tree.nodes_by_depth[i]:
+            if sum(1 for _ in kegg_tree.tree.successors(node)) == 1: #has single child
+                parent = kegg_tree.get_parent(node)
+                cur_node = node
+                child = kegg_tree.get_child(cur_node)
+                if child.startswith('dummy') or edge_length_solution[(cur_node, child)] != 0:
+                    continue
+                nodes_on_the_way = [cur_node]
+                while sum(1 for _ in kegg_tree.tree.successors(cur_node)) == 1:
+                    cur_node = kegg_tree.get_child(node)
+                    if cur_node.startswith('dummy'):
+                        break
+                    nodes_on_the_way.append(cur_node)
+                ave_edge_length = edge_length_solution[(parent, node)]/len(nodes_on_the_way)
+                for node in nodes_on_the_way:
+                    edge_length_solution[(parent, node)] = ave_edge_length
+                    parent = node
+
+
+
+
+
 

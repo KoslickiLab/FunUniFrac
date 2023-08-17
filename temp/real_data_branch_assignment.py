@@ -26,6 +26,7 @@ def main():
 
     kegg_tree.fill_leaf_pairs_distances(args.dist_matrix, args.label_file)
     kegg_tree.solve_branch_lengths(edge_lengths_solution, len(kegg_tree.nodes_by_depth)-1)
+    post_process(edge_lengths_solution, kegg_tree)
     write_edge_list_preserve_order(edge_lengths_solution, edge_list, args.save)
     #print("preparation done.")
     #assign_branch_lengths(kegg_tree, kegg_tree.leaf_nodes, pw_dist, edge_lengths_solution)
