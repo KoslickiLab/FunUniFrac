@@ -26,7 +26,7 @@ def main():
                 another_node else kegg_tree.pw_dist[(another_node, node)]
     print(pw_dist)
     np.save(args.prefix, pw_dist)
-    label_file = open(args.prefix+"_labels.txt", 'w+')
+    label_file = open(args.prefix+".npy.labels.txt", 'w+')
     label_file.write('\n'.join(kegg_tree.leaf_nodes))
 
 

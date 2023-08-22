@@ -1,0 +1,21 @@
+#parent	child	edge_length
+ko00001	09175 Drug resistance: antimicrobial	0
+01502 Vancomycin resistance	K01929	0.29516793492770593
+01501 beta-Lactam resistance	K01207	0.025727438070050557
+01501 beta-Lactam resistance	K01467	0.9574889533764532
+01501 beta-Lactam resistance	K18148	0.4237483432476169
+01501 beta-Lactam resistance	K18150	0.4525543753536416
+01501 beta-Lactam resistance	K17837	0.054187936927828584
+01501 beta-Lactam resistance	K17838	0.3878953402710966
+09175 Drug resistance: antimicrobial	01501 beta-Lactam resistance	0.44724835111286526
+09175 Drug resistance: antimicrobial	01503 Cationic antimicrobial peptide (CAMP) resistance	0.4918580969741698
+09175 Drug resistance: antimicrobial	01502 Vancomycin resistance	0.08449488569028116
+01503 Cationic antimicrobial peptide (CAMP) resistance	K10011	0.4941971013757629
+01503 Cationic antimicrobial peptide (CAMP) resistance	K10012	0.1404198139701422
+01503 Cationic antimicrobial peptide (CAMP) resistance	K13014	0.4440591777365923
+01503 Cationic antimicrobial peptide (CAMP) resistance	K14198	0.5988739908422709
+01503 Cationic antimicrobial peptide (CAMP) resistance	K12963	0.30443790014628913
+01503 Cationic antimicrobial peptide (CAMP) resistance	K19238	0.7910363981684374
+01503 Cationic antimicrobial peptide (CAMP) resistance	K19239	0.3688264783028775
+01503 Cationic antimicrobial peptide (CAMP) resistance	K06079	0.2697229658888501
+01503 Cationic antimicrobial peptide (CAMP) resistance	K19240	0.42891155413434107

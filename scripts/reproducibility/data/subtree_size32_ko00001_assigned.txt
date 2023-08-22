@@ -1,0 +1,34 @@
+#parent	child	edge_length
+ko00001	09162 Cancer: specific types	0.00017667667066905302
+05215 Prostate cancer	K12344	1.8460582230425357e-23
+05221 Acute myeloid leukemia	K02162	6.121907567331907e-22
+05223 Non-small cell lung cancer	K01522	1.3280446925187157e-24
+05223 Non-small cell lung cancer	K09850	5.293398923849668e-24
+05223 Non-small cell lung cancer	K08015	8.271792234973282e-24
+05210 Colorectal cancer	K06765	1.1290368337903746e-22
+05217 Basal cell carcinoma	K06225	7.537385645381815e-22
+05217 Basal cell carcinoma	K11101	4.641538787724829e-23
+05217 Basal cell carcinoma	K06231	1.1233849522332426e-23
+05225 Hepatocellular carcinoma	K22182	3.6006572902168013e-22
+05212 Pancreatic cancer	K08732	2.369571345712754e-22
+05216 Thyroid cancer	K09289	2.734723400532197e-23
+05216 Thyroid cancer	K09288	8.501474471859439e-24
+05216 Thyroid cancer	K09292	5.81410058160727e-24
+09162 Cancer: specific types	05215 Prostate cancer	1.8460582230425357e-23
+09162 Cancer: specific types	05223 Non-small cell lung cancer	2.1794618823034043e-26
+09162 Cancer: specific types	05219 Bladder cancer	2.1738432463368874e-24
+09162 Cancer: specific types	05225 Hepatocellular carcinoma	3.6006572902168013e-22
+09162 Cancer: specific types	05212 Pancreatic cancer	2.369571345712754e-22
+09162 Cancer: specific types	05211 Renal cell carcinoma	8.606479486344699e-26
+09162 Cancer: specific types	05217 Basal cell carcinoma	2.078684674044055e-25
+09162 Cancer: specific types	05222 Small cell lung cancer	4.721174147424669e-26
+09162 Cancer: specific types	05221 Acute myeloid leukemia	6.121907567331907e-22
+09162 Cancer: specific types	05216 Thyroid cancer	2.8043580442426824e-26
+09162 Cancer: specific types	05210 Colorectal cancer	1.1290368337903746e-22
+05219 Bladder cancer	K00758	2.1738432463368874e-24
+05211 Renal cell carcinoma	K06277	4.917708456075766e-22
+05211 Renal cell carcinoma	K09592	1.2446913185240627e-23
+05211 Renal cell carcinoma	K09594	2.1037595606265637e-24
+05222 Small cell lung cancer	K03172	2.2916230263321274e-23
+05222 Small cell lung cancer	K02219	1.7554056741752672e-24
+05222 Small cell lung cancer	K09848	2.0549295868314647e-22

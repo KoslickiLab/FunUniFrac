@@ -1,0 +1,34 @@
+ko00001
+09162 Cancer: specific types
+05215 Prostate cancer
+K12344
+05221 Acute myeloid leukemia
+K02162
+05223 Non-small cell lung cancer
+K01522
+K09850
+K08015
+05210 Colorectal cancer
+K06765
+05217 Basal cell carcinoma
+K06225
+K11101
+K06231
+05225 Hepatocellular carcinoma
+K22182
+05212 Pancreatic cancer
+K08732
+05216 Thyroid cancer
+K09289
+K09288
+K09292
+05219 Bladder cancer
+05211 Renal cell carcinoma
+05222 Small cell lung cancer
+K00758
+K06277
+K09592
+K09594
+K03172
+K02219
+K09848

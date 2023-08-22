@@ -19,13 +19,13 @@ class KeggTree:
         self.root = [node for node in self.tree if self.tree.in_degree(node) == 0][0]
         print(f"Identifying root: {self.root}")
         self.nodes_by_depth = dict()
-        self.group_nodes_by_depth()
-        self.make_full_tree()
+        #self.group_nodes_by_depth()
+        #self.make_full_tree()
         self.leaf_nodes = [node for node in self.tree if self.tree.out_degree(node) == 0]
         self.pw_dist = dict()
         self.needed_pairs = dict()
         self.partners = dict()
-        self.get_pw_dist()
+        #self.get_pw_dist()
         self.size = len(list(self.tree.nodes()))
 
     def get_pw_dist(self):
@@ -40,22 +40,6 @@ class KeggTree:
     def load_pw_dist_from_file(self, json_file):
         with open(json_file, 'r') as f:
             self.pw_dist = json.load(f)
-
-    def construct_new_pw_dist(self, edge_lengths_solution, level):
-        #construct pw_dist_dict for a given level
-        #assume that there's at least 3 nodes at this level
-        pw_dist_dict = dict()
-        node_set = set(self.nodes_by_depth[level])
-        first_node = self.nodes_by_depth[level][0]
-        last_node = self.nodes_by_depth[level][-1]
-        sib = self.get_sibling(first_node)
-        pw_dist_dict[first_node] = dict()
-        if not sib:
-            pw_dist_dict[first_node]['sib'] = 0
-        else:
-            pw_dist_dict[first_node]['sib'] = sib
-            #find dist
-            pw_dist_dict[first_node]['this_sib_dist']
 
 
     def get_siblings(self, node):
@@ -168,17 +152,17 @@ class KeggTree:
                     node_set.discard(first_node)
                     node_set.discard(second_node)
                     while len(node_set) > 1:
-                        next_node = node_set.pop()
+                        cur_node = node_set.pop()
                         sib = node_set.pop()
-                        self.needed_pairs[1][(next_node, sib)] = 0
-                        self.needed_pairs[1][(next_node, first_node)] = 0
+                        self.needed_pairs[1][(cur_node, sib)] = 0
+                        self.needed_pairs[1][(cur_node, first_node)] = 0
                         self.needed_pairs[1][(sib, first_node)] = 0
-                        self.partners[1][next_node] = [sib, first_node]
+                        self.partners[1][cur_node] = [sib, first_node]
                     if len(node_set) == 1:
-                        next_node = node_set.pop() #could be last node, but not first nor second
-                        self.needed_pairs[1][(next_node, second_node)] = 0
-                        self.needed_pairs[1][(next_node, first_node)] = 0
-                        self.partners[1][next_node] = [second_node, first_node]
+                        cur_node = node_set.pop() #could be last node, but not first nor second
+                        self.needed_pairs[1][(cur_node, second_node)] = 0
+                        self.needed_pairs[1][(cur_node, first_node)] = 0
+                        self.partners[1][cur_node] = [first_node, second_node]
             else: #i>0 not all children nodes are siblings
                 first_children = set()
                 self.needed_pairs[i+1] = dict()
@@ -204,37 +188,30 @@ class KeggTree:
                     node_set.discard(sib)
                 node_set.discard(first_node)
                 while len(node_set) > 0:
-                    next_node = node_set.pop()
-                    sib = self.get_sibling(next_node)
+                    cur_node = node_set.pop()
+                    sib = self.get_sibling(cur_node)
                     if not sib:
-                        self.partners[i+1][next_node] = 0
+                        self.partners[i+1][cur_node] = 0
                         continue
                     if sib == first_node:
-                        self.needed_pairs[i+1][(next_node, sib)] = 0
-                        if next_node == last_node:
-                            self.needed_pairs[i + 1][(next_node, backup_node)] = 0
-                            self.needed_pairs[i + 1][(sib, backup_node)] = 0
-                            self.partners[i + 1][next_node] = [sib, backup_node]
+                        if cur_node == backup_node:
+                            another_node = last_node
                         else:
-                            self.needed_pairs[i+1][(next_node, last_node)] = 0
-                            self.needed_pairs[i+1][(sib, last_node)] = 0
-                            self.partners[i+1][next_node] = [sib, last_node]
-                    else: #first node = "another node"
-                        if next_node == first_node:
-                            self.needed_pairs[i+1][(next_node, sib)] = 0
-                            if sib != backup_node:
-                                self.needed_pairs[i+1][(next_node, backup_node)] = 0
-                                self.needed_pairs[i+1][(sib, backup_node)] = 0
-                                self.partners[i + 1][next_node] = [sib, backup_node]
-                            else:
-                                self.needed_pairs[i+1][(next_node, last_node)] = 0
-                                self.needed_pairs[i+1][(sib, last_node)] = 0
-                                self.partners[i + 1][next_node] = [sib, last_node]
+                            another_node = backup_node
+                    elif sib == last_node:
+                        if cur_node == first_node:
+                            another_node = backup_node
                         else:
-                            self.needed_pairs[i+1][(next_node, sib)] = 0
-                            self.needed_pairs[i+1][(next_node, first_node)] = 0
-                            self.needed_pairs[i+1][(sib, first_node)] = 0
-                            self.partners[i+1][next_node] = [sib, first_node]
+                            another_node = first_node
+                    else:
+                        if cur_node == first_node:
+                            another_node = last_node
+                        else:
+                            another_node = first_node
+                    self.needed_pairs[i+1][(cur_node, sib)] = 0
+                    self.needed_pairs[i+1][(cur_node, another_node)] = 0
+                    self.needed_pairs[i+1][(sib, another_node)] = 0
+                    self.partners[i+1][cur_node] = (sib, another_node)
                     node_set.discard(sib)
                 #first child pairs
                 for node in self.nodes_by_depth[i]:

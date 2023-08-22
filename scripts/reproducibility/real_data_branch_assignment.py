@@ -21,6 +21,8 @@ def main():
     #edge_list = get_data_abspath(args.edge_list)
     edge_list = args.edge_list
     kegg_tree = get_KeggTree_from_edgelist(edge_list, edge_length=False)
+    kegg_tree.group_nodes_by_depth()
+    kegg_tree.make_full_tree()
     edge_lengths_solution = dict()
     kegg_tree.get_needed_pairs()
 

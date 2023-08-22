@@ -1,0 +1,37 @@
+ko00001
+09164 Neurodegenerative disease
+05022 Pathways of neurodegeneration - multiple diseases
+K03781
+K22913
+K11987
+K13240
+K13241
+K00432
+K11519
+K02308
+K02165
+K03069
+K03096
+K23616
+K04565
+K04558
+K04569
+05010 Alzheimer disease
+K06170
+K06171
+K06172
+05017 Spinocerebellar ataxia
+K06249
+K17943
+K19323
+K19324
+05016 Huntington disease
+K05625
+05020 Prion disease
+K05635
+K03995
+K03996
+K03997
+K03998
+K03999
+K04000
