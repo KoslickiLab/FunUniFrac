@@ -1,0 +1,4060 @@
+#parent	child
+ko00001	09100 Metabolism
+00650 Butanoate metabolism	K18118
+00650 Butanoate metabolism	K00656
+00650 Butanoate metabolism	K00132
+00650 Butanoate metabolism	K00023
+00650 Butanoate metabolism	K17865
+00650 Butanoate metabolism	K18121
+00650 Butanoate metabolism	K07246
+00650 Butanoate metabolism	K01715
+00650 Butanoate metabolism	K17829
+00650 Butanoate metabolism	K00929
+00650 Butanoate metabolism	K00634
+00650 Butanoate metabolism	K00100
+00650 Butanoate metabolism	K21317
+00650 Butanoate metabolism	K21318
+00650 Butanoate metabolism	K21319
+00650 Butanoate metabolism	K21320
+00650 Butanoate metabolism	K21321
+00650 Butanoate metabolism	K21322
+00650 Butanoate metabolism	K03821
+00650 Butanoate metabolism	K22881
+00650 Butanoate metabolism	K05973
+00650 Butanoate metabolism	K00109
+00650 Butanoate metabolism	K18119
+00650 Butanoate metabolism	K18120
+00650 Butanoate metabolism	K00043
+00650 Butanoate metabolism	K08318
+00650 Butanoate metabolism	K18122
+00650 Butanoate metabolism	K00019
+00650 Butanoate metabolism	K07518
+00650 Butanoate metabolism	K01574
+00650 Butanoate metabolism	K18223
+00650 Butanoate metabolism	K18224
+00650 Butanoate metabolism	K18226
+00650 Butanoate metabolism	K18225
+00650 Butanoate metabolism	K23259
+00650 Butanoate metabolism	K18382
+00650 Butanoate metabolism	K18369
+00650 Butanoate metabolism	K18370
+00650 Butanoate metabolism	K18371
+00650 Butanoate metabolism	K18372
+00650 Butanoate metabolism	K00004
+00650 Butanoate metabolism	K03366
+00650 Butanoate metabolism	K18009
+00941 Flavonoid biosynthesis	K13065
+00941 Flavonoid biosynthesis	K00588
+00941 Flavonoid biosynthesis	K01859
+00941 Flavonoid biosynthesis	K00475
+00941 Flavonoid biosynthesis	K05278
+00941 Flavonoid biosynthesis	K08243
+00941 Flavonoid biosynthesis	K13082
+00941 Flavonoid biosynthesis	K05277
+00941 Flavonoid biosynthesis	K08695
+00941 Flavonoid biosynthesis	K13081
+00941 Flavonoid biosynthesis	K23053
+00941 Flavonoid biosynthesis	K22440
+00941 Flavonoid biosynthesis	K13078
+00941 Flavonoid biosynthesis	K21581
+00941 Flavonoid biosynthesis	K21582
+00941 Flavonoid biosynthesis	K13079
+00040 Pentose and glucuronate interconversions	K22539
+00040 Pentose and glucuronate interconversions	K19551
+00040 Pentose and glucuronate interconversions	K01731
+00040 Pentose and glucuronate interconversions	K22994
+00040 Pentose and glucuronate interconversions	K01730
+00040 Pentose and glucuronate interconversions	K01815
+00040 Pentose and glucuronate interconversions	K00065
+00040 Pentose and glucuronate interconversions	K01184
+00040 Pentose and glucuronate interconversions	K01213
+00040 Pentose and glucuronate interconversions	K22933
+00040 Pentose and glucuronate interconversions	K01812
+00040 Pentose and glucuronate interconversions	K00041
+00040 Pentose and glucuronate interconversions	K01685
+00040 Pentose and glucuronate interconversions	K16849
+00040 Pentose and glucuronate interconversions	K16850
+00040 Pentose and glucuronate interconversions	K01686
+00040 Pentose and glucuronate interconversions	K08323
+00040 Pentose and glucuronate interconversions	K08322
+00040 Pentose and glucuronate interconversions	K00040
+00040 Pentose and glucuronate interconversions	K21619
+00040 Pentose and glucuronate interconversions	K18106
+00040 Pentose and glucuronate interconversions	K19634
+00040 Pentose and glucuronate interconversions	K18102
+00040 Pentose and glucuronate interconversions	K18103
+00040 Pentose and glucuronate interconversions	K18107
+00040 Pentose and glucuronate interconversions	K13247
+00040 Pentose and glucuronate interconversions	K01804
+00040 Pentose and glucuronate interconversions	K00853
+00040 Pentose and glucuronate interconversions	K24707
+00040 Pentose and glucuronate interconversions	K00854
+00040 Pentose and glucuronate interconversions	K17743
+00040 Pentose and glucuronate interconversions	K26066
+00040 Pentose and glucuronate interconversions	K03331
+00040 Pentose and glucuronate interconversions	K25879
+00040 Pentose and glucuronate interconversions	K25880
+00040 Pentose and glucuronate interconversions	K25881
+00040 Pentose and glucuronate interconversions	K17738
+00040 Pentose and glucuronate interconversions	K17818
+00040 Pentose and glucuronate interconversions	K09988
+00040 Pentose and glucuronate interconversions	K05351
+00040 Pentose and glucuronate interconversions	K22185
+00040 Pentose and glucuronate interconversions	K14273
+00040 Pentose and glucuronate interconversions	K14274
+00040 Pentose and glucuronate interconversions	K24442
+00040 Pentose and glucuronate interconversions	K14275
+00040 Pentose and glucuronate interconversions	K22186
+00040 Pentose and glucuronate interconversions	K22396
+00040 Pentose and glucuronate interconversions	K22397
+00040 Pentose and glucuronate interconversions	K22187
+00040 Pentose and glucuronate interconversions	K00875
+00040 Pentose and glucuronate interconversions	K22935
+00040 Pentose and glucuronate interconversions	K00039
+00040 Pentose and glucuronate interconversions	K21680
+00040 Pentose and glucuronate interconversions	K05352
+00040 Pentose and glucuronate interconversions	K21681
+00040 Pentose and glucuronate interconversions	K21030
+00051 Fructose and mannose metabolism	K00895
+00051 Fructose and mannose metabolism	K01805
+00051 Fructose and mannose metabolism	K00594
+00051 Fructose and mannose metabolism	K01820
+00051 Fructose and mannose metabolism	K00848
+00051 Fructose and mannose metabolism	K01629
+00051 Fructose and mannose metabolism	K00007
+00051 Fructose and mannose metabolism	K00008
+00051 Fructose and mannose metabolism	K01818
+00051 Fructose and mannose metabolism	K00879
+00051 Fructose and mannose metabolism	K01628
+00051 Fructose and mannose metabolism	K19355
+00051 Fructose and mannose metabolism	K18333
+00051 Fructose and mannose metabolism	K07046
+00051 Fructose and mannose metabolism	K18334
+00051 Fructose and mannose metabolism	K18335
+00051 Fructose and mannose metabolism	K18336
+00051 Fructose and mannose metabolism	K18337
+00051 Fructose and mannose metabolism	K18338
+00051 Fructose and mannose metabolism	K12661
+00051 Fructose and mannose metabolism	K18339
+00051 Fructose and mannose metabolism	K12660
+00051 Fructose and mannose metabolism	K01813
+00051 Fructose and mannose metabolism	K21883
+00051 Fructose and mannose metabolism	K07026
+00051 Fructose and mannose metabolism	K18818
+00051 Fructose and mannose metabolism	K00900
+00051 Fructose and mannose metabolism	K00009
+00051 Fructose and mannose metabolism	K00068
+00051 Fructose and mannose metabolism	K19956
+00051 Fructose and mannose metabolism	K08261
+00051 Fructose and mannose metabolism	K17742
+00051 Fructose and mannose metabolism	K19633
+00051 Fructose and mannose metabolism	K00045
+00051 Fructose and mannose metabolism	K01795
+00051 Fructose and mannose metabolism	K01729
+00051 Fructose and mannose metabolism	K03332
+00051 Fructose and mannose metabolism	K00881
+00051 Fructose and mannose metabolism	K17195
+00051 Fructose and mannose metabolism	K19270
+00051 Fructose and mannose metabolism	K24204
+00562 Inositol phosphate metabolism	K03103
+00562 Inositol phosphate metabolism	K00469
+00562 Inositol phosphate metabolism	K01771
+00562 Inositol phosphate metabolism	K19517
+00562 Inositol phosphate metabolism	K24222
+00562 Inositol phosphate metabolism	K24221
+00562 Inositol phosphate metabolism	K01765
+00562 Inositol phosphate metabolism	K01083
+00562 Inositol phosphate metabolism	K23992
+00562 Inositol phosphate metabolism	K07281
+00562 Inositol phosphate metabolism	K07291
+00562 Inositol phosphate metabolism	K06606
+00562 Inositol phosphate metabolism	K16043
+00562 Inositol phosphate metabolism	K16044
+00562 Inositol phosphate metabolism	K22230
+00562 Inositol phosphate metabolism	K22231
+00562 Inositol phosphate metabolism	K22232
+00562 Inositol phosphate metabolism	K22233
+00562 Inositol phosphate metabolism	K03335
+00562 Inositol phosphate metabolism	K03336
+00562 Inositol phosphate metabolism	K03337
+00562 Inositol phosphate metabolism	K03338
+00562 Inositol phosphate metabolism	K03339
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K09658
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K03859
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K03858
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K03861
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K03860
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K11001
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K11002
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K03434
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K05283
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K01127
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K07541
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K05285
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K05288
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K05287
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K05310
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K05289
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K05290
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K05291
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K05292
+00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis	K05293
+00281 Geraniol degradation	K12957
+00281 Geraniol degradation	K19653
+00281 Geraniol degradation	K17832
+00281 Geraniol degradation	K13774
+00281 Geraniol degradation	K13775
+00281 Geraniol degradation	K11731
+00281 Geraniol degradation	K13777
+00281 Geraniol degradation	K13778
+00281 Geraniol degradation	K13779
+00906 Carotenoid biosynthesis	K17841
+00906 Carotenoid biosynthesis	K02293
+00906 Carotenoid biosynthesis	K15744
+00906 Carotenoid biosynthesis	K00514
+00906 Carotenoid biosynthesis	K09835
+00906 Carotenoid biosynthesis	K10027
+00906 Carotenoid biosynthesis	K15745
+00906 Carotenoid biosynthesis	K06444
+00906 Carotenoid biosynthesis	K06443
+00906 Carotenoid biosynthesis	K20616
+00906 Carotenoid biosynthesis	K20611
+00906 Carotenoid biosynthesis	K08977
+00906 Carotenoid biosynthesis	K22502
+00906 Carotenoid biosynthesis	K14605
+00906 Carotenoid biosynthesis	K14606
+00906 Carotenoid biosynthesis	K02292
+00906 Carotenoid biosynthesis	K09836
+00906 Carotenoid biosynthesis	K23037
+00906 Carotenoid biosynthesis	K15746
+00906 Carotenoid biosynthesis	K02294
+00906 Carotenoid biosynthesis	K09838
+00906 Carotenoid biosynthesis	K09839
+00906 Carotenoid biosynthesis	K14593
+00906 Carotenoid biosynthesis	K14594
+00906 Carotenoid biosynthesis	K09840
+00906 Carotenoid biosynthesis	K09841
+00906 Carotenoid biosynthesis	K09842
+00906 Carotenoid biosynthesis	K15748
+00906 Carotenoid biosynthesis	K17911
+00906 Carotenoid biosynthesis	K17912
+00906 Carotenoid biosynthesis	K17913
+00906 Carotenoid biosynthesis	K09879
+00906 Carotenoid biosynthesis	K09844
+00906 Carotenoid biosynthesis	K09845
+00906 Carotenoid biosynthesis	K09846
+00906 Carotenoid biosynthesis	K09847
+00906 Carotenoid biosynthesis	K14597
+00906 Carotenoid biosynthesis	K14598
+00906 Carotenoid biosynthesis	K25073
+00906 Carotenoid biosynthesis	K25074
+00906 Carotenoid biosynthesis	K10209
+00906 Carotenoid biosynthesis	K10210
+00906 Carotenoid biosynthesis	K22445
+00906 Carotenoid biosynthesis	K25072
+00906 Carotenoid biosynthesis	K10211
+00906 Carotenoid biosynthesis	K10212
+00906 Carotenoid biosynthesis	K17842
+00906 Carotenoid biosynthesis	K17819
+00290 Valine, leucine and isoleucine biosynthesis	K01649
+00290 Valine, leucine and isoleucine biosynthesis	K09011
+00290 Valine, leucine and isoleucine biosynthesis	K01704
+00290 Valine, leucine and isoleucine biosynthesis	K00052
+00290 Valine, leucine and isoleucine biosynthesis	K01754
+00290 Valine, leucine and isoleucine biosynthesis	K17989
+00290 Valine, leucine and isoleucine biosynthesis	K00263
+00290 Valine, leucine and isoleucine biosynthesis	K01702
+00620 Pyruvate metabolism	K00163
+00620 Pyruvate metabolism	K00627
+00620 Pyruvate metabolism	K04022
+00620 Pyruvate metabolism	K22473
+00620 Pyruvate metabolism	K22474
+00620 Pyruvate metabolism	K00138
+00620 Pyruvate metabolism	K00116
+00620 Pyruvate metabolism	K04021
+00620 Pyruvate metabolism	K04020
+00620 Pyruvate metabolism	K01067
+00620 Pyruvate metabolism	K00158
+00620 Pyruvate metabolism	K00101
+00620 Pyruvate metabolism	K00156
+00620 Pyruvate metabolism	K00467
+00620 Pyruvate metabolism	K03778
+00620 Pyruvate metabolism	K03777
+00620 Pyruvate metabolism	K21836
+00620 Pyruvate metabolism	K00102
+00620 Pyruvate metabolism	K18930
+00620 Pyruvate metabolism	K21618
+00620 Pyruvate metabolism	K19266
+00620 Pyruvate metabolism	K01759
+00620 Pyruvate metabolism	K01069
+00620 Pyruvate metabolism	K22211
+00620 Pyruvate metabolism	K22373
+00620 Pyruvate metabolism	K01003
+00620 Pyruvate metabolism	K22212
+00620 Pyruvate metabolism	K20370
+00620 Pyruvate metabolism	K02594
+09105 Amino acid metabolism	00400 Phenylalanine, tyrosine and tryptophan biosynthesis
+09105 Amino acid metabolism	00260 Glycine, serine and threonine metabolism
+09105 Amino acid metabolism	00350 Tyrosine metabolism
+09105 Amino acid metabolism	00300 Lysine biosynthesis
+09105 Amino acid metabolism	00380 Tryptophan metabolism
+09105 Amino acid metabolism	00270 Cysteine and methionine metabolism
+09105 Amino acid metabolism	00280 Valine, leucine and isoleucine degradation
+09105 Amino acid metabolism	00290 Valine, leucine and isoleucine biosynthesis
+09105 Amino acid metabolism	00330 Arginine and proline metabolism
+09105 Amino acid metabolism	00340 Histidine metabolism
+09105 Amino acid metabolism	00250 Alanine, aspartate and glutamate metabolism
+09105 Amino acid metabolism	00220 Arginine biosynthesis
+09105 Amino acid metabolism	00360 Phenylalanine metabolism
+09105 Amino acid metabolism	00310 Lysine degradation
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K16305
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K16306
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K01694
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K01695
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K01696
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K06001
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K24017
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K00270
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K03856
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K13853
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K01735
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K13829
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K11646
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K03785
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K03786
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K09484
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K25901
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K05358
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K05887
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K00891
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K00800
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K01736
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K01656
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K13501
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K13503
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K00766
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K13497
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K01817
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K01609
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K13498
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K01850
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K04092
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K04093
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K14170
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K04516
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K06208
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K06209
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K00211
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K15226
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K15227
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K01713
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K04518
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K05359
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K17748
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K17749
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K17750
+00400 Phenylalanine, tyrosine and tryptophan biosynthesis	K18239
+00260 Glycine, serine and threonine metabolism	K15634
+00260 Glycine, serine and threonine metabolism	K15633
+00260 Glycine, serine and threonine metabolism	K15635
+00260 Glycine, serine and threonine metabolism	K01837
+00260 Glycine, serine and threonine metabolism	K00090
+00260 Glycine, serine and threonine metabolism	K11529
+00260 Glycine, serine and threonine metabolism	K00049
+00260 Glycine, serine and threonine metabolism	K12972
+00260 Glycine, serine and threonine metabolism	K15919
+00260 Glycine, serine and threonine metabolism	K00018
+00260 Glycine, serine and threonine metabolism	K15893
+00260 Glycine, serine and threonine metabolism	K22982
+00260 Glycine, serine and threonine metabolism	K00281
+00260 Glycine, serine and threonine metabolism	K00282
+00260 Glycine, serine and threonine metabolism	K00283
+00260 Glycine, serine and threonine metabolism	K02437
+00260 Glycine, serine and threonine metabolism	K00865
+00260 Glycine, serine and threonine metabolism	K15918
+00260 Glycine, serine and threonine metabolism	K02203
+00260 Glycine, serine and threonine metabolism	K22305
+00260 Glycine, serine and threonine metabolism	K25528
+00260 Glycine, serine and threonine metabolism	K00998
+00260 Glycine, serine and threonine metabolism	K17103
+00260 Glycine, serine and threonine metabolism	K16066
+00260 Glycine, serine and threonine metabolism	K00872
+00260 Glycine, serine and threonine metabolism	K02204
+00260 Glycine, serine and threonine metabolism	K01620
+00260 Glycine, serine and threonine metabolism	K13290
+00260 Glycine, serine and threonine metabolism	K20801
+00260 Glycine, serine and threonine metabolism	K00060
+00260 Glycine, serine and threonine metabolism	K15789
+00260 Glycine, serine and threonine metabolism	K00499
+00260 Glycine, serine and threonine metabolism	K00108
+00260 Glycine, serine and threonine metabolism	K11440
+00260 Glycine, serine and threonine metabolism	K17755
+00260 Glycine, serine and threonine metabolism	K00130
+00260 Glycine, serine and threonine metabolism	K25220
+00260 Glycine, serine and threonine metabolism	K00479
+00260 Glycine, serine and threonine metabolism	K21832
+00260 Glycine, serine and threonine metabolism	K00309
+00260 Glycine, serine and threonine metabolism	K00315
+00260 Glycine, serine and threonine metabolism	K21833
+00260 Glycine, serine and threonine metabolism	K21834
+00260 Glycine, serine and threonine metabolism	K25960
+00260 Glycine, serine and threonine metabolism	K25961
+00260 Glycine, serine and threonine metabolism	K00301
+00260 Glycine, serine and threonine metabolism	K00302
+00260 Glycine, serine and threonine metabolism	K00303
+00260 Glycine, serine and threonine metabolism	K00305
+00260 Glycine, serine and threonine metabolism	K00304
+00260 Glycine, serine and threonine metabolism	K00314
+00260 Glycine, serine and threonine metabolism	K00552
+00260 Glycine, serine and threonine metabolism	K18896
+00260 Glycine, serine and threonine metabolism	K18897
+00260 Glycine, serine and threonine metabolism	K24071
+00260 Glycine, serine and threonine metabolism	K13042
+00260 Glycine, serine and threonine metabolism	K06718
+00260 Glycine, serine and threonine metabolism	K06720
+00260 Glycine, serine and threonine metabolism	K10674
+00260 Glycine, serine and threonine metabolism	K13745
+00260 Glycine, serine and threonine metabolism	K15783
+00260 Glycine, serine and threonine metabolism	K15784
+00260 Glycine, serine and threonine metabolism	K15785
+00260 Glycine, serine and threonine metabolism	K15786
+00350 Tyrosine metabolism	K18857
+00350 Tyrosine metabolism	K24287
+00350 Tyrosine metabolism	K22203
+00350 Tyrosine metabolism	K22329
+00350 Tyrosine metabolism	K22330
+00350 Tyrosine metabolism	K00503
+00350 Tyrosine metabolism	K00553
+00350 Tyrosine metabolism	K25271
+00350 Tyrosine metabolism	K25272
+00350 Tyrosine metabolism	K01618
+00350 Tyrosine metabolism	K00483
+00350 Tyrosine metabolism	K23492
+00350 Tyrosine metabolism	K00455
+00350 Tyrosine metabolism	K00151
+00350 Tyrosine metabolism	K01826
+00350 Tyrosine metabolism	K05921
+00350 Tyrosine metabolism	K02509
+00350 Tyrosine metabolism	K02510
+00350 Tyrosine metabolism	K01668
+00350 Tyrosine metabolism	K10774
+00350 Tyrosine metabolism	K00450
+00350 Tyrosine metabolism	K01801
+00350 Tyrosine metabolism	K16163
+00350 Tyrosine metabolism	K01557
+00350 Tyrosine metabolism	K16164
+00350 Tyrosine metabolism	K16165
+00350 Tyrosine metabolism	K20758
+00350 Tyrosine metabolism	K21425
+00300 Lysine biosynthesis	K17753
+00300 Lysine biosynthesis	K01655
+00300 Lysine biosynthesis	K10977
+00300 Lysine biosynthesis	K16792
+00300 Lysine biosynthesis	K16793
+00300 Lysine biosynthesis	K10978
+00300 Lysine biosynthesis	K00003
+00300 Lysine biosynthesis	K00674
+00300 Lysine biosynthesis	K05822
+00300 Lysine biosynthesis	K03340
+00300 Lysine biosynthesis	K17450
+00300 Lysine biosynthesis	K01705
+00300 Lysine biosynthesis	K05824
+00300 Lysine biosynthesis	K05825
+00300 Lysine biosynthesis	K00143
+00300 Lysine biosynthesis	K05827
+00300 Lysine biosynthesis	K16180
+00300 Lysine biosynthesis	K16181
+00300 Lysine biosynthesis	K16182
+00380 Tryptophan metabolism	K00658
+00380 Tryptophan metabolism	K01432
+00380 Tryptophan metabolism	K14263
+00380 Tryptophan metabolism	K07130
+00380 Tryptophan metabolism	K00837
+00380 Tryptophan metabolism	K11182
+00380 Tryptophan metabolism	K16901
+00380 Tryptophan metabolism	K23109
+00380 Tryptophan metabolism	K00453
+00380 Tryptophan metabolism	K00486
+00380 Tryptophan metabolism	K01556
+00380 Tryptophan metabolism	K00452
+00380 Tryptophan metabolism	K03392
+00380 Tryptophan metabolism	K23234
+00380 Tryptophan metabolism	K15067
+00380 Tryptophan metabolism	K01667
+00380 Tryptophan metabolism	K00543
+00380 Tryptophan metabolism	K00669
+00380 Tryptophan metabolism	K22450
+00380 Tryptophan metabolism	K22588
+00380 Tryptophan metabolism	K11816
+00380 Tryptophan metabolism	K16903
+00380 Tryptophan metabolism	K04103
+00380 Tryptophan metabolism	K11817
+00380 Tryptophan metabolism	K22417
+00380 Tryptophan metabolism	K00466
+00380 Tryptophan metabolism	K21801
+00380 Tryptophan metabolism	K01237
+00380 Tryptophan metabolism	K20219
+00380 Tryptophan metabolism	K23947
+00380 Tryptophan metabolism	K23384
+00270 Cysteine and methionine metabolism	K00026
+00270 Cysteine and methionine metabolism	K00024
+00270 Cysteine and methionine metabolism	K23304
+00270 Cysteine and methionine metabolism	K10150
+00270 Cysteine and methionine metabolism	K01738
+00270 Cysteine and methionine metabolism	K17069
+00270 Cysteine and methionine metabolism	K00651
+00270 Cysteine and methionine metabolism	K00641
+00270 Cysteine and methionine metabolism	K10764
+00270 Cysteine and methionine metabolism	K17217
+00270 Cysteine and methionine metabolism	K05810
+00270 Cysteine and methionine metabolism	K09758
+00270 Cysteine and methionine metabolism	K00544
+00270 Cysteine and methionine metabolism	K01697
+00270 Cysteine and methionine metabolism	K01752
+00270 Cysteine and methionine metabolism	K21623
+00270 Cysteine and methionine metabolism	K17216
+00270 Cysteine and methionine metabolism	K00547
+00270 Cysteine and methionine metabolism	K01243
+00270 Cysteine and methionine metabolism	K01244
+00270 Cysteine and methionine metabolism	K00899
+00270 Cysteine and methionine metabolism	K00772
+00270 Cysteine and methionine metabolism	K12960
+00270 Cysteine and methionine metabolism	K19696
+00270 Cysteine and methionine metabolism	K08963
+00270 Cysteine and methionine metabolism	K08964
+00270 Cysteine and methionine metabolism	K16054
+00270 Cysteine and methionine metabolism	K08965
+00270 Cysteine and methionine metabolism	K08966
+00270 Cysteine and methionine metabolism	K09880
+00270 Cysteine and methionine metabolism	K08967
+00270 Cysteine and methionine metabolism	K23977
+00270 Cysteine and methionine metabolism	K25035
+00270 Cysteine and methionine metabolism	K01767
+00270 Cysteine and methionine metabolism	K08968
+00270 Cysteine and methionine metabolism	K17462
+00270 Cysteine and methionine metabolism	K05933
+00270 Cysteine and methionine metabolism	K01505
+00270 Cysteine and methionine metabolism	K23975
+00270 Cysteine and methionine metabolism	K23976
+00270 Cysteine and methionine metabolism	K01740
+00270 Cysteine and methionine metabolism	K22207
+00270 Cysteine and methionine metabolism	K20021
+00270 Cysteine and methionine metabolism	K16843
+00270 Cysteine and methionine metabolism	K16844
+00270 Cysteine and methionine metabolism	K16845
+00270 Cysteine and methionine metabolism	K16846
+00270 Cysteine and methionine metabolism	K17950
+00270 Cysteine and methionine metabolism	K12339
+00270 Cysteine and methionine metabolism	K22846
+00270 Cysteine and methionine metabolism	K23370
+00270 Cysteine and methionine metabolism	K22847
+00280 Valine, leucine and isoleucine degradation	K11263
+00280 Valine, leucine and isoleucine degradation	K18472
+00280 Valine, leucine and isoleucine degradation	K05606
+00280 Valine, leucine and isoleucine degradation	K01965
+00280 Valine, leucine and isoleucine degradation	K01966
+00280 Valine, leucine and isoleucine degradation	K19312
+00280 Valine, leucine and isoleucine degradation	K22568
+00280 Valine, leucine and isoleucine degradation	K01964
+00280 Valine, leucine and isoleucine degradation	K15036
+00280 Valine, leucine and isoleucine degradation	K15037
+00280 Valine, leucine and isoleucine degradation	K01847
+00280 Valine, leucine and isoleucine degradation	K01849
+00280 Valine, leucine and isoleucine degradation	K01848
+00280 Valine, leucine and isoleucine degradation	K00166
+00280 Valine, leucine and isoleucine degradation	K00167
+00280 Valine, leucine and isoleucine degradation	K11381
+00280 Valine, leucine and isoleucine degradation	K09699
+00280 Valine, leucine and isoleucine degradation	K01027
+00280 Valine, leucine and isoleucine degradation	K01028
+00280 Valine, leucine and isoleucine degradation	K01029
+00280 Valine, leucine and isoleucine degradation	K18660
+00280 Valine, leucine and isoleucine degradation	K07508
+00280 Valine, leucine and isoleucine degradation	K07509
+00280 Valine, leucine and isoleucine degradation	K09478
+00280 Valine, leucine and isoleucine degradation	K00271
+00280 Valine, leucine and isoleucine degradation	K00186
+00280 Valine, leucine and isoleucine degradation	K00187
+00280 Valine, leucine and isoleucine degradation	K00188
+00280 Valine, leucine and isoleucine degradation	K00253
+00280 Valine, leucine and isoleucine degradation	K11410
+00280 Valine, leucine and isoleucine degradation	K11538
+00280 Valine, leucine and isoleucine degradation	K00020
+00280 Valine, leucine and isoleucine degradation	K18661
+00280 Valine, leucine and isoleucine degradation	K01968
+00280 Valine, leucine and isoleucine degradation	K01969
+00280 Valine, leucine and isoleucine degradation	K05607
+00280 Valine, leucine and isoleucine degradation	K13766
+00330 Arginine and proline metabolism	K18123
+00330 Arginine and proline metabolism	K01485
+00330 Arginine and proline metabolism	K03365
+00330 Arginine and proline metabolism	K00294
+00330 Arginine and proline metabolism	K00613
+00330 Arginine and proline metabolism	K00542
+00330 Arginine and proline metabolism	K08688
+00330 Arginine and proline metabolism	K01611
+00330 Arginine and proline metabolism	K00491
+00330 Arginine and proline metabolism	K01470
+00330 Arginine and proline metabolism	K01473
+00330 Arginine and proline metabolism	K01474
+00330 Arginine and proline metabolism	K08687
+00330 Arginine and proline metabolism	K01583
+00330 Arginine and proline metabolism	K01584
+00330 Arginine and proline metabolism	K01585
+00330 Arginine and proline metabolism	K02626
+00330 Arginine and proline metabolism	K01480
+00330 Arginine and proline metabolism	K10536
+00330 Arginine and proline metabolism	K12251
+00330 Arginine and proline metabolism	K13746
+00330 Arginine and proline metabolism	K13747
+00330 Arginine and proline metabolism	K03343
+00330 Arginine and proline metabolism	K12254
+00330 Arginine and proline metabolism	K21639
+00330 Arginine and proline metabolism	K12253
+00330 Arginine and proline metabolism	K12255
+00330 Arginine and proline metabolism	K00673
+00330 Arginine and proline metabolism	K01484
+00330 Arginine and proline metabolism	K06447
+00330 Arginine and proline metabolism	K05526
+00330 Arginine and proline metabolism	K09470
+00330 Arginine and proline metabolism	K09471
+00330 Arginine and proline metabolism	K09472
+00330 Arginine and proline metabolism	K23233
+00330 Arginine and proline metabolism	K00296
+00330 Arginine and proline metabolism	K24952
+00330 Arginine and proline metabolism	K24953
+00330 Arginine and proline metabolism	K24954
+00330 Arginine and proline metabolism	K24955
+00330 Arginine and proline metabolism	K00934
+00330 Arginine and proline metabolism	K00286
+00330 Arginine and proline metabolism	K00318
+00330 Arginine and proline metabolism	K01750
+00330 Arginine and proline metabolism	K12657
+00330 Arginine and proline metabolism	K22842
+00330 Arginine and proline metabolism	K00472
+00330 Arginine and proline metabolism	K23121
+00330 Arginine and proline metabolism	K11394
+00330 Arginine and proline metabolism	K18384
+00330 Arginine and proline metabolism	K22548
+00330 Arginine and proline metabolism	K21624
+00330 Arginine and proline metabolism	K09123
+00330 Arginine and proline metabolism	K19742
+00340 Histidine metabolism	K01458
+00340 Histidine metabolism	K01437
+00340 Histidine metabolism	K00765
+00340 Histidine metabolism	K02502
+00340 Histidine metabolism	K01523
+00340 Histidine metabolism	K01496
+00340 Histidine metabolism	K11755
+00340 Histidine metabolism	K14152
+00340 Histidine metabolism	K01814
+00340 Histidine metabolism	K02501
+00340 Histidine metabolism	K02500
+00340 Histidine metabolism	K01663
+00340 Histidine metabolism	K01693
+00340 Histidine metabolism	K01089
+00340 Histidine metabolism	K05602
+00340 Histidine metabolism	K04486
+00340 Histidine metabolism	K00013
+00340 Histidine metabolism	K01745
+00340 Histidine metabolism	K01712
+00340 Histidine metabolism	K01468
+00340 Histidine metabolism	K01479
+00340 Histidine metabolism	K05603
+00340 Histidine metabolism	K17363
+00340 Histidine metabolism	K01590
+00340 Histidine metabolism	K19787
+00340 Histidine metabolism	K22437
+00340 Histidine metabolism	K20246
+00340 Histidine metabolism	K18911
+00340 Histidine metabolism	K18912
+00340 Histidine metabolism	K07008
+00340 Histidine metabolism	K20247
+00340 Histidine metabolism	K18913
+00250 Alanine, aspartate and glutamate metabolism	K16871
+00250 Alanine, aspartate and glutamate metabolism	K00139
+00250 Alanine, aspartate and glutamate metabolism	K17761
+00250 Alanine, aspartate and glutamate metabolism	K00264
+00250 Alanine, aspartate and glutamate metabolism	K00266
+00250 Alanine, aspartate and glutamate metabolism	K01756
+00250 Alanine, aspartate and glutamate metabolism	K01939
+00250 Alanine, aspartate and glutamate metabolism	K11541
+00250 Alanine, aspartate and glutamate metabolism	K01954
+00250 Alanine, aspartate and glutamate metabolism	K01955
+00250 Alanine, aspartate and glutamate metabolism	K01956
+00250 Alanine, aspartate and glutamate metabolism	K00609
+00250 Alanine, aspartate and glutamate metabolism	K00610
+00250 Alanine, aspartate and glutamate metabolism	K00608
+00250 Alanine, aspartate and glutamate metabolism	K22457
+00250 Alanine, aspartate and glutamate metabolism	K13566
+00250 Alanine, aspartate and glutamate metabolism	K01744
+00250 Alanine, aspartate and glutamate metabolism	K18309
+00250 Alanine, aspartate and glutamate metabolism	K18310
+00250 Alanine, aspartate and glutamate metabolism	K18311
+00250 Alanine, aspartate and glutamate metabolism	K08590
+00220 Arginine biosynthesis	K00262
+00220 Arginine biosynthesis	K00926
+00220 Arginine biosynthesis	K14681
+00220 Arginine biosynthesis	K05826
+00220 Arginine biosynthesis	K25032
+00220 Arginine biosynthesis	K05828
+00220 Arginine biosynthesis	K05829
+00220 Arginine biosynthesis	K05831
+00220 Arginine biosynthesis	K00611
+00220 Arginine biosynthesis	K09065
+00220 Arginine biosynthesis	K01478
+00220 Arginine biosynthesis	K11067
+00220 Arginine biosynthesis	K00618
+00220 Arginine biosynthesis	K00619
+00220 Arginine biosynthesis	K14682
+00220 Arginine biosynthesis	K00620
+00220 Arginine biosynthesis	K22476
+00220 Arginine biosynthesis	K22477
+00220 Arginine biosynthesis	K22478
+00220 Arginine biosynthesis	K00930
+00220 Arginine biosynthesis	K00145
+00220 Arginine biosynthesis	K12659
+00220 Arginine biosynthesis	K01438
+00220 Arginine biosynthesis	K19412
+00360 Phenylalanine metabolism	K00529
+00360 Phenylalanine metabolism	K13574
+00360 Phenylalanine metabolism	K22328
+00360 Phenylalanine metabolism	K22427
+00360 Phenylalanine metabolism	K02614
+00360 Phenylalanine metabolism	K02609
+00360 Phenylalanine metabolism	K02610
+00360 Phenylalanine metabolism	K02611
+00360 Phenylalanine metabolism	K02612
+00360 Phenylalanine metabolism	K02613
+00360 Phenylalanine metabolism	K15866
+00360 Phenylalanine metabolism	K02618
+00360 Phenylalanine metabolism	K02615
+00360 Phenylalanine metabolism	K18361
+00360 Phenylalanine metabolism	K18362
+00360 Phenylalanine metabolism	K18363
+00360 Phenylalanine metabolism	K18360
+00360 Phenylalanine metabolism	K18355
+00360 Phenylalanine metabolism	K18356
+00360 Phenylalanine metabolism	K18357
+00360 Phenylalanine metabolism	K18358
+00360 Phenylalanine metabolism	K18359
+00360 Phenylalanine metabolism	K15517
+00360 Phenylalanine metabolism	K03825
+00360 Phenylalanine metabolism	K12732
+00360 Phenylalanine metabolism	K21795
+00360 Phenylalanine metabolism	K10797
+00360 Phenylalanine metabolism	K05708
+00360 Phenylalanine metabolism	K05709
+00360 Phenylalanine metabolism	K05710
+00360 Phenylalanine metabolism	K05711
+00360 Phenylalanine metabolism	K05712
+00360 Phenylalanine metabolism	K05713
+00360 Phenylalanine metabolism	K05714
+00310 Lysine degradation	K00293
+00310 Lysine degradation	K00290
+00310 Lysine degradation	K14157
+00310 Lysine degradation	K26061
+00310 Lysine degradation	K26062
+00310 Lysine degradation	K18201
+00310 Lysine degradation	K18202
+00310 Lysine degradation	K00468
+00310 Lysine degradation	K01506
+00310 Lysine degradation	K15737
+00310 Lysine degradation	K15736
+00310 Lysine degradation	K25986
+00310 Lysine degradation	K26063
+00310 Lysine degradation	K01041
+00310 Lysine degradation	K01843
+00310 Lysine degradation	K18012
+00310 Lysine degradation	K18013
+00310 Lysine degradation	K18014
+00310 Lysine degradation	K26064
+00310 Lysine degradation	K26065
+00310 Lysine degradation	K18854
+00310 Lysine degradation	K18804
+00310 Lysine degradation	K18826
+00310 Lysine degradation	K00474
+00310 Lysine degradation	K00471
+00310 Lysine degradation	K13645
+00310 Lysine degradation	K13647
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K00511
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15891
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15793
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14173
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14174
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K22064
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14175
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K10156
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14176
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K21984
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14177
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15794
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15795
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15796
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15797
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K12249
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14178
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15798
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15799
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14179
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K21927
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15800
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15801
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15802
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15803
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K10187
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14180
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15804
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14181
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14182
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15806
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K18109
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15807
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K18110
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15808
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14184
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K18111
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K18112
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14185
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14186
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K14183
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K22065
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15809
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K26054
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K06045
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15810
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15811
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K19010
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15815
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15813
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K20658
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K21928
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15816
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K20659
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15818
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15819
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15820
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K16204
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K16205
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K16206
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15821
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15822
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K15823
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K19011
+00909 Sesquiterpenoid and triterpenoid biosynthesis	K16207
+00908 Zeatin biosynthesis	K00279
+00908 Zeatin biosynthesis	K13492
+00908 Zeatin biosynthesis	K13494
+00908 Zeatin biosynthesis	K13495
+00640 Propanoate metabolism	K01899
+00640 Propanoate metabolism	K23257
+00640 Propanoate metabolism	K00048
+00640 Propanoate metabolism	K00932
+00640 Propanoate metabolism	K19697
+00640 Propanoate metabolism	K13923
+00640 Propanoate metabolism	K19745
+00640 Propanoate metabolism	K20143
+00640 Propanoate metabolism	K03416
+00640 Propanoate metabolism	K17489
+00640 Propanoate metabolism	K17490
+00640 Propanoate metabolism	K18426
+00640 Propanoate metabolism	K11264
+00640 Propanoate metabolism	K22214
+00640 Propanoate metabolism	K01659
+00640 Propanoate metabolism	K01720
+00640 Propanoate metabolism	K20455
+00640 Propanoate metabolism	K09788
+00640 Propanoate metabolism	K03417
+00640 Propanoate metabolism	K01734
+00640 Propanoate metabolism	K08325
+00640 Propanoate metabolism	K18471
+00640 Propanoate metabolism	K01699
+00640 Propanoate metabolism	K13919
+00640 Propanoate metabolism	K13920
+00640 Propanoate metabolism	K13921
+00640 Propanoate metabolism	K13922
+00053 Ascorbate and aldarate metabolism	K08092
+00053 Ascorbate and aldarate metabolism	K00880
+00053 Ascorbate and aldarate metabolism	K03078
+00053 Ascorbate and aldarate metabolism	K03079
+00053 Ascorbate and aldarate metabolism	K03077
+00053 Ascorbate and aldarate metabolism	K24443
+00053 Ascorbate and aldarate metabolism	K14259
+00053 Ascorbate and aldarate metabolism	K00064
+00053 Ascorbate and aldarate metabolism	K00103
+00053 Ascorbate and aldarate metabolism	K14190
+00053 Ascorbate and aldarate metabolism	K17744
+00053 Ascorbate and aldarate metabolism	K00225
+00053 Ascorbate and aldarate metabolism	K19642
+00053 Ascorbate and aldarate metabolism	K23003
+00053 Ascorbate and aldarate metabolism	K23004
+00053 Ascorbate and aldarate metabolism	K23005
+00053 Ascorbate and aldarate metabolism	K23007
+00053 Ascorbate and aldarate metabolism	K03476
+00053 Ascorbate and aldarate metabolism	K08232
+00053 Ascorbate and aldarate metabolism	K00423
+00053 Ascorbate and aldarate metabolism	K01706
+00053 Ascorbate and aldarate metabolism	K01630
+00053 Ascorbate and aldarate metabolism	K00062
+00053 Ascorbate and aldarate metabolism	K00063
+00053 Ascorbate and aldarate metabolism	K00107
+00053 Ascorbate and aldarate metabolism	K19590
+00053 Ascorbate and aldarate metabolism	K01683
+00053 Ascorbate and aldarate metabolism	K13873
+00053 Ascorbate and aldarate metabolism	K19660
+00053 Ascorbate and aldarate metabolism	K13874
+00053 Ascorbate and aldarate metabolism	K13875
+00053 Ascorbate and aldarate metabolism	K13876
+00053 Ascorbate and aldarate metabolism	K25260
+00053 Ascorbate and aldarate metabolism	K01707
+00053 Ascorbate and aldarate metabolism	K01708
+00053 Ascorbate and aldarate metabolism	K20023
+00053 Ascorbate and aldarate metabolism	K18981
+00053 Ascorbate and aldarate metabolism	K18982
+00053 Ascorbate and aldarate metabolism	K18983
+00642 Ethylbenzene degradation	K00632
+00642 Ethylbenzene degradation	K14746
+00642 Ethylbenzene degradation	K10701
+00642 Ethylbenzene degradation	K14747
+00642 Ethylbenzene degradation	K14748
+00642 Ethylbenzene degradation	K14749
+00642 Ethylbenzene degradation	K14750
+00642 Ethylbenzene degradation	K14751
+00642 Ethylbenzene degradation	K18092
+00572 Arabinogalactan biosynthesis - Mycobacterium	K18851
+00627 Aminobenzoate degradation	K01512
+00627 Aminobenzoate degradation	K19709
+00627 Aminobenzoate degradation	K10219
+00627 Aminobenzoate degradation	K03186
+00627 Aminobenzoate degradation	K14333
+00627 Aminobenzoate degradation	K10221
+00627 Aminobenzoate degradation	K04105
+00627 Aminobenzoate degradation	K20458
+00627 Aminobenzoate degradation	K04107
+00627 Aminobenzoate degradation	K04108
+00627 Aminobenzoate degradation	K04109
+00627 Aminobenzoate degradation	K04110
+00627 Aminobenzoate degradation	K10215
+00627 Aminobenzoate degradation	K18541
+00627 Aminobenzoate degradation	K01781
+00627 Aminobenzoate degradation	K15054
+00627 Aminobenzoate degradation	K01576
+00627 Aminobenzoate degradation	K16239
+00627 Aminobenzoate degradation	K01612
+00627 Aminobenzoate degradation	K21759
+00627 Aminobenzoate degradation	K25932
+00627 Aminobenzoate degradation	K25933
+00627 Aminobenzoate degradation	K25934
+00627 Aminobenzoate degradation	K25935
+00627 Aminobenzoate degradation	K25936
+00627 Aminobenzoate degradation	K25937
+00627 Aminobenzoate degradation	K25938
+00627 Aminobenzoate degradation	K08295
+00627 Aminobenzoate degradation	K09461
+00627 Aminobenzoate degradation	K05599
+00627 Aminobenzoate degradation	K05600
+00627 Aminobenzoate degradation	K11311
+00627 Aminobenzoate degradation	K16319
+00627 Aminobenzoate degradation	K16320
+00627 Aminobenzoate degradation	K18248
+00627 Aminobenzoate degradation	K18249
+00627 Aminobenzoate degradation	K23526
+00627 Aminobenzoate degradation	K23527
+00627 Aminobenzoate degradation	K15055
+00627 Aminobenzoate degradation	K15056
+00627 Aminobenzoate degradation	K15057
+00627 Aminobenzoate degradation	K01865
+00627 Aminobenzoate degradation	K15058
+00627 Aminobenzoate degradation	K15059
+00627 Aminobenzoate degradation	K15060
+00627 Aminobenzoate degradation	K24244
+00627 Aminobenzoate degradation	K24245
+00627 Aminobenzoate degradation	K15061
+00627 Aminobenzoate degradation	K15062
+00627 Aminobenzoate degradation	K15063
+00627 Aminobenzoate degradation	K21802
+00627 Aminobenzoate degradation	K03862
+00627 Aminobenzoate degradation	K03863
+00627 Aminobenzoate degradation	K15066
+00627 Aminobenzoate degradation	K25916
+00627 Aminobenzoate degradation	K04099
+00627 Aminobenzoate degradation	K15064
+00627 Aminobenzoate degradation	K15065
+00627 Aminobenzoate degradation	K22958
+00627 Aminobenzoate degradation	K22959
+00627 Aminobenzoate degradation	K22960
+00627 Aminobenzoate degradation	K01101
+00627 Aminobenzoate degradation	K21725
+00627 Aminobenzoate degradation	K23528
+00627 Aminobenzoate degradation	K21726
+00627 Aminobenzoate degradation	K21727
+00627 Aminobenzoate degradation	K20712
+00627 Aminobenzoate degradation	K20990
+00403 Indole diterpene alkaloid biosynthesis	K18385
+00403 Indole diterpene alkaloid biosynthesis	K18386
+00403 Indole diterpene alkaloid biosynthesis	K18387
+00403 Indole diterpene alkaloid biosynthesis	K18390
+00403 Indole diterpene alkaloid biosynthesis	K18391
+00403 Indole diterpene alkaloid biosynthesis	K18392
+00403 Indole diterpene alkaloid biosynthesis	K18393
+00403 Indole diterpene alkaloid biosynthesis	K18394
+00403 Indole diterpene alkaloid biosynthesis	K18395
+00403 Indole diterpene alkaloid biosynthesis	K18396
+00403 Indole diterpene alkaloid biosynthesis	K18397
+00470 D-Amino acid metabolism	K13877
+00470 D-Amino acid metabolism	K19588
+00470 D-Amino acid metabolism	K23265
+00470 D-Amino acid metabolism	K20498
+00470 D-Amino acid metabolism	K01753
+00470 D-Amino acid metabolism	K12235
+00470 D-Amino acid metabolism	K25316
+00470 D-Amino acid metabolism	K25317
+00470 D-Amino acid metabolism	K05396
+00470 D-Amino acid metabolism	K01778
+00470 D-Amino acid metabolism	K01586
+00470 D-Amino acid metabolism	K23385
+00470 D-Amino acid metabolism	K01844
+00470 D-Amino acid metabolism	K18011
+00470 D-Amino acid metabolism	K21672
+00470 D-Amino acid metabolism	K25365
+00470 D-Amino acid metabolism	K01777
+00470 D-Amino acid metabolism	K10793
+00470 D-Amino acid metabolism	K10794
+00470 D-Amino acid metabolism	K17851
+00470 D-Amino acid metabolism	K00285
+00470 D-Amino acid metabolism	K22210
+00470 D-Amino acid metabolism	K25364
+00470 D-Amino acid metabolism	K19967
+00470 D-Amino acid metabolism	K19746
+00470 D-Amino acid metabolism	K19744
+00470 D-Amino acid metabolism	K17898
+00470 D-Amino acid metabolism	K17899
+00470 D-Amino acid metabolism	K12658
+00470 D-Amino acid metabolism	K21060
+00470 D-Amino acid metabolism	K22549
+00470 D-Amino acid metabolism	K21061
+00470 D-Amino acid metabolism	K22550
+00470 D-Amino acid metabolism	K21062
+00470 D-Amino acid metabolism	K01780
+00470 D-Amino acid metabolism	K23120
+00470 D-Amino acid metabolism	K23122
+00470 D-Amino acid metabolism	K18852
+00071 Fatty acid degradation	K06445
+00071 Fatty acid degradation	K01909
+00071 Fatty acid degradation	K13238
+00071 Fatty acid degradation	K07517
+00071 Fatty acid degradation	K00530
+00071 Fatty acid degradation	K05297
+00071 Fatty acid degradation	K21738
+00071 Fatty acid degradation	K22567
+00785 Lipoic acid metabolism	K03801
+00785 Lipoic acid metabolism	K23734
+00785 Lipoic acid metabolism	K23735
+00785 Lipoic acid metabolism	K03644
+00785 Lipoic acid metabolism	K09711
+00785 Lipoic acid metabolism	K24689
+00785 Lipoic acid metabolism	K10105
+00785 Lipoic acid metabolism	K16869
+00785 Lipoic acid metabolism	K23750
+00785 Lipoic acid metabolism	K03800
+00785 Lipoic acid metabolism	K18821
+00785 Lipoic acid metabolism	K23763
+00410 beta-Alanine metabolism	K00248
+00410 beta-Alanine metabolism	K14729
+00410 beta-Alanine metabolism	K05605
+00410 beta-Alanine metabolism	K23146
+00410 beta-Alanine metabolism	K25571
+00410 beta-Alanine metabolism	K00140
+00410 beta-Alanine metabolism	K00137
+00410 beta-Alanine metabolism	K12259
+00410 beta-Alanine metabolism	K13366
+00410 beta-Alanine metabolism	K00316
+00410 beta-Alanine metabolism	K14755
+00592 alpha-Linolenic acid metabolism	K10527
+00592 alpha-Linolenic acid metabolism	K14674
+00592 alpha-Linolenic acid metabolism	K01058
+00592 alpha-Linolenic acid metabolism	K16818
+00592 alpha-Linolenic acid metabolism	K22389
+00592 alpha-Linolenic acid metabolism	K06900
+00592 alpha-Linolenic acid metabolism	K00454
+00592 alpha-Linolenic acid metabolism	K10525
+00592 alpha-Linolenic acid metabolism	K05894
+00592 alpha-Linolenic acid metabolism	K10526
+00592 alpha-Linolenic acid metabolism	K08241
+00592 alpha-Linolenic acid metabolism	K18858
+00592 alpha-Linolenic acid metabolism	K00224
+00592 alpha-Linolenic acid metabolism	K10529
+00440 Phosphonate and phosphinate metabolism	K13644
+00440 Phosphonate and phosphinate metabolism	K00993
+00440 Phosphonate and phosphinate metabolism	K00967
+00440 Phosphonate and phosphinate metabolism	K19669
+00440 Phosphonate and phosphinate metabolism	K21934
+00440 Phosphonate and phosphinate metabolism	K05306
+00440 Phosphonate and phosphinate metabolism	K19670
+00440 Phosphonate and phosphinate metabolism	K00206
+00440 Phosphonate and phosphinate metabolism	K09994
+00440 Phosphonate and phosphinate metabolism	K21195
+00440 Phosphonate and phosphinate metabolism	K21196
+00440 Phosphonate and phosphinate metabolism	K05915
+00440 Phosphonate and phosphinate metabolism	K25574
+00440 Phosphonate and phosphinate metabolism	K12905
+00440 Phosphonate and phosphinate metabolism	K12906
+00440 Phosphonate and phosphinate metabolism	K12907
+00440 Phosphonate and phosphinate metabolism	K12908
+00440 Phosphonate and phosphinate metabolism	K12909
+00440 Phosphonate and phosphinate metabolism	K12910
+00440 Phosphonate and phosphinate metabolism	K20930
+00440 Phosphonate and phosphinate metabolism	K03823
+00440 Phosphonate and phosphinate metabolism	K12914
+00440 Phosphonate and phosphinate metabolism	K12915
+00440 Phosphonate and phosphinate metabolism	K18049
+00440 Phosphonate and phosphinate metabolism	K23996
+00440 Phosphonate and phosphinate metabolism	K06164
+00440 Phosphonate and phosphinate metabolism	K06166
+00440 Phosphonate and phosphinate metabolism	K06165
+00440 Phosphonate and phosphinate metabolism	K05780
+00440 Phosphonate and phosphinate metabolism	K06162
+00440 Phosphonate and phosphinate metabolism	K06163
+00440 Phosphonate and phosphinate metabolism	K06167
+00440 Phosphonate and phosphinate metabolism	K20859
+00600 Sphingolipid metabolism	K04708
+00600 Sphingolipid metabolism	K04709
+00600 Sphingolipid metabolism	K04711
+00600 Sphingolipid metabolism	K04713
+00600 Sphingolipid metabolism	K05848
+00600 Sphingolipid metabolism	K12352
+00600 Sphingolipid metabolism	K12353
+00600 Sphingolipid metabolism	K12354
+00600 Sphingolipid metabolism	K01117
+00600 Sphingolipid metabolism	K01123
+00600 Sphingolipid metabolism	K04715
+00600 Sphingolipid metabolism	K23451
+00600 Sphingolipid metabolism	K01130
+00920 Sulfur metabolism	K04091
+00920 Sulfur metabolism	K22966
+00920 Sulfur metabolism	K00394
+00920 Sulfur metabolism	K00395
+00920 Sulfur metabolism	K05907
+00920 Sulfur metabolism	K00390
+00920 Sulfur metabolism	K00387
+00920 Sulfur metabolism	K05301
+00920 Sulfur metabolism	K00386
+00920 Sulfur metabolism	K21307
+00920 Sulfur metabolism	K21308
+00920 Sulfur metabolism	K21309
+00920 Sulfur metabolism	K17222
+00920 Sulfur metabolism	K17223
+00920 Sulfur metabolism	K17226
+00920 Sulfur metabolism	K17227
+00920 Sulfur metabolism	K17224
+00920 Sulfur metabolism	K17225
+00920 Sulfur metabolism	K22622
+00920 Sulfur metabolism	K00380
+00920 Sulfur metabolism	K00381
+00920 Sulfur metabolism	K16950
+00920 Sulfur metabolism	K16951
+00920 Sulfur metabolism	K00385
+00920 Sulfur metabolism	K00392
+00920 Sulfur metabolism	K17218
+00920 Sulfur metabolism	K17995
+00920 Sulfur metabolism	K17996
+00920 Sulfur metabolism	K17993
+00920 Sulfur metabolism	K17994
+00920 Sulfur metabolism	K17229
+00920 Sulfur metabolism	K17230
+00920 Sulfur metabolism	K16952
+00920 Sulfur metabolism	K17219
+00920 Sulfur metabolism	K17220
+00920 Sulfur metabolism	K17221
+00920 Sulfur metabolism	K22470
+00920 Sulfur metabolism	K16936
+00920 Sulfur metabolism	K16937
+00920 Sulfur metabolism	K05908
+00920 Sulfur metabolism	K02439
+00920 Sulfur metabolism	K17228
+00920 Sulfur metabolism	K16968
+00920 Sulfur metabolism	K16969
+00920 Sulfur metabolism	K16964
+00920 Sulfur metabolism	K16965
+00920 Sulfur metabolism	K16966
+00920 Sulfur metabolism	K16953
+00920 Sulfur metabolism	K17486
+00920 Sulfur metabolism	K20034
+00920 Sulfur metabolism	K20035
+00920 Sulfur metabolism	K20036
+00920 Sulfur metabolism	K16967
+00920 Sulfur metabolism	K21310
+00920 Sulfur metabolism	K16954
+00920 Sulfur metabolism	K16955
+00100 Steroid biosynthesis	K23485
+00100 Steroid biosynthesis	K01852
+00100 Steroid biosynthesis	K00222
+00100 Steroid biosynthesis	K07750
+00100 Steroid biosynthesis	K07748
+00100 Steroid biosynthesis	K09827
+00100 Steroid biosynthesis	K01824
+00100 Steroid biosynthesis	K09828
+00100 Steroid biosynthesis	K00227
+00100 Steroid biosynthesis	K00213
+00100 Steroid biosynthesis	K00559
+00100 Steroid biosynthesis	K09829
+00100 Steroid biosynthesis	K00223
+00100 Steroid biosynthesis	K01853
+00100 Steroid biosynthesis	K14423
+00100 Steroid biosynthesis	K23558
+00100 Steroid biosynthesis	K08246
+00100 Steroid biosynthesis	K08242
+00100 Steroid biosynthesis	K14424
+00332 Carbapenem biosynthesis	K00931
+00332 Carbapenem biosynthesis	K00147
+00332 Carbapenem biosynthesis	K18583
+00332 Carbapenem biosynthesis	K18582
+00332 Carbapenem biosynthesis	K18562
+00332 Carbapenem biosynthesis	K18563
+00332 Carbapenem biosynthesis	K18564
+00332 Carbapenem biosynthesis	K18565
+00332 Carbapenem biosynthesis	K18566
+00332 Carbapenem biosynthesis	K18568
+00332 Carbapenem biosynthesis	K18569
+00332 Carbapenem biosynthesis	K18570
+00332 Carbapenem biosynthesis	K18571
+00332 Carbapenem biosynthesis	K18572
+00140 Steroid hormone biosynthesis	K13370
+00140 Steroid hormone biosynthesis	K00251
+00140 Steroid hormone biosynthesis	K01131
+00140 Steroid hormone biosynthesis	K01015
+00140 Steroid hormone biosynthesis	K12343
+00140 Steroid hormone biosynthesis	K00038
+00140 Steroid hormone biosynthesis	K05295
+00140 Steroid hormone biosynthesis	K01016
+00140 Steroid hormone biosynthesis	K22970
+00140 Steroid hormone biosynthesis	K25779
+00140 Steroid hormone biosynthesis	K10207
+00900 Terpenoid backbone biosynthesis	K01662
+00900 Terpenoid backbone biosynthesis	K10960
+00900 Terpenoid backbone biosynthesis	K00099
+00900 Terpenoid backbone biosynthesis	K00991
+00900 Terpenoid backbone biosynthesis	K12506
+00900 Terpenoid backbone biosynthesis	K00919
+00900 Terpenoid backbone biosynthesis	K01770
+00900 Terpenoid backbone biosynthesis	K03526
+00900 Terpenoid backbone biosynthesis	K03527
+00900 Terpenoid backbone biosynthesis	K00054
+00900 Terpenoid backbone biosynthesis	K00938
+00900 Terpenoid backbone biosynthesis	K01597
+00900 Terpenoid backbone biosynthesis	K17942
+00900 Terpenoid backbone biosynthesis	K06981
+00900 Terpenoid backbone biosynthesis	K25517
+00900 Terpenoid backbone biosynthesis	K09128
+00900 Terpenoid backbone biosynthesis	K25518
+00900 Terpenoid backbone biosynthesis	K18689
+00900 Terpenoid backbone biosynthesis	K18690
+00900 Terpenoid backbone biosynthesis	K22813
+00900 Terpenoid backbone biosynthesis	K01823
+00900 Terpenoid backbone biosynthesis	K15887
+00900 Terpenoid backbone biosynthesis	K14215
+00900 Terpenoid backbone biosynthesis	K21273
+00900 Terpenoid backbone biosynthesis	K21268
+00900 Terpenoid backbone biosynthesis	K21274
+00900 Terpenoid backbone biosynthesis	K21275
+00900 Terpenoid backbone biosynthesis	K19177
+00900 Terpenoid backbone biosynthesis	K15888
+00900 Terpenoid backbone biosynthesis	K12742
+00900 Terpenoid backbone biosynthesis	K00587
+00900 Terpenoid backbone biosynthesis	K15889
+00900 Terpenoid backbone biosynthesis	K05906
+00900 Terpenoid backbone biosynthesis	K15892
+00965 Betalain biosynthesis	K15777
+00965 Betalain biosynthesis	K15776
+00965 Betalain biosynthesis	K15774
+00965 Betalain biosynthesis	K26038
+00965 Betalain biosynthesis	K15775
+00630 Glyoxylate and dicarboxylate metabolism	K01647
+00630 Glyoxylate and dicarboxylate metabolism	K01616
+00630 Glyoxylate and dicarboxylate metabolism	K01625
+00630 Glyoxylate and dicarboxylate metabolism	K07248
+00630 Glyoxylate and dicarboxylate metabolism	K01638
+00630 Glyoxylate and dicarboxylate metabolism	K01637
+00630 Glyoxylate and dicarboxylate metabolism	K14446
+00630 Glyoxylate and dicarboxylate metabolism	K14447
+00630 Glyoxylate and dicarboxylate metabolism	K14448
+00630 Glyoxylate and dicarboxylate metabolism	K14451
+00630 Glyoxylate and dicarboxylate metabolism	K19280
+00630 Glyoxylate and dicarboxylate metabolism	K19282
+00630 Glyoxylate and dicarboxylate metabolism	K00104
+00630 Glyoxylate and dicarboxylate metabolism	K11472
+00630 Glyoxylate and dicarboxylate metabolism	K11473
+00630 Glyoxylate and dicarboxylate metabolism	K00015
+00630 Glyoxylate and dicarboxylate metabolism	K01091
+00630 Glyoxylate and dicarboxylate metabolism	K22223
+00630 Glyoxylate and dicarboxylate metabolism	K01608
+00630 Glyoxylate and dicarboxylate metabolism	K01816
+00630 Glyoxylate and dicarboxylate metabolism	K00042
+00630 Glyoxylate and dicarboxylate metabolism	K03779
+00630 Glyoxylate and dicarboxylate metabolism	K03780
+00630 Glyoxylate and dicarboxylate metabolism	K01569
+00630 Glyoxylate and dicarboxylate metabolism	K25305
+00630 Glyoxylate and dicarboxylate metabolism	K03418
+00630 Glyoxylate and dicarboxylate metabolism	K22133
+00630 Glyoxylate and dicarboxylate metabolism	K01577
+01040 Biosynthesis of unsaturated fatty acids	K22770
+01040 Biosynthesis of unsaturated fatty acids	K23006
+01040 Biosynthesis of unsaturated fatty acids	K22993
+09113 Global maps only	K13997
+00450 Selenocompound metabolism	K01739
+00450 Selenocompound metabolism	K01760
+00450 Selenocompound metabolism	K00549
+00450 Selenocompound metabolism	K01761
+00450 Selenocompound metabolism	K00562
+00450 Selenocompound metabolism	K01763
+00450 Selenocompound metabolism	K11717
+00450 Selenocompound metabolism	K08247
+00450 Selenocompound metabolism	K00384
+00450 Selenocompound metabolism	K12527
+00450 Selenocompound metabolism	K12528
+00450 Selenocompound metabolism	K12529
+09109 Metabolism of terpenoids and polyketides	00281 Geraniol degradation
+09109 Metabolism of terpenoids and polyketides	01051 Biosynthesis of ansamycins
+09109 Metabolism of terpenoids and polyketides	00523 Polyketide sugar unit biosynthesis
+09109 Metabolism of terpenoids and polyketides	00909 Sesquiterpenoid and triterpenoid biosynthesis
+09109 Metabolism of terpenoids and polyketides	00900 Terpenoid backbone biosynthesis
+09109 Metabolism of terpenoids and polyketides	01053 Biosynthesis of siderophore group nonribosomal peptides
+09109 Metabolism of terpenoids and polyketides	00981 Insect hormone biosynthesis
+09109 Metabolism of terpenoids and polyketides	00902 Monoterpenoid biosynthesis
+09109 Metabolism of terpenoids and polyketides	00903 Limonene and pinene degradation
+09109 Metabolism of terpenoids and polyketides	00904 Diterpenoid biosynthesis
+09109 Metabolism of terpenoids and polyketides	00906 Carotenoid biosynthesis
+09109 Metabolism of terpenoids and polyketides	00905 Brassinosteroid biosynthesis
+09109 Metabolism of terpenoids and polyketides	00908 Zeatin biosynthesis
+09109 Metabolism of terpenoids and polyketides	00522 Biosynthesis of 12-, 14- and 16-membered macrolides
+09109 Metabolism of terpenoids and polyketides	01059 Biosynthesis of enediyne antibiotics
+09109 Metabolism of terpenoids and polyketides	01056 Biosynthesis of type II polyketide backbone
+09109 Metabolism of terpenoids and polyketides	01057 Biosynthesis of type II polyketide products
+09109 Metabolism of terpenoids and polyketides	01055 Biosynthesis of vancomycin group antibiotics
+01051 Biosynthesis of ansamycins	K00615
+01051 Biosynthesis of ansamycins	K16015
+01051 Biosynthesis of ansamycins	K16016
+01051 Biosynthesis of ansamycins	K16017
+01051 Biosynthesis of ansamycins	K16018
+01051 Biosynthesis of ansamycins	K16019
+01051 Biosynthesis of ansamycins	K16020
+01051 Biosynthesis of ansamycins	K16021
+00523 Polyketide sugar unit biosynthesis	K12451
+00523 Polyketide sugar unit biosynthesis	K19180
+00523 Polyketide sugar unit biosynthesis	K19652
+00523 Polyketide sugar unit biosynthesis	K20679
+00523 Polyketide sugar unit biosynthesis	K20680
+00523 Polyketide sugar unit biosynthesis	K20681
+00523 Polyketide sugar unit biosynthesis	K13306
+00523 Polyketide sugar unit biosynthesis	K20678
+00523 Polyketide sugar unit biosynthesis	K21325
+00523 Polyketide sugar unit biosynthesis	K17947
+00523 Polyketide sugar unit biosynthesis	K19853
+00523 Polyketide sugar unit biosynthesis	K19854
+00523 Polyketide sugar unit biosynthesis	K13307
+00523 Polyketide sugar unit biosynthesis	K20682
+00523 Polyketide sugar unit biosynthesis	K13308
+00523 Polyketide sugar unit biosynthesis	K13309
+00523 Polyketide sugar unit biosynthesis	K13310
+00523 Polyketide sugar unit biosynthesis	K13311
+00523 Polyketide sugar unit biosynthesis	K13312
+00523 Polyketide sugar unit biosynthesis	K13313
+00523 Polyketide sugar unit biosynthesis	K19855
+00523 Polyketide sugar unit biosynthesis	K12710
+00523 Polyketide sugar unit biosynthesis	K17625
+00523 Polyketide sugar unit biosynthesis	K21326
+00523 Polyketide sugar unit biosynthesis	K21327
+00523 Polyketide sugar unit biosynthesis	K21328
+00523 Polyketide sugar unit biosynthesis	K21329
+00523 Polyketide sugar unit biosynthesis	K13315
+00523 Polyketide sugar unit biosynthesis	K13317
+00523 Polyketide sugar unit biosynthesis	K13316
+00523 Polyketide sugar unit biosynthesis	K13318
+00523 Polyketide sugar unit biosynthesis	K19856
+00523 Polyketide sugar unit biosynthesis	K19857
+00523 Polyketide sugar unit biosynthesis	K13327
+00523 Polyketide sugar unit biosynthesis	K13328
+00523 Polyketide sugar unit biosynthesis	K13330
+00523 Polyketide sugar unit biosynthesis	K19858
+00523 Polyketide sugar unit biosynthesis	K13319
+00523 Polyketide sugar unit biosynthesis	K13326
+00523 Polyketide sugar unit biosynthesis	K13322
+00523 Polyketide sugar unit biosynthesis	K19859
+00523 Polyketide sugar unit biosynthesis	K13332
+00523 Polyketide sugar unit biosynthesis	K21330
+00523 Polyketide sugar unit biosynthesis	K21331
+00523 Polyketide sugar unit biosynthesis	K21332
+00523 Polyketide sugar unit biosynthesis	K21333
+00523 Polyketide sugar unit biosynthesis	K21335
+00523 Polyketide sugar unit biosynthesis	K21336
+00523 Polyketide sugar unit biosynthesis	K21337
+01053 Biosynthesis of siderophore group nonribosomal peptides	K01851
+01053 Biosynthesis of siderophore group nonribosomal peptides	K02552
+01053 Biosynthesis of siderophore group nonribosomal peptides	K02361
+01053 Biosynthesis of siderophore group nonribosomal peptides	K00216
+01053 Biosynthesis of siderophore group nonribosomal peptides	K04781
+01053 Biosynthesis of siderophore group nonribosomal peptides	K04782
+01053 Biosynthesis of siderophore group nonribosomal peptides	K15652
+01053 Biosynthesis of siderophore group nonribosomal peptides	K09483
+01053 Biosynthesis of siderophore group nonribosomal peptides	K24108
+01053 Biosynthesis of siderophore group nonribosomal peptides	K24109
+00981 Insect hormone biosynthesis	K15890
+00981 Insect hormone biosynthesis	K21013
+00981 Insect hormone biosynthesis	K10718
+00981 Insect hormone biosynthesis	K15824
+00981 Insect hormone biosynthesis	K10719
+00981 Insect hormone biosynthesis	K15825
+00981 Insect hormone biosynthesis	K01063
+00981 Insect hormone biosynthesis	K15826
+00981 Insect hormone biosynthesis	K10724
+00902 Monoterpenoid biosynthesis	K12467
+00902 Monoterpenoid biosynthesis	K21925
+00902 Monoterpenoid biosynthesis	K20142
+00902 Monoterpenoid biosynthesis	K15086
+00902 Monoterpenoid biosynthesis	K22049
+00902 Monoterpenoid biosynthesis	K15087
+00902 Monoterpenoid biosynthesis	K15088
+00902 Monoterpenoid biosynthesis	K21926
+00902 Monoterpenoid biosynthesis	K15090
+00902 Monoterpenoid biosynthesis	K15091
+00902 Monoterpenoid biosynthesis	K15092
+00902 Monoterpenoid biosynthesis	K15093
+00902 Monoterpenoid biosynthesis	K15094
+00902 Monoterpenoid biosynthesis	K15095
+00902 Monoterpenoid biosynthesis	K15096
+00902 Monoterpenoid biosynthesis	K07384
+00902 Monoterpenoid biosynthesis	K22050
+00902 Monoterpenoid biosynthesis	K15097
+00902 Monoterpenoid biosynthesis	K07385
+00902 Monoterpenoid biosynthesis	K18108
+00902 Monoterpenoid biosynthesis	K22208
+00902 Monoterpenoid biosynthesis	K21938
+00902 Monoterpenoid biosynthesis	K15098
+00902 Monoterpenoid biosynthesis	K20979
+00902 Monoterpenoid biosynthesis	K20986
+00902 Monoterpenoid biosynthesis	K23232
+00902 Monoterpenoid biosynthesis	K20144
+00902 Monoterpenoid biosynthesis	K23990
+00902 Monoterpenoid biosynthesis	K23862
+00903 Limonene and pinene degradation	K07382
+00903 Limonene and pinene degradation	K14730
+00903 Limonene and pinene degradation	K14732
+00903 Limonene and pinene degradation	K14733
+00903 Limonene and pinene degradation	K10533
+00903 Limonene and pinene degradation	K12466
+00904 Diterpenoid biosynthesis	K04120
+00904 Diterpenoid biosynthesis	K04121
+00904 Diterpenoid biosynthesis	K20657
+00904 Diterpenoid biosynthesis	K05282
+00904 Diterpenoid biosynthesis	K04124
+00904 Diterpenoid biosynthesis	K04125
+00904 Diterpenoid biosynthesis	K24460
+00904 Diterpenoid biosynthesis	K12920
+00904 Diterpenoid biosynthesis	K16082
+00904 Diterpenoid biosynthesis	K14036
+00904 Diterpenoid biosynthesis	K14037
+00904 Diterpenoid biosynthesis	K14038
+00904 Diterpenoid biosynthesis	K12921
+00904 Diterpenoid biosynthesis	K14039
+00904 Diterpenoid biosynthesis	K12923
+00904 Diterpenoid biosynthesis	K12925
+00904 Diterpenoid biosynthesis	K12926
+00904 Diterpenoid biosynthesis	K22945
+00904 Diterpenoid biosynthesis	K12927
+00904 Diterpenoid biosynthesis	K14041
+00904 Diterpenoid biosynthesis	K19571
+00904 Diterpenoid biosynthesis	K14042
+00904 Diterpenoid biosynthesis	K18113
+00904 Diterpenoid biosynthesis	K20514
+00904 Diterpenoid biosynthesis	K20515
+00904 Diterpenoid biosynthesis	K14043
+00904 Diterpenoid biosynthesis	K12928
+00904 Diterpenoid biosynthesis	K14044
+00904 Diterpenoid biosynthesis	K14045
+00904 Diterpenoid biosynthesis	K14046
+00904 Diterpenoid biosynthesis	K13070
+00904 Diterpenoid biosynthesis	K12929
+00904 Diterpenoid biosynthesis	K16086
+00904 Diterpenoid biosynthesis	K20516
+00904 Diterpenoid biosynthesis	K20517
+00904 Diterpenoid biosynthesis	K20518
+00904 Diterpenoid biosynthesis	K20519
+00904 Diterpenoid biosynthesis	K14047
+00904 Diterpenoid biosynthesis	K17982
+00904 Diterpenoid biosynthesis	K22946
+00904 Diterpenoid biosynthesis	K22947
+00904 Diterpenoid biosynthesis	K22948
+00905 Brassinosteroid biosynthesis	K09591
+00522 Biosynthesis of 12-, 14- and 16-membered macrolides	K15998
+00522 Biosynthesis of 12-, 14- and 16-membered macrolides	K19698
+00522 Biosynthesis of 12-, 14- and 16-membered macrolides	K15999
+01059 Biosynthesis of enediyne antibiotics	K20159
+01059 Biosynthesis of enediyne antibiotics	K21175
+01059 Biosynthesis of enediyne antibiotics	K20156
+01059 Biosynthesis of enediyne antibiotics	K21176
+01059 Biosynthesis of enediyne antibiotics	K21177
+01059 Biosynthesis of enediyne antibiotics	K21179
+01059 Biosynthesis of enediyne antibiotics	K21181
+01059 Biosynthesis of enediyne antibiotics	K21182
+01059 Biosynthesis of enediyne antibiotics	K21183
+01059 Biosynthesis of enediyne antibiotics	K21188
+01059 Biosynthesis of enediyne antibiotics	K21210
+01059 Biosynthesis of enediyne antibiotics	K21211
+01059 Biosynthesis of enediyne antibiotics	K21212
+01059 Biosynthesis of enediyne antibiotics	K21213
+01059 Biosynthesis of enediyne antibiotics	K21214
+01059 Biosynthesis of enediyne antibiotics	K21227
+01059 Biosynthesis of enediyne antibiotics	K21228
+01056 Biosynthesis of type II polyketide backbone	K15885
+01057 Biosynthesis of type II polyketide products	K15927
+01057 Biosynthesis of type II polyketide products	K15928
+01057 Biosynthesis of type II polyketide products	K15929
+01057 Biosynthesis of type II polyketide products	K15930
+01057 Biosynthesis of type II polyketide products	K15931
+01057 Biosynthesis of type II polyketide products	K15932
+01057 Biosynthesis of type II polyketide products	K15933
+01057 Biosynthesis of type II polyketide products	K15934
+01057 Biosynthesis of type II polyketide products	K15935
+01057 Biosynthesis of type II polyketide products	K26056
+01057 Biosynthesis of type II polyketide products	K15936
+01057 Biosynthesis of type II polyketide products	K15937
+01057 Biosynthesis of type II polyketide products	K15938
+01057 Biosynthesis of type II polyketide products	K15939
+01057 Biosynthesis of type II polyketide products	K15945
+01057 Biosynthesis of type II polyketide products	K15946
+01057 Biosynthesis of type II polyketide products	K15947
+01057 Biosynthesis of type II polyketide products	K15948
+01057 Biosynthesis of type II polyketide products	K15949
+01057 Biosynthesis of type II polyketide products	K15950
+01057 Biosynthesis of type II polyketide products	K15951
+01057 Biosynthesis of type II polyketide products	K15952
+01057 Biosynthesis of type II polyketide products	K15953
+01057 Biosynthesis of type II polyketide products	K15954
+01057 Biosynthesis of type II polyketide products	K15956
+01057 Biosynthesis of type II polyketide products	K15957
+01057 Biosynthesis of type II polyketide products	K15958
+01055 Biosynthesis of vancomycin group antibiotics	K16435
+01055 Biosynthesis of vancomycin group antibiotics	K16436
+01055 Biosynthesis of vancomycin group antibiotics	K16437
+01055 Biosynthesis of vancomycin group antibiotics	K16439
+01055 Biosynthesis of vancomycin group antibiotics	K18836
+00541 O-Antigen nucleotide sugar biosynthesis	K00012
+00541 O-Antigen nucleotide sugar biosynthesis	K00963
+00541 O-Antigen nucleotide sugar biosynthesis	K01809
+00541 O-Antigen nucleotide sugar biosynthesis	K01840
+00541 O-Antigen nucleotide sugar biosynthesis	K00971
+00541 O-Antigen nucleotide sugar biosynthesis	K01711
+00541 O-Antigen nucleotide sugar biosynthesis	K02377
+00541 O-Antigen nucleotide sugar biosynthesis	K22252
+00541 O-Antigen nucleotide sugar biosynthesis	K15856
+00541 O-Antigen nucleotide sugar biosynthesis	K01784
+00541 O-Antigen nucleotide sugar biosynthesis	K17716
+00541 O-Antigen nucleotide sugar biosynthesis	K01854
+00541 O-Antigen nucleotide sugar biosynthesis	K08679
+00541 O-Antigen nucleotide sugar biosynthesis	K00978
+00541 O-Antigen nucleotide sugar biosynthesis	K04042
+00541 O-Antigen nucleotide sugar biosynthesis	K08068
+00541 O-Antigen nucleotide sugar biosynthesis	K01654
+00541 O-Antigen nucleotide sugar biosynthesis	K00983
+00541 O-Antigen nucleotide sugar biosynthesis	K13015
+00541 O-Antigen nucleotide sugar biosynthesis	K22926
+00541 O-Antigen nucleotide sugar biosynthesis	K13016
+00541 O-Antigen nucleotide sugar biosynthesis	K13020
+00541 O-Antigen nucleotide sugar biosynthesis	K13018
+00541 O-Antigen nucleotide sugar biosynthesis	K13019
+00541 O-Antigen nucleotide sugar biosynthesis	K02473
+00541 O-Antigen nucleotide sugar biosynthesis	K02474
+00541 O-Antigen nucleotide sugar biosynthesis	K22925
+00541 O-Antigen nucleotide sugar biosynthesis	K15894
+00541 O-Antigen nucleotide sugar biosynthesis	K15895
+00541 O-Antigen nucleotide sugar biosynthesis	K15896
+00541 O-Antigen nucleotide sugar biosynthesis	K15897
+00541 O-Antigen nucleotide sugar biosynthesis	K15898
+00541 O-Antigen nucleotide sugar biosynthesis	K15899
+00541 O-Antigen nucleotide sugar biosynthesis	K15912
+00541 O-Antigen nucleotide sugar biosynthesis	K17939
+00541 O-Antigen nucleotide sugar biosynthesis	K01709
+00541 O-Antigen nucleotide sugar biosynthesis	K12452
+00541 O-Antigen nucleotide sugar biosynthesis	K00523
+00541 O-Antigen nucleotide sugar biosynthesis	K12453
+00541 O-Antigen nucleotide sugar biosynthesis	K12454
+00541 O-Antigen nucleotide sugar biosynthesis	K12455
+00541 O-Antigen nucleotide sugar biosynthesis	K19632
+00541 O-Antigen nucleotide sugar biosynthesis	K15857
+00541 O-Antigen nucleotide sugar biosynthesis	K15858
+00541 O-Antigen nucleotide sugar biosynthesis	K24249
+00541 O-Antigen nucleotide sugar biosynthesis	K24250
+00541 O-Antigen nucleotide sugar biosynthesis	K24251
+00541 O-Antigen nucleotide sugar biosynthesis	K16704
+00541 O-Antigen nucleotide sugar biosynthesis	K20429
+00541 O-Antigen nucleotide sugar biosynthesis	K21379
+00541 O-Antigen nucleotide sugar biosynthesis	K00607
+00541 O-Antigen nucleotide sugar biosynthesis	K21131
+00541 O-Antigen nucleotide sugar biosynthesis	K21130
+00541 O-Antigen nucleotide sugar biosynthesis	K24257
+00541 O-Antigen nucleotide sugar biosynthesis	K24336
+00541 O-Antigen nucleotide sugar biosynthesis	K24252
+00541 O-Antigen nucleotide sugar biosynthesis	K24256
+00541 O-Antigen nucleotide sugar biosynthesis	K19068
+00541 O-Antigen nucleotide sugar biosynthesis	K24258
+00541 O-Antigen nucleotide sugar biosynthesis	K24259
+00541 O-Antigen nucleotide sugar biosynthesis	K24280
+00541 O-Antigen nucleotide sugar biosynthesis	K24281
+00541 O-Antigen nucleotide sugar biosynthesis	K24282
+00541 O-Antigen nucleotide sugar biosynthesis	K24283
+00541 O-Antigen nucleotide sugar biosynthesis	K24284
+00541 O-Antigen nucleotide sugar biosynthesis	K24285
+00541 O-Antigen nucleotide sugar biosynthesis	K24301
+00541 O-Antigen nucleotide sugar biosynthesis	K24302
+00541 O-Antigen nucleotide sugar biosynthesis	K24303
+00541 O-Antigen nucleotide sugar biosynthesis	K24304
+00541 O-Antigen nucleotide sugar biosynthesis	K24305
+00541 O-Antigen nucleotide sugar biosynthesis	K24306
+00541 O-Antigen nucleotide sugar biosynthesis	K24307
+00541 O-Antigen nucleotide sugar biosynthesis	K24310
+00541 O-Antigen nucleotide sugar biosynthesis	K24311
+00541 O-Antigen nucleotide sugar biosynthesis	K24312
+00541 O-Antigen nucleotide sugar biosynthesis	K24326
+00541 O-Antigen nucleotide sugar biosynthesis	K24327
+00942 Anthocyanin biosynthesis	K12931
+00942 Anthocyanin biosynthesis	K12932
+00942 Anthocyanin biosynthesis	K21383
+00942 Anthocyanin biosynthesis	K12934
+00942 Anthocyanin biosynthesis	K12935
+00942 Anthocyanin biosynthesis	K17194
+00942 Anthocyanin biosynthesis	K12936
+00942 Anthocyanin biosynthesis	K12938
+00603 Glycosphingolipid biosynthesis - globo and isoglobo series	K07406
+00603 Glycosphingolipid biosynthesis - globo and isoglobo series	K07407
+00500 Starch and sucrose metabolism	K01222
+00500 Starch and sucrose metabolism	K01223
+00500 Starch and sucrose metabolism	K01193
+00500 Starch and sucrose metabolism	K01187
+00500 Starch and sucrose metabolism	K12317
+00500 Starch and sucrose metabolism	K01182
+00500 Starch and sucrose metabolism	K00696
+00500 Starch and sucrose metabolism	K07024
+00500 Starch and sucrose metabolism	K20811
+00500 Starch and sucrose metabolism	K18775
+00500 Starch and sucrose metabolism	K01212
+00500 Starch and sucrose metabolism	K05341
+00500 Starch and sucrose metabolism	K00690
+00500 Starch and sucrose metabolism	K01210
+00500 Starch and sucrose metabolism	K19357
+00500 Starch and sucrose metabolism	K01225
+00500 Starch and sucrose metabolism	K00702
+00500 Starch and sucrose metabolism	K20812
+00500 Starch and sucrose metabolism	K16149
+00500 Starch and sucrose metabolism	K01196
+00500 Starch and sucrose metabolism	K02438
+00500 Starch and sucrose metabolism	K01200
+00500 Starch and sucrose metabolism	K07405
+00500 Starch and sucrose metabolism	K05343
+00500 Starch and sucrose metabolism	K01177
+00500 Starch and sucrose metabolism	K05992
+00500 Starch and sucrose metabolism	K01208
+00500 Starch and sucrose metabolism	K01178
+00500 Starch and sucrose metabolism	K21574
+00500 Starch and sucrose metabolism	K05988
+00500 Starch and sucrose metabolism	K00705
+00500 Starch and sucrose metabolism	K22451
+00500 Starch and sucrose metabolism	K16146
+00500 Starch and sucrose metabolism	K16147
+00500 Starch and sucrose metabolism	K00691
+00500 Starch and sucrose metabolism	K01838
+00500 Starch and sucrose metabolism	K06896
+00500 Starch and sucrose metabolism	K01232
+00500 Starch and sucrose metabolism	K00701
+00500 Starch and sucrose metabolism	K01214
+00500 Starch and sucrose metabolism	K06044
+00500 Starch and sucrose metabolism	K01236
+00500 Starch and sucrose metabolism	K13057
+00500 Starch and sucrose metabolism	K01087
+00500 Starch and sucrose metabolism	K22337
+00500 Starch and sucrose metabolism	K22934
+00500 Starch and sucrose metabolism	K05342
+00500 Starch and sucrose metabolism	K01226
+00500 Starch and sucrose metabolism	K11809
+00510 N-Glycan biosynthesis	K12345
+00510 N-Glycan biosynthesis	K00902
+00510 N-Glycan biosynthesis	K09659
+00510 N-Glycan biosynthesis	K07252
+00999 Biosynthesis of various plant secondary metabolites	K01188
+00999 Biosynthesis of various plant secondary metabolites	K05349
+00999 Biosynthesis of various plant secondary metabolites	K05350
+00999 Biosynthesis of various plant secondary metabolites	K00789
+00999 Biosynthesis of various plant secondary metabolites	K05953
+00999 Biosynthesis of various plant secondary metabolites	K14329
+00999 Biosynthesis of various plant secondary metabolites	K13830
+00999 Biosynthesis of various plant secondary metabolites	K13832
+00999 Biosynthesis of various plant secondary metabolites	K00014
+00999 Biosynthesis of various plant secondary metabolites	K15817
+00999 Biosynthesis of various plant secondary metabolites	K13222
+00999 Biosynthesis of various plant secondary metabolites	K13227
+00999 Biosynthesis of various plant secondary metabolites	K13229
+00999 Biosynthesis of various plant secondary metabolites	K13230
+00999 Biosynthesis of various plant secondary metabolites	K22458
+00999 Biosynthesis of various plant secondary metabolites	K21354
+00999 Biosynthesis of various plant secondary metabolites	K20503
+00999 Biosynthesis of various plant secondary metabolites	K20508
+00999 Biosynthesis of various plant secondary metabolites	K20502
+00999 Biosynthesis of various plant secondary metabolites	K20501
+00999 Biosynthesis of various plant secondary metabolites	K22374
+00999 Biosynthesis of various plant secondary metabolites	K18054
+00999 Biosynthesis of various plant secondary metabolites	K21937
+00999 Biosynthesis of various plant secondary metabolites	K23378
+00999 Biosynthesis of various plant secondary metabolites	K06892
+00999 Biosynthesis of various plant secondary metabolites	K21588
+00999 Biosynthesis of various plant secondary metabolites	K23145
+00999 Biosynthesis of various plant secondary metabolites	K21550
+00999 Biosynthesis of various plant secondary metabolites	K21568
+00999 Biosynthesis of various plant secondary metabolites	K19650
+00999 Biosynthesis of various plant secondary metabolites	K21203
+00999 Biosynthesis of various plant secondary metabolites	K21204
+00999 Biosynthesis of various plant secondary metabolites	K21202
+09110 Biosynthesis of other secondary metabolites	00524 Neomycin, kanamycin and gentamicin biosynthesis
+09110 Biosynthesis of other secondary metabolites	00521 Streptomycin biosynthesis
+09110 Biosynthesis of other secondary metabolites	00999 Biosynthesis of various plant secondary metabolites
+09110 Biosynthesis of other secondary metabolites	00525 Acarbose and validamycin biosynthesis
+09110 Biosynthesis of other secondary metabolites	00966 Glucosinolate biosynthesis
+09110 Biosynthesis of other secondary metabolites	00261 Monobactam biosynthesis
+09110 Biosynthesis of other secondary metabolites	00998 Biosynthesis of various antibiotics
+09110 Biosynthesis of other secondary metabolites	00232 Caffeine metabolism
+09110 Biosynthesis of other secondary metabolites	00950 Isoquinoline alkaloid biosynthesis
+09110 Biosynthesis of other secondary metabolites	00960 Tropane, piperidine and pyridine alkaloid biosynthesis
+09110 Biosynthesis of other secondary metabolites	00332 Carbapenem biosynthesis
+09110 Biosynthesis of other secondary metabolites	00940 Phenylpropanoid biosynthesis
+09110 Biosynthesis of other secondary metabolites	00901 Indole alkaloid biosynthesis
+09110 Biosynthesis of other secondary metabolites	00997 Biosynthesis of various other secondary metabolites
+09110 Biosynthesis of other secondary metabolites	00401 Novobiocin biosynthesis
+09110 Biosynthesis of other secondary metabolites	00996 Biosynthesis of various alkaloids
+09110 Biosynthesis of other secondary metabolites	00404 Staurosporine biosynthesis
+09110 Biosynthesis of other secondary metabolites	00941 Flavonoid biosynthesis
+09110 Biosynthesis of other secondary metabolites	00945 Stilbenoid, diarylheptanoid and gingerol biosynthesis
+09110 Biosynthesis of other secondary metabolites	00943 Isoflavonoid biosynthesis
+09110 Biosynthesis of other secondary metabolites	00944 Flavone and flavonol biosynthesis
+09110 Biosynthesis of other secondary metabolites	00942 Anthocyanin biosynthesis
+09110 Biosynthesis of other secondary metabolites	00403 Indole diterpene alkaloid biosynthesis
+09110 Biosynthesis of other secondary metabolites	00965 Betalain biosynthesis
+09110 Biosynthesis of other secondary metabolites	00311 Penicillin and cephalosporin biosynthesis
+09110 Biosynthesis of other secondary metabolites	00331 Clavulanic acid biosynthesis
+09110 Biosynthesis of other secondary metabolites	00405 Phenazine biosynthesis
+09110 Biosynthesis of other secondary metabolites	00333 Prodigiosin biosynthesis
+09110 Biosynthesis of other secondary metabolites	00254 Aflatoxin biosynthesis
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K00845
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K25026
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13546
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13548
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13549
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13550
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13551
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K17078
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13552
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20565
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20566
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20567
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20568
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13554
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13555
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13556
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13557
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13558
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13559
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13560
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13561
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13562
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13563
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K13564
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20569
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20570
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20571
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20572
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20573
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20574
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20152
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20575
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20576
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20577
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20578
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20579
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20580
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20581
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20582
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20583
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20584
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20585
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20586
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20587
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20588
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20589
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20590
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20591
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20592
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20593
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20594
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20595
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20596
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20597
+00524 Neomycin, kanamycin and gentamicin biosynthesis	K20598
+00521 Streptomycin biosynthesis	K01835
+00521 Streptomycin biosynthesis	K15778
+00521 Streptomycin biosynthesis	K01858
+00521 Streptomycin biosynthesis	K00010
+00521 Streptomycin biosynthesis	K01790
+00521 Streptomycin biosynthesis	K23987
+00521 Streptomycin biosynthesis	K00067
+00521 Streptomycin biosynthesis	K04339
+00521 Streptomycin biosynthesis	K04340
+00521 Streptomycin biosynthesis	K04341
+00521 Streptomycin biosynthesis	K04342
+00525 Acarbose and validamycin biosynthesis	K23144
+00525 Acarbose and validamycin biosynthesis	K00973
+00525 Acarbose and validamycin biosynthesis	K01710
+00525 Acarbose and validamycin biosynthesis	K19969
+00525 Acarbose and validamycin biosynthesis	K19979
+00525 Acarbose and validamycin biosynthesis	K19974
+00525 Acarbose and validamycin biosynthesis	K20424
+00525 Acarbose and validamycin biosynthesis	K20425
+00525 Acarbose and validamycin biosynthesis	K20426
+00525 Acarbose and validamycin biosynthesis	K20427
+00525 Acarbose and validamycin biosynthesis	K20428
+00525 Acarbose and validamycin biosynthesis	K20430
+00525 Acarbose and validamycin biosynthesis	K19978
+00525 Acarbose and validamycin biosynthesis	K20431
+00525 Acarbose and validamycin biosynthesis	K20432
+00525 Acarbose and validamycin biosynthesis	K20433
+00525 Acarbose and validamycin biosynthesis	K20434
+00525 Acarbose and validamycin biosynthesis	K20435
+00525 Acarbose and validamycin biosynthesis	K20436
+00525 Acarbose and validamycin biosynthesis	K20437
+00525 Acarbose and validamycin biosynthesis	K20438
+00525 Acarbose and validamycin biosynthesis	K21036
+00525 Acarbose and validamycin biosynthesis	K20439
+00525 Acarbose and validamycin biosynthesis	K20440
+00525 Acarbose and validamycin biosynthesis	K20441
+00525 Acarbose and validamycin biosynthesis	K20442
+00525 Acarbose and validamycin biosynthesis	K20443
+00966 Glucosinolate biosynthesis	K01703
+00966 Glucosinolate biosynthesis	K21359
+00966 Glucosinolate biosynthesis	K21360
+00966 Glucosinolate biosynthesis	K11821
+00966 Glucosinolate biosynthesis	K15741
+00966 Glucosinolate biosynthesis	K15742
+00966 Glucosinolate biosynthesis	K22321
+00261 Monobactam biosynthesis	K13811
+00261 Monobactam biosynthesis	K00955
+00261 Monobactam biosynthesis	K00956
+00261 Monobactam biosynthesis	K00957
+00261 Monobactam biosynthesis	K00958
+00261 Monobactam biosynthesis	K00928
+00261 Monobactam biosynthesis	K12524
+00261 Monobactam biosynthesis	K12525
+00261 Monobactam biosynthesis	K12526
+00261 Monobactam biosynthesis	K00133
+00261 Monobactam biosynthesis	K01714
+00261 Monobactam biosynthesis	K00215
+00261 Monobactam biosynthesis	K19107
+00261 Monobactam biosynthesis	K19108
+00261 Monobactam biosynthesis	K19109
+00261 Monobactam biosynthesis	K19110
+00261 Monobactam biosynthesis	K19111
+00261 Monobactam biosynthesis	K19112
+00261 Monobactam biosynthesis	K19113
+00998 Biosynthesis of various antibiotics	K02078
+00998 Biosynthesis of various antibiotics	K01841
+00998 Biosynthesis of various antibiotics	K23999
+00998 Biosynthesis of various antibiotics	K09459
+00998 Biosynthesis of various antibiotics	K12901
+00998 Biosynthesis of various antibiotics	K12904
+00998 Biosynthesis of various antibiotics	K12250
+00998 Biosynthesis of various antibiotics	K18652
+00998 Biosynthesis of various antibiotics	K18653
+00998 Biosynthesis of various antibiotics	K18654
+00998 Biosynthesis of various antibiotics	K09460
+00998 Biosynthesis of various antibiotics	K14245
+00998 Biosynthesis of various antibiotics	K14246
+00998 Biosynthesis of various antibiotics	K22798
+00998 Biosynthesis of various antibiotics	K22799
+00998 Biosynthesis of various antibiotics	K22800
+00998 Biosynthesis of various antibiotics	K21272
+00998 Biosynthesis of various antibiotics	K21271
+00998 Biosynthesis of various antibiotics	K22801
+00998 Biosynthesis of various antibiotics	K22802
+00998 Biosynthesis of various antibiotics	K19546
+00998 Biosynthesis of various antibiotics	K19547
+00998 Biosynthesis of various antibiotics	K19550
+00998 Biosynthesis of various antibiotics	K19549
+00998 Biosynthesis of various antibiotics	K19548
+00998 Biosynthesis of various antibiotics	K13037
+00998 Biosynthesis of various antibiotics	K12628
+00998 Biosynthesis of various antibiotics	K12629
+00998 Biosynthesis of various antibiotics	K12630
+00998 Biosynthesis of various antibiotics	K12631
+00998 Biosynthesis of various antibiotics	K12632
+00998 Biosynthesis of various antibiotics	K12633
+00998 Biosynthesis of various antibiotics	K12634
+00998 Biosynthesis of various antibiotics	K12635
+00998 Biosynthesis of various antibiotics	K12636
+00998 Biosynthesis of various antibiotics	K22113
+00998 Biosynthesis of various antibiotics	K01957
+00998 Biosynthesis of various antibiotics	K22114
+00998 Biosynthesis of various antibiotics	K12902
+00998 Biosynthesis of various antibiotics	K24000
+00998 Biosynthesis of various antibiotics	K12903
+00998 Biosynthesis of various antibiotics	K22392
+00998 Biosynthesis of various antibiotics	K25562
+00998 Biosynthesis of various antibiotics	K25597
+00998 Biosynthesis of various antibiotics	K25563
+00998 Biosynthesis of various antibiotics	K25594
+00998 Biosynthesis of various antibiotics	K25598
+00998 Biosynthesis of various antibiotics	K18056
+00998 Biosynthesis of various antibiotics	K17747
+00998 Biosynthesis of various antibiotics	K18091
+00998 Biosynthesis of various antibiotics	K18057
+00998 Biosynthesis of various antibiotics	K19835
+00998 Biosynthesis of various antibiotics	K19834
+00998 Biosynthesis of various antibiotics	K22598
+00998 Biosynthesis of various antibiotics	K22269
+00998 Biosynthesis of various antibiotics	K19741
+00998 Biosynthesis of various antibiotics	K19723
+00998 Biosynthesis of various antibiotics	K19726
+00998 Biosynthesis of various antibiotics	K19725
+00998 Biosynthesis of various antibiotics	K19724
+00998 Biosynthesis of various antibiotics	K19727
+00232 Caffeine metabolism	K00365
+00232 Caffeine metabolism	K16838
+00232 Caffeine metabolism	K12729
+00232 Caffeine metabolism	K12730
+00232 Caffeine metabolism	K12731
+00232 Caffeine metabolism	K21722
+00232 Caffeine metabolism	K21723
+00232 Caffeine metabolism	K21724
+00232 Caffeine metabolism	K21673
+00232 Caffeine metabolism	K21674
+00232 Caffeine metabolism	K21675
+00232 Caffeine metabolism	K00492
+00950 Isoquinoline alkaloid biosynthesis	K03334
+00950 Isoquinoline alkaloid biosynthesis	K00422
+00950 Isoquinoline alkaloid biosynthesis	K01592
+00950 Isoquinoline alkaloid biosynthesis	K13371
+00950 Isoquinoline alkaloid biosynthesis	K13372
+00950 Isoquinoline alkaloid biosynthesis	K22327
+00950 Isoquinoline alkaloid biosynthesis	K13382
+00950 Isoquinoline alkaloid biosynthesis	K13383
+00950 Isoquinoline alkaloid biosynthesis	K13384
+00950 Isoquinoline alkaloid biosynthesis	K13386
+00950 Isoquinoline alkaloid biosynthesis	K22088
+00950 Isoquinoline alkaloid biosynthesis	K22089
+00950 Isoquinoline alkaloid biosynthesis	K22090
+00950 Isoquinoline alkaloid biosynthesis	K21311
+00950 Isoquinoline alkaloid biosynthesis	K22091
+00950 Isoquinoline alkaloid biosynthesis	K22092
+00950 Isoquinoline alkaloid biosynthesis	K21580
+00950 Isoquinoline alkaloid biosynthesis	K13390
+00950 Isoquinoline alkaloid biosynthesis	K22093
+00950 Isoquinoline alkaloid biosynthesis	K13392
+00950 Isoquinoline alkaloid biosynthesis	K13393
+00950 Isoquinoline alkaloid biosynthesis	K01742
+00950 Isoquinoline alkaloid biosynthesis	K14975
+00950 Isoquinoline alkaloid biosynthesis	K14976
+00950 Isoquinoline alkaloid biosynthesis	K03378
+00950 Isoquinoline alkaloid biosynthesis	K13394
+00950 Isoquinoline alkaloid biosynthesis	K00307
+00950 Isoquinoline alkaloid biosynthesis	K13396
+00950 Isoquinoline alkaloid biosynthesis	K22095
+00950 Isoquinoline alkaloid biosynthesis	K22097
+00950 Isoquinoline alkaloid biosynthesis	K22098
+00950 Isoquinoline alkaloid biosynthesis	K23157
+00950 Isoquinoline alkaloid biosynthesis	K23158
+00950 Isoquinoline alkaloid biosynthesis	K13397
+00950 Isoquinoline alkaloid biosynthesis	K13398
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K00276
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K01582
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K13609
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K19743
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K15849
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K18606
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K05353
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K05354
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K08081
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K13607
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K25582
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K25583
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K25998
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K12692
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K00808
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K13608
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K19064
+00960 Tropane, piperidine and pyridine alkaloid biosynthesis	K13610
+00940 Phenylpropanoid biosynthesis	K10775
+00940 Phenylpropanoid biosynthesis	K13064
+00940 Phenylpropanoid biosynthesis	K13066
+00940 Phenylpropanoid biosynthesis	K11188
+00940 Phenylpropanoid biosynthesis	K01904
+00940 Phenylpropanoid biosynthesis	K18368
+00940 Phenylpropanoid biosynthesis	K09753
+00940 Phenylpropanoid biosynthesis	K12355
+00940 Phenylpropanoid biosynthesis	K00083
+00940 Phenylpropanoid biosynthesis	K22395
+00940 Phenylpropanoid biosynthesis	K00430
+00940 Phenylpropanoid biosynthesis	K17054
+00940 Phenylpropanoid biosynthesis	K17055
+00940 Phenylpropanoid biosynthesis	K17056
+00940 Phenylpropanoid biosynthesis	K17057
+00940 Phenylpropanoid biosynthesis	K17058
+00940 Phenylpropanoid biosynthesis	K17059
+00940 Phenylpropanoid biosynthesis	K20039
+00940 Phenylpropanoid biosynthesis	K13067
+00901 Indole alkaloid biosynthesis	K22433
+00901 Indole alkaloid biosynthesis	K01757
+00901 Indole alkaloid biosynthesis	K12693
+00901 Indole alkaloid biosynthesis	K23493
+00901 Indole alkaloid biosynthesis	K08233
+00901 Indole alkaloid biosynthesis	K12694
+00901 Indole alkaloid biosynthesis	K22326
+00901 Indole alkaloid biosynthesis	K12695
+00901 Indole alkaloid biosynthesis	K21026
+00901 Indole alkaloid biosynthesis	K21895
+00901 Indole alkaloid biosynthesis	K22323
+00901 Indole alkaloid biosynthesis	K21896
+00901 Indole alkaloid biosynthesis	K12697
+00901 Indole alkaloid biosynthesis	K12698
+00901 Indole alkaloid biosynthesis	K12699
+00901 Indole alkaloid biosynthesis	K22434
+00901 Indole alkaloid biosynthesis	K22435
+00901 Indole alkaloid biosynthesis	K22436
+00901 Indole alkaloid biosynthesis	K18884
+00901 Indole alkaloid biosynthesis	K17746
+00901 Indole alkaloid biosynthesis	K19182
+00901 Indole alkaloid biosynthesis	K19183
+00901 Indole alkaloid biosynthesis	K19184
+00901 Indole alkaloid biosynthesis	K21819
+00901 Indole alkaloid biosynthesis	K25463
+00997 Biosynthesis of various other secondary metabolites	K20204
+00997 Biosynthesis of various other secondary metabolites	K21898
+00997 Biosynthesis of various other secondary metabolites	K21949
+00997 Biosynthesis of various other secondary metabolites	K21721
+00997 Biosynthesis of various other secondary metabolites	K23646
+00997 Biosynthesis of various other secondary metabolites	K23647
+00997 Biosynthesis of various other secondary metabolites	K21477
+00997 Biosynthesis of various other secondary metabolites	K23665
+00997 Biosynthesis of various other secondary metabolites	K23666
+00997 Biosynthesis of various other secondary metabolites	K23667
+00997 Biosynthesis of various other secondary metabolites	K23668
+00997 Biosynthesis of various other secondary metabolites	K22952
+00997 Biosynthesis of various other secondary metabolites	K22874
+00997 Biosynthesis of various other secondary metabolites	K25524
+00997 Biosynthesis of various other secondary metabolites	K25525
+00997 Biosynthesis of various other secondary metabolites	K23372
+00997 Biosynthesis of various other secondary metabolites	K23373
+00997 Biosynthesis of various other secondary metabolites	K23374
+00997 Biosynthesis of various other secondary metabolites	K23375
+00997 Biosynthesis of various other secondary metabolites	K18686
+00997 Biosynthesis of various other secondary metabolites	K22997
+00997 Biosynthesis of various other secondary metabolites	K22998
+00997 Biosynthesis of various other secondary metabolites	K20981
+00997 Biosynthesis of various other secondary metabolites	K20982
+00997 Biosynthesis of various other secondary metabolites	K20985
+00997 Biosynthesis of various other secondary metabolites	K20984
+00997 Biosynthesis of various other secondary metabolites	K20983
+00997 Biosynthesis of various other secondary metabolites	K18287
+00997 Biosynthesis of various other secondary metabolites	K17835
+00997 Biosynthesis of various other secondary metabolites	K23446
+00997 Biosynthesis of various other secondary metabolites	K23447
+00997 Biosynthesis of various other secondary metabolites	K23669
+00997 Biosynthesis of various other secondary metabolites	K23670
+00997 Biosynthesis of various other secondary metabolites	K23671
+00997 Biosynthesis of various other secondary metabolites	K23672
+00997 Biosynthesis of various other secondary metabolites	K23673
+00997 Biosynthesis of various other secondary metabolites	K03897
+00997 Biosynthesis of various other secondary metabolites	K03896
+00997 Biosynthesis of various other secondary metabolites	K03894
+00997 Biosynthesis of various other secondary metabolites	K03895
+00401 Novobiocin biosynthesis	K24018
+00401 Novobiocin biosynthesis	K14187
+00401 Novobiocin biosynthesis	K04517
+00401 Novobiocin biosynthesis	K00220
+00401 Novobiocin biosynthesis	K12701
+00401 Novobiocin biosynthesis	K12703
+00401 Novobiocin biosynthesis	K12704
+00401 Novobiocin biosynthesis	K12708
+00401 Novobiocin biosynthesis	K12709
+00401 Novobiocin biosynthesis	K12705
+00401 Novobiocin biosynthesis	K12711
+00401 Novobiocin biosynthesis	K12712
+00401 Novobiocin biosynthesis	K12713
+00401 Novobiocin biosynthesis	K12714
+00401 Novobiocin biosynthesis	K12719
+00401 Novobiocin biosynthesis	K12720
+00401 Novobiocin biosynthesis	K12721
+00401 Novobiocin biosynthesis	K12723
+00401 Novobiocin biosynthesis	K17626
+00401 Novobiocin biosynthesis	K12722
+00401 Novobiocin biosynthesis	K12724
+00996 Biosynthesis of various alkaloids	K15812
+00996 Biosynthesis of various alkaloids	K25491
+00996 Biosynthesis of various alkaloids	K25492
+00996 Biosynthesis of various alkaloids	K18383
+00996 Biosynthesis of various alkaloids	K24276
+00996 Biosynthesis of various alkaloids	K24277
+00996 Biosynthesis of various alkaloids	K12643
+00996 Biosynthesis of various alkaloids	K12644
+00404 Staurosporine biosynthesis	K16438
+00404 Staurosporine biosynthesis	K20075
+00404 Staurosporine biosynthesis	K20076
+00404 Staurosporine biosynthesis	K20077
+00404 Staurosporine biosynthesis	K20078
+00404 Staurosporine biosynthesis	K20079
+00404 Staurosporine biosynthesis	K20080
+00404 Staurosporine biosynthesis	K20081
+00404 Staurosporine biosynthesis	K20082
+00404 Staurosporine biosynthesis	K20085
+00404 Staurosporine biosynthesis	K14266
+00404 Staurosporine biosynthesis	K19884
+00404 Staurosporine biosynthesis	K19885
+00404 Staurosporine biosynthesis	K19886
+00404 Staurosporine biosynthesis	K19887
+00404 Staurosporine biosynthesis	K19888
+00404 Staurosporine biosynthesis	K19889
+00404 Staurosporine biosynthesis	K19981
+00404 Staurosporine biosynthesis	K19982
+00404 Staurosporine biosynthesis	K18281
+00404 Staurosporine biosynthesis	K18280
+00404 Staurosporine biosynthesis	K17825
+00404 Staurosporine biosynthesis	K23888
+00404 Staurosporine biosynthesis	K21294
+00404 Staurosporine biosynthesis	K23890
+00404 Staurosporine biosynthesis	K23891
+00404 Staurosporine biosynthesis	K23892
+00945 Stilbenoid, diarylheptanoid and gingerol biosynthesis	K16040
+00945 Stilbenoid, diarylheptanoid and gingerol biosynthesis	K13235
+00943 Isoflavonoid biosynthesis	K13077
+00943 Isoflavonoid biosynthesis	K13264
+00943 Isoflavonoid biosynthesis	K13258
+00943 Isoflavonoid biosynthesis	K13259
+00943 Isoflavonoid biosynthesis	K13262
+00943 Isoflavonoid biosynthesis	K13263
+00943 Isoflavonoid biosynthesis	K05281
+00943 Isoflavonoid biosynthesis	K13265
+00943 Isoflavonoid biosynthesis	K25075
+00943 Isoflavonoid biosynthesis	K13266
+00943 Isoflavonoid biosynthesis	K21513
+00944 Flavone and flavonol biosynthesis	K13080
+00944 Flavone and flavonol biosynthesis	K15787
+00944 Flavone and flavonol biosynthesis	K22771
+00944 Flavone and flavonol biosynthesis	K22794
+00944 Flavone and flavonol biosynthesis	K22772
+00944 Flavone and flavonol biosynthesis	K13269
+00944 Flavone and flavonol biosynthesis	K05279
+00944 Flavone and flavonol biosynthesis	K13270
+00944 Flavone and flavonol biosynthesis	K13271
+00944 Flavone and flavonol biosynthesis	K13272
+00311 Penicillin and cephalosporin biosynthesis	K12747
+00311 Penicillin and cephalosporin biosynthesis	K01060
+00331 Clavulanic acid biosynthesis	K12673
+00331 Clavulanic acid biosynthesis	K12674
+00331 Clavulanic acid biosynthesis	K12675
+00331 Clavulanic acid biosynthesis	K12676
+00331 Clavulanic acid biosynthesis	K12677
+00405 Phenazine biosynthesis	K21103
+00405 Phenazine biosynthesis	K20940
+00405 Phenazine biosynthesis	K21338
+00333 Prodigiosin biosynthesis	K21428
+00333 Prodigiosin biosynthesis	K21778
+00333 Prodigiosin biosynthesis	K21779
+00333 Prodigiosin biosynthesis	K21780
+00333 Prodigiosin biosynthesis	K21781
+00333 Prodigiosin biosynthesis	K21782
+00333 Prodigiosin biosynthesis	K21783
+00333 Prodigiosin biosynthesis	K21784
+00333 Prodigiosin biosynthesis	K21785
+00333 Prodigiosin biosynthesis	K21786
+00333 Prodigiosin biosynthesis	K21787
+00333 Prodigiosin biosynthesis	K21788
+00333 Prodigiosin biosynthesis	K21789
+00333 Prodigiosin biosynthesis	K21790
+00333 Prodigiosin biosynthesis	K21791
+00333 Prodigiosin biosynthesis	K21792
+00333 Prodigiosin biosynthesis	K21793
+00254 Aflatoxin biosynthesis	K17643
+00254 Aflatoxin biosynthesis	K17644
+00254 Aflatoxin biosynthesis	K17652
+00254 Aflatoxin biosynthesis	K17646
+00254 Aflatoxin biosynthesis	K24855
+00254 Aflatoxin biosynthesis	K17647
+00254 Aflatoxin biosynthesis	K17648
+00254 Aflatoxin biosynthesis	K24856
+00254 Aflatoxin biosynthesis	K24857
+00254 Aflatoxin biosynthesis	K24858
+00254 Aflatoxin biosynthesis	K17649
+00254 Aflatoxin biosynthesis	K17650
+09100 Metabolism	09110 Biosynthesis of other secondary metabolites
+09100 Metabolism	09101 Carbohydrate metabolism
+09100 Metabolism	09102 Energy metabolism
+09100 Metabolism	09105 Amino acid metabolism
+09100 Metabolism	09112 Not included in regular maps
+09100 Metabolism	09111 Xenobiotics biodegradation and metabolism
+09100 Metabolism	09109 Metabolism of terpenoids and polyketides
+09100 Metabolism	09103 Lipid metabolism
+09100 Metabolism	09104 Nucleotide metabolism
+09100 Metabolism	09106 Metabolism of other amino acids
+09100 Metabolism	09107 Glycan biosynthesis and metabolism
+09100 Metabolism	09108 Metabolism of cofactors and vitamins
+09101 Carbohydrate metabolism	00520 Amino sugar and nucleotide sugar metabolism
+09101 Carbohydrate metabolism	00051 Fructose and mannose metabolism
+09101 Carbohydrate metabolism	00010 Glycolysis / Gluconeogenesis
+09101 Carbohydrate metabolism	00620 Pyruvate metabolism
+09101 Carbohydrate metabolism	00052 Galactose metabolism
+09101 Carbohydrate metabolism	00562 Inositol phosphate metabolism
+09101 Carbohydrate metabolism	00030 Pentose phosphate pathway
+09101 Carbohydrate metabolism	00500 Starch and sucrose metabolism
+09101 Carbohydrate metabolism	00630 Glyoxylate and dicarboxylate metabolism
+09101 Carbohydrate metabolism	00020 Citrate cycle (TCA cycle)
+09101 Carbohydrate metabolism	00640 Propanoate metabolism
+09101 Carbohydrate metabolism	00650 Butanoate metabolism
+09101 Carbohydrate metabolism	00040 Pentose and glucuronate interconversions
+09101 Carbohydrate metabolism	00053 Ascorbate and aldarate metabolism
+09101 Carbohydrate metabolism	00660 C5-Branched dibasic acid metabolism
+09102 Energy metabolism	00680 Methane metabolism
+09102 Energy metabolism	00710 Carbon fixation in photosynthetic organisms
+09102 Energy metabolism	00720 Carbon fixation pathways in prokaryotes
+09102 Energy metabolism	00190 Oxidative phosphorylation
+09102 Energy metabolism	00910 Nitrogen metabolism
+09102 Energy metabolism	00920 Sulfur metabolism
+09112 Not included in regular maps	09113 Global maps only
+09111 Xenobiotics biodegradation and metabolism	00633 Nitrotoluene degradation
+09111 Xenobiotics biodegradation and metabolism	00982 Drug metabolism - cytochrome P450
+09111 Xenobiotics biodegradation and metabolism	00626 Naphthalene degradation
+09111 Xenobiotics biodegradation and metabolism	00625 Chloroalkane and chloroalkene degradation
+09111 Xenobiotics biodegradation and metabolism	00980 Metabolism of xenobiotics by cytochrome P450
+09111 Xenobiotics biodegradation and metabolism	00621 Dioxin degradation
+09111 Xenobiotics biodegradation and metabolism	00627 Aminobenzoate degradation
+09111 Xenobiotics biodegradation and metabolism	00643 Styrene degradation
+09111 Xenobiotics biodegradation and metabolism	00930 Caprolactam degradation
+09111 Xenobiotics biodegradation and metabolism	00362 Benzoate degradation
+09111 Xenobiotics biodegradation and metabolism	00623 Toluene degradation
+09111 Xenobiotics biodegradation and metabolism	00642 Ethylbenzene degradation
+09111 Xenobiotics biodegradation and metabolism	00984 Steroid degradation
+09111 Xenobiotics biodegradation and metabolism	00983 Drug metabolism - other enzymes
+09111 Xenobiotics biodegradation and metabolism	00791 Atrazine degradation
+09111 Xenobiotics biodegradation and metabolism	00622 Xylene degradation
+09111 Xenobiotics biodegradation and metabolism	00361 Chlorocyclohexane and chlorobenzene degradation
+09111 Xenobiotics biodegradation and metabolism	00624 Polycyclic aromatic hydrocarbon degradation
+09111 Xenobiotics biodegradation and metabolism	00364 Fluorobenzoate degradation
+09111 Xenobiotics biodegradation and metabolism	00363 Bisphenol degradation
+09111 Xenobiotics biodegradation and metabolism	00365 Furfural degradation
+09103 Lipid metabolism	00561 Glycerolipid metabolism
+09103 Lipid metabolism	00061 Fatty acid biosynthesis
+09103 Lipid metabolism	00140 Steroid hormone biosynthesis
+09103 Lipid metabolism	00062 Fatty acid elongation
+09103 Lipid metabolism	00592 alpha-Linolenic acid metabolism
+09103 Lipid metabolism	00071 Fatty acid degradation
+09103 Lipid metabolism	00564 Glycerophospholipid metabolism
+09103 Lipid metabolism	00073 Cutin, suberine and wax biosynthesis
+09103 Lipid metabolism	00100 Steroid biosynthesis
+09103 Lipid metabolism	00120 Primary bile acid biosynthesis
+09103 Lipid metabolism	00121 Secondary bile acid biosynthesis
+09103 Lipid metabolism	00565 Ether lipid metabolism
+09103 Lipid metabolism	00600 Sphingolipid metabolism
+09103 Lipid metabolism	00590 Arachidonic acid metabolism
+09103 Lipid metabolism	00591 Linoleic acid metabolism
+09103 Lipid metabolism	01040 Biosynthesis of unsaturated fatty acids
+09104 Nucleotide metabolism	00230 Purine metabolism
+09104 Nucleotide metabolism	00240 Pyrimidine metabolism
+09106 Metabolism of other amino acids	00480 Glutathione metabolism
+09106 Metabolism of other amino acids	00470 D-Amino acid metabolism
+09106 Metabolism of other amino acids	00430 Taurine and hypotaurine metabolism
+09106 Metabolism of other amino acids	00460 Cyanoamino acid metabolism
+09106 Metabolism of other amino acids	00410 beta-Alanine metabolism
+09106 Metabolism of other amino acids	00450 Selenocompound metabolism
+09106 Metabolism of other amino acids	00440 Phosphonate and phosphinate metabolism
+09107 Glycan biosynthesis and metabolism	00541 O-Antigen nucleotide sugar biosynthesis
+09107 Glycan biosynthesis and metabolism	00515 Mannose type O-glycan biosynthesis
+09107 Glycan biosynthesis and metabolism	00511 Other glycan degradation
+09107 Glycan biosynthesis and metabolism	00603 Glycosphingolipid biosynthesis - globo and isoglobo series
+09107 Glycan biosynthesis and metabolism	00510 N-Glycan biosynthesis
+09107 Glycan biosynthesis and metabolism	00572 Arabinogalactan biosynthesis - Mycobacterium
+09107 Glycan biosynthesis and metabolism	00552 Teichoic acid biosynthesis
+09107 Glycan biosynthesis and metabolism	00563 Glycosylphosphatidylinositol (GPI)-anchor biosynthesis
+09107 Glycan biosynthesis and metabolism	00513 Various types of N-glycan biosynthesis
+09107 Glycan biosynthesis and metabolism	00532 Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate
+09107 Glycan biosynthesis and metabolism	00534 Glycosaminoglycan biosynthesis - heparan sulfate / heparin
+09107 Glycan biosynthesis and metabolism	00540 Lipopolysaccharide biosynthesis
+09107 Glycan biosynthesis and metabolism	00550 Peptidoglycan biosynthesis
+09107 Glycan biosynthesis and metabolism	00571 Lipoarabinomannan (LAM) biosynthesis
+09107 Glycan biosynthesis and metabolism	00543 Exopolysaccharide biosynthesis
+09108 Metabolism of cofactors and vitamins	00790 Folate biosynthesis
+09108 Metabolism of cofactors and vitamins	00670 One carbon pool by folate
+09108 Metabolism of cofactors and vitamins	00760 Nicotinate and nicotinamide metabolism
+09108 Metabolism of cofactors and vitamins	00770 Pantothenate and CoA biosynthesis
+09108 Metabolism of cofactors and vitamins	00740 Riboflavin metabolism
+09108 Metabolism of cofactors and vitamins	00830 Retinol metabolism
+09108 Metabolism of cofactors and vitamins	00730 Thiamine metabolism
+09108 Metabolism of cofactors and vitamins	00750 Vitamin B6 metabolism
+09108 Metabolism of cofactors and vitamins	00130 Ubiquinone and other terpenoid-quinone biosynthesis
+09108 Metabolism of cofactors and vitamins	00860 Porphyrin metabolism
+09108 Metabolism of cofactors and vitamins	00780 Biotin metabolism
+09108 Metabolism of cofactors and vitamins	00785 Lipoic acid metabolism
+00790 Folate biosynthesis	K00011
+00790 Folate biosynthesis	K00500
+00790 Folate biosynthesis	K00310
+00790 Folate biosynthesis	K14652
+00790 Folate biosynthesis	K01495
+00790 Folate biosynthesis	K09007
+00790 Folate biosynthesis	K22391
+00790 Folate biosynthesis	K08310
+00790 Folate biosynthesis	K19965
+00790 Folate biosynthesis	K13939
+00790 Folate biosynthesis	K13940
+00790 Folate biosynthesis	K01633
+00790 Folate biosynthesis	K00950
+00790 Folate biosynthesis	K00796
+00790 Folate biosynthesis	K13941
+00790 Folate biosynthesis	K24102
+00790 Folate biosynthesis	K11754
+00790 Folate biosynthesis	K22099
+00790 Folate biosynthesis	K20457
+00790 Folate biosynthesis	K22100
+00790 Folate biosynthesis	K22101
+00790 Folate biosynthesis	K01664
+00790 Folate biosynthesis	K01665
+00790 Folate biosynthesis	K13950
+00790 Folate biosynthesis	K25575
+00790 Folate biosynthesis	K25578
+00790 Folate biosynthesis	K02619
+00790 Folate biosynthesis	K18482
+00790 Folate biosynthesis	K07589
+00790 Folate biosynthesis	K00357
+00790 Folate biosynthesis	K03793
+00790 Folate biosynthesis	K17745
+00790 Folate biosynthesis	K17488
+00790 Folate biosynthesis	K17487
+00790 Folate biosynthesis	K09739
+00790 Folate biosynthesis	K07142
+00790 Folate biosynthesis	K06984
+00790 Folate biosynthesis	K06897
+00790 Folate biosynthesis	K17364
+00790 Folate biosynthesis	K18853
+00790 Folate biosynthesis	K15740
+00790 Folate biosynthesis	K22102
+00790 Folate biosynthesis	K20967
+00790 Folate biosynthesis	K03750
+00790 Folate biosynthesis	K07141
+00790 Folate biosynthesis	K03752
+00790 Folate biosynthesis	K13818
+00790 Folate biosynthesis	K15631
+00515 Mannose type O-glycan biosynthesis	K21031
+00511 Other glycan degradation	K01190
+00511 Other glycan degradation	K12111
+00511 Other glycan degradation	K12112
+00511 Other glycan degradation	K17108
+00511 Other glycan degradation	K12357
+00511 Other glycan degradation	K20730
+00511 Other glycan degradation	K14459
+00511 Other glycan degradation	K12312
+00511 Other glycan degradation	K01227
+00511 Other glycan degradation	K23989
+00511 Other glycan degradation	K13714
+00511 Other glycan degradation	K15923
+00552 Teichoic acid biosynthesis	K19005
+00552 Teichoic acid biosynthesis	K24300
+00552 Teichoic acid biosynthesis	K21285
+00552 Teichoic acid biosynthesis	K09809
+00552 Teichoic acid biosynthesis	K01005
+00552 Teichoic acid biosynthesis	K21592
+00552 Teichoic acid biosynthesis	K18704
+00552 Teichoic acid biosynthesis	K21591
+00552 Teichoic acid biosynthesis	K25599
+00552 Teichoic acid biosynthesis	K25626
+00552 Teichoic acid biosynthesis	K25651
+00552 Teichoic acid biosynthesis	K25657
+00552 Teichoic acid biosynthesis	K25658
+00552 Teichoic acid biosynthesis	K07271
+00552 Teichoic acid biosynthesis	K25654
+00552 Teichoic acid biosynthesis	K25659
+00552 Teichoic acid biosynthesis	K25660
+00513 Various types of N-glycan biosynthesis	K01231
+00513 Various types of N-glycan biosynthesis	K05530
+00513 Various types of N-glycan biosynthesis	K05531
+00513 Various types of N-glycan biosynthesis	K05532
+00513 Various types of N-glycan biosynthesis	K05533
+00513 Various types of N-glycan biosynthesis	K05534
+00513 Various types of N-glycan biosynthesis	K14464
+00532 Glycosaminoglycan biosynthesis - chondroitin sulfate / dermatan sulfate	K01794
+00534 Glycosaminoglycan biosynthesis - heparan sulfate / heparin	K01793
+00540 Lipopolysaccharide biosynthesis	K07031
+00540 Lipopolysaccharide biosynthesis	K15669
+00550 Peptidoglycan biosynthesis	K23169
+00550 Peptidoglycan biosynthesis	K23170
+00550 Peptidoglycan biosynthesis	K00887
+00550 Peptidoglycan biosynthesis	K23393
+00550 Peptidoglycan biosynthesis	K07009
+00571 Lipoarabinomannan (LAM) biosynthesis	K22311
+00571 Lipoarabinomannan (LAM) biosynthesis	K23176
+00543 Exopolysaccharide biosynthesis	K03208
+00543 Exopolysaccharide biosynthesis	K03818
+00543 Exopolysaccharide biosynthesis	K03819
+00543 Exopolysaccharide biosynthesis	K25875
+00543 Exopolysaccharide biosynthesis	K16710
+00543 Exopolysaccharide biosynthesis	K19294
+00543 Exopolysaccharide biosynthesis	K19295
+00543 Exopolysaccharide biosynthesis	K19296
+00543 Exopolysaccharide biosynthesis	K19293
+00543 Exopolysaccharide biosynthesis	K21461
+00543 Exopolysaccharide biosynthesis	K25887
+00543 Exopolysaccharide biosynthesis	K25888
+00543 Exopolysaccharide biosynthesis	K25889
+00543 Exopolysaccharide biosynthesis	K25890
+00543 Exopolysaccharide biosynthesis	K25891
+00543 Exopolysaccharide biosynthesis	K25892
+00543 Exopolysaccharide biosynthesis	K13663
+00543 Exopolysaccharide biosynthesis	K13664
+00543 Exopolysaccharide biosynthesis	K13665
+00543 Exopolysaccharide biosynthesis	K16566
+00543 Exopolysaccharide biosynthesis	K16568
+00543 Exopolysaccharide biosynthesis	K16560
+00543 Exopolysaccharide biosynthesis	K16563
+00543 Exopolysaccharide biosynthesis	K25902
+00543 Exopolysaccharide biosynthesis	K25903
+00543 Exopolysaccharide biosynthesis	K25904
+00543 Exopolysaccharide biosynthesis	K25905
+00543 Exopolysaccharide biosynthesis	K25906
+00543 Exopolysaccharide biosynthesis	K25907
+00543 Exopolysaccharide biosynthesis	K25908
+00543 Exopolysaccharide biosynthesis	K25909
+00543 Exopolysaccharide biosynthesis	K25910
+00543 Exopolysaccharide biosynthesis	K25911
+00543 Exopolysaccharide biosynthesis	K25912
+00543 Exopolysaccharide biosynthesis	K21154
+00543 Exopolysaccharide biosynthesis	K25913
+00543 Exopolysaccharide biosynthesis	K16707
+00543 Exopolysaccharide biosynthesis	K25957
+00543 Exopolysaccharide biosynthesis	K25958
+00740 Riboflavin metabolism	K01093
+00740 Riboflavin metabolism	K00299
+00740 Riboflavin metabolism	K01515
+00740 Riboflavin metabolism	K18453
+00740 Riboflavin metabolism	K00484
+00740 Riboflavin metabolism	K23470
+00740 Riboflavin metabolism	K16902
+00740 Riboflavin metabolism	K00878
+00740 Riboflavin metabolism	K01078
+00740 Riboflavin metabolism	K08096
+00740 Riboflavin metabolism	K14653
+00740 Riboflavin metabolism	K01498
+00740 Riboflavin metabolism	K00082
+00740 Riboflavin metabolism	K14654
+00740 Riboflavin metabolism	K22912
+00740 Riboflavin metabolism	K20860
+00740 Riboflavin metabolism	K20861
+00740 Riboflavin metabolism	K20862
+00740 Riboflavin metabolism	K21063
+00740 Riboflavin metabolism	K21064
+00740 Riboflavin metabolism	K02858
+00740 Riboflavin metabolism	K00794
+00740 Riboflavin metabolism	K00793
+00740 Riboflavin metabolism	K00861
+00740 Riboflavin metabolism	K20884
+00740 Riboflavin metabolism	K11753
+00740 Riboflavin metabolism	K07732
+00740 Riboflavin metabolism	K03788
+00740 Riboflavin metabolism	K00953
+00740 Riboflavin metabolism	K22949
+00740 Riboflavin metabolism	K14656
+00740 Riboflavin metabolism	K22393
+00740 Riboflavin metabolism	K22394
+00740 Riboflavin metabolism	K05368
+00740 Riboflavin metabolism	K23462
+00740 Riboflavin metabolism	K19285
+00740 Riboflavin metabolism	K19286
+00740 Riboflavin metabolism	K20146
+00740 Riboflavin metabolism	K04719
+00740 Riboflavin metabolism	K12152
+00740 Riboflavin metabolism	K25520
+00564 Glycerophospholipid metabolism	K05939
+00564 Glycerophospholipid metabolism	K22831
+00564 Glycerophospholipid metabolism	K18693
+00564 Glycerophospholipid metabolism	K07029
+00564 Glycerophospholipid metabolism	K00057
+00564 Glycerophospholipid metabolism	K00105
+00564 Glycerophospholipid metabolism	K00111
+00564 Glycerophospholipid metabolism	K00112
+00564 Glycerophospholipid metabolism	K00113
+00564 Glycerophospholipid metabolism	K00980
+00564 Glycerophospholipid metabolism	K16368
+00564 Glycerophospholipid metabolism	K18694
+00564 Glycerophospholipid metabolism	K06130
+00564 Glycerophospholipid metabolism	K13333
+00564 Glycerophospholipid metabolism	K01048
+00564 Glycerophospholipid metabolism	K14676
+00564 Glycerophospholipid metabolism	K18696
+00564 Glycerophospholipid metabolism	K01126
+00564 Glycerophospholipid metabolism	K00866
+00564 Glycerophospholipid metabolism	K25193
+00564 Glycerophospholipid metabolism	K00894
+00564 Glycerophospholipid metabolism	K05929
+00564 Glycerophospholipid metabolism	K04019
+00564 Glycerophospholipid metabolism	K03735
+00564 Glycerophospholipid metabolism	K03736
+00564 Glycerophospholipid metabolism	K14286
+00564 Glycerophospholipid metabolism	K00551
+00564 Glycerophospholipid metabolism	K16369
+00564 Glycerophospholipid metabolism	K00550
+00564 Glycerophospholipid metabolism	K00570
+00564 Glycerophospholipid metabolism	K01521
+00564 Glycerophospholipid metabolism	K01004
+00564 Glycerophospholipid metabolism	K08729
+00564 Glycerophospholipid metabolism	K08730
+00564 Glycerophospholipid metabolism	K01613
+00564 Glycerophospholipid metabolism	K00995
+00564 Glycerophospholipid metabolism	K01094
+00564 Glycerophospholipid metabolism	K01095
+00564 Glycerophospholipid metabolism	K01096
+00564 Glycerophospholipid metabolism	K18697
+00564 Glycerophospholipid metabolism	K06131
+00564 Glycerophospholipid metabolism	K06132
+00564 Glycerophospholipid metabolism	K08744
+00564 Glycerophospholipid metabolism	K13535
+00564 Glycerophospholipid metabolism	K13621
+00564 Glycerophospholipid metabolism	K13622
+00564 Glycerophospholipid metabolism	K13623
+00564 Glycerophospholipid metabolism	K00096
+00564 Glycerophospholipid metabolism	K17104
+00564 Glycerophospholipid metabolism	K17105
+00564 Glycerophospholipid metabolism	K19664
+00564 Glycerophospholipid metabolism	K19665
+00564 Glycerophospholipid metabolism	K17830
+00564 Glycerophospholipid metabolism	K07094
+00564 Glycerophospholipid metabolism	K24872
+00052 Galactose metabolism	K01785
+00052 Galactose metabolism	K11395
+00052 Galactose metabolism	K18124
+00052 Galactose metabolism	K18125
+00052 Galactose metabolism	K05308
+00052 Galactose metabolism	K18126
+00052 Galactose metabolism	K18127
+00052 Galactose metabolism	K12308
+00052 Galactose metabolism	K00704
+00052 Galactose metabolism	K18819
+00052 Galactose metabolism	K06617
+00052 Galactose metabolism	K00094
+00052 Galactose metabolism	K21620
+00052 Galactose metabolism	K21621
+00052 Galactose metabolism	K21622
+00052 Galactose metabolism	K00917
+00052 Galactose metabolism	K08302
+00052 Galactose metabolism	K16371
+00052 Galactose metabolism	K00035
+00052 Galactose metabolism	K22215
+00052 Galactose metabolism	K04618
+00052 Galactose metabolism	K01684
+00052 Galactose metabolism	K00883
+00052 Galactose metabolism	K01631
+00052 Galactose metabolism	K01819
+00052 Galactose metabolism	K01220
+00052 Galactose metabolism	K06611
+00052 Galactose metabolism	K02079
+00052 Galactose metabolism	K02082
+00930 Caprolactam degradation	K01692
+00930 Caprolactam degradation	K01825
+00930 Caprolactam degradation	K01782
+00930 Caprolactam degradation	K07515
+00930 Caprolactam degradation	K07511
+00930 Caprolactam degradation	K00022
+00930 Caprolactam degradation	K00496
+00930 Caprolactam degradation	K14731
+00930 Caprolactam degradation	K17754
+00930 Caprolactam degradation	K19960
+00930 Caprolactam degradation	K03379
+00930 Caprolactam degradation	K19961
+00930 Caprolactam degradation	K14519
+00930 Caprolactam degradation	K19962
+00930 Caprolactam degradation	K06446
+00930 Caprolactam degradation	K19963
+00930 Caprolactam degradation	K01453
+00930 Caprolactam degradation	K01471
+00643 Styrene degradation	K01026
+00643 Styrene degradation	K20626
+00643 Styrene degradation	K20627
+00643 Styrene degradation	K01039
+00643 Styrene degradation	K01040
+00643 Styrene degradation	K01501
+00643 Styrene degradation	K01426
+00643 Styrene degradation	K00451
+00643 Styrene degradation	K01800
+00643 Styrene degradation	K16171
+00643 Styrene degradation	K00146
+00643 Styrene degradation	K01721
+00643 Styrene degradation	K20807
+00643 Styrene degradation	K10566
+00643 Styrene degradation	K00446
+00643 Styrene degradation	K07104
+00643 Styrene degradation	K10216
+00643 Styrene degradation	K14481
+00643 Styrene degradation	K14482
+00643 Styrene degradation	K18312
+00643 Styrene degradation	K01502
+00910 Nitrogen metabolism	K10944
+00910 Nitrogen metabolism	K10945
+00910 Nitrogen metabolism	K10946
+00910 Nitrogen metabolism	K00367
+00910 Nitrogen metabolism	K10534
+00910 Nitrogen metabolism	K02567
+00910 Nitrogen metabolism	K02568
+00910 Nitrogen metabolism	K00372
+00910 Nitrogen metabolism	K00360
+00910 Nitrogen metabolism	K17877
+00910 Nitrogen metabolism	K00362
+00910 Nitrogen metabolism	K00363
+00910 Nitrogen metabolism	K00366
+00910 Nitrogen metabolism	K03385
+00910 Nitrogen metabolism	K15876
+00910 Nitrogen metabolism	K00368
+00910 Nitrogen metabolism	K15864
+00910 Nitrogen metabolism	K04561
+00910 Nitrogen metabolism	K02305
+00910 Nitrogen metabolism	K00376
+00910 Nitrogen metabolism	K22896
+00910 Nitrogen metabolism	K22897
+00910 Nitrogen metabolism	K22898
+00910 Nitrogen metabolism	K22899
+00910 Nitrogen metabolism	K20932
+00910 Nitrogen metabolism	K20933
+00910 Nitrogen metabolism	K20934
+00910 Nitrogen metabolism	K20935
+00910 Nitrogen metabolism	K05601
+00910 Nitrogen metabolism	K10535
+00910 Nitrogen metabolism	K00459
+00910 Nitrogen metabolism	K19823
+00910 Nitrogen metabolism	K01725
+00910 Nitrogen metabolism	K01672
+00910 Nitrogen metabolism	K01673
+00910 Nitrogen metabolism	K01674
+00910 Nitrogen metabolism	K01743
+00770 Pantothenate and CoA biosynthesis	K01652
+00770 Pantothenate and CoA biosynthesis	K01653
+00770 Pantothenate and CoA biosynthesis	K11258
+00770 Pantothenate and CoA biosynthesis	K18933
+00770 Pantothenate and CoA biosynthesis	K04765
+00770 Pantothenate and CoA biosynthesis	K13799
+00770 Pantothenate and CoA biosynthesis	K17722
+00770 Pantothenate and CoA biosynthesis	K17723
+00770 Pantothenate and CoA biosynthesis	K00053
+00770 Pantothenate and CoA biosynthesis	K01687
+00770 Pantothenate and CoA biosynthesis	K17839
+00770 Pantothenate and CoA biosynthesis	K13367
+00770 Pantothenate and CoA biosynthesis	K01579
+00770 Pantothenate and CoA biosynthesis	K18966
+00770 Pantothenate and CoA biosynthesis	K01918
+00770 Pantothenate and CoA biosynthesis	K09722
+00770 Pantothenate and CoA biosynthesis	K00606
+00770 Pantothenate and CoA biosynthesis	K00077
+00770 Pantothenate and CoA biosynthesis	K24263
+00770 Pantothenate and CoA biosynthesis	K00867
+00770 Pantothenate and CoA biosynthesis	K09680
+00770 Pantothenate and CoA biosynthesis	K03525
+00770 Pantothenate and CoA biosynthesis	K06982
+00770 Pantothenate and CoA biosynthesis	K01922
+00770 Pantothenate and CoA biosynthesis	K21977
+00770 Pantothenate and CoA biosynthesis	K01598
+00770 Pantothenate and CoA biosynthesis	K13038
+00770 Pantothenate and CoA biosynthesis	K00954
+00770 Pantothenate and CoA biosynthesis	K02201
+00770 Pantothenate and CoA biosynthesis	K00859
+00770 Pantothenate and CoA biosynthesis	K09735
+00770 Pantothenate and CoA biosynthesis	K00997
+00770 Pantothenate and CoA biosynthesis	K06133
+00770 Pantothenate and CoA biosynthesis	K08682
+00770 Pantothenate and CoA biosynthesis	K08069
+00770 Pantothenate and CoA biosynthesis	K24264
+00364 Fluorobenzoate degradation	K20806
+00364 Fluorobenzoate degradation	K08686
+00364 Fluorobenzoate degradation	K20808
+00364 Fluorobenzoate degradation	K20809
+00364 Fluorobenzoate degradation	K14417
+00364 Fluorobenzoate degradation	K14418
+00670 One carbon pool by folate	K00605
+00670 One carbon pool by folate	K01433
+00670 One carbon pool by folate	K01938
+00670 One carbon pool by folate	K01491
+00670 One carbon pool by folate	K01500
+00670 One carbon pool by folate	K00297
+00670 One carbon pool by folate	K25007
+00670 One carbon pool by folate	K25008
+00670 One carbon pool by folate	K00300
+00670 One carbon pool by folate	K00601
+00670 One carbon pool by folate	K11175
+00670 One carbon pool by folate	K01492
+00670 One carbon pool by folate	K13998
+00670 One carbon pool by folate	K03465
+00670 One carbon pool by folate	K00548
+00670 One carbon pool by folate	K24042
+00670 One carbon pool by folate	K00603
+00670 One carbon pool by folate	K13938
+00670 One carbon pool by folate	K13402
+00670 One carbon pool by folate	K13403
+00670 One carbon pool by folate	K00295
+00670 One carbon pool by folate	K25221
+00670 One carbon pool by folate	K25915
+00670 One carbon pool by folate	K00289
+00670 One carbon pool by folate	K25009
+00670 One carbon pool by folate	K01746
+00670 One carbon pool by folate	K01934
+00760 Nicotinate and nicotinamide metabolism	K01799
+00760 Nicotinate and nicotinamide metabolism	K00135
+00760 Nicotinate and nicotinamide metabolism	K08324
+00760 Nicotinate and nicotinamide metabolism	K01081
+00760 Nicotinate and nicotinamide metabolism	K11751
+00760 Nicotinate and nicotinamide metabolism	K03787
+00760 Nicotinate and nicotinamide metabolism	K02566
+00760 Nicotinate and nicotinamide metabolism	K18550
+00760 Nicotinate and nicotinamide metabolism	K03783
+00760 Nicotinate and nicotinamide metabolism	K03784
+00760 Nicotinate and nicotinamide metabolism	K08693
+00760 Nicotinate and nicotinamide metabolism	K01240
+00760 Nicotinate and nicotinamide metabolism	K00278
+00760 Nicotinate and nicotinamide metabolism	K06989
+00760 Nicotinate and nicotinamide metabolism	K03517
+00760 Nicotinate and nicotinamide metabolism	K00767
+00760 Nicotinate and nicotinamide metabolism	K00763
+00760 Nicotinate and nicotinamide metabolism	K10524
+00760 Nicotinate and nicotinamide metabolism	K18551
+00760 Nicotinate and nicotinamide metabolism	K06210
+00760 Nicotinate and nicotinamide metabolism	K19785
+00760 Nicotinate and nicotinamide metabolism	K00952
+00760 Nicotinate and nicotinamide metabolism	K13522
+00760 Nicotinate and nicotinamide metabolism	K00969
+00760 Nicotinate and nicotinamide metabolism	K01916
+00760 Nicotinate and nicotinamide metabolism	K01950
+00760 Nicotinate and nicotinamide metabolism	K03742
+00760 Nicotinate and nicotinamide metabolism	K03743
+00760 Nicotinate and nicotinamide metabolism	K08281
+00760 Nicotinate and nicotinamide metabolism	K12410
+00760 Nicotinate and nicotinamide metabolism	K00858
+00760 Nicotinate and nicotinamide metabolism	K00322
+00760 Nicotinate and nicotinamide metabolism	K00323
+00760 Nicotinate and nicotinamide metabolism	K00324
+00760 Nicotinate and nicotinamide metabolism	K00325
+00760 Nicotinate and nicotinamide metabolism	K18029
+00760 Nicotinate and nicotinamide metabolism	K18030
+00760 Nicotinate and nicotinamide metabolism	K20445
+00760 Nicotinate and nicotinamide metabolism	K20446
+00760 Nicotinate and nicotinamide metabolism	K20447
+00760 Nicotinate and nicotinamide metabolism	K20448
+00760 Nicotinate and nicotinamide metabolism	K14974
+00760 Nicotinate and nicotinamide metabolism	K18028
+00760 Nicotinate and nicotinamide metabolism	K15357
+00760 Nicotinate and nicotinamide metabolism	K13995
+00760 Nicotinate and nicotinamide metabolism	K20449
+00760 Nicotinate and nicotinamide metabolism	K15358
+00760 Nicotinate and nicotinamide metabolism	K19647
+00760 Nicotinate and nicotinamide metabolism	K20450
+00760 Nicotinate and nicotinamide metabolism	K20451
+00760 Nicotinate and nicotinamide metabolism	K20452
+00760 Nicotinate and nicotinamide metabolism	K20453
+00760 Nicotinate and nicotinamide metabolism	K20454
+00760 Nicotinate and nicotinamide metabolism	K19818
+00760 Nicotinate and nicotinamide metabolism	K19819
+00760 Nicotinate and nicotinamide metabolism	K19820
+00760 Nicotinate and nicotinamide metabolism	K19826
+00760 Nicotinate and nicotinamide metabolism	K19890
+00760 Nicotinate and nicotinamide metabolism	K20170
+00760 Nicotinate and nicotinamide metabolism	K20169
+00760 Nicotinate and nicotinamide metabolism	K20158
+00760 Nicotinate and nicotinamide metabolism	K19700
+00760 Nicotinate and nicotinamide metabolism	K20171
+00760 Nicotinate and nicotinamide metabolism	K20172
+00760 Nicotinate and nicotinamide metabolism	K15359
+00760 Nicotinate and nicotinamide metabolism	K18276
+00760 Nicotinate and nicotinamide metabolism	K19185
+00760 Nicotinate and nicotinamide metabolism	K19186
+00760 Nicotinate and nicotinamide metabolism	K19187
+00760 Nicotinate and nicotinamide metabolism	K19188
+00760 Nicotinate and nicotinamide metabolism	K19189
+00760 Nicotinate and nicotinamide metabolism	K19190
+00760 Nicotinate and nicotinamide metabolism	K19191
+00760 Nicotinate and nicotinamide metabolism	K20155
+00830 Retinol metabolism	K13369
+00830 Retinol metabolism	K00515
+00830 Retinol metabolism	K11146
+00830 Retinol metabolism	K11148
+00830 Retinol metabolism	K11149
+00830 Retinol metabolism	K11150
+00830 Retinol metabolism	K11151
+00830 Retinol metabolism	K11152
+00830 Retinol metabolism	K11153
+00830 Retinol metabolism	K11161
+00830 Retinol metabolism	K11154
+00830 Retinol metabolism	K15734
+00830 Retinol metabolism	K11157
+00830 Retinol metabolism	K11158
+00830 Retinol metabolism	K00061
+00830 Retinol metabolism	K07249
+00830 Retinol metabolism	K09516
+00730 Thiamine metabolism	K06928
+00730 Thiamine metabolism	K03147
+00730 Thiamine metabolism	K00877
+00730 Thiamine metabolism	K00941
+00730 Thiamine metabolism	K14153
+00730 Thiamine metabolism	K21219
+00730 Thiamine metabolism	K18278
+00730 Thiamine metabolism	K03150
+00730 Thiamine metabolism	K03153
+00730 Thiamine metabolism	K03149
+00730 Thiamine metabolism	K03146
+00730 Thiamine metabolism	K22699
+00730 Thiamine metabolism	K00788
+00730 Thiamine metabolism	K21220
+00730 Thiamine metabolism	K14154
+00730 Thiamine metabolism	K00946
+00730 Thiamine metabolism	K22911
+00730 Thiamine metabolism	K07251
+00730 Thiamine metabolism	K00949
+00730 Thiamine metabolism	K05307
+00730 Thiamine metabolism	K10811
+00730 Thiamine metabolism	K20895
+00730 Thiamine metabolism	K20896
+00750 Vitamin B6 metabolism	K01733
+00750 Vitamin B6 metabolism	K00275
+00750 Vitamin B6 metabolism	K23998
+00750 Vitamin B6 metabolism	K00868
+00750 Vitamin B6 metabolism	K05275
+00750 Vitamin B6 metabolism	K03472
+00750 Vitamin B6 metabolism	K03473
+00750 Vitamin B6 metabolism	K00097
+00750 Vitamin B6 metabolism	K03474
+00750 Vitamin B6 metabolism	K06215
+00750 Vitamin B6 metabolism	K08681
+00750 Vitamin B6 metabolism	K18607
+00750 Vitamin B6 metabolism	K18608
+00750 Vitamin B6 metabolism	K18609
+00750 Vitamin B6 metabolism	K18610
+00750 Vitamin B6 metabolism	K18611
+00750 Vitamin B6 metabolism	K18612
+00750 Vitamin B6 metabolism	K18613
+00750 Vitamin B6 metabolism	K18071
+00750 Vitamin B6 metabolism	K18614
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K18284
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K18240
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K03181
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K03182
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K18800
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K00568
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K03185
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K03183
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K03184
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K06126
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K00591
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K06127
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K06134
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K02551
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K08680
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K02549
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K14759
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K01911
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K14760
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K01661
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K12073
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K19222
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K23094
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K17872
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K23095
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K11782
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K18285
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K18286
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K20810
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K11783
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K11784
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K11785
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K03809
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K19267
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K10106
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K05357
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K12502
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K18534
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K09834
+00130 Ubiquinone and other terpenoid-quinone biosynthesis	K05928
+00860 Porphyrin metabolism	K05901
+00860 Porphyrin metabolism	K02492
+00860 Porphyrin metabolism	K01749
+00860 Porphyrin metabolism	K01719
+00860 Porphyrin metabolism	K01599
+00860 Porphyrin metabolism	K00228
+00860 Porphyrin metabolism	K02495
+00860 Porphyrin metabolism	K00230
+00860 Porphyrin metabolism	K00231
+00860 Porphyrin metabolism	K08973
+00860 Porphyrin metabolism	K01772
+00860 Porphyrin metabolism	K00435
+00860 Porphyrin metabolism	K25033
+00860 Porphyrin metabolism	K13542
+00860 Porphyrin metabolism	K13543
+00860 Porphyrin metabolism	K02496
+00860 Porphyrin metabolism	K02302
+00860 Porphyrin metabolism	K02303
+00860 Porphyrin metabolism	K00589
+00860 Porphyrin metabolism	K02304
+00860 Porphyrin metabolism	K24866
+00860 Porphyrin metabolism	K03794
+00860 Porphyrin metabolism	K22225
+00860 Porphyrin metabolism	K22226
+00860 Porphyrin metabolism	K22227
+00860 Porphyrin metabolism	K24867
+00860 Porphyrin metabolism	K02190
+00860 Porphyrin metabolism	K03795
+00860 Porphyrin metabolism	K22011
+00860 Porphyrin metabolism	K03394
+00860 Porphyrin metabolism	K13540
+00860 Porphyrin metabolism	K02229
+00860 Porphyrin metabolism	K05934
+00860 Porphyrin metabolism	K13541
+00860 Porphyrin metabolism	K21479
+00860 Porphyrin metabolism	K05936
+00860 Porphyrin metabolism	K02189
+00860 Porphyrin metabolism	K02228
+00860 Porphyrin metabolism	K05895
+00860 Porphyrin metabolism	K02188
+00860 Porphyrin metabolism	K00595
+00860 Porphyrin metabolism	K02191
+00860 Porphyrin metabolism	K03399
+00860 Porphyrin metabolism	K06042
+00860 Porphyrin metabolism	K02224
+00860 Porphyrin metabolism	K02230
+00860 Porphyrin metabolism	K09882
+00860 Porphyrin metabolism	K09883
+00860 Porphyrin metabolism	K13786
+00860 Porphyrin metabolism	K00798
+00860 Porphyrin metabolism	K19221
+00860 Porphyrin metabolism	K02232
+00860 Porphyrin metabolism	K02227
+00860 Porphyrin metabolism	K02225
+00860 Porphyrin metabolism	K08260
+00860 Porphyrin metabolism	K02231
+00860 Porphyrin metabolism	K19712
+00860 Porphyrin metabolism	K02233
+00860 Porphyrin metabolism	K25496
+00860 Porphyrin metabolism	K22465
+00860 Porphyrin metabolism	K22466
+00860 Porphyrin metabolism	K25497
+00860 Porphyrin metabolism	K25498
+00860 Porphyrin metabolism	K25499
+00860 Porphyrin metabolism	K00768
+00860 Porphyrin metabolism	K02226
+00860 Porphyrin metabolism	K16651
+00860 Porphyrin metabolism	K04720
+00860 Porphyrin metabolism	K04032
+00860 Porphyrin metabolism	K22012
+00860 Porphyrin metabolism	K21610
+00860 Porphyrin metabolism	K21611
+00860 Porphyrin metabolism	K21612
+00860 Porphyrin metabolism	K03403
+00860 Porphyrin metabolism	K03404
+00860 Porphyrin metabolism	K03405
+00860 Porphyrin metabolism	K03428
+00860 Porphyrin metabolism	K04034
+00860 Porphyrin metabolism	K04035
+00860 Porphyrin metabolism	K19073
+00860 Porphyrin metabolism	K21231
+00860 Porphyrin metabolism	K04036
+00860 Porphyrin metabolism	K00218
+00860 Porphyrin metabolism	K04037
+00860 Porphyrin metabolism	K04038
+00860 Porphyrin metabolism	K04039
+00860 Porphyrin metabolism	K08099
+00860 Porphyrin metabolism	K13600
+00860 Porphyrin metabolism	K13606
+00860 Porphyrin metabolism	K18010
+00860 Porphyrin metabolism	K22013
+00860 Porphyrin metabolism	K13544
+00860 Porphyrin metabolism	K13071
+00860 Porphyrin metabolism	K13545
+00860 Porphyrin metabolism	K11333
+00860 Porphyrin metabolism	K11334
+00860 Porphyrin metabolism	K11335
+00860 Porphyrin metabolism	K11336
+00860 Porphyrin metabolism	K11337
+00860 Porphyrin metabolism	K21058
+00860 Porphyrin metabolism	K13602
+00860 Porphyrin metabolism	K13601
+00860 Porphyrin metabolism	K13603
+00860 Porphyrin metabolism	K13604
+00860 Porphyrin metabolism	K21312
+00860 Porphyrin metabolism	K07215
+00860 Porphyrin metabolism	K07226
+00860 Porphyrin metabolism	K07145
+00860 Porphyrin metabolism	K21480
+00860 Porphyrin metabolism	K00214
+00860 Porphyrin metabolism	K23825
+00860 Porphyrin metabolism	K08100
+00860 Porphyrin metabolism	K05369
+00860 Porphyrin metabolism	K05370
+00860 Porphyrin metabolism	K08101
+00860 Porphyrin metabolism	K05371
+00860 Porphyrin metabolism	K01764
+00860 Porphyrin metabolism	K03594
+00860 Porphyrin metabolism	K22336
+00860 Porphyrin metabolism	K22552
+00780 Biotin metabolism	K01947
+00780 Biotin metabolism	K02169
+00780 Biotin metabolism	K02170
+00780 Biotin metabolism	K09789
+00780 Biotin metabolism	K19560
+00780 Biotin metabolism	K19561
+00780 Biotin metabolism	K01906
+00780 Biotin metabolism	K19562
+00780 Biotin metabolism	K19563
+00780 Biotin metabolism	K01935
+00780 Biotin metabolism	K25570
+00780 Biotin metabolism	K01012
+00780 Biotin metabolism	K01942
+00365 Furfural degradation	K16873
+00365 Furfural degradation	K16874
+00365 Furfural degradation	K16875
+00365 Furfural degradation	K16876
+00365 Furfural degradation	K16877
+00365 Furfural degradation	K16878
+00365 Furfural degradation	K16879
+00365 Furfural degradation	K16880
+00633 Nitrotoluene degradation	K00169
+00633 Nitrotoluene degradation	K00170
+00633 Nitrotoluene degradation	K00172
+00633 Nitrotoluene degradation	K00189
+00633 Nitrotoluene degradation	K00171
+00633 Nitrotoluene degradation	K00198
+00633 Nitrotoluene degradation	K00196
+00633 Nitrotoluene degradation	K11180
+00633 Nitrotoluene degradation	K11181
+00633 Nitrotoluene degradation	K10678
+00633 Nitrotoluene degradation	K10679
+00633 Nitrotoluene degradation	K10680
+00633 Nitrotoluene degradation	K21683
+00520 Amino sugar and nucleotide sugar metabolism	K06859
+00520 Amino sugar and nucleotide sugar metabolism	K13810
+00520 Amino sugar and nucleotide sugar metabolism	K15916
+00520 Amino sugar and nucleotide sugar metabolism	K00886
+00520 Amino sugar and nucleotide sugar metabolism	K16190
+00520 Amino sugar and nucleotide sugar metabolism	K12447
+00520 Amino sugar and nucleotide sugar metabolism	K00847
+00520 Amino sugar and nucleotide sugar metabolism	K17497
+00520 Amino sugar and nucleotide sugar metabolism	K16881
+00520 Amino sugar and nucleotide sugar metabolism	K00966
+00520 Amino sugar and nucleotide sugar metabolism	K00976
+00520 Amino sugar and nucleotide sugar metabolism	K05305
+00520 Amino sugar and nucleotide sugar metabolism	K10046
+00520 Amino sugar and nucleotide sugar metabolism	K01183
+00520 Amino sugar and nucleotide sugar metabolism	K13381
+00520 Amino sugar and nucleotide sugar metabolism	K18675
+00520 Amino sugar and nucleotide sugar metabolism	K01452
+00520 Amino sugar and nucleotide sugar metabolism	K01233
+00520 Amino sugar and nucleotide sugar metabolism	K15855
+00520 Amino sugar and nucleotide sugar metabolism	K00884
+00520 Amino sugar and nucleotide sugar metabolism	K01443
+00520 Amino sugar and nucleotide sugar metabolism	K02564
+00520 Amino sugar and nucleotide sugar metabolism	K18676
+00520 Amino sugar and nucleotide sugar metabolism	K00621
+00520 Amino sugar and nucleotide sugar metabolism	K01836
+00520 Amino sugar and nucleotide sugar metabolism	K03431
+00520 Amino sugar and nucleotide sugar metabolism	K18674
+00520 Amino sugar and nucleotide sugar metabolism	K11528
+00520 Amino sugar and nucleotide sugar metabolism	K00972
+00520 Amino sugar and nucleotide sugar metabolism	K07106
+00520 Amino sugar and nucleotide sugar metabolism	K09001
+00520 Amino sugar and nucleotide sugar metabolism	K22292
+00520 Amino sugar and nucleotide sugar metabolism	K07102
+00520 Amino sugar and nucleotide sugar metabolism	K00992
+00520 Amino sugar and nucleotide sugar metabolism	K12409
+00520 Amino sugar and nucleotide sugar metabolism	K00885
+00520 Amino sugar and nucleotide sugar metabolism	K13967
+00520 Amino sugar and nucleotide sugar metabolism	K01787
+00520 Amino sugar and nucleotide sugar metabolism	K01788
+00520 Amino sugar and nucleotide sugar metabolism	K05304
+00520 Amino sugar and nucleotide sugar metabolism	K01639
+00520 Amino sugar and nucleotide sugar metabolism	K21749
+00520 Amino sugar and nucleotide sugar metabolism	K08080
+00520 Amino sugar and nucleotide sugar metabolism	K00326
+00520 Amino sugar and nucleotide sugar metabolism	K15910
+00520 Amino sugar and nucleotide sugar metabolism	K15913
+00520 Amino sugar and nucleotide sugar metabolism	K18429
+00520 Amino sugar and nucleotide sugar metabolism	K18430
+00520 Amino sugar and nucleotide sugar metabolism	K18431
+00520 Amino sugar and nucleotide sugar metabolism	K21279
+00520 Amino sugar and nucleotide sugar metabolism	K21055
+00520 Amino sugar and nucleotide sugar metabolism	K21750
+00520 Amino sugar and nucleotide sugar metabolism	K12446
+00520 Amino sugar and nucleotide sugar metabolism	K01209
+00520 Amino sugar and nucleotide sugar metabolism	K15921
+00520 Amino sugar and nucleotide sugar metabolism	K20844
+00520 Amino sugar and nucleotide sugar metabolism	K08678
+00520 Amino sugar and nucleotide sugar metabolism	K12449
+00520 Amino sugar and nucleotide sugar metabolism	K15920
+00520 Amino sugar and nucleotide sugar metabolism	K01198
+00520 Amino sugar and nucleotide sugar metabolism	K22268
+00520 Amino sugar and nucleotide sugar metabolism	K12448
+00520 Amino sugar and nucleotide sugar metabolism	K12450
+00520 Amino sugar and nucleotide sugar metabolism	K18677
+00520 Amino sugar and nucleotide sugar metabolism	K25314
+00520 Amino sugar and nucleotide sugar metabolism	K25315
+00010 Glycolysis / Gluconeogenesis	K10705
+00010 Glycolysis / Gluconeogenesis	K01568
+00010 Glycolysis / Gluconeogenesis	K01085
+00010 Glycolysis / Gluconeogenesis	K20866
+00010 Glycolysis / Gluconeogenesis	K08074
+00010 Glycolysis / Gluconeogenesis	K01792
+00010 Glycolysis / Gluconeogenesis	K11389
+00030 Pentose phosphate pathway	K00131
+00030 Pentose phosphate pathway	K18978
+00030 Pentose phosphate pathway	K19243
+00030 Pentose phosphate pathway	K01057
+00030 Pentose phosphate pathway	K07404
+00030 Pentose phosphate pathway	K13937
+00030 Pentose phosphate pathway	K00616
+00030 Pentose phosphate pathway	K01619
+00030 Pentose phosphate pathway	K00852
+00030 Pentose phosphate pathway	K05774
+00030 Pentose phosphate pathway	K01690
+00030 Pentose phosphate pathway	K17463
+00030 Pentose phosphate pathway	K00034
+00030 Pentose phosphate pathway	K22969
+00030 Pentose phosphate pathway	K21840
+00030 Pentose phosphate pathway	K00115
+00030 Pentose phosphate pathway	K19813
+00030 Pentose phosphate pathway	K00117
+00030 Pentose phosphate pathway	K06151
+00030 Pentose phosphate pathway	K06152
+00030 Pentose phosphate pathway	K22229
+00030 Pentose phosphate pathway	K11441
+00030 Pentose phosphate pathway	K00851
+00030 Pentose phosphate pathway	K25031
+00030 Pentose phosphate pathway	K00874
+00030 Pentose phosphate pathway	K03738
+00030 Pentose phosphate pathway	K18020
+00030 Pentose phosphate pathway	K18021
+00030 Pentose phosphate pathway	K18022
+00030 Pentose phosphate pathway	K18128
+00030 Pentose phosphate pathway	K22345
+00030 Pentose phosphate pathway	K17468
+00020 Citrate cycle (TCA cycle)	K05942
+00020 Citrate cycle (TCA cycle)	K00030
+00020 Citrate cycle (TCA cycle)	K00164
+00660 C5-Branched dibasic acid metabolism	K19268
+00660 C5-Branched dibasic acid metabolism	K01846
+00660 C5-Branched dibasic acid metabolism	K04835
+00660 C5-Branched dibasic acid metabolism	K19281
+00660 C5-Branched dibasic acid metabolism	K01575
+00660 C5-Branched dibasic acid metabolism	K17724
+00660 C5-Branched dibasic acid metabolism	K22002
+00660 C5-Branched dibasic acid metabolism	K22003
+00660 C5-Branched dibasic acid metabolism	K22004
+00660 C5-Branched dibasic acid metabolism	K18288
+00660 C5-Branched dibasic acid metabolism	K18289
+00660 C5-Branched dibasic acid metabolism	K18290
+00660 C5-Branched dibasic acid metabolism	K18291
+00660 C5-Branched dibasic acid metabolism	K18292
+00430 Taurine and hypotaurine metabolism	K00925
+00430 Taurine and hypotaurine metabolism	K00625
+00430 Taurine and hypotaurine metabolism	K13788
+00430 Taurine and hypotaurine metabolism	K15024
+00430 Taurine and hypotaurine metabolism	K15371
+00430 Taurine and hypotaurine metabolism	K00260
+00430 Taurine and hypotaurine metabolism	K03119
+00430 Taurine and hypotaurine metabolism	K00259
+00430 Taurine and hypotaurine metabolism	K19244
+00430 Taurine and hypotaurine metabolism	K00456
+00430 Taurine and hypotaurine metabolism	K15372
+00430 Taurine and hypotaurine metabolism	K10712
+00430 Taurine and hypotaurine metabolism	K07255
+00430 Taurine and hypotaurine metabolism	K07256
+00430 Taurine and hypotaurine metabolism	K03852
+00430 Taurine and hypotaurine metabolism	K15373
+00430 Taurine and hypotaurine metabolism	K25985
+00430 Taurine and hypotaurine metabolism	K19699
+00430 Taurine and hypotaurine metabolism	K26005
+00430 Taurine and hypotaurine metabolism	K15515
+00430 Taurine and hypotaurine metabolism	K25261
+00430 Taurine and hypotaurine metabolism	K25262
+00710 Carbon fixation in photosynthetic organisms	K00150
+00710 Carbon fixation in photosynthetic organisms	K01610
+00710 Carbon fixation in photosynthetic organisms	K01783
+00710 Carbon fixation in photosynthetic organisms	K01807
+00710 Carbon fixation in photosynthetic organisms	K01808
+00710 Carbon fixation in photosynthetic organisms	K01621
+00710 Carbon fixation in photosynthetic organisms	K00028
+00710 Carbon fixation in photosynthetic organisms	K00051
+00710 Carbon fixation in photosynthetic organisms	K01601
+00710 Carbon fixation in photosynthetic organisms	K01602
+00710 Carbon fixation in photosynthetic organisms	K05298
+00710 Carbon fixation in photosynthetic organisms	K01100
+00710 Carbon fixation in photosynthetic organisms	K00855
+00710 Carbon fixation in photosynthetic organisms	K11214
+00062 Fatty acid elongation	K07512
+00062 Fatty acid elongation	K22554
+00190 Oxidative phosphorylation	K25801
+00190 Oxidative phosphorylation	K00330
+00190 Oxidative phosphorylation	K00331
+00190 Oxidative phosphorylation	K00332
+00190 Oxidative phosphorylation	K00333
+00190 Oxidative phosphorylation	K13378
+00190 Oxidative phosphorylation	K13380
+00190 Oxidative phosphorylation	K00334
+00190 Oxidative phosphorylation	K00335
+00190 Oxidative phosphorylation	K00336
+00190 Oxidative phosphorylation	K00337
+00190 Oxidative phosphorylation	K00338
+00190 Oxidative phosphorylation	K00339
+00190 Oxidative phosphorylation	K00340
+00190 Oxidative phosphorylation	K00341
+00190 Oxidative phosphorylation	K00342
+00190 Oxidative phosphorylation	K15863
+00190 Oxidative phosphorylation	K00343
+00190 Oxidative phosphorylation	K05572
+00190 Oxidative phosphorylation	K05573
+00190 Oxidative phosphorylation	K05574
+00190 Oxidative phosphorylation	K05575
+00190 Oxidative phosphorylation	K05576
+00190 Oxidative phosphorylation	K05577
+00190 Oxidative phosphorylation	K05578
+00190 Oxidative phosphorylation	K05579
+00190 Oxidative phosphorylation	K05580
+00190 Oxidative phosphorylation	K05581
+00190 Oxidative phosphorylation	K05582
+00190 Oxidative phosphorylation	K05583
+00190 Oxidative phosphorylation	K05584
+00190 Oxidative phosphorylation	K05585
+00190 Oxidative phosphorylation	K05586
+00190 Oxidative phosphorylation	K05587
+00190 Oxidative phosphorylation	K05588
+00190 Oxidative phosphorylation	K03885
+00190 Oxidative phosphorylation	K03886
+00190 Oxidative phosphorylation	K03887
+00190 Oxidative phosphorylation	K03888
+00190 Oxidative phosphorylation	K03889
+00190 Oxidative phosphorylation	K03890
+00190 Oxidative phosphorylation	K03891
+00190 Oxidative phosphorylation	K02300
+00190 Oxidative phosphorylation	K02277
+00190 Oxidative phosphorylation	K02276
+00190 Oxidative phosphorylation	K02274
+00190 Oxidative phosphorylation	K15408
+00190 Oxidative phosphorylation	K02275
+00190 Oxidative phosphorylation	K02269
+00190 Oxidative phosphorylation	K02829
+00190 Oxidative phosphorylation	K02828
+00190 Oxidative phosphorylation	K02827
+00190 Oxidative phosphorylation	K02826
+00190 Oxidative phosphorylation	K24007
+00190 Oxidative phosphorylation	K24008
+00190 Oxidative phosphorylation	K24009
+00190 Oxidative phosphorylation	K24010
+00190 Oxidative phosphorylation	K24011
+00190 Oxidative phosphorylation	K02299
+00190 Oxidative phosphorylation	K02298
+00190 Oxidative phosphorylation	K02297
+00190 Oxidative phosphorylation	K01549
+00190 Oxidative phosphorylation	K02139
+00190 Oxidative phosphorylation	K02141
+00190 Oxidative phosphorylation	K02142
+00190 Oxidative phosphorylation	K02143
+00190 Oxidative phosphorylation	K02117
+00190 Oxidative phosphorylation	K02118
+00190 Oxidative phosphorylation	K02119
+00190 Oxidative phosphorylation	K02120
+00190 Oxidative phosphorylation	K02121
+00190 Oxidative phosphorylation	K02122
+00190 Oxidative phosphorylation	K02107
+00190 Oxidative phosphorylation	K02123
+00190 Oxidative phosphorylation	K02124
+00190 Oxidative phosphorylation	K01535
+00190 Oxidative phosphorylation	K01544
+00190 Oxidative phosphorylation	K01507
+00190 Oxidative phosphorylation	K15986
+00190 Oxidative phosphorylation	K06019
+00680 Methane metabolism	K24182
+00680 Methane metabolism	K16370
+00680 Methane metabolism	K21071
+00680 Methane metabolism	K00918
+00680 Methane metabolism	K02446
+00680 Methane metabolism	K11532
+00680 Methane metabolism	K01086
+00680 Methane metabolism	K04041
+00680 Methane metabolism	K11645
+00680 Methane metabolism	K01624
+00680 Methane metabolism	K01622
+00680 Methane metabolism	K01007
+00680 Methane metabolism	K13812
+00680 Methane metabolism	K08093
+00680 Methane metabolism	K08094
+00680 Methane metabolism	K13831
+00680 Methane metabolism	K01595
+00680 Methane metabolism	K08692
+00680 Methane metabolism	K14067
+00680 Methane metabolism	K08691
+00680 Methane metabolism	K00122
+00680 Methane metabolism	K00126
+00680 Methane metabolism	K00123
+00680 Methane metabolism	K22515
+00680 Methane metabolism	K00124
+00680 Methane metabolism	K00127
+00680 Methane metabolism	K05299
+00680 Methane metabolism	K15022
+00680 Methane metabolism	K22015
+00680 Methane metabolism	K25123
+00680 Methane metabolism	K25124
+00680 Methane metabolism	K00197
+00680 Methane metabolism	K00194
+00680 Methane metabolism	K16157
+00680 Methane metabolism	K16158
+00680 Methane metabolism	K16159
+00680 Methane metabolism	K16160
+00680 Methane metabolism	K16161
+00680 Methane metabolism	K16162
+00680 Methane metabolism	K16254
+00680 Methane metabolism	K16255
+00680 Methane metabolism	K16256
+00680 Methane metabolism	K16257
+00680 Methane metabolism	K16258
+00680 Methane metabolism	K16259
+00680 Methane metabolism	K16260
+00680 Methane metabolism	K23995
+00680 Methane metabolism	K17066
+00680 Methane metabolism	K00093
+00680 Methane metabolism	K03396
+00680 Methane metabolism	K01070
+00680 Methane metabolism	K22516
+00680 Methane metabolism	K00125
+00680 Methane metabolism	K00192
+00680 Methane metabolism	K00195
+00680 Methane metabolism	K00193
+00680 Methane metabolism	K17100
+00680 Methane metabolism	K00317
+00680 Methane metabolism	K18277
+00680 Methane metabolism	K15228
+00680 Methane metabolism	K15229
+00680 Methane metabolism	K08685
+00680 Methane metabolism	K22081
+00680 Methane metabolism	K22082
+00680 Methane metabolism	K22083
+00680 Methane metabolism	K22084
+00680 Methane metabolism	K22085
+00680 Methane metabolism	K22086
+00680 Methane metabolism	K22087
+00680 Methane metabolism	K00200
+00680 Methane metabolism	K00201
+00680 Methane metabolism	K00202
+00680 Methane metabolism	K00203
+00680 Methane metabolism	K00204
+00680 Methane metabolism	K00205
+00680 Methane metabolism	K11260
+00680 Methane metabolism	K11261
+00680 Methane metabolism	K00672
+00680 Methane metabolism	K01499
+00680 Methane metabolism	K00319
+00680 Methane metabolism	K00440
+00680 Methane metabolism	K00441
+00680 Methane metabolism	K00442
+00680 Methane metabolism	K00443
+00680 Methane metabolism	K10714
+00680 Methane metabolism	K13942
+00680 Methane metabolism	K10713
+00680 Methane metabolism	K00320
+00680 Methane metabolism	K00577
+00680 Methane metabolism	K00578
+00680 Methane metabolism	K00579
+00680 Methane metabolism	K00580
+00680 Methane metabolism	K00581
+00680 Methane metabolism	K00582
+00680 Methane metabolism	K00583
+00680 Methane metabolism	K00584
+00680 Methane metabolism	K00399
+00680 Methane metabolism	K00400
+00680 Methane metabolism	K00401
+00680 Methane metabolism	K00402
+00680 Methane metabolism	K03421
+00680 Methane metabolism	K03422
+00680 Methane metabolism	K22480
+00680 Methane metabolism	K22481
+00680 Methane metabolism	K22482
+00680 Methane metabolism	K03388
+00680 Methane metabolism	K03389
+00680 Methane metabolism	K03390
+00680 Methane metabolism	K08264
+00680 Methane metabolism	K08265
+00680 Methane metabolism	K14127
+00680 Methane metabolism	K14126
+00680 Methane metabolism	K14128
+00680 Methane metabolism	K14080
+00680 Methane metabolism	K04480
+00680 Methane metabolism	K14081
+00680 Methane metabolism	K14082
+00680 Methane metabolism	K14083
+00680 Methane metabolism	K14084
+00680 Methane metabolism	K16176
+00680 Methane metabolism	K16177
+00680 Methane metabolism	K16178
+00680 Methane metabolism	K16179
+00680 Methane metabolism	K08097
+00680 Methane metabolism	K05979
+00680 Methane metabolism	K05884
+00680 Methane metabolism	K06034
+00680 Methane metabolism	K13039
+00680 Methane metabolism	K24393
+00680 Methane metabolism	K11779
+00680 Methane metabolism	K11781
+00680 Methane metabolism	K11780
+00680 Methane metabolism	K14941
+00680 Methane metabolism	K11212
+00680 Methane metabolism	K24998
+00680 Methane metabolism	K12234
+00680 Methane metabolism	K14940
+00680 Methane metabolism	K06914
+00680 Methane metabolism	K09733
+00680 Methane metabolism	K19793
+00680 Methane metabolism	K07144
+00680 Methane metabolism	K07072
+00720 Carbon fixation pathways in prokaryotes	K01006
+00720 Carbon fixation pathways in prokaryotes	K03737
+00720 Carbon fixation pathways in prokaryotes	K00174
+00720 Carbon fixation pathways in prokaryotes	K00175
+00720 Carbon fixation pathways in prokaryotes	K15230
+00720 Carbon fixation pathways in prokaryotes	K15231
+00720 Carbon fixation pathways in prokaryotes	K01681
+00720 Carbon fixation pathways in prokaryotes	K01682
+00720 Carbon fixation pathways in prokaryotes	K00177
+00720 Carbon fixation pathways in prokaryotes	K00176
+00720 Carbon fixation pathways in prokaryotes	K01902
+00720 Carbon fixation pathways in prokaryotes	K01903
+00720 Carbon fixation pathways in prokaryotes	K00240
+00720 Carbon fixation pathways in prokaryotes	K00241
+00720 Carbon fixation pathways in prokaryotes	K00242
+00720 Carbon fixation pathways in prokaryotes	K18859
+00720 Carbon fixation pathways in prokaryotes	K18860
+00720 Carbon fixation pathways in prokaryotes	K00233
+00720 Carbon fixation pathways in prokaryotes	K25995
+00720 Carbon fixation pathways in prokaryotes	K25996
+00720 Carbon fixation pathways in prokaryotes	K01676
+00720 Carbon fixation pathways in prokaryotes	K01677
+00720 Carbon fixation pathways in prokaryotes	K01678
+00720 Carbon fixation pathways in prokaryotes	K01675
+00720 Carbon fixation pathways in prokaryotes	K01774
+00720 Carbon fixation pathways in prokaryotes	K01958
+00720 Carbon fixation pathways in prokaryotes	K01959
+00720 Carbon fixation pathways in prokaryotes	K01960
+00720 Carbon fixation pathways in prokaryotes	K14449
+00720 Carbon fixation pathways in prokaryotes	K14468
+00720 Carbon fixation pathways in prokaryotes	K14534
+00720 Carbon fixation pathways in prokaryotes	K14471
+00720 Carbon fixation pathways in prokaryotes	K14472
+00720 Carbon fixation pathways in prokaryotes	K18556
+00720 Carbon fixation pathways in prokaryotes	K18557
+00720 Carbon fixation pathways in prokaryotes	K18558
+00720 Carbon fixation pathways in prokaryotes	K18559
+00720 Carbon fixation pathways in prokaryotes	K18560
+00720 Carbon fixation pathways in prokaryotes	K18209
+00720 Carbon fixation pathways in prokaryotes	K18210
+00720 Carbon fixation pathways in prokaryotes	K15038
+00720 Carbon fixation pathways in prokaryotes	K14465
+00720 Carbon fixation pathways in prokaryotes	K14466
+00720 Carbon fixation pathways in prokaryotes	K14467
+00720 Carbon fixation pathways in prokaryotes	K18861
+00720 Carbon fixation pathways in prokaryotes	K25774
+00720 Carbon fixation pathways in prokaryotes	K18593
+00720 Carbon fixation pathways in prokaryotes	K15016
+00720 Carbon fixation pathways in prokaryotes	K15232
+00720 Carbon fixation pathways in prokaryotes	K15233
+00720 Carbon fixation pathways in prokaryotes	K15234
+00720 Carbon fixation pathways in prokaryotes	K18603
+00720 Carbon fixation pathways in prokaryotes	K18604
+00720 Carbon fixation pathways in prokaryotes	K18605
+00720 Carbon fixation pathways in prokaryotes	K15017
+00720 Carbon fixation pathways in prokaryotes	K15039
+00720 Carbon fixation pathways in prokaryotes	K18602
+00720 Carbon fixation pathways in prokaryotes	K14469
+00720 Carbon fixation pathways in prokaryotes	K15018
+00720 Carbon fixation pathways in prokaryotes	K18594
+00720 Carbon fixation pathways in prokaryotes	K15019
+00720 Carbon fixation pathways in prokaryotes	K15020
+00720 Carbon fixation pathways in prokaryotes	K14470
+00720 Carbon fixation pathways in prokaryotes	K09709
+00720 Carbon fixation pathways in prokaryotes	K15052
+00720 Carbon fixation pathways in prokaryotes	K15023
+00720 Carbon fixation pathways in prokaryotes	K14138
+00361 Chlorocyclohexane and chlorobenzene degradation	K15245
+00361 Chlorocyclohexane and chlorobenzene degradation	K04098
+00361 Chlorocyclohexane and chlorobenzene degradation	K23529
+00361 Chlorocyclohexane and chlorobenzene degradation	K03391
+00361 Chlorocyclohexane and chlorobenzene degradation	K01563
+00361 Chlorocyclohexane and chlorobenzene degradation	K01561
+00361 Chlorocyclohexane and chlorobenzene degradation	K01560
+00361 Chlorocyclohexane and chlorobenzene degradation	K15236
+00361 Chlorocyclohexane and chlorobenzene degradation	K15237
+00361 Chlorocyclohexane and chlorobenzene degradation	K15238
+00361 Chlorocyclohexane and chlorobenzene degradation	K15239
+00361 Chlorocyclohexane and chlorobenzene degradation	K15240
+00361 Chlorocyclohexane and chlorobenzene degradation	K24293
+00361 Chlorocyclohexane and chlorobenzene degradation	K15246
+00361 Chlorocyclohexane and chlorobenzene degradation	K21607
+00361 Chlorocyclohexane and chlorobenzene degradation	K15241
+00361 Chlorocyclohexane and chlorobenzene degradation	K15242
+00361 Chlorocyclohexane and chlorobenzene degradation	K15243
+00361 Chlorocyclohexane and chlorobenzene degradation	K15244
+00361 Chlorocyclohexane and chlorobenzene degradation	K06912
+00361 Chlorocyclohexane and chlorobenzene degradation	K10676
+00361 Chlorocyclohexane and chlorobenzene degradation	K15253
+00240 Pyrimidine metabolism	K22026
+00240 Pyrimidine metabolism	K09913
+00240 Pyrimidine metabolism	K25589
+00240 Pyrimidine metabolism	K18533
+00240 Pyrimidine metabolism	K14641
+00240 Pyrimidine metabolism	K14642
+00240 Pyrimidine metabolism	K12304
+00240 Pyrimidine metabolism	K01511
+00240 Pyrimidine metabolism	K01518
+00240 Pyrimidine metabolism	K00527
+00240 Pyrimidine metabolism	K00524
+00240 Pyrimidine metabolism	K21636
+00240 Pyrimidine metabolism	K07023
+00240 Pyrimidine metabolism	K08722
+00240 Pyrimidine metabolism	K06952
+00240 Pyrimidine metabolism	K00893
+00240 Pyrimidine metabolism	K05961
+00240 Pyrimidine metabolism	K15519
+00240 Pyrimidine metabolism	K06966
+00240 Pyrimidine metabolism	K01119
+00240 Pyrimidine metabolism	K09769
+00240 Pyrimidine metabolism	K24670
+00240 Pyrimidine metabolism	K01465
+00240 Pyrimidine metabolism	K17828
+00240 Pyrimidine metabolism	K02823
+00240 Pyrimidine metabolism	K00226
+00240 Pyrimidine metabolism	K00254
+00240 Pyrimidine metabolism	K00762
+00240 Pyrimidine metabolism	K01591
+00240 Pyrimidine metabolism	K13809
+00240 Pyrimidine metabolism	K09903
+00240 Pyrimidine metabolism	K25435
+00240 Pyrimidine metabolism	K06287
+00240 Pyrimidine metabolism	K07043
+00240 Pyrimidine metabolism	K01937
+00240 Pyrimidine metabolism	K00945
+00240 Pyrimidine metabolism	K08320
+00240 Pyrimidine metabolism	K08723
+00240 Pyrimidine metabolism	K25434
+00240 Pyrimidine metabolism	K00761
+00240 Pyrimidine metabolism	K16328
+00240 Pyrimidine metabolism	K16329
+00240 Pyrimidine metabolism	K16330
+00240 Pyrimidine metabolism	K24242
+00240 Pyrimidine metabolism	K10213
+00240 Pyrimidine metabolism	K01250
+00240 Pyrimidine metabolism	K12700
+00240 Pyrimidine metabolism	K00756
+00240 Pyrimidine metabolism	K21057
+00240 Pyrimidine metabolism	K01494
+00240 Pyrimidine metabolism	K16904
+00240 Pyrimidine metabolism	K09887
+00240 Pyrimidine metabolism	K00943
+00240 Pyrimidine metabolism	K06016
+00240 Pyrimidine metabolism	K19794
+00240 Pyrimidine metabolism	K19795
+00240 Pyrimidine metabolism	K09018
+00240 Pyrimidine metabolism	K09024
+00240 Pyrimidine metabolism	K09020
+00240 Pyrimidine metabolism	K09021
+00240 Pyrimidine metabolism	K09023
+00240 Pyrimidine metabolism	K09019
+00623 Toluene degradation	K15762
+00623 Toluene degradation	K15765
+00623 Toluene degradation	K03381
+00623 Toluene degradation	K01856
+00623 Toluene degradation	K03268
+00623 Toluene degradation	K16268
+00623 Toluene degradation	K18089
+00623 Toluene degradation	K18090
+00623 Toluene degradation	K16249
+00623 Toluene degradation	K16243
+00623 Toluene degradation	K16244
+00623 Toluene degradation	K16242
+00623 Toluene degradation	K16245
+00623 Toluene degradation	K16246
+00623 Toluene degradation	K15766
+00623 Toluene degradation	K15767
+00623 Toluene degradation	K00217
+00623 Toluene degradation	K03380
+00623 Toluene degradation	K01860
+00623 Toluene degradation	K01061
+00623 Toluene degradation	K07540
+00623 Toluene degradation	K07543
+00623 Toluene degradation	K07544
+00623 Toluene degradation	K07545
+00623 Toluene degradation	K07546
+00623 Toluene degradation	K07547
+00623 Toluene degradation	K07548
+00623 Toluene degradation	K07549
+00623 Toluene degradation	K07550
+00623 Toluene degradation	K15760
+00623 Toluene degradation	K15761
+00623 Toluene degradation	K15763
+00623 Toluene degradation	K15764
+00623 Toluene degradation	K05797
+00623 Toluene degradation	K20200
+00623 Toluene degradation	K20199
+00623 Toluene degradation	K20218
+00623 Toluene degradation	K15768
+00623 Toluene degradation	K15769
+00623 Toluene degradation	K19629
+00623 Toluene degradation	K19630
+00624 Polycyclic aromatic hydrocarbon degradation	K16269
+00624 Polycyclic aromatic hydrocarbon degradation	K00448
+00624 Polycyclic aromatic hydrocarbon degradation	K00449
+00624 Polycyclic aromatic hydrocarbon degradation	K04100
+00624 Polycyclic aromatic hydrocarbon degradation	K04101
+00624 Polycyclic aromatic hydrocarbon degradation	K19065
+00624 Polycyclic aromatic hydrocarbon degradation	K14579
+00624 Polycyclic aromatic hydrocarbon degradation	K14580
+00624 Polycyclic aromatic hydrocarbon degradation	K14578
+00624 Polycyclic aromatic hydrocarbon degradation	K14581
+00624 Polycyclic aromatic hydrocarbon degradation	K14599
+00624 Polycyclic aromatic hydrocarbon degradation	K14600
+00624 Polycyclic aromatic hydrocarbon degradation	K00480
+00624 Polycyclic aromatic hydrocarbon degradation	K14582
+00624 Polycyclic aromatic hydrocarbon degradation	K14601
+00624 Polycyclic aromatic hydrocarbon degradation	K14602
+00624 Polycyclic aromatic hydrocarbon degradation	K14603
+00624 Polycyclic aromatic hydrocarbon degradation	K14604
+00624 Polycyclic aromatic hydrocarbon degradation	K11943
+00624 Polycyclic aromatic hydrocarbon degradation	K11944
+00624 Polycyclic aromatic hydrocarbon degradation	K18257
+00624 Polycyclic aromatic hydrocarbon degradation	K11945
+00624 Polycyclic aromatic hydrocarbon degradation	K11946
+00624 Polycyclic aromatic hydrocarbon degradation	K11947
+00624 Polycyclic aromatic hydrocarbon degradation	K11948
+00624 Polycyclic aromatic hydrocarbon degradation	K11949
+00624 Polycyclic aromatic hydrocarbon degradation	K18275
+00624 Polycyclic aromatic hydrocarbon degradation	K18068
+00624 Polycyclic aromatic hydrocarbon degradation	K18069
+00624 Polycyclic aromatic hydrocarbon degradation	K18067
+00624 Polycyclic aromatic hydrocarbon degradation	K04102
+00624 Polycyclic aromatic hydrocarbon degradation	K18251
+00624 Polycyclic aromatic hydrocarbon degradation	K18252
+00624 Polycyclic aromatic hydrocarbon degradation	K18253
+00624 Polycyclic aromatic hydrocarbon degradation	K18254
+00624 Polycyclic aromatic hydrocarbon degradation	K18255
+00624 Polycyclic aromatic hydrocarbon degradation	K18256
+00624 Polycyclic aromatic hydrocarbon degradation	K21104
+00624 Polycyclic aromatic hydrocarbon degradation	K21105
+00624 Polycyclic aromatic hydrocarbon degradation	K18074
+00624 Polycyclic aromatic hydrocarbon degradation	K18075
+00624 Polycyclic aromatic hydrocarbon degradation	K18077
+00624 Polycyclic aromatic hydrocarbon degradation	K18076
+00982 Drug metabolism - cytochrome P450	K13953
+00982 Drug metabolism - cytochrome P450	K00001
+00982 Drug metabolism - cytochrome P450	K00129
+00982 Drug metabolism - cytochrome P450	K00485
+00626 Naphthalene degradation	K13954
+00626 Naphthalene degradation	K14583
+00626 Naphthalene degradation	K14584
+00626 Naphthalene degradation	K14585
+00626 Naphthalene degradation	K00152
+00626 Naphthalene degradation	K18242
+00626 Naphthalene degradation	K18243
+00626 Naphthalene degradation	K01670
+00626 Naphthalene degradation	K15567
+00626 Naphthalene degradation	K15568
+00626 Naphthalene degradation	K15569
+00626 Naphthalene degradation	K15570
+00626 Naphthalene degradation	K15571
+00626 Naphthalene degradation	K15572
+00626 Naphthalene degradation	K15573
+00626 Naphthalene degradation	K19958
+00626 Naphthalene degradation	K15574
+00626 Naphthalene degradation	K15575
+00626 Naphthalene degradation	K14586
+00625 Chloroalkane and chloroalkene degradation	K14028
+00625 Chloroalkane and chloroalkene degradation	K14029
+00625 Chloroalkane and chloroalkene degradation	K00114
+00625 Chloroalkane and chloroalkene degradation	K00148
+00625 Chloroalkane and chloroalkene degradation	K17067
+00625 Chloroalkane and chloroalkene degradation	K17068
+00625 Chloroalkane and chloroalkene degradation	K02586
+00625 Chloroalkane and chloroalkene degradation	K02591
+00625 Chloroalkane and chloroalkene degradation	K02588
+00625 Chloroalkane and chloroalkene degradation	K00531
+00625 Chloroalkane and chloroalkene degradation	K14419
+00625 Chloroalkane and chloroalkene degradation	K14420
+00625 Chloroalkane and chloroalkene degradation	K14421
+00625 Chloroalkane and chloroalkene degradation	K14422
+00625 Chloroalkane and chloroalkene degradation	K20625
+00625 Chloroalkane and chloroalkene degradation	K21647
+00625 Chloroalkane and chloroalkene degradation	K21648
+00625 Chloroalkane and chloroalkene degradation	K22353
+00625 Chloroalkane and chloroalkene degradation	K22354
+00625 Chloroalkane and chloroalkene degradation	K22355
+00625 Chloroalkane and chloroalkene degradation	K22356
+00625 Chloroalkane and chloroalkene degradation	K22357
+00625 Chloroalkane and chloroalkene degradation	K22358
+00625 Chloroalkane and chloroalkene degradation	K22359
+00625 Chloroalkane and chloroalkene degradation	K22360
+00625 Chloroalkane and chloroalkene degradation	K22361
+00625 Chloroalkane and chloroalkene degradation	K22362
+00625 Chloroalkane and chloroalkene degradation	K22363
+00625 Chloroalkane and chloroalkene degradation	K17070
+00980 Metabolism of xenobiotics by cytochrome P450	K00078
+00980 Metabolism of xenobiotics by cytochrome P450	K00081
+00980 Metabolism of xenobiotics by cytochrome P450	K00084
+00980 Metabolism of xenobiotics by cytochrome P450	K15303
+00621 Dioxin degradation	K04073
+00621 Dioxin degradation	K18366
+00621 Dioxin degradation	K02554
+00621 Dioxin degradation	K01666
+00621 Dioxin degradation	K18364
+00621 Dioxin degradation	K18365
+00621 Dioxin degradation	K01821
+00621 Dioxin degradation	K01617
+00621 Dioxin degradation	K00462
+00621 Dioxin degradation	K22715
+00621 Dioxin degradation	K22716
+00621 Dioxin degradation	K15749
+00621 Dioxin degradation	K22717
+00621 Dioxin degradation	K08689
+00621 Dioxin degradation	K15750
+00621 Dioxin degradation	K18087
+00621 Dioxin degradation	K18088
+00621 Dioxin degradation	K08690
+00621 Dioxin degradation	K10222
+00621 Dioxin degradation	K15751
+00621 Dioxin degradation	K15752
+00621 Dioxin degradation	K15753
+00621 Dioxin degradation	K15754
+00621 Dioxin degradation	K15755
+00621 Dioxin degradation	K15756
+00621 Dioxin degradation	K22678
+00621 Dioxin degradation	K22676
+00621 Dioxin degradation	K22677
+00362 Benzoate degradation	K00074
+00362 Benzoate degradation	K07516
+00362 Benzoate degradation	K10218
+00362 Benzoate degradation	K13767
+00362 Benzoate degradation	K00252
+00362 Benzoate degradation	K01075
+00362 Benzoate degradation	K03464
+00362 Benzoate degradation	K01055
+00362 Benzoate degradation	K14727
+00362 Benzoate degradation	K01031
+00362 Benzoate degradation	K01032
+00362 Benzoate degradation	K07823
+00362 Benzoate degradation	K20941
+00362 Benzoate degradation	K20942
+00362 Benzoate degradation	K20943
+00362 Benzoate degradation	K20944
+00362 Benzoate degradation	K01857
+00362 Benzoate degradation	K01607
+00362 Benzoate degradation	K14334
+00362 Benzoate degradation	K16514
+00362 Benzoate degradation	K10220
+00362 Benzoate degradation	K16515
+00362 Benzoate degradation	K00481
+00362 Benzoate degradation	K22270
+00362 Benzoate degradation	K04112
+00362 Benzoate degradation	K04113
+00362 Benzoate degradation	K04114
+00362 Benzoate degradation	K04115
+00362 Benzoate degradation	K19515
+00362 Benzoate degradation	K19516
+00362 Benzoate degradation	K07537
+00362 Benzoate degradation	K07538
+00362 Benzoate degradation	K07539
+00362 Benzoate degradation	K19066
+00362 Benzoate degradation	K19067
+00362 Benzoate degradation	K04116
+00362 Benzoate degradation	K04117
+00362 Benzoate degradation	K07534
+00362 Benzoate degradation	K07535
+00362 Benzoate degradation	K07536
+00362 Benzoate degradation	K04118
+00362 Benzoate degradation	K16173
+00362 Benzoate degradation	K15511
+00362 Benzoate degradation	K15512
+00362 Benzoate degradation	K15514
+00362 Benzoate degradation	K15513
+00984 Steroid degradation	K05296
+00984 Steroid degradation	K03333
+00984 Steroid degradation	K16045
+00984 Steroid degradation	K05898
+00984 Steroid degradation	K15982
+00984 Steroid degradation	K15983
+00984 Steroid degradation	K16047
+00984 Steroid degradation	K16048
+00984 Steroid degradation	K16049
+00984 Steroid degradation	K16050
+00984 Steroid degradation	K18687
+00984 Steroid degradation	K01822
+00984 Steroid degradation	K16051
+00983 Drug metabolism - other enzymes	K00760
+00983 Drug metabolism - other enzymes	K01519
+00983 Drug metabolism - other enzymes	K13421
+00983 Drug metabolism - other enzymes	K13800
+00983 Drug metabolism - other enzymes	K00876
+00983 Drug metabolism - other enzymes	K00757
+00983 Drug metabolism - other enzymes	K01489
+00983 Drug metabolism - other enzymes	K00857
+00983 Drug metabolism - other enzymes	K00207
+00983 Drug metabolism - other enzymes	K01431
+00983 Drug metabolism - other enzymes	K03782
+00983 Drug metabolism - other enzymes	K00569
+00983 Drug metabolism - other enzymes	K01044
+00983 Drug metabolism - other enzymes	K03927
+00791 Atrazine degradation	K01427
+00791 Atrazine degradation	K01429
+00791 Atrazine degradation	K01430
+00791 Atrazine degradation	K01941
+00791 Atrazine degradation	K01457
+00791 Atrazine degradation	K14541
+00791 Atrazine degradation	K05394
+00791 Atrazine degradation	K03382
+00791 Atrazine degradation	K08710
+00791 Atrazine degradation	K03383
+00791 Atrazine degradation	K19837
+00791 Atrazine degradation	K23359
+00791 Atrazine degradation	K06035
+00791 Atrazine degradation	K21593
+00622 Xylene degradation	K00055
+00622 Xylene degradation	K10217
+00622 Xylene degradation	K05549
+00622 Xylene degradation	K05550
+00622 Xylene degradation	K05784
+00622 Xylene degradation	K05783
+00622 Xylene degradation	K10621
+00622 Xylene degradation	K10622
+00622 Xylene degradation	K00141
+00622 Xylene degradation	K15757
+00622 Xylene degradation	K15758
+00622 Xylene degradation	K16270
+00622 Xylene degradation	K10702
+00622 Xylene degradation	K10616
+00622 Xylene degradation	K18293
+00622 Xylene degradation	K10617
+00622 Xylene degradation	K10618
+00622 Xylene degradation	K10619
+00622 Xylene degradation	K16303
+00622 Xylene degradation	K16304
+00622 Xylene degradation	K18227
+00622 Xylene degradation	K10620
+00622 Xylene degradation	K10623
+00363 Bisphenol degradation	K14520
+00363 Bisphenol degradation	K05913
+00230 Purine metabolism	K15779
+00230 Purine metabolism	K01839
+00230 Purine metabolism	K22199
+00230 Purine metabolism	K00948
+00230 Purine metabolism	K18447
+00230 Purine metabolism	K00988
+00230 Purine metabolism	K00860
+00230 Purine metabolism	K01517
+00230 Purine metabolism	K13988
+00230 Purine metabolism	K13987
+00230 Purine metabolism	K08312
+00230 Purine metabolism	K11788
+00230 Purine metabolism	K01945
+00230 Purine metabolism	K13713
+00230 Purine metabolism	K08289
+00230 Purine metabolism	K01952
+00230 Purine metabolism	K23269
+00230 Purine metabolism	K23264
+00230 Purine metabolism	K23270
+00230 Purine metabolism	K01933
+00230 Purine metabolism	K01587
+00230 Purine metabolism	K11808
+00230 Purine metabolism	K01589
+00230 Purine metabolism	K01588
+00230 Purine metabolism	K01923
+00230 Purine metabolism	K06863
+00230 Purine metabolism	K11176
+00230 Purine metabolism	K20881
+00230 Purine metabolism	K00892
+00230 Purine metabolism	K01239
+00230 Purine metabolism	K19836
+00230 Purine metabolism	K01529
+00230 Purine metabolism	K00769
+00230 Purine metabolism	K03816
+00230 Purine metabolism	K00087
+00230 Purine metabolism	K13479
+00230 Purine metabolism	K13480
+00230 Purine metabolism	K13481
+00230 Purine metabolism	K13482
+00230 Purine metabolism	K11177
+00230 Purine metabolism	K11178
+00230 Purine metabolism	K13483
+00230 Purine metabolism	K00364
+00230 Purine metabolism	K01487
+00230 Purine metabolism	K00942
+00230 Purine metabolism	K01129
+00230 Purine metabolism	K00904
+00230 Purine metabolism	K15518
+00230 Purine metabolism	K25641
+00230 Purine metabolism	K21138
+00230 Purine metabolism	K01514
+00230 Purine metabolism	K01524
+00230 Purine metabolism	K00951
+00230 Purine metabolism	K07816
+00230 Purine metabolism	K05873
+00230 Purine metabolism	K22600
+00230 Purine metabolism	K01769
+00230 Purine metabolism	K01120
+00230 Purine metabolism	K13757
+00230 Purine metabolism	K13760
+00230 Purine metabolism	K13763
+00230 Purine metabolism	K13761
+00230 Purine metabolism	K01490
+00230 Purine metabolism	K00856
+00230 Purine metabolism	K10353
+00230 Purine metabolism	K19572
+00230 Purine metabolism	K01241
+00230 Purine metabolism	K01486
+00230 Purine metabolism	K21053
+00230 Purine metabolism	K00944
+00230 Purine metabolism	K13294
+00230 Purine metabolism	K18424
+00230 Purine metabolism	K19710
+00230 Purine metabolism	K01525
+00230 Purine metabolism	K18445
+00230 Purine metabolism	K16839
+00230 Purine metabolism	K22879
+00230 Purine metabolism	K19964
+00230 Purine metabolism	K13485
+00230 Purine metabolism	K16840
+00230 Purine metabolism	K16841
+00230 Purine metabolism	K01466
+00230 Purine metabolism	K16842
+00230 Purine metabolism	K01477
+00230 Purine metabolism	K24871
+00230 Purine metabolism	K14977
+00230 Purine metabolism	K18151
+00230 Purine metabolism	K01483
+00230 Purine metabolism	K16856
+00230 Purine metabolism	K00073
+00230 Purine metabolism	K22601
+00121 Secondary bile acid biosynthesis	K00076
+00121 Secondary bile acid biosynthesis	K23231
+00121 Secondary bile acid biosynthesis	K22604
+00121 Secondary bile acid biosynthesis	K22605
+00121 Secondary bile acid biosynthesis	K22606
+00121 Secondary bile acid biosynthesis	K22607
+00121 Secondary bile acid biosynthesis	K15868
+00121 Secondary bile acid biosynthesis	K15871
+00121 Secondary bile acid biosynthesis	K15869
+00121 Secondary bile acid biosynthesis	K15870
+00121 Secondary bile acid biosynthesis	K15872
+00121 Secondary bile acid biosynthesis	K15873
+00121 Secondary bile acid biosynthesis	K15874
+00121 Secondary bile acid biosynthesis	K07007
+00561 Glycerolipid metabolism	K13979
+00561 Glycerolipid metabolism	K06118
+00561 Glycerolipid metabolism	K00005
+00561 Glycerolipid metabolism	K00086
+00561 Glycerolipid metabolism	K05878
+00561 Glycerolipid metabolism	K05879
+00561 Glycerolipid metabolism	K22251
+00561 Glycerolipid metabolism	K18097
+00561 Glycerolipid metabolism	K24189
+00561 Glycerolipid metabolism	K06116
+00561 Glycerolipid metabolism	K06117
+00561 Glycerolipid metabolism	K22848
+00561 Glycerolipid metabolism	K22849
+00561 Glycerolipid metabolism	K00635
+00561 Glycerolipid metabolism	K00679
+00561 Glycerolipid metabolism	K01046
+00561 Glycerolipid metabolism	K13534
+00561 Glycerolipid metabolism	K14076
+00561 Glycerolipid metabolism	K14675
+00561 Glycerolipid metabolism	K09881
+00561 Glycerolipid metabolism	K23736
+00561 Glycerolipid metabolism	K23737
+00561 Glycerolipid metabolism	K14458
+00561 Glycerolipid metabolism	K20024
+00561 Glycerolipid metabolism	K22920
+00561 Glycerolipid metabolism	K06120
+00561 Glycerolipid metabolism	K06121
+00561 Glycerolipid metabolism	K06122
+00591 Linoleic acid metabolism	K15718
+00591 Linoleic acid metabolism	K21794
+00591 Linoleic acid metabolism	K17862
+00591 Linoleic acid metabolism	K17863
+00591 Linoleic acid metabolism	K17864
+00591 Linoleic acid metabolism	K08262
+00480 Glutathione metabolism	K00033
+00480 Glutathione metabolism	K00032
+00480 Glutathione metabolism	K00434
+00480 Glutathione metabolism	K00797
+00480 Glutathione metabolism	K24034
+00480 Glutathione metabolism	K00802
+00480 Glutathione metabolism	K01919
+00480 Glutathione metabolism	K01920
+00480 Glutathione metabolism	K01581
+00480 Glutathione metabolism	K00682
+00480 Glutathione metabolism	K22596
+00480 Glutathione metabolism	K07232
+00480 Glutathione metabolism	K01469
+00480 Glutathione metabolism	K07160
+00480 Glutathione metabolism	K23123
+00480 Glutathione metabolism	K23124
+00480 Glutathione metabolism	K06048
+00480 Glutathione metabolism	K03423
+00480 Glutathione metabolism	K25210
+00480 Glutathione metabolism	K20838
+00480 Glutathione metabolism	K24137
+00480 Glutathione metabolism	K24136
+00480 Glutathione metabolism	K24138
+00480 Glutathione metabolism	K01917
+00480 Glutathione metabolism	K01460
+00480 Glutathione metabolism	K01833
+00480 Glutathione metabolism	K04283
+00480 Glutathione metabolism	K11185
+00480 Glutathione metabolism	K11186
+00480 Glutathione metabolism	K11207
+00460 Cyanoamino acid metabolism	K01455
+00460 Cyanoamino acid metabolism	K13034
+00460 Cyanoamino acid metabolism	K01424
+00460 Cyanoamino acid metabolism	K01914
+00460 Cyanoamino acid metabolism	K08249
+00460 Cyanoamino acid metabolism	K16266
+00460 Cyanoamino acid metabolism	K14577
+00460 Cyanoamino acid metabolism	K13033
+00460 Cyanoamino acid metabolism	K13031
+00460 Cyanoamino acid metabolism	K13032
+00460 Cyanoamino acid metabolism	K08248
+00460 Cyanoamino acid metabolism	K20802
+00460 Cyanoamino acid metabolism	K13035
+00460 Cyanoamino acid metabolism	K18282
+00460 Cyanoamino acid metabolism	K10675
+00061 Fatty acid biosynthesis	K01962
+00061 Fatty acid biosynthesis	K02160
+00061 Fatty acid biosynthesis	K01961
+00061 Fatty acid biosynthesis	K01963
+00061 Fatty acid biosynthesis	K11539
+00061 Fatty acid biosynthesis	K22540
+00061 Fatty acid biosynthesis	K22541
+00073 Cutin, suberine and wax biosynthesis	K15400
+00073 Cutin, suberine and wax biosynthesis	K17991
+00073 Cutin, suberine and wax biosynthesis	K15403
+00073 Cutin, suberine and wax biosynthesis	K15404
+00073 Cutin, suberine and wax biosynthesis	K15406
+00120 Primary bile acid biosynthesis	K12408
+00120 Primary bile acid biosynthesis	K10223
+00565 Ether lipid metabolism	K06123
+00565 Ether lipid metabolism	K17717
+00565 Ether lipid metabolism	K01122
+00565 Ether lipid metabolism	K22387
+00565 Ether lipid metabolism	K18575
+00565 Ether lipid metabolism	K16795
+00565 Ether lipid metabolism	K01062
+00590 Arachidonic acid metabolism	K15729
+00590 Arachidonic acid metabolism	K05309
+00590 Arachidonic acid metabolism	K15717
+00590 Arachidonic acid metabolism	K23486
+00590 Arachidonic acid metabolism	K01830
+00590 Arachidonic acid metabolism	K07119
+00590 Arachidonic acid metabolism	K13949
+00590 Arachidonic acid metabolism	K13948
+00590 Arachidonic acid metabolism	K00807
+00590 Arachidonic acid metabolism	K18684
+00590 Arachidonic acid metabolism	K26082
+00590 Arachidonic acid metabolism	K19246
