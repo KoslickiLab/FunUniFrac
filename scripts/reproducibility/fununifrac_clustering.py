@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 import os, sys
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+print(ROOT_DIR)
 sys.path.append(ROOT_DIR)
-sys.path.append(ROOT_DIR+'/..')
-from src import compute_all_pairwise_fununifrac
+sys.path.append(ROOT_DIR + '../src')
+sys.path.append('../../')
+from src.commands import compute_all_pairwise_fununifrac
 import src.utility.kegg_db as kegg_db
 from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracSolver
 import argparse
@@ -42,6 +44,7 @@ def cluster():
     push up all vectors
     :return:
     '''
+    pass
 
 
 
