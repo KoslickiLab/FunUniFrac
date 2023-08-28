@@ -510,14 +510,8 @@ def visualize_diff(edge_list_inferred, edge_list_actual, outfile_name):
     #plt.savefig(outfile_name)
     return
 
-def L1_norm(edge_lengths_solution, G):
-    actual_edges = [(start, end) for (start, end, _) in G.tree.edges(data=True)]
-    solution_lengths = [edge_lengths_solution[e] for e in actual_edges]
-    actual_lengths = [a['edge_length'] for (_, _, a) in G.tree.edges(data=True)]
-    print(actual_lengths[:5])
-    print(solution_lengths[:5])
-    print(np.linalg.norm(np.array(actual_lengths) - np.array(solution_lengths), 1))
-    return
+def L1_norm(vector_1, vector_2):
+    return np.linalg.norm(np.array(vector_1) - np.array(vector_2), 1)
 
 def write_subgraph_file(G, subgraph_nodes, out_file):
     '''
