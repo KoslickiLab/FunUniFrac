@@ -93,7 +93,8 @@ class KeggTree:
         dummy_node_count = 0
         for i in range(len(self.nodes_by_depth)-1):
             for node in self.nodes_by_depth[i]:
-                if not self.tree.successors(node):
+                #if not self.tree.successors(node):
+                if not self.get_child(node):
                     dummy_node = 'dummy' + str(dummy_node_count)
                     self.tree.add_edge(node, dummy_node, edge_length=0)
                     self.nodes_by_depth[i+1].append(dummy_node)
@@ -231,10 +232,19 @@ class KeggTree:
         labels = [line.strip() for line in open(label_file, 'r')]
         label_pos = {k: v for v, k in enumerate(labels)}
         for (a, b) in self.needed_pairs[len(self.nodes_by_depth)-1]:
-            if a and b:
-                a_index = label_pos[a]
-                b_index = label_pos[b]
-                self.needed_pairs[len(self.nodes_by_depth)-1][(a, b)] = pw_dist[a_index][b_index]
+            p_a = a
+            p_b = b
+            if a.startswith('dummy'):
+                p_a = self.get_parent(a)
+                while p_a.startswith('dummy'):
+                    p_a = self.get_parent(p_a)
+            if b.startswith('dummy'):
+                p_b = self.get_parent(b)
+                while p_b.startswith('dummy'):
+                    p_b = self.get_parent(p_b)
+            a_index = label_pos[p_a]
+            b_index = label_pos[p_b]
+            self.needed_pairs[len(self.nodes_by_depth)-1][(a, b)] = pw_dist[a_index][b_index]
 
     def solve_branch_lengths(self, edge_length_solutions, level):
         '''
