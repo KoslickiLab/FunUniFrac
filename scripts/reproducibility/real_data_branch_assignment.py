@@ -2,7 +2,8 @@ import sys
 sys.path.append('../data')
 sys.path.append('..')
 import argparse
-from Kegg_tree import *
+#from Kegg_tree import *
+from Kegg_tree_modified import *
 
 
 def main():
