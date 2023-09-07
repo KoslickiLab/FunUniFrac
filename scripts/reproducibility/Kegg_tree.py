@@ -516,8 +516,8 @@ def visualize_diff(edge_list_inferred, edge_list_actual, outfile_name):
     df['inferred_length'] = inferred_df['edge_length']
     print(df)
     sns.scatterplot(data=df, x='inferred_length', y='actual_length')
-    plt.show()
-    #plt.savefig(outfile_name)
+    #plt.show()
+    plt.savefig(outfile_name)
     return
 
 def L1_norm(vector_1, vector_2):
@@ -574,7 +574,7 @@ def post_process(edge_length_solution, kegg_tree):
                     continue
                 nodes_on_the_way = [cur_node]
                 while sum(1 for _ in kegg_tree.tree.successors(cur_node)) == 1:
-                    cur_node = kegg_tree.get_child(node)
+                    cur_node = kegg_tree.get_child(cur_node)
                     if cur_node.startswith('dummy'):
                         break
                     nodes_on_the_way.append(cur_node)
