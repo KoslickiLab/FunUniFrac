@@ -261,7 +261,8 @@ class KeggTree:
             edge_length_solutions[(parent, node1)] = \
                     edge_length_solutions[(parent, node2)] = self.needed_pairs[1][(node1, node2)]/2
         else:
-            print(level)
+            if level == 1:
+                print(self.partners[1])
             for node in self.partners[level]:
                 parent = self.get_parent(node)
                 if (parent, node) in edge_length_solutions:
