@@ -27,6 +27,7 @@ class KeggTree:
         self.partners = dict()
         #self.get_pw_dist()
         self.size = len(list(self.tree.nodes()))
+        self.single_child = []
 
     def get_pw_dist(self):
         undir_tree = self.tree.to_undirected()
@@ -70,32 +71,16 @@ class KeggTree:
         for c in self.tree.successors(node):
             return c
 
-    def merge_single_child_branches(self, write_file=False, outfile=None):
-        single_child_parents = [node for node in self.tree if self.tree.out_degree(node) == 1]
-        #assume root is not a single parent first
-        if len(single_child_parents) == 0:
-            return
-        print("single_child_parents: ", single_child_parents)
-        single_child_parents.reverse()
-        for p in single_child_parents:
-            single_child = self.get_child(p)
-            single_child_grand = self.get_parent(p)
-            new_edge_length = self.tree.get_edge_data(p, single_child)['edge_length'] + \
-                              self.tree.get_edge_data(single_child_grand, p)['edge_length']
-            self.tree.add_edge(single_child_grand, single_child, edge_length=new_edge_length)
-            self.tree.discard_node(p)
-        if write_file:
-            outfile = outfile if outfile is not None else 'tree_with_no_single_child.txt'
-            nx.write_weighted_edgelist(self.tree, outfile, delimiter='\t')
 
     def make_full_tree(self):
         #process tree from root down until the deepest level, if any node has no child, add a dummy node
         dummy_node_count = 0
         for i in range(len(self.nodes_by_depth)-1):
             for node in self.nodes_by_depth[i]:
-                #if not self.tree.successors(node):
                 if not self.get_child(node):
+                    self.single_child.append((i, node))
                     dummy_node = 'dummy' + str(dummy_node_count)
+                    print(f"{node} in level {i} has no child, adding {dummy_node}\n")
                     self.tree.add_edge(node, dummy_node, edge_length=0)
                     self.nodes_by_depth[i+1].append(dummy_node)
                     dummy_node_count += 1
@@ -221,6 +206,16 @@ class KeggTree:
                 for (a, b) in combinations(first_children, 2):
                     self.needed_pairs[i+1][(a, b)] = self.needed_pairs[i+1][(b, a)] = 0
 
+    def print_tree_report(self, outfile='tree_report.txt'):
+        #print's a descriptive report of the tree
+        with open(outfile, 'w') as f:
+            f.write(f"The tree has {len(self.nodes_by_depth)} levels in total.\n")
+            for i in range(len(self.nodes_by_depth)):
+                f.write(f"Level {i} has {len(self.nodes_by_depth[i])} nodes.\n")
+            if len(self.single_child) > 0:
+                for (i, node) in self.single_child:
+                    f.write(f"Node {node} in level {i} has a single child {self.get_child(node)}.")
+
     def fill_leaf_pairs_distances(self, pw_dist_file, label_file):
         '''
         Can only be run after get_needed_pairs function is run
@@ -261,9 +256,6 @@ class KeggTree:
             edge_length_solutions[(parent, node1)] = \
                     edge_length_solutions[(parent, node2)] = self.needed_pairs[1][(node1, node2)]/2
         else:
-            if level == 1:
-                print(self.partners[1])
-                print(len(self.needed_pairs[1]))
             for node in self.partners[level]:
                 parent = self.get_parent(node)
                 if (parent, node) in edge_length_solutions:
@@ -277,9 +269,10 @@ class KeggTree:
                     d2 = self.needed_pairs[level][(node, another)]
                     d3 = self.needed_pairs[level][(sib, another)]
                     e1 = (d1+d2-d3)/2
-                    e2 = d1 - e1
                     edge_length_solutions[(parent, node)] = e1
-                    edge_length_solutions[(parent, sib)] = e2
+                    if (parent, sib) not in edge_length_solutions:
+                        e2 = d1 - e1
+                        edge_length_solutions[(parent, sib)] = e2
         self.update_needed_pairs(level-1, edge_length_solutions)
         self.solve_branch_lengths(edge_length_solutions, level-1)
 
