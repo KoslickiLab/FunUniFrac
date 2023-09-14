@@ -19,6 +19,8 @@ def parsearg():
     parser.add_argument("-pd", "--pairwise_distance", type=str, help="Path to pairwise distance file.")
     parser.add_argument("-l", "--label_file", type=str, help="Path to the label file")
     parser.add_argument('-m', '--metadata_file', help='Path to the metadata file.')
+    parser.add_argument('-t', '--title', help='Title of the plot.')
+    parser.add_argument('-o', '--output', help='Output file name.')
     return parser.parse_args()
 
 
@@ -37,4 +39,7 @@ if  __name__ == "__main__":
     coordinates = mds.fit_transform(pw_dist)
     colors = [metadata_dict[l] for l in labels]
     sns.scatterplot(x=coordinates[:, 0], y=coordinates[:, 1], hue=colors)
+    if args.title:
+        plt.title(args.title)
+    plt.savefig(args.output)
     plt.show()
