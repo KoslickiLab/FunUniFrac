@@ -7,7 +7,7 @@ data_dict = dict()
 
 @profile
 def parse_file():
-    file = 'data/T07275.ent.gz'
+    file = 'data/T03764.ent.gz'
     with gzip.open(file, 'rt') as f:
         data = f.read()
     entries = data.split('///')
