@@ -6,7 +6,8 @@ import glob
 import numpy as np
 
 data_dict = dict()
-files = glob.glob('/scratch/shared_data/KEGG_FTP/kegg/genes/organisms/*/*ent.gz')
+#files = glob.glob('/scratch/shared_data/KEGG_FTP/kegg/genes/organisms/*/*ent.gz')
+files = glob.glob('data/*ent.gz')
 print(files)
 #{KO:[set of motifs]
 
@@ -43,11 +44,12 @@ def compute_jaccard(KO1, KO2):
 
 KO_list = list(data_dict.keys())
 df = pd.DataFrame(index=KO_list, columns=KO_list)
+print(df)
 for KO in KO_list:
     df[KO][KO] = 0.
 for (KO1, KO2) in combinations(KO_list, 2):
     df[KO1][KO2] = df[KO2][KO1] = compute_jaccard(KO1, KO2)
-
+print(df)
 df.to_csv('data/pw_dist_by_motifs_all.csv')
 np_df = df.to_numpy()
 print(np_df)
