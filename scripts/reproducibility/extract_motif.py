@@ -40,7 +40,8 @@ for file in files:
 #compute pairwise distances using jaccard index
 def compute_jaccard(KO1, KO2):
     jaccard = len(data_dict[KO1].intersection(data_dict[KO2]))/len(data_dict[KO1].union(data_dict[KO2]))
-    return jaccard
+    print(jaccard)
+    return 1-jaccard
 
 KO_list = list(data_dict.keys())
 df = pd.DataFrame(index=KO_list, columns=KO_list)
