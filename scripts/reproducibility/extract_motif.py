@@ -30,7 +30,7 @@ def parse_file(file):
 
 
 for file in files:
-    parse_file()
+    parse_file(file)
 
 with open('data/motifs_for_KO.json', 'w') as f:
     json.dump(data_dict, f, indent=4)
