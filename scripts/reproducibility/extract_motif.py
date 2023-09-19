@@ -6,8 +6,7 @@ import glob
 import numpy as np
 
 data_dict = dict()
-#files = glob.glob('/scratch/shared_data/KEGG_FTP/kegg/genes/organisms/*/*ent.gz')
-files = glob.glob('data/*ent.gz')
+files = glob.glob('/scratch/shared_data/KEGG_FTP/kegg/genes/organisms/*/*ent.gz')
 print(files)
 #{KO:[set of motifs]
 
