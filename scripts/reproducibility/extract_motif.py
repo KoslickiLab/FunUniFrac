@@ -7,6 +7,7 @@ from itertools import combinations
 
 data_dict = dict()
 files = '/scratch/shared_data/KEGG_FTP/kegg/genes/organisms/*/*ent.gz'
+print(files)
 #{KO:[set of motifs]
 
 @profile
