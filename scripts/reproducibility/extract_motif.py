@@ -25,7 +25,7 @@ def parse_file(file):
             if line.startswith('MOTIF'):
                 list_of_motifs = line.split()[2:]
         if KO in data_dict:
-            data_dict[KO] += data_dict[KO].union(list_of_motifs)
+            data_dict[KO] = data_dict[KO].union(list_of_motifs)
         else:
             data_dict[KO] = set(list_of_motifs)
 
