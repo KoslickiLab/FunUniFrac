@@ -23,7 +23,7 @@ def parse_file():
             data_dict[KO] += list_of_motifs
         else:
             data_dict[KO] = list_of_motifs
-    with open('data/test_output/test_motif_extract.json', 'w') as f:
+    with open('data/test_motif_extract.json', 'w') as f:
         json.dump(data_dict, f, indent=4)
 
 
