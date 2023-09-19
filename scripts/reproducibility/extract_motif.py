@@ -1,17 +1,13 @@
 import gzip
-from line_profiler_pycharm import profile
 import pandas as pd
 from itertools import combinations
 import glob
 import numpy as np
 
 data_dict = dict()
-#files = glob.glob('/scratch/shared_data/KEGG_FTP/kegg/genes/organisms/*/*ent.gz')
-files = glob.glob('data/*ent.gz')
-print(files)
-#{KO:[set of motifs]
+files = glob.glob('/scratch/shared_data/KEGG_FTP/kegg/genes/organisms/*/*ent.gz')
+#files = glob.glob('data/*ent.gz')
 
-@profile
 def parse_file(file):
     print(file)
     with gzip.open(file, 'rt') as f:
@@ -33,17 +29,17 @@ def parse_file(file):
                 data_dict[KO] = set(list_of_motifs)
 
 
-for file in files:
-    parse_file(file)
-
-
 #compute pairwise distances using jaccard index
 def compute_jaccard(KO1, KO2):
     jaccard = len(data_dict[KO1].intersection(data_dict[KO2]))/len(data_dict[KO1].union(data_dict[KO2]))
     print(jaccard)
     return 1-jaccard
 
+for file in files:
+    parse_file(file)
+
 KO_list = list(data_dict.keys())
+print(f"no. of KOs: {len(KO_list)}")
 df = pd.DataFrame(index=KO_list, columns=KO_list)
 print(df)
 for KO in KO_list:
