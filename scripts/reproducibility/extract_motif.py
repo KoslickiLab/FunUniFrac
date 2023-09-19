@@ -52,3 +52,6 @@ df.to_csv('data/pw_dist_by_motifs_all.csv')
 np_df = df.to_numpy()
 print(np_df)
 np.save('data/pw_dist_by_motifs_all.npy', np_df)
+with open('data/pw_dist_by_motifs_all_labels.txt', 'w') as f:
+    for KO in KO_list:
+        f.write(f"{KO}\n")
