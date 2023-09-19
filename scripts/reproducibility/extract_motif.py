@@ -3,10 +3,10 @@ from line_profiler_pycharm import profile
 import json
 import pandas as pd
 from itertools import combinations
-
+import glob
 
 data_dict = dict()
-files = '/scratch/shared_data/KEGG_FTP/kegg/genes/organisms/*/*ent.gz'
+files = glob.glob('/scratch/shared_data/KEGG_FTP/kegg/genes/organisms/*/*ent.gz')
 print(files)
 #{KO:[set of motifs]
 
