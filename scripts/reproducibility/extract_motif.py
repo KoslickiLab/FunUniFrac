@@ -11,6 +11,7 @@ files = '/scratch/shared_data/KEGG_FTP/kegg/genes/organisms/*/*ent.gz'
 
 @profile
 def parse_file(file):
+    print(file)
     with gzip.open(file, 'rt') as f:
         data = f.read()
     entries = data.split('///')
