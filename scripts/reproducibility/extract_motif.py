@@ -35,7 +35,8 @@ def compute_jaccard(KO1, KO2):
     print(jaccard)
     return 1-jaccard
 
-for file in files:
+for i, file in enumerate(files):
+    print(i)
     parse_file(file)
 
 KO_list = list(data_dict.keys())
