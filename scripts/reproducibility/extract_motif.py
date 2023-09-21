@@ -42,16 +42,20 @@ for i, file in enumerate(files):
 KO_list = list(data_dict.keys())
 print(f"no. of KOs: {len(KO_list)}")
 df = pd.DataFrame(index=KO_list, columns=KO_list)
-print(df)
+
 for KO in KO_list:
     df[KO][KO] = 0.
+
+i = 23872
 for (KO1, KO2) in combinations(KO_list, 2):
+    i+=1
+    print(f'{i}/284924256')
     df[KO1][KO2] = df[KO2][KO1] = compute_jaccard(KO1, KO2)
-print(df)
-df.to_csv('data/pw_dist_by_motifs_all.csv')
+
+df.to_csv('data/pw_dist_by_motifs_all_backup.csv')
 np_df = df.to_numpy()
 print(np_df)
-np.save('data/pw_dist_by_motifs_all.npy', np_df)
-with open('data/pw_dist_by_motifs_all_labels.txt', 'w') as f:
+np.save('data/pw_dist_by_motifs_all_backup.npy', np_df)
+with open('data/pw_dist_by_motifs_all_labels_backup.txt', 'w') as f:
     for KO in KO_list:
         f.write(f"{KO}\n")
