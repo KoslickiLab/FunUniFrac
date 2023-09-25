@@ -22,3 +22,4 @@ if __name__ == "__main__":
         if row['edge_length'] <= 0:
             df.at[index, 'edge_length'] = EPSILON
     print(df)
+    df.to_csv(args.save, sep='\t', index=False)
