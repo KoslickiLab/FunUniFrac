@@ -1,10 +1,11 @@
-from sklearn.manifold import MDS
+import scipy.spatial as sp, scipy.cluster.hierarchy as hc
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 from pathlib import Path
+
 
 def parsearg():
     parser = argparse.ArgumentParser(description="This script clusters the samples according to fununifrac distance"
@@ -19,5 +20,11 @@ def parsearg():
 
 if __name__ == "__main__":
     args = parsearg()
-    iris = sns.load_dataset('iris')
-    print(iris)
+    from sklearn.datasets import load_iris
+    iris = load_iris()
+    X, y = iris.data, iris.target
+    DF = pd.DataFrame(X, index=["iris_%d" % (i) for i in range(X.shape[0])], columns=iris.feature_names)
+    DF_corr = DF.T.corr()
+    DF_dism = 1 - DF_corr  # distance matrix
+    linkage = hc.linkage(sp.distance.squareform(DF_dism), method='average')
+    sns.clustermap(DF_dism, row_linkage=linkage, col_linkage=linkage)
