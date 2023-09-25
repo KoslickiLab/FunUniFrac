@@ -20,5 +20,5 @@ if __name__ == "__main__":
     df = pd.read_table(args.edge_list)
     for (index, row) in df.iterrows():
         if row['edge_length'] <= 0:
-            row['edge_length'] = EPSILON
+            df.at[index, 'edge_length'] = EPSILON
     print(df)
