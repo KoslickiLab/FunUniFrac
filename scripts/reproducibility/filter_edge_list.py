@@ -27,7 +27,7 @@ if __name__ == "__main__":
         if row['child'].startswith('K') and row['child'] not in KOs:
             print(f"remove {row['child']}")
             df.drop(index, axis=0, inplace=True)
-    df.to_csv(args.save, sep='\t')
+    df.to_csv(args.save, sep='\t', index=False)
 
 
 
