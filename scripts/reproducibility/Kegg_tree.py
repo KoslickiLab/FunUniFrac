@@ -31,6 +31,7 @@ class KeggTree:
 
     def get_leaves(self):
         self.leaf_nodes = [node for node in self.tree if self.tree.out_degree(node) == 0]
+        return self.leaf_nodes
 
     def get_pw_dist(self):
         undir_tree = self.tree.to_undirected()
