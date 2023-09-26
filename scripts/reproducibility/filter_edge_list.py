@@ -36,7 +36,7 @@ if __name__ == "__main__":
     leaves = kegg_tree.get_leaves()
     non_KOs = [l for l in leaves if not l.startswith('K')]
     print(non_KOs)
-    kegg_tree.tree.remove_nodes(non_KOs)
+    kegg_tree.tree.remove_nodes_from(non_KOs)
     for n in non_KOs:
         df.drop(df.loc[df['child'] == n].index, inplace=True)
     while len(non_KOs) > 0:
