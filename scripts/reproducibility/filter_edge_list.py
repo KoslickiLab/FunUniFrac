@@ -1,5 +1,6 @@
 import argparse
 import pandas as pd
+import Kegg_tree as kt
 
 
 def parsearg():
@@ -27,7 +28,24 @@ if __name__ == "__main__":
         if row['child'].startswith('K') and row['child'] not in KOs:
             print(f"remove {row['child']}")
             df.drop(index, axis=0, inplace=True)
+
     df.to_csv(args.save, sep='\t', index=False)
+    kegg_tree = kt.get_KeggTree_from_edgelist(args.save, edge_length=False)
+    df = pd.read_table(args.edge_list)
+
+    leaves = kegg_tree.get_leaves()
+    non_KOs = [l for l in leaves if not l.startswith('K')]
+    print(non_KOs)
+    for n in non_KOs:
+        df.drop(df.loc[df['child'] == n].index, inplace=True)
+    while len(non_KOs) > 0:
+        non_KOs = [l for l in leaves if not l.startswith('K')]
+        print(non_KOs)
+        for n in non_KOs:
+            df.drop(df.loc[df['child'] == n].index, inplace=True)
+    df.to_csv(args.save, sep='\t', index=False)
+
+
 
 
 
