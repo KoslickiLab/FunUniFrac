@@ -21,13 +21,16 @@ class KeggTree:
         self.nodes_by_depth = dict()
         #self.group_nodes_by_depth()
         #self.make_full_tree()
-        self.leaf_nodes = [node for node in self.tree if self.tree.out_degree(node) == 0]
         self.pw_dist = dict()
         self.needed_pairs = dict()
         self.partners = dict()
         #self.get_pw_dist()
         self.size = len(list(self.tree.nodes()))
         self.single_child = []
+        self.leaf_nodes = [node for node in self.tree if self.tree.out_degree(node) == 0]
+
+    def get_leaves(self):
+        self.leaf_nodes = [node for node in self.tree if self.tree.out_degree(node) == 0]
 
     def get_pw_dist(self):
         undir_tree = self.tree.to_undirected()
