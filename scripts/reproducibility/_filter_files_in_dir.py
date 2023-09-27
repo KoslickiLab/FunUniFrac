@@ -18,5 +18,9 @@ if __name__ == "__main__":
     all_files = os.listdir(args.source_dir)
     meta_data = pd.read_table(args.metadata_file)
     print(all_files[:5])
-    #for (index, row) in meta_data.iterrows():
-    #    file
+    ids = meta_data['f_uid']
+    selected_files = [f'sourmash_gather_out_scale1000_k_11_{i}.csv' for i in ids]
+    for i, file in enumerate(all_files):
+        if os.path.basename(file) in selected_files:
+            os.rename(f"{args.source_dir}/{file}", f"{args.target_dir}/{file}")
+
