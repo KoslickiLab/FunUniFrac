@@ -1,0 +1,21 @@
+ko00001
+09175 Drug resistance: antimicrobial
+01502 Vancomycin resistance
+K01929
+01501 beta-Lactam resistance
+K01207
+K01467
+K18148
+K18150
+K17837
+K17838
+01503 Cationic antimicrobial peptide (CAMP) resistance
+K10011
+K10012
+K13014
+K14198
+K12963
+K19238
+K19239
+K06079
+K19240

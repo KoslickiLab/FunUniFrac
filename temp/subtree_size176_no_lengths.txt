@@ -1,0 +1,177 @@
+#parent	child
+99974 Translation	K20815
+99974 Translation	K13926
+99974 Translation	K16634
+99974 Translation	K15025
+99974 Translation	K07570
+99974 Translation	K07571
+99974 Translation	K07572
+99974 Translation	K07576
+99974 Translation	K07577
+99974 Translation	K07578
+99974 Translation	K07579
+99974 Translation	K07580
+99974 Translation	K07581
+99974 Translation	K07585
+99974 Translation	K23048
+09192 Unclassified: genetic information processing	99973 Transcription
+09192 Unclassified: genetic information processing	99974 Translation
+09192 Unclassified: genetic information processing	99975 Protein processing
+09192 Unclassified: genetic information processing	99976 Replication and repair
+09192 Unclassified: genetic information processing	99998 Others
+99973 Transcription	K02466
+99973 Transcription	K03627
+99973 Transcription	K03622
+99973 Transcription	K03623
+99973 Transcription	K03704
+99973 Transcription	K07591
+99973 Transcription	K04796
+99973 Transcription	K11100
+99973 Transcription	K07740
+99973 Transcription	K07741
+99973 Transcription	K07802
+99973 Transcription	K08278
+99973 Transcription	K15833
+99973 Transcription	K15834
+99973 Transcription	K02589
+99973 Transcription	K02590
+99973 Transcription	K04752
+99973 Transcription	K16335
+99973 Transcription	K16509
+99973 Transcription	K18666
+99973 Transcription	K18667
+99973 Transcription	K18774
+99973 Transcription	K19325
+99973 Transcription	K19432
+99973 Transcription	K19495
+99973 Transcription	K19512
+99973 Transcription	K06959
+99973 Transcription	K21389
+99973 Transcription	K21390
+99973 Transcription	K21391
+99973 Transcription	K21554
+99973 Transcription	K21627
+99973 Transcription	K21628
+99973 Transcription	K21629
+99973 Transcription	K21640
+99973 Transcription	K21753
+99973 Transcription	K22383
+99973 Transcription	K22388
+99973 Transcription	K22403
+99973 Transcription	K22525
+99973 Transcription	K22526
+99973 Transcription	K22527
+99973 Transcription	K22528
+99973 Transcription	K22649
+99973 Transcription	K07743
+99973 Transcription	K07744
+99973 Transcription	K07745
+99973 Transcription	K24380
+99973 Transcription	K24397
+99973 Transcription	K09777
+99973 Transcription	K24648
+99973 Transcription	K24724
+99973 Transcription	K25826
+99975 Protein processing	K03668
+99975 Protein processing	K06891
+99975 Protein processing	K19411
+99975 Protein processing	K03545
+99975 Protein processing	K17247
+99975 Protein processing	K02380
+99975 Protein processing	K03187
+99975 Protein processing	K03188
+99975 Protein processing	K03189
+99975 Protein processing	K03190
+99975 Protein processing	K03192
+99975 Protein processing	K04653
+99975 Protein processing	K04654
+99975 Protein processing	K04655
+99975 Protein processing	K04656
+99975 Protein processing	K07388
+99975 Protein processing	K06191
+99975 Protein processing	K07391
+99975 Protein processing	K07392
+99975 Protein processing	K07394
+99975 Protein processing	K07395
+99975 Protein processing	K07396
+99975 Protein processing	K07397
+99975 Protein processing	K07398
+99975 Protein processing	K07399
+99975 Protein processing	K07400
+99975 Protein processing	K07401
+99975 Protein processing	K07402
+99975 Protein processing	K07403
+99975 Protein processing	K11208
+99975 Protein processing	K15367
+99975 Protein processing	K18984
+99975 Protein processing	K15368
+99975 Protein processing	K16511
+99976 Replication and repair	K07443
+99976 Replication and repair	K07445
+99976 Replication and repair	K07449
+99976 Replication and repair	K07450
+99976 Replication and repair	K01146
+99976 Replication and repair	K07453
+99976 Replication and repair	K07454
+99976 Replication and repair	K06993
+99976 Replication and repair	K03630
+99976 Replication and repair	K09760
+99976 Replication and repair	K07457
+99976 Replication and repair	K07459
+99976 Replication and repair	K07460
+99976 Replication and repair	K07461
+99976 Replication and repair	K07463
+99976 Replication and repair	K07465
+99976 Replication and repair	K02086
+99976 Replication and repair	K07467
+99976 Replication and repair	K07357
+99976 Replication and repair	K07358
+99976 Replication and repair	K07470
+99976 Replication and repair	K07472
+99976 Replication and repair	K07474
+99976 Replication and repair	K06909
+99976 Replication and repair	K07476
+99976 Replication and repair	K07477
+99976 Replication and repair	K07478
+99976 Replication and repair	K07479
+99976 Replication and repair	K10762
+99976 Replication and repair	K14060
+99976 Replication and repair	K06919
+99976 Replication and repair	K16782
+99976 Replication and repair	K07505
+99976 Replication and repair	K07500
+99976 Replication and repair	K07480
+99976 Replication and repair	K07481
+99976 Replication and repair	K18320
+99976 Replication and repair	K07482
+99976 Replication and repair	K07483
+99976 Replication and repair	K07484
+99976 Replication and repair	K07485
+99976 Replication and repair	K07486
+99976 Replication and repair	K07487
+99976 Replication and repair	K07488
+99976 Replication and repair	K07489
+99976 Replication and repair	K07491
+99976 Replication and repair	K07492
+99976 Replication and repair	K07493
+99976 Replication and repair	K07494
+99976 Replication and repair	K07495
+99976 Replication and repair	K07496
+99976 Replication and repair	K07497
+99976 Replication and repair	K07498
+99976 Replication and repair	K07499
+99976 Replication and repair	K01152
+99976 Replication and repair	K14059
+99976 Replication and repair	K24551
+99998 Others	K03969
+99998 Others	K03971
+99998 Others	K03972
+99998 Others	K07504
+99998 Others	K08274
+99998 Others	K08275
+99998 Others	K09747
+99998 Others	K11516
+99998 Others	K12038
+99998 Others	K12039
+99998 Others	K13784
+99998 Others	K25656

@@ -1,0 +1,84 @@
+ko00001
+09151 Immune system
+04622 RIG-I-like receptor signaling pathway
+K00863
+K12651
+K12652
+K12656
+04662 B cell receptor signaling pathway
+K07367
+K12230
+K12229
+04621 NOD-like receptor signaling pathway
+K03462
+K12797
+K12792
+K12796
+K20909
+K20910
+K12801
+K12802
+K20911
+K12806
+K20897
+K20898
+K20914
+K20915
+K20916
+K20899
+04672 Intestinal immune network for IgA production
+K06779
+04657 IL-17 signaling pathway
+K21124
+K21129
+04612 Antigen processing and presentation
+K08059
+04611 Platelet activation
+K17704
+K06264
+04670 Leukocyte transendothelial migration
+K05702
+K08013
+K05690
+K06787
+04623 Cytosolic DNA-sensing pathway
+K12966
+K12971
+04664 Fc epsilon RI signaling pathway
+K20735
+04613 Neutrophil extracellular trap formation
+K24669
+04650 Natural killer cell mediated cytotoxicity
+K07986
+K07988
+K07987
+04624 Toll and Imd signaling pathway
+04610 Complement and coagulation cascades
+K03899
+K03902
+K03908
+K19822
+K23815
+K23816
+K23817
+K20703
+K20692
+K20697
+K01446
+K20693
+K20694
+K18809
+K20695
+K20702
+K20696
+K24097
+K24076
+K24096
+K24092
+K24093
+K24074
+K24075
+K24077
+K20701
+K20699
+K20700
