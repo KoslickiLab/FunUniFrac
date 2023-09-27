@@ -20,11 +20,22 @@ def parsearg():
 
 if __name__ == "__main__":
     args = parsearg()
-    from sklearn.datasets import load_iris
-    iris = load_iris()
-    X, y = iris.data, iris.target
-    DF = pd.DataFrame(X, index=["iris_%d" % (i) for i in range(X.shape[0])], columns=iris.feature_names)
-    DF_corr = DF.T.corr()
-    DF_dism = 1 - DF_corr  # distance matrix
-    linkage = hc.linkage(sp.distance.squareform(DF_dism), method='average')
-    sns.clustermap(DF_dism, row_linkage=linkage, col_linkage=linkage)
+    pw_distance = np.load(args.pairwise_distance)
+    print(pw_distance)
+    linkage = hc.linkage(pw_distance, method='average')
+    metadata = pd.read_table(args.metadata_file)
+
+    lut = dict(zip(metadata['study_full_name'].unique(), "rbg"))
+    row_colors = metadata['study_full_name'].map(lut)
+    sns.clustermap(pw_distance, row_linkage=linkage, col_linkage=linkage)
+    plt.show()
+
+
+    # from sklearn.datasets import load_iris
+    # iris = load_iris()
+    # X, y = iris.data, iris.target
+    # DF = pd.DataFrame(X, index=["iris_%d" % (i) for i in range(X.shape[0])], columns=iris.feature_names)
+    # DF_corr = DF.T.corr()
+    # DF_dism = 1 - DF_corr  # distance matrix
+    # linkage = hc.linkage(sp.distance.squareform(DF_dism), method='average')
+    # sns.clustermap(DF_dism, row_linkage=linkage, col_linkage=linkage)
