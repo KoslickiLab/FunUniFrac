@@ -21,21 +21,32 @@ def parsearg():
 if __name__ == "__main__":
     args = parsearg()
     pw_distance = np.load(args.pairwise_distance)
-    print(pw_distance)
+    print(pw_distance.shape)
     linkage = hc.linkage(pw_distance, method='average')
     metadata = pd.read_table(args.metadata_file)
 
-    lut = dict(zip(metadata['study_full_name'].unique(), "rbg"))
-    row_colors = metadata['study_full_name'].map(lut)
-    sns.clustermap(pw_distance, row_linkage=linkage, col_linkage=linkage)
+    with open(args.label_file, 'r') as f:
+        labels = f.readlines()
+        labels = [l.strip() for l in labels]
+    labels = [Path(l).stem for l in labels]
+    labels = [l.replace("sourmash_gather_out_scale1000_k_11_", "") for l in labels]
+    metadata_dict = {x: y for (x, y) in zip(metadata["f_uid"], metadata["study_full_name"])}
+
+    #phenotypes = metadata.pop('study_full_name')
+    phenotypes = [metadata_dict[i] for i in labels]
+    lut = dict(zip(['IBD', 'T2D', 'HHS'], "rbg"))
+    #row_colors = phenotypes.map(lut)
+    row_colors = [lut[i] for i in phenotypes]
+
+
+    #sns.clustermap(pw_distance, row_colors=row_colors, row_linkage=linkage, col_linkage=linkage)
+    sns.clustermap(pd.DataFrame(pw_distance, columns=phenotypes), row_linkage=linkage, col_linkage=linkage, row_colors=row_colors)
+    # iris = sns.load_dataset("iris")
+    # species = iris.pop("species")
+    # sns.clustermap(iris)
+    # lut = dict(zip(species.unique(), "rbg"))
+    # row_colors = species.map(lut)
+    # sns.clustermap(iris, row_colors=row_colors)
+    plt.savefig(args.output)
     plt.show()
 
-
-    # from sklearn.datasets import load_iris
-    # iris = load_iris()
-    # X, y = iris.data, iris.target
-    # DF = pd.DataFrame(X, index=["iris_%d" % (i) for i in range(X.shape[0])], columns=iris.feature_names)
-    # DF_corr = DF.T.corr()
-    # DF_dism = 1 - DF_corr  # distance matrix
-    # linkage = hc.linkage(sp.distance.squareform(DF_dism), method='average')
-    # sns.clustermap(DF_dism, row_linkage=linkage, col_linkage=linkage)
