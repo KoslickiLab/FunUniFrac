@@ -273,9 +273,13 @@ class KeggTree:
                     d2 = self.needed_pairs[level][(node, another)]
                     d3 = self.needed_pairs[level][(sib, another)]
                     e1 = (d1+d2-d3)/2
+                    if e1 <= 0:
+                        e1 = sys.float_info.epsilon
                     edge_length_solutions[(parent, node)] = e1
                     if (parent, sib) not in edge_length_solutions:
                         e2 = d1 - e1
+                        if e2 <= 0:
+                            e2 = sys.float_info.epsilon
                         edge_length_solutions[(parent, sib)] = e2
         self.update_needed_pairs(level-1, edge_length_solutions)
         self.solve_branch_lengths(edge_length_solutions, level-1)
