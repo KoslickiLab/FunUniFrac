@@ -15,6 +15,9 @@ def parsearg():
     parser.add_argument('-m', '--metadata_file', help='Path to the metadata file.')
     parser.add_argument('-t', '--title', help='Title of the plot.')
     parser.add_argument('-o', '--output', help='Output file name.')
+    parser.add_argument('-c', '--condition', help='Column key for the condition based on which MDS is performed.',
+                        default='study_full_name')
+    parser.add_argument('-id', '--sample_id', help='Column name of the sample id.', default='f_uid')
     return parser.parse_args()
 
 
@@ -27,7 +30,7 @@ if __name__ == "__main__":
         labels = [l.strip() for l in labels]
     labels = [Path(l).stem for l in labels]
     labels = [l.replace("sourmash_gather_out_scale1000_k_11_", "") for l in labels]
-    metadata_dict = {x:y for (x, y) in zip(metadata["f_uid"], metadata["study_full_name"])}
+    metadata_dict = {x:y for (x, y) in zip(metadata[args.sample_id], metadata[args.condition])}
     pw_dist = np.load(args.pairwise_distance)
     mds = MDS(dissimilarity='precomputed')
     coordinates = mds.fit_transform(pw_dist)
