@@ -32,7 +32,7 @@ if __name__ == "__main__":
         labels = [l.strip() for l in labels]
     labels = [Path(l).stem for l in labels]
     labels = [l.replace("sourmash_gather_out_scale1000_k_11_", "") for l in labels]
-    print(metadata)
+    print(labels)
     metadata_dict = {x:y for (x, y) in zip(metadata[args.sample_id], metadata[args.condition])}
     pw_dist = np.load(args.pairwise_distance)
     mds = MDS(dissimilarity='precomputed')
