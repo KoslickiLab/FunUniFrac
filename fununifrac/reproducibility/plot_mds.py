@@ -23,8 +23,10 @@ def parsearg():
 
 if __name__ == "__main__":
     args = parsearg()
-
-    metadata = pd.read_table(args.metadata_file)
+    if args.metadata_file.endswith('.csv'):
+        metadata = pd.read_csv(args.metadata_file)
+    else:
+        metadata = pd.read_table(args.metadata_file)
     with open(args.label_file, 'r') as f:
         labels = f.readlines()
         labels = [l.strip() for l in labels]
