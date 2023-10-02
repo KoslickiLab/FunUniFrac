@@ -115,8 +115,9 @@ def functional_profile_to_vector(functional_profile: pd.DataFrame, input: FuncTr
             raise Exception(
                 f"Could not parse the name {row['name']} in the functional profile")
     if P.sum() == 0:
-        raise Exception(f"Functional profileis empty! Perhaps try a different abundance key? "
+        raise Exception(f"Functional profile is empty! Perhaps try a different abundance key? "
                         f"You used {abundance_key}.")
     if normalize:
         P = P / P.sum()
+    print(P.sum())
     return P
