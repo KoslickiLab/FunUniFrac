@@ -15,4 +15,4 @@ deterministic_output="data/kegg_trees/kegg_ko00001_scaled_10_k_5_assigned_positi
 #randomized method
 #python ../create_edge_matrix.py -e $kegg_tree_no_lengths -d $ko_dm_file -o $out_dir -b ko00001
 #python ../compute_edges.py -d "../fununifrac/reproducibility/$ko_dm_file" -e "../fununifrac/reproducibility/$kegg_tree_no_lengths" -b ko00001 -o "../fununifrac/reproducibility/data" -i kegg_ko00001_randomized_method --distance
-python ../compute_edges.py -d "../fununifrac/reproducibility/$ko_dm_file" -e "$kegg_tree_no_lengths" -b ko00001 -o "../fununifrac/reproducibility/data" -i kegg_ko00001_randomized_method --distance
+python ../compute_edges.py -d "$ko_dm_file" -e "$kegg_tree_no_lengths" -b ko00001 -o "$out_dir" -i kegg_ko00001_randomized_method --distance
