@@ -520,7 +520,7 @@ def visualize_diff(edge_list_inferred, edge_list_actual, outfile_name):
     df['inferred_length'] = inferred_df['edge_length']
     print(df)
     sns.scatterplot(data=df, x='inferred_length', y='actual_length')
-    #plt.show()
+    plt.show()
     plt.savefig(outfile_name)
     return
 
