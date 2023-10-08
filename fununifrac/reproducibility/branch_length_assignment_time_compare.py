@@ -52,7 +52,7 @@ for r in R:
         data_dict["Size"].append(d_size)
         data_dict["Method"].append('Randomized')
         if not os.path.isfile(f"{MY_PATH}/{A_matrix_file}"):
-            os.system(f'python ../graph_to_path_matrix.py -e {ko_edge_list_no_edge_lengths} -d {ko_dm_file} -o data'
+            os.system(f'python ../create_edge_matrix.py -e {ko_edge_list_no_edge_lengths} -d {ko_dm_file} -o data'
                   f' -b ko00001')
         start_time = time.time()
         os.system(f'python ../create_edge_lengths.py -d {MY_PATH}/{ko_dm_file} -e {MY_PATH}/{ko_edge_list_no_edge_lengths} '
