@@ -12,7 +12,7 @@ class KEGG_KO_Extraction:
 
         self.KEGG_api_link = 'http://rest.kegg.jp'
         ## get brite table
-        self._KEGG_KO_Extraction__get_brite_table()
+        self.__get_brite_table()
 
     def __get_brite_table(self):
 
@@ -22,7 +22,7 @@ class KEGG_KO_Extraction:
             self.brite_table = pd.DataFrame([x.split('\t') for x in res.text.split('\n') if x.split('\t')[0]])
             self.brite_table.columns = ['kegg_brite_id','desc']
             # set up identifier mapping
-            self.id_mapping = {f"{re.sub('^[a-z]*:[a-z]*','',x[0])} {x[1]}":x[0].split(':')[1] for x in self.brite_table.to_numpy()}
+            self.id_mapping = {x[0]:f"{re.sub('^[a-z]*:[a-z]*','',x[0])} {x[1]}" for x in self.brite_table.to_numpy()}
         else:
             print(f"Error: Fail to download KEGG brite information from {link}", flush=True)
 
@@ -47,9 +47,11 @@ class KEGG_KO_Extraction:
         res_list = []
         _iterate_multidimensional('', hiearchy_json, res_list)
         if stop_level is None:
+            # pick one path to the leaf
             res_dict = {prefix+string.split('|')[-1].split(' ')[0]:'|'.join(string.split('|')[1:]) for string in res_list}
             return res_dict
         else:
+            # pick one path to the leaf
             res_dict = {prefix+string.split('|')[-1].split(' ')[0].split('\t')[0]:'|'.join(string.split('|')[1:(stop_level+1)]) for string in res_list}
             return res_dict
 
@@ -94,7 +96,7 @@ def main(args):
         print(f"No brite ID is given via the paramter 'brite_list'", flush=True)
         exit()
 
-    diff_brites = set(brite_list).difference(set(ko_extractor.brite_table['kegg_brite_id'].str.replace('br:','')))
+    diff_brites = set(brite_list).difference(set(ko_extractor.brite_table['kegg_brite_id']))
     if len(diff_brites) > 0:
         print(f"The given brite ids '{list(diff_brites)}' is not in the allowable brite list:\n{list(ko_extractor.brite_table['kegg_brite_id'])}", flush=True)
         exit()
