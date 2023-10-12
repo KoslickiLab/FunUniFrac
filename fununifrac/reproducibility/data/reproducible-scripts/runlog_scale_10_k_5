@@ -1,0 +1,23 @@
+	Command being timed: "sourmash sketch fromfile -p protein,k=5,abund,scaled=10 -o /home/grads/wjw5274/FunUniFrac/fununifrac/reproducibility/data/test_reproducibles/KO_AA_sketch_scaled_10_k_5.sig.zip /home/grads/wjw5274/FunUniFrac/fununifrac/reproducibility/data/test_reproducibles/KO_faa_for_sketch.csv"
+	User time (seconds): 601.98
+	System time (seconds): 23.50
+	Percent of CPU this job got: 102%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 10:12.28
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 169700
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 10
+	Minor (reclaiming a frame) page faults: 396649
+	Voluntary context switches: 26286
+	Involuntary context switches: 2231
+	Swaps: 0
+	File system inputs: 22350360
+	File system outputs: 3672600
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
