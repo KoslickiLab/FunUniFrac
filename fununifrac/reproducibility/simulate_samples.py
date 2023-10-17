@@ -23,6 +23,14 @@ def main():
     df = df[df.columns[:COL_NUM]]
     df = df[:ROW_NUM]
     meta_dict = dict()
+    for col in df.columns[:50]:
+        meta_dict[col] = "environment 1"
+    for col in df.column[50:]:
+        meta_dict[col] = "environment 2"
+    meta_df = pd.DataFrame(meta_dict.items(), columns=['sample', 'env'])
+    meta_df.to_csv(f"{args.out_dir}/simulated_metadata.csv")
+    print(meta_df)
+
     for i in range(100):
         for percentage in [0.5, 0.75, 0.9]:
             partition = int(ROW_NUM * percentage)
@@ -31,16 +39,13 @@ def main():
                 vector = np.zeros(ROW_NUM)
                 vector[:partition] =[random.random() for _ in range(partition)]
                 df[col] = vector
-                meta_dict[col] = "environment 1"
             for col in df.columns[50:]:
                 vector = np.zeros(ROW_NUM)
                 vector[ROW_NUM-partition:] = [random.random() for _ in range(partition)]
                 df[col] = vector
-                meta_dict[col] = "environment 2"
             df.to_csv(file_name)
-    meta_df = pd.DataFrame(meta_dict.items(), columns=['sample', 'env'])
-    print(meta_df)
-    meta_df.to_csv(f"{args.out_dir}/simulated_metadata.csv")
+
+
 
 
 
