@@ -3,7 +3,7 @@ import pandas as pd
 import random
 import numpy as np
 
-ROW_NUM = 1000
+ROW_NUM = 10000
 COL_NUM = 100
 
 #get hold of a template
@@ -26,15 +26,15 @@ def main():
     for i in range(100):
         for percentage in [0.5, 0.75, 0.9]:
             partition = int(ROW_NUM * percentage)
-            file_name = f"{args.out_dir}/sim_sample_{partition}_i.csv"
+            file_name = f"{args.out_dir}/sim_sample_{percentage}_{i}.csv"
             for col in df.columns[:50]:
                 vector = np.zeros(ROW_NUM)
-                vector[:partition] =[random.random() for i in range(partition)]
+                vector[:partition] =[random.random() for _ in range(partition)]
                 df[col] = vector
                 meta_dict[col] = "environment 1"
             for col in df.columns[50:]:
                 vector = np.zeros(ROW_NUM)
-                vector[ROW_NUM-partition:] = [random.random() for i in range(partition)]
+                vector[ROW_NUM-partition:] = [random.random() for _ in range(partition)]
                 df[col] = vector
                 meta_dict[col] = "environment 2"
             df.to_csv(file_name)
