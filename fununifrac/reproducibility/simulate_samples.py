@@ -25,7 +25,7 @@ def main():
     meta_dict = dict()
     for col in df.columns[:50]:
         meta_dict[col] = "environment 1"
-    for col in df.column[50:]:
+    for col in df.columns[50:]:
         meta_dict[col] = "environment 2"
     meta_df = pd.DataFrame(meta_dict.items(), columns=['sample', 'env'])
     meta_df.to_csv(f"{args.out_dir}/simulated_metadata.csv")
