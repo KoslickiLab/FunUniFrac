@@ -3,7 +3,6 @@ import pandas as pd
 import random
 import numpy as np
 
-ROW_NUM = 10000
 COL_NUM = 100
 
 #get hold of a template
@@ -21,7 +20,6 @@ def main():
     print(f"No. of samples: {len(df.columns)}")
     print(f"No. of KO: {len(df.index)}")
     df = df[df.columns[:COL_NUM]]
-    df = df[:ROW_NUM]
     meta_dict = dict()
     for col in df.columns[:50]:
         meta_dict[col] = "environment 1"
@@ -33,15 +31,15 @@ def main():
 
     for i in range(100):
         for percentage in [0.5, 0.75, 0.9]:
-            partition = int(ROW_NUM * percentage)
+            partition = int(len(df.columns) * percentage)
             file_name = f"{args.out_dir}/sim_sample_{percentage}_{i}.csv"
             for col in df.columns[:50]:
-                vector = np.zeros(ROW_NUM)
+                vector = np.zeros(len(df.columns))
                 vector[:partition] =[random.random() for _ in range(partition)]
                 df[col] = vector
             for col in df.columns[50:]:
-                vector = np.zeros(ROW_NUM)
-                vector[ROW_NUM-partition:] = [random.random() for _ in range(partition)]
+                vector = np.zeros(len(df.columns))
+                vector[len(df.columns)-partition:] = [random.random() for _ in range(partition)]
                 df[col] = vector
             df.to_csv(file_name)
 
