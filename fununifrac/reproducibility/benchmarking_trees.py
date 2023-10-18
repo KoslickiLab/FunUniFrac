@@ -64,7 +64,7 @@ for sim in similarity_levels:
         'tree': [],
         'score': [],
     }
-    files = glob.glob(f"{input_dir}/sim_*{sim}.csv")
+    files = glob.glob(f"{input_dir}/sim_*{sim}*.csv")
     for tree in trees:
         for file in files:
             print(file)
