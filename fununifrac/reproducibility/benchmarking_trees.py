@@ -1,7 +1,8 @@
 import sys, os
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
-sys.path.append('..')
+sys.path.append('../../')
+sys.path.append('../../src')
 import glob
 import pandas as pd
 from src.objects.func_tree import FuncTreeEmduInput
