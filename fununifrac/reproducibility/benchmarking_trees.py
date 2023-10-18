@@ -1,4 +1,5 @@
-import os
+import sys
+sys.path.insert('../')
 import glob
 import pandas as pd
 from src.objects.func_tree import FuncTreeEmduInput
