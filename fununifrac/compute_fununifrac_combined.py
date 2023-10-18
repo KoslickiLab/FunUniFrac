@@ -49,7 +49,9 @@ def main():
     sample_df = pd.read_csv(args.file)
     Ps_pushed = {}
     for col in sample_df.columns:
-        P_pushed = solver.push_up_L1(sample_df[col], input)
+        P = sample_df[col].to_numpy()
+        P = P / P.sum()
+        P_pushed = solver.push_up_L1(P, input)
         Ps_pushed[col] = P_pushed
     dists, diffabs_sparse = solver.pairwise_computation(Ps_pushed, sample_df.columns, input, args.diffab, args.L2)
     out_id = args.out_id if args.out_id else "fununifrac_out"
