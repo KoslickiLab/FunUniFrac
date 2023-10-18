@@ -46,7 +46,7 @@ def main():
     # Parse the graph and get the FunUniFrac objects Tint, length, and edge_list
     tree = make_tree.import_graph(args.edge_list, directed=True)
     input: FuncTreeEmduInput = make_emd_input.tree_to_EMDU_input(tree, args.brite)
-    sample_df = pd.read_csv(args.file, dtype=float)
+    sample_df = pd.read_csv(args.file, dtype=float, index_col='name')
     Ps_pushed = {}
     for col in sample_df.columns:
         P = sample_df[col].to_numpy()
