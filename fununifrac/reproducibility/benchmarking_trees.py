@@ -1,5 +1,5 @@
 import sys
-sys.path.insert('../')
+sys.path.append('../')
 import glob
 import pandas as pd
 from src.objects.func_tree import FuncTreeEmduInput
