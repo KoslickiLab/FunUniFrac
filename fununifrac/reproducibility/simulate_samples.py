@@ -9,7 +9,7 @@ COL_NUM = 100
 def parsearg():
     parser = argparse.ArgumentParser(description="This script generates simulated data")
     parser.add_argument("-f", "--template_file", type=str, help="Template file")
-    parser.add_argument("-o", "--out_dir", type=str, help="Output direcctory")
+    parser.add_argument("-o", "--out_dir", type=str, help="Output directory")
     return parser.parse_args()
 
 
@@ -29,10 +29,15 @@ def main():
     meta_df.to_csv(f"{args.out_dir}/simulated_metadata.csv")
     print(meta_df)
 
+    sim_dict = {
+        0.5: 'low',
+        0.75: 'medium',
+        0.9: 'high',
+    }
     for i in range(100):
-        for percentage in [0.5, 0.75, 0.9]:
-            partition = int(len(df.columns) * percentage)
-            file_name = f"{args.out_dir}/sim_sample_{percentage}_{i}.csv"
+        for proportion in sim_dict:
+            partition = int(len(df.columns) * sim_dict[proportion])
+            file_name = f"{args.out_dir}/sim_sample_{sim_dict[proportion]}_{i}.csv"
             for col in df.columns[:50]:
                 vector = np.zeros(len(df.columns))
                 vector[:partition] =[random.random() for _ in range(partition)]
@@ -42,8 +47,6 @@ def main():
                 vector[len(df.columns)-partition:] = [random.random() for _ in range(partition)]
                 df[col] = vector
             df.to_csv(file_name)
-
-
 
 
 
