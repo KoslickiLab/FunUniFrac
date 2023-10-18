@@ -64,7 +64,7 @@ for sim in similarity_levels:
         'tree': [],
         'score': [],
     }
-    files = glob.glob(f"sim_*{sim}.csv")
+    files = glob.glob(f"{input_dir}/sim_*{sim}.csv")
     for tree in trees:
         for file in files:
             dist_matrix, sample_ids = compute_pw_fununifrac(tree, file)
