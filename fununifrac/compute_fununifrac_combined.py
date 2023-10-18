@@ -3,7 +3,6 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 import multiprocessing
 import logging
-from src import compute_all_pairwise_fununifrac
 import pandas as pd
 from src.objects.func_tree import FuncTreeEmduInput
 import src.factory.make_tree as make_tree
@@ -11,7 +10,7 @@ import src.factory.make_emd_input as make_emd_input
 import src.utility.constant as constant
 from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracSolver
 import src.utility.kegg_db as kegg_db
-
+import numpy as np
 
 def main():
     parser = argparse.ArgumentParser(description="This script will take a directory of sourmash gather results and "
@@ -41,12 +40,25 @@ def main():
     parser.add_argument('--Ppushed', help="Flag indicating you want the pushed vectors to be saved.",
                         action="store_true")
 
+
     args = parser.parse_args()
     solver = EarthMoverDistanceUniFracSolver()
     # Parse the graph and get the FunUniFrac objects Tint, length, and edge_list
     tree = make_tree.import_graph(args.edge_list, directed=True)
-
-
+    input: FuncTreeEmduInput = make_emd_input.tree_to_EMDU_input(tree, args.brite)
+    sample_df = pd.read_csv(args.file)
+    Ps_pushed = {}
+    for col in sample_df.columns:
+        P_pushed = solver.push_up_L1(sample_df[col])
+        Ps_pushed[col] = P_pushed
+    dists, diffabs_sparse = solver.pairwise_computation(Ps_pushed, sample_df.columns, input, args.diffab, args.L2)
+    out_id = args.out_id if args.out_id else "fununifrac_out"
+    out_file = f"{args.out_dir}/{out_id}.npy"
+    np.save(out_file, dists)
+    basis_out = f"{args.out_dir}/{out_id}.basis.npy"
+    with open(basis_out, 'w') as f:
+        for file in sample_df.columns:
+            f.write(f"{file}\n")
 
 if __name__ == '__main__':
     main()
