@@ -1,5 +1,6 @@
 import sys
-sys.path.append('../')
+sys.path.append('..')
+sys.path.append('../src')
 import glob
 import pandas as pd
 from src.objects.func_tree import FuncTreeEmduInput
