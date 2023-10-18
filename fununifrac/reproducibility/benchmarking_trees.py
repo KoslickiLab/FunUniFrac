@@ -67,6 +67,7 @@ for sim in similarity_levels:
     files = glob.glob(f"{input_dir}/sim_*{sim}.csv")
     for tree in trees:
         for file in files:
+            print(file)
             dist_matrix, sample_ids = compute_pw_fununifrac(tree, file)
             labels = [meta_dict[i] for i in sample_ids]
             sil_score = silhouette_score(dist_matrix, labels, metric='precomputed')
@@ -74,7 +75,7 @@ for sim in similarity_levels:
             df_dict['score'].append(sil_score)
     df = pd.DataFrame.from_dict(df_dict)
     print(df)
-    out_file_name = f"data/simulated_data/df_{sim}_{trees[tree]}"
+    out_file_name = f"data/simulated_data/df_{sim}_{trees[tree]}.tsv"
     df.to_csv(out_file_name, sep='\t')
 
 
