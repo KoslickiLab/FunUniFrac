@@ -36,15 +36,15 @@ def main():
     }
     for i in range(100):
         for proportion in sim_dict:
-            partition = int(len(df.columns) * proportion)
+            partition = int(len(df.index) * proportion)
             file_name = f"{args.out_dir}/sim_sample_{sim_dict[proportion]}_{i}.csv"
             for col in df.columns[:50]:
-                vector = np.zeros(len(df.columns))
+                vector = np.zeros(len(df.index))
                 vector[:partition] =[random.random() for _ in range(partition)]
                 df[col] = vector
             for col in df.columns[50:]:
-                vector = np.zeros(len(df.columns))
-                vector[len(df.columns)-partition:] = [random.random() for _ in range(partition)]
+                vector = np.zeros(len(df.index))
+                vector[len(df.index)-partition:] = [random.random() for _ in range(partition)]
                 df[col] = vector
             df.to_csv(file_name)
 
