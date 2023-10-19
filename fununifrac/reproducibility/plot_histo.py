@@ -10,6 +10,7 @@ def parsearg():
     parser.add_argument('-o', '--output', help='Output file name.')
     parser.add_argument('-c', '--column', help='Column of the dataframe of which the histogram is computed.')
     parser.add_argument('-f', '--file', help='A dataframe. Most likely ending in .txt')
+    parser.add_argument('-t', '--title', help='Title of the plot')
     return parser.parse_args()
 
 
@@ -20,11 +21,14 @@ if __name__ == "__main__":
         data = pw_distance.flatten()
     elif args.file:
         df = pd.read_table(args.file)
+        print(df)
         data = df[args.column]
     else:
-        data=None
+        data = None
     plt.hist(data, bins=50)
     plt.savefig(args.output)
+    if args.title:
+        plt.title(args.title)
     plt.show()
 
 
