@@ -18,7 +18,7 @@ UNIFORM_TREE = 'data/kegg_trees/kegg_ko00001_edge_length_1.txt'
 DETERMINISTIC_TREE = 'data/kegg_trees/kegg_ko00001_scaled_10_k_5_assigned_positivity_enforced.txt'
 RAND_BR_TREE = 'data/kegg_trees/kegg_ko00001_edge_length_random_1.txt'
 ADJUSTED_TREE = 'data/kegg_trees/kegg_ko00001_scaled_10_k_5_assigned_adjusted.txt'
-RANDOMIZED_TREE_2 = 'fununifrac_edge_lengths_randomized_tree_2.csv'
+RANDOMIZED_TREE_2 = 'data/kegg_trees/fununifrac_edge_lengths_randomized_tree_2.csv'
 
 BRITE = 'ko00001'
 
