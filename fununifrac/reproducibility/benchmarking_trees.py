@@ -18,16 +18,18 @@ UNIFORM_TREE = 'data/kegg_trees/kegg_ko00001_edge_length_1.txt'
 DETERMINISTIC_TREE = 'data/kegg_trees/kegg_ko00001_scaled_10_k_5_assigned_positivity_enforced.txt'
 RAND_BR_TREE = 'data/kegg_trees/kegg_ko00001_edge_length_random_1.txt'
 ADJUSTED_TREE = 'data/kegg_trees/kegg_ko00001_scaled_10_k_5_assigned_adjusted.txt'
+RANDOMIZED_TREE_2 = 'fununifrac_edge_lengths_randomized_tree_2.csv'
 
 BRITE = 'ko00001'
 
 metadata_file = 'data/simulated_data/simulated_metadata.csv'
 trees = {
-    RAND_TREE: 'randomized_tree',
-    UNIFORM_TREE: 'uniform_tree',
-    DETERMINISTIC_TREE: 'deterministic_tree',
-    RAND_BR_TREE: 'randomly_assigned_tree',
-    ADJUSTED_TREE: 'adjusted_tree'
+    # RAND_TREE: 'randomized_tree',
+    # UNIFORM_TREE: 'uniform_tree',
+    # DETERMINISTIC_TREE: 'deterministic_tree',
+    # RAND_BR_TREE: 'randomly_assigned_tree',
+    # ADJUSTED_TREE: 'adjusted_tree'
+    RANDOMIZED_TREE_2: 'randomized_tree_2'
 }
 input_dir = 'data/simulated_data'
 similarity_levels = ['high', 'medium', 'low']
@@ -89,7 +91,7 @@ for sim in similarity_levels:
             df_dict['percentage'].append(percentage_overlap[sim])
 df = pd.DataFrame.from_dict(df_dict)
 print(df)
-out_file_name = f"data/simulated_data/df_combined.tsv"
+out_file_name = f"data/simulated_data/df_combined2.tsv"
 df.to_csv(out_file_name, sep='\t', index=False)
 
 
