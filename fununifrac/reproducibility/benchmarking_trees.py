@@ -16,6 +16,9 @@ from sklearn.metrics import silhouette_score
 RAND_TREE = 'data/kegg_trees/fununifrac_edge_lengths_kegg_ko00001_randomized_method.csv'
 UNIFORM_TREE = 'data/kegg_trees/kegg_ko00001_edge_length_1.txt'
 DETERMINISTIC_TREE = 'data/kegg_trees/kegg_ko00001_scaled_10_k_5_assigned_positivity_enforced.txt'
+RAND_BR_TREE = 'data/kegg_trees/kegg_ko00001_edge_length_random_1.txt'
+ADJUSTED_TREE = 'data/kegg_trees/kegg_ko00001_scaled_10_k_5_assigned_adjusted.txt'
+
 BRITE = 'ko00001'
 
 metadata_file = 'data/simulated_data/simulated_metadata.csv'
@@ -23,6 +26,8 @@ trees = {
     RAND_TREE: 'randomized_tree',
     UNIFORM_TREE: 'uniform_tree',
     DETERMINISTIC_TREE: 'deterministic_tree',
+    RAND_BR_TREE: 'randomly_assigned_tree',
+    ADJUSTED_TREE: 'adjusted_tree'
 }
 input_dir = 'data/simulated_data'
 similarity_levels = ['high', 'medium', 'low']
@@ -59,11 +64,19 @@ def compute_pw_fununifrac(tree_path, dataframe_file):
     dists, diffabs_sparse = solver.pairwise_computation(Ps_pushed, sample_df.columns, input, False, False)
     return dists, sample_df.columns
 
+df_dict = {
+    'tree': [],
+    'score': [],
+    'percentage': [],
+}
+
+percentage_overlap = {
+    'high': 80,
+    'medium': 50,
+    'low': 0
+}
+
 for sim in similarity_levels:
-    df_dict = {
-        'tree': [],
-        'score': [],
-    }
     files = glob.glob(f"{input_dir}/sim_*{sim}*.csv")
     for tree in trees:
         for file in files:
@@ -73,10 +86,11 @@ for sim in similarity_levels:
             sil_score = silhouette_score(dist_matrix, labels, metric='precomputed')
             df_dict['tree'].append(trees[tree])
             df_dict['score'].append(sil_score)
-    df = pd.DataFrame.from_dict(df_dict)
-    print(df)
-    out_file_name = f"data/simulated_data/df_{sim}_{trees[tree]}.tsv"
-    df.to_csv(out_file_name, sep='\t')
+            df_dict['percentage'].append(percentage_overlap[sim])
+df = pd.DataFrame.from_dict(df_dict)
+print(df)
+out_file_name = f"data/simulated_data/df_combined.tsv"
+df.to_csv(out_file_name, sep='\t', index=False)
 
 
 
