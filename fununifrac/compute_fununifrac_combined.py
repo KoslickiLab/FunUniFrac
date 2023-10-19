@@ -1,4 +1,6 @@
-import argparse
+import os, sys, argparse
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(ROOT_DIR)
 import logging
 import pandas as pd
 from src.objects.func_tree import FuncTreeEmduInput
