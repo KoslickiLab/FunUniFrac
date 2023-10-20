@@ -40,7 +40,7 @@ def main():
             env1_distribution_vector = np.ones(len(df.index))
             env1_distribution_vector[:partition] = np.random.exponential(scale=50, size=partition)
             env2_distribution_vector = np.ones(len(df.index))
-            env2_distribution_vector[:len(df.index)-partition:-1] = np.random.exponential(scale=50, size=partition)
+            env2_distribution_vector[:len(df.index)-partition+1:-1] = np.random.exponential(scale=50, size=partition)
             file_name = f"{args.out_dir}/sim_sample_{sim_dict[proportion]}_{i}.csv"
             for col in df.columns[:50]:
                 df.columns[col] = np.random.dirichlet(env1_distribution_vector, 1)[0]
