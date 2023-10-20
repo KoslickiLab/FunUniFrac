@@ -36,10 +36,11 @@ def main():
     }
     for i in range(100):
         for proportion in sim_dict:
+            partition = int(len(df.index)*proportion)
             env1_distribution_vector = np.ones(len(df.index))
-            env1_distribution_vector[:len(df.index) * proportion] = np.random.exponential(scale=50, size=len(df.index) * 0.1)
+            env1_distribution_vector[:partition] = np.random.exponential(scale=50, size=partition)
             env2_distribution_vector = np.ones(len(df.index))
-            env2_distribution_vector[len(df.index) * proportion:] = np.random.exponential(scale=50, size=len(df.index) * 0.1)
+            env2_distribution_vector[partition:] = np.random.exponential(scale=50, size=partition)
             file_name = f"{args.out_dir}/sim_sample_{sim_dict[proportion]}_{i}.csv"
             for col in df.columns[:50]:
                 df.columns[col] = np.random.dirichlet(env1_distribution_vector, 1)[0]
