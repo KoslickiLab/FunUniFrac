@@ -5,6 +5,7 @@ import numpy as np
 
 COL_NUM = 100
 
+
 #get hold of a template
 def parsearg():
     parser = argparse.ArgumentParser(description="This script generates simulated data")
@@ -27,27 +28,24 @@ def main():
         meta_dict[col] = "environment 2"
     meta_df = pd.DataFrame(meta_dict.items(), columns=['sample', 'env'])
     meta_df.to_csv(f"{args.out_dir}/simulated_metadata.csv")
-    print(meta_df)
 
     sim_dict = {
-        0.5: 'low',
-        0.75: 'medium',
+        0.1: 'low',
+        0.5: 'medium',
         0.9: 'high',
     }
     for i in range(100):
         for proportion in sim_dict:
-            partition = int(len(df.index) * proportion)
+            env1_distribution_vector = np.ones(len(df.rows))
+            env1_distribution_vector[:len(df.index) * proportion] = df.random.exponential(scale=50, size=len(df.index) * 0.1)
+            env2_distribution_vector = np.ones(len(df.rows))
+            env2_distribution_vector[len(df.index) * proportion:] = df.random.exponential(scale=50, size=len(df.index) * 0.1)
             file_name = f"{args.out_dir}/sim_sample_{sim_dict[proportion]}_{i}.csv"
             for col in df.columns[:50]:
-                vector = np.zeros(len(df.index))
-                vector[:partition] =[random.random() for _ in range(partition)]
-                df[col] = vector
+                df.columns[col] = np.random.dirichlet(env1_distribution_vector, 1)[0]
             for col in df.columns[50:]:
-                vector = np.zeros(len(df.index))
-                vector[len(df.index)-partition:] = [random.random() for _ in range(partition)]
-                df[col] = vector
+                df.columns[col] = np.random.dirichlet(env2_distribution_vector, 1)[0]
             df.to_csv(file_name)
-
 
 
 if __name__ == '__main__':
