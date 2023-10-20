@@ -24,12 +24,11 @@ BRITE = 'ko00001'
 
 metadata_file = 'data/simulated_data/simulated_metadata.csv'
 trees = {
-    RAND_TREE: 'randomized_tree',
+    RAND_TREE: 'regression_tree',
     UNIFORM_TREE: 'uniform_tree',
     DETERMINISTIC_TREE: 'deterministic_tree',
     RAND_BR_TREE: 'randomly_assigned_tree',
     ADJUSTED_TREE: 'adjusted_tree',
-    RANDOMIZED_TREE_2: 'randomized_tree_2'
 }
 input_dir = 'data/simulated_data'
 similarity_levels = ['high', 'medium', 'low']
@@ -69,13 +68,13 @@ def compute_pw_fununifrac(tree_path, dataframe_file):
 df_dict = {
     'tree': [],
     'score': [],
-    'percentage': [],
+    'similarity': [],
 }
 
 percentage_overlap = {
-    'high': 80,
-    'medium': 50,
-    'low': 0
+    'high': 0.9,
+    'medium': 0.5,
+    'low': 0.1,
 }
 
 for sim in similarity_levels:
@@ -88,7 +87,7 @@ for sim in similarity_levels:
             sil_score = silhouette_score(dist_matrix, labels, metric='precomputed')
             df_dict['tree'].append(trees[tree])
             df_dict['score'].append(sil_score)
-            df_dict['percentage'].append(percentage_overlap[sim])
+            df_dict['similarity'].append(percentage_overlap[sim])
 df = pd.DataFrame.from_dict(df_dict)
 print(df)
 out_file_name = f"data/simulated_data/df_combined.tsv"
