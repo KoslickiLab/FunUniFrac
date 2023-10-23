@@ -11,7 +11,7 @@ import src.factory.make_emd_input as make_emd_input
 from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracSolver
 import numpy as np
 from sklearn.metrics import silhouette_score
-
+from skbio.stats.distance import permanova
 
 RAND_TREE = 'data/kegg_trees/fununifrac_edge_lengths_kegg_ko00001_randomized_method.csv'
 UNIFORM_TREE = 'data/kegg_trees/kegg_ko00001_edge_length_1.txt'
@@ -84,7 +84,7 @@ for sim in similarity_levels:
             print(file)
             dist_matrix, sample_ids = compute_pw_fununifrac(tree, file)
             labels = [meta_dict[i] for i in sample_ids]
-            sil_score = silhouette_score(dist_matrix, labels, metric='precomputed')
+            sil_score = permanova(dist_matrix, labels)
             df_dict['tree'].append(trees[tree])
             df_dict['score'].append(sil_score)
             df_dict['similarity'].append(percentage_overlap[sim])
