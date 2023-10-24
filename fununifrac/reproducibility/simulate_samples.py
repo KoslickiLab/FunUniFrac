@@ -42,7 +42,7 @@ def main():
             env1_distribution_vector = np.ones(len(df.index))
             env1_distribution_vector[:partition] = list(range(partition, 0, -1))
             env2_distribution_vector = np.ones(len(df.index))
-            env2_distribution_vector[len(df.index)-partition-1:] = list(range(partition, 0, -1))
+            env2_distribution_vector[len(df.index)-partition:] = list(range(partition, 0, -1))
             file_name = f"{args.out_dir}/sim_sample_{sim_dict[proportion]}_{i}.csv"
             for col in df.columns[:50]:
                 df[col] = np.random.dirichlet(env1_distribution_vector, 1)[0]
