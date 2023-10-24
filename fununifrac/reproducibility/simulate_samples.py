@@ -30,17 +30,19 @@ def main():
     meta_df.to_csv(f"{args.out_dir}/simulated_metadata.csv")
 
     sim_dict = {
-        0.1: 'low',
-        0.5: 'medium',
-        0.9: 'high',
+        0.1: '10',
+        0.5: '50',
+        0.9: '90',
+        0.95: '95',
+        0.99: '99',
     }
     for i in range(100):
         for proportion in sim_dict:
             partition = int(len(df.index)*proportion)
             env1_distribution_vector = np.ones(len(df.index))
-            env1_distribution_vector[:partition] = np.random.exponential(scale=50, size=partition)
+            env1_distribution_vector[:partition] = list(range(partition, 0, -1))
             env2_distribution_vector = np.ones(len(df.index))
-            env2_distribution_vector[:len(df.index)-partition-1:-1] = np.random.exponential(scale=50, size=partition)
+            env2_distribution_vector[len(df.index)-partition-1:] = list(range(partition, 0, -1))
             file_name = f"{args.out_dir}/sim_sample_{sim_dict[proportion]}_{i}.csv"
             for col in df.columns[:50]:
                 df[col] = np.random.dirichlet(env1_distribution_vector, 1)[0]
