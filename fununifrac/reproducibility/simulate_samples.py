@@ -17,7 +17,7 @@ similarity_levels = {
     6000: 'low',
     7000: 'medium',
     8000: 'high',
-    8500: 'very high',
+    8500: 'very_high',
 }
 
 
@@ -57,6 +57,11 @@ def main():
                 env2_distribution_vector = np.ones(len(df.index))
                 env2_distribution_vector[len(df.index)-partition:] = list(range(partition, 0, -1))
                 file_name = f"{args.out_dir}/sim_sample_{sim_dict[proportion]}_{i}.csv"
+                for col in df.columns[:50]:
+                    df[col] = np.random.dirichlet(env1_distribution_vector, 1)[0]
+                for col in df.columns[50:]:
+                    df[col] = np.random.dirichlet(env2_distribution_vector, 1)[0]
+                df.to_csv(file_name)
         else:
             for pos in mean_pos:
                 for height in peak_heights:
@@ -70,11 +75,12 @@ def main():
                     env2_end_pos = env2_start_pos + height * 2
                     env2_distribution_vector[env2_start_pos:env2_end_pos] = distribution_vector
                     file_name = f"{args.out_dir}/sim_sample_sim_{similarity_levels[pos]}_spread_{height*2}_{i}.csv"
-            for col in df.columns[:50]:
-                df[col] = np.random.dirichlet(env1_distribution_vector, 1)[0]
-            for col in df.columns[50:]:
-                df[col] = np.random.dirichlet(env2_distribution_vector, 1)[0]
-            df.to_csv(file_name)
+                    print(file_name)
+                for col in df.columns[:50]:
+                    df[col] = np.random.dirichlet(env1_distribution_vector, 1)[0]
+                for col in df.columns[50:]:
+                    df[col] = np.random.dirichlet(env2_distribution_vector, 1)[0]
+                df.to_csv(file_name)
 
 
 
