@@ -76,11 +76,11 @@ def main():
                     env2_distribution_vector[env2_start_pos:env2_end_pos] = distribution_vector
                     file_name = f"{args.out_dir}/sim_sample_sim_{similarity_levels[pos]}_spread_{height*2}_{i}.csv"
                     print(file_name)
-                for col in df.columns[:50]:
-                    df[col] = np.random.dirichlet(env1_distribution_vector, 1)[0]
-                for col in df.columns[50:]:
-                    df[col] = np.random.dirichlet(env2_distribution_vector, 1)[0]
-                df.to_csv(file_name)
+                    for col in df.columns[:50]:
+                        df[col] = np.random.dirichlet(env1_distribution_vector, 1)[0]
+                    for col in df.columns[50:]:
+                        df[col] = np.random.dirichlet(env2_distribution_vector, 1)[0]
+                    df.to_csv(file_name)
 
 
 
