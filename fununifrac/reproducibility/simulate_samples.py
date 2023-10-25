@@ -48,7 +48,7 @@ def main():
     meta_df = pd.DataFrame(meta_dict.items(), columns=['sample', 'env'])
     meta_df.to_csv(f"{args.out_dir}/simulated_metadata.csv")
 
-    for i in range(50):
+    for i in range(30):
         if args.distribution == 'exponential':
             for proportion in sim_dict:
                 partition = int(len(df.index)*proportion)
