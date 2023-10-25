@@ -10,8 +10,9 @@ import src.factory.make_tree as make_tree
 import src.factory.make_emd_input as make_emd_input
 from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracSolver
 import numpy as np
+from skbio.stats.distance import DistanceMatrix, permanova
 from sklearn.metrics import silhouette_score
-from skbio.stats.distance import permanova
+
 
 RAND_TREE = 'data/kegg_trees/fununifrac_edge_lengths_kegg_ko00001_randomized_method.csv'
 UNIFORM_TREE = 'data/kegg_trees/kegg_ko00001_edge_length_1.txt'
@@ -31,7 +32,6 @@ trees = {
     ADJUSTED_TREE: 'adjusted_tree',
 }
 input_dir = 'data/simulated_data'
-similarity_levels = ['high', 'medium', 'low']
 meta = pd.read_csv(metadata_file)
 meta_dict = dict(zip(meta['sample'], meta['env']))
 print(meta_dict)
@@ -45,7 +45,7 @@ def make_fununifrac_inputs(raw_P, input, normalize=True):
     P = np.zeros(len(EMDU_index_2_node))
     for ko in raw_P.index:
         if ko not in node_2_EMDU_index:
-            print(f"Warning: {ko} not found in EMDU index, skipping.")
+            pass
         else:
             P_index = node_2_EMDU_index[ko]
             P[P_index] = raw_P[ko]
@@ -67,27 +67,36 @@ def compute_pw_fununifrac(tree_path, dataframe_file):
 
 df_dict = {
     'tree': [],
-    'score': [],
-    'similarity': [],
+    'Silhouette Score': [],
+    'Percentage similarity': [],
+    'Permanova F': [],
+    'p value': []
 }
 
-percentage_overlap = {
-    'high': 0.9,
-    'medium': 0.5,
-    'low': 0.1,
+similarity_levels = {
+    '10': 0.1,
+    '50': 0.5,
+    '90': 0.9,
+    '95': 0.95,
+    '99': 0.99,
 }
 
 for sim in similarity_levels:
-    files = glob.glob(f"{input_dir}/sim_*{sim}*.csv")
+    files = glob.glob(f"{input_dir}/sim_sample_{sim}_*.csv")
     for tree in trees:
         for file in files:
             print(file)
             dist_matrix, sample_ids = compute_pw_fununifrac(tree, file)
             labels = [meta_dict[i] for i in sample_ids]
-            sil_score = permanova(dist_matrix, labels)
+            sil_score = silhouette_score(dist_matrix, labels, metric="precomputed")
+            dist_matrix = DistanceMatrix(dist_matrix)
+            permanova_f = round(permanova(dist_matrix, labels)['test statistic'], 2)
+            permanova_p = permanova(dist_matrix, labels)['p-value']
             df_dict['tree'].append(trees[tree])
-            df_dict['score'].append(sil_score)
-            df_dict['similarity'].append(percentage_overlap[sim])
+            df_dict['Silhouette Score'].append(sil_score)
+            df_dict['Percentage similarity'].append(similarity_levels[sim])
+            df_dict['Permanova F'].append(permanova_f)
+            df_dict['p value'].append(permanova_p)
 df = pd.DataFrame.from_dict(df_dict)
 print(df)
 out_file_name = f"data/simulated_data/df_combined.tsv"
