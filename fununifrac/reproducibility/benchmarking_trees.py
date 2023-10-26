@@ -111,7 +111,7 @@ for sim in similarity_levels:
                 permanova_p = permanova(dist_matrix, labels)['p-value']
                 df_dict['tree'].append(trees[tree])
                 df_dict['Silhouette Score'].append(sil_score)
-                df_dict['Percentage similarity'].append(similarity_levels[sim])
+                df_dict['Similarity'].append(similarity_levels[sim])
                 df_dict['Spread'].append(spr)
                 df_dict['Permanova F'].append(permanova_f)
                 df_dict['p value'].append(permanova_p)
