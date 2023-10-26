@@ -32,9 +32,9 @@ if __name__ == "__main__":
     with open(args.label_file, 'r') as f:
         labels = f.readlines()
         labels = [l.strip() for l in labels]
-    labels = [Path(l).stem for l in labels]
-    labels = [l.replace("sourmash_gather_out_scale_1000_k_11_", "") for l in labels]
-    labels = [l.split('.')[0] for l in labels]
+    #labels = [Path(l).stem for l in labels]
+    #labels = [l.replace("sourmash_gather_out_scale1000_k_11_", "") for l in labels]
+    #labels = [l.split('.')[0] for l in labels]
     print(labels)
     metadata_dict = {x:y for (x, y) in zip(metadata[args.sample_id], metadata[args.condition])}
     pw_dist = np.load(args.pairwise_distance)
@@ -59,7 +59,8 @@ if __name__ == "__main__":
     mds = MDS(dissimilarity='precomputed', n_components=2)
     coordinates = mds.fit_transform(pw_dist)
     colors = [metadata_dict[l] for l in labels]
-    sns.scatterplot(x=coordinates[:, 0], y=coordinates[:, 1], hue=colors)
+    #sns.scatterplot(x=coordinates[:, 0], y=coordinates[:, 1], hue=colors)
+    sns.scatterplot(x=coordinates[:, 0], y=coordinates[:, 1], hue=colors, palette='Set2')
     #cmap = ListedColormap(sns.color_palette("husl", 256).as_hex())
     #ax.scatter(coordinates[:, 0], coordinates[:, 1], coordinates[:, 2], cmap=cmap, alpha=1)
     if args.title:
