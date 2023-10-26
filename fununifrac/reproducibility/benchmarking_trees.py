@@ -23,7 +23,7 @@ RANDOMIZED_TREE_2 = 'data/kegg_trees/fununifrac_edge_lengths_randomized_tree_2.c
 
 BRITE = 'ko00001'
 
-metadata_file = 'data/simulated_data/simulated_metadata.csv'
+metadata_file = '/data/shared_data/simulated_data/simulated_metadata.csv'
 trees = {
     RAND_TREE: 'regression_tree',
     UNIFORM_TREE: 'uniform_tree',
@@ -31,10 +31,10 @@ trees = {
     RAND_BR_TREE: 'randomly_assigned_tree',
     ADJUSTED_TREE: 'adjusted_tree',
 }
-input_dir = 'data/simulated_data'
+input_dir = '/data/shared_data/simulated_data'
 meta = pd.read_csv(metadata_file)
 meta_dict = dict(zip(meta['sample'], meta['env']))
-print(meta_dict)
+spread = [200, 500, 1000, 2000]
 
 def make_fununifrac_inputs(raw_P, input, normalize=True):
     #convert an array into one that's suitable for use
@@ -65,38 +65,56 @@ def compute_pw_fununifrac(tree_path, dataframe_file):
     dists, diffabs_sparse = solver.pairwise_computation(Ps_pushed, sample_df.columns, input, False, False)
     return dists, sample_df.columns
 
+# df_dict = {
+#     'tree': [],
+#     'Silhouette Score': [],
+#     'Percentage similarity': [],
+#     'Permanova F': [],
+#     'p value': []
+# }
+
 df_dict = {
     'tree': [],
     'Silhouette Score': [],
-    'Percentage similarity': [],
+    'Similarity': [],
+    'Spread': [],
     'Permanova F': [],
-    'p value': []
+    'p value': [],
 }
 
+# similarity_levels = {
+#     '10': 0.1,
+#     '50': 0.5,
+#     '90': 0.9,
+#     '95': 0.95,
+#     '99': 0.99,
+# }
+
 similarity_levels = {
-    '10': 0.1,
-    '50': 0.5,
-    '90': 0.9,
-    '95': 0.95,
-    '99': 0.99,
+    'low': 6000,
+    'medium': 7000,
+    'high': 8000,
+    'very_high': 8500,
 }
 
 for sim in similarity_levels:
-    files = glob.glob(f"{input_dir}/sim_sample_{sim}_*.csv")
-    for tree in trees:
-        for file in files:
-            print(file)
-            dist_matrix, sample_ids = compute_pw_fununifrac(tree, file)
-            labels = [meta_dict[i] for i in sample_ids]
-            sil_score = silhouette_score(dist_matrix, labels, metric="precomputed")
-            dist_matrix = DistanceMatrix(dist_matrix)
-            permanova_f = round(permanova(dist_matrix, labels)['test statistic'], 2)
-            permanova_p = permanova(dist_matrix, labels)['p-value']
-            df_dict['tree'].append(trees[tree])
-            df_dict['Silhouette Score'].append(sil_score)
-            df_dict['Percentage similarity'].append(similarity_levels[sim])
-            df_dict['Permanova F'].append(permanova_f)
-            df_dict['p value'].append(permanova_p)
+    for spr in spread:
+        files = glob.glob(f"{input_dir}/sim_sample_sim_{sim}_spread_{spr}*.csv")
+        for tree in trees:
+            for file in files:
+                print(file)
+                dist_matrix, sample_ids = compute_pw_fununifrac(tree, file)
+                labels = [meta_dict[i] for i in sample_ids]
+                sil_score = silhouette_score(dist_matrix, labels, metric="precomputed")
+                dist_matrix = DistanceMatrix(dist_matrix)
+                permanova_f = round(permanova(dist_matrix, labels)['test statistic'], 2)
+                permanova_p = permanova(dist_matrix, labels)['p-value']
+                df_dict['tree'].append(trees[tree])
+                df_dict['Silhouette Score'].append(sil_score)
+                df_dict['Percentage similarity'].append(similarity_levels[sim])
+                df_dict['Spread'].append(spr)
+                df_dict['Permanova F'].append(permanova_f)
+                df_dict['p value'].append(permanova_p)
 df = pd.DataFrame.from_dict(df_dict)
 print(df)
 out_file_name = f"data/simulated_data/df_combined.tsv"
