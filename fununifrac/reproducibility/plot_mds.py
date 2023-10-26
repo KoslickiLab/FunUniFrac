@@ -32,7 +32,7 @@ if __name__ == "__main__":
     with open(args.label_file, 'r') as f:
         labels = f.readlines()
         labels = [l.strip() for l in labels]
-    #labels = [Path(l).stem for l in labels]
+    labels = [Path(l).stem for l in labels]
     #labels = [l.replace("sourmash_gather_out_scale1000_k_11_", "") for l in labels]
     #labels = [l.split('.')[0] for l in labels]
     print(labels)
