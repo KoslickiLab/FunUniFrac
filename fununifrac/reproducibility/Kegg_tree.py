@@ -561,14 +561,14 @@ def get_KeggTree_from_edgelist(edge_list_file, write_file=False, outfile=None, e
     return keggTree
 
 
-def stratified_assignment(G:KeggTree):
+def stratified_assignment(G:KeggTree, alpha):
     edge_lengths_solution = dict()
     G.group_nodes_by_depth()
     for i in G.nodes_by_depth:
         nodes = G.nodes_by_depth[i]
         for node in nodes:
             parent = G.get_parent(node)
-            edge_lengths_solution[(parent, node)] = 1/10**i
+            edge_lengths_solution[(parent, node)] = alpha**i
     return edge_lengths_solution
 
 def post_process(edge_length_solution, kegg_tree):

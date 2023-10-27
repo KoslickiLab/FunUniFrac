@@ -14,8 +14,7 @@ def main():
                         help='Input edge list file of the KEGG hierarchy. Must have lengths in the '
                              'third column.', required=True)
     parser.add_argument('-s', '--save', help='Path to save the output file.', default='edge_length_solution.png')
-    parser.add_argument('-dm', '--dist_matrix', help='Pairwise KO distance matrix file. A .npy file', default='')
-    parser.add_argument('-l', '--label_file', help='Label file for the distance matrix.')
+    parser.add_argument('-a', '--alpha', help='factor for stratified assignment.', type=float, default=0.1)
 
     args = parser.parse_args()
     #edge_list = get_data_abspath(args.edge_list)
@@ -25,7 +24,7 @@ def main():
     kegg_tree.make_full_tree()
     kegg_tree.get_needed_pairs()
 
-    edge_lengths_solution = stratified_assignment(kegg_tree)
+    edge_lengths_solution = stratified_assignment(kegg_tree, args.alpha)
     write_edge_list_preserve_order(edge_lengths_solution, edge_list, args.save)
 
 
