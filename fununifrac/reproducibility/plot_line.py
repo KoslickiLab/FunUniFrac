@@ -12,7 +12,7 @@ def main():
     parser.add_argument("-t", "--title", type=str, help="Title of the plot")
     parser.add_argument("-hue", "--hue", type=str, help="Hue of the plot")
     parser.add_argument("-o", "--output", type=str, help="Output file name")
-    parser.add_argument("-b", "--box", type=str, action="store_true", help="If given boxplot instead of line")
+    parser.add_argument("-b", "--box", action="store_true", help="If given boxplot instead of line")
 
     args = parser.parse_args()
     df = pd.read_table(args.dataframe)
