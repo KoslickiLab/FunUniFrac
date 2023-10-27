@@ -14,23 +14,33 @@ from skbio.stats.distance import DistanceMatrix, permanova
 from sklearn.metrics import silhouette_score
 
 
-RAND_TREE = 'data/kegg_trees/fununifrac_edge_lengths_kegg_ko00001_randomized_method.csv'
+REGRESSION_TREE = 'data/kegg_trees/fununifrac_edge_lengths_kegg_ko00001_randomized_method.csv'
 UNIFORM_TREE = 'data/kegg_trees/kegg_ko00001_edge_length_1.txt'
 DETERMINISTIC_TREE = 'data/kegg_trees/kegg_ko00001_scaled_10_k_5_assigned_positivity_enforced.txt'
 RAND_BR_TREE = 'data/kegg_trees/kegg_ko00001_edge_length_random_1.txt'
 ADJUSTED_TREE = 'data/kegg_trees/kegg_ko00001_scaled_10_k_5_assigned_adjusted.txt'
-RANDOMIZED_TREE_2 = 'data/kegg_trees/fununifrac_edge_lengths_randomized_tree_2.csv'
+STRATIFIED_TREE_1 = 'data/kegg_trees/kegg_ko00001_stratified_0.1.txt'
+STRATIFIED_TREE_3 = 'data/kegg_trees/kegg_ko00001_stratified_0.3.txt'
+STRATIFIED_TREE_5 = 'data/kegg_trees/kegg_ko00001_stratified_0.5.txt'
 
 BRITE = 'ko00001'
 
 metadata_file = '/data/shared_data/simulated_data/simulated_metadata.csv'
+# trees = {
+#     REGRESSION_TREE: 'regression_tree',
+#     UNIFORM_TREE: 'uniform_tree',
+#     DETERMINISTIC_TREE: 'deterministic_tree',
+#     RAND_BR_TREE: 'randomly_assigned_tree',
+# }
+
 trees = {
-    RAND_TREE: 'regression_tree',
-    UNIFORM_TREE: 'uniform_tree',
-    DETERMINISTIC_TREE: 'deterministic_tree',
-    RAND_BR_TREE: 'randomly_assigned_tree',
-    ADJUSTED_TREE: 'adjusted_tree',
+    REGRESSION_TREE: 'regression_tree',
+    STRATIFIED_TREE_1: 'stratified_tree_factor_0.1',
+    STRATIFIED_TREE_3: 'stratified_tree_factor_0.3',
+    STRATIFIED_TREE_5: 'stratified_tree_factor_0.5',
+
 }
+
 input_dir = '/data/shared_data/simulated_data'
 meta = pd.read_csv(metadata_file)
 meta_dict = dict(zip(meta['sample'], meta['env']))
@@ -117,7 +127,8 @@ for sim in similarity_levels:
                 df_dict['p value'].append(permanova_p)
 df = pd.DataFrame.from_dict(df_dict)
 print(df)
-out_file_name = f"data/simulated_data/df_combined.tsv"
+#out_file_name = f"data/simulated_data/df_combined.tsv"
+out_file_name = f"data/simulated_data/df_combined_stratified.tsv"
 df.to_csv(out_file_name, sep='\t', index=False)
 
 
