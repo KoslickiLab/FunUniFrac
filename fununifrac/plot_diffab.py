@@ -6,7 +6,6 @@ import logging
 from src.utility.differential_abundance import plot_diffab
 from src.objects.func_tree import FuncTreeEmduInput
 import src.factory.make_tree as make_tree
-import src.factory.make_emd_input as make_emd_input
 from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracSolver
 import numpy as np
 import pandas as pd
@@ -80,7 +79,8 @@ def main():
         Z, diffab = solver.solve(input, P, Q, weighted=True)
         print(f"Z: {Z}")
         print(diffab)
-    #plot_diffab(nodes_in_order, diffab, P_label, Q_label, plot_zeros=True)
+        nodes_in_order = input.basis
+        plot_diffab(nodes_in_order, diffab, p, q, plot_zeros=False)
 
 if __name__ == '__main__':
     main()
