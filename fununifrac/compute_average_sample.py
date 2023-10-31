@@ -42,7 +42,6 @@ def main():
     meta_dict = dict(zip(meta_df[args.sample_id], meta_df[args.condition]))
     conditions = set(meta_df[args.condition])
     condition_dict = dict()
-    df.set_index('name', inplace=True)
     for c in conditions:
         samples = [df[sample_id].to_list() for sample_id in df.columns if meta_dict[sample_id] == c]
         print(f"condition{c} has {len(samples)} samples")
