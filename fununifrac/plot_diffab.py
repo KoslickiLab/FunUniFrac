@@ -11,7 +11,7 @@ from src.algorithms.emd_unifrac import EarthMoverDistanceUniFracSolver
 import numpy as np
 import pandas as pd
 import itertools as it
-from src.factory.make_emd_input import extend_vector
+import src.factory.make_emd_input as make_emd_input
 
 
 def make_fununifrac_inputs(raw_P, input, normalize=True):
@@ -75,8 +75,8 @@ def main():
         sample_dict[c] = sample_df[c]
     for p, q in it.combinations(sample_dict.keys(), 2):
         print(f"{p} vs {q}")
-        P = extend_vector(sample_dict[p], input)
-        Q = extend_vector(sample_dict[q], input)
+        P = make_emd_input.extend_vector(sample_dict[p], input)
+        Q = make_emd_input.extend_vector(sample_dict[q], input)
         (Z, F, diffab) = solver.solve(input, P, Q, weighted=True)
         print(f"Z: {Z}")
         print(diffab)
