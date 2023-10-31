@@ -73,7 +73,7 @@ def main():
     for c in sample_df.columns:
         sample_dict[c] = sample_df[c]
     print(sample_dict)
-    for p, q in it.combinations(sample_dict.keys()):
+    for p, q in it.combinations(sample_dict.keys(), 2):
         print(f"{p} vs {q}")
     (Z, F, diffab) = solver.solve(input, sample_dict[p], sample_dict[q], weighted=True)
     print(f"Z: {Z}")
