@@ -77,7 +77,7 @@ def main():
         print(f"{p} vs {q}")
         P = make_emd_input.extend_vector(sample_dict[p], input)
         Q = make_emd_input.extend_vector(sample_dict[q], input)
-        (Z, F, diffab) = solver.solve(input, P, Q, weighted=True)
+        Z, diffab = solver.solve(input, P, Q, weighted=True)
         print(f"Z: {Z}")
         print(diffab)
     #plot_diffab(nodes_in_order, diffab, P_label, Q_label, plot_zeros=True)
