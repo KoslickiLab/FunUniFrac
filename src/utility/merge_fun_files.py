@@ -13,6 +13,8 @@ def merge_files(file_dir, file_pattern, abund_col, ko_col):
     KO_list = list(KOs)
     combined_df = pd.DataFrame(index=KO_list)
     KO_index_dict = {ko:i for i, ko in enumerate(KO_list)}
+    print(fun_files)
+    print(KO_list)
     for f in fun_files:
         sample_name = os.path.basename(f).split('.')[0]
         df = pd.read_csv(f)
