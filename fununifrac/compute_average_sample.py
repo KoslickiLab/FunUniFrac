@@ -21,7 +21,6 @@ def main():
     parser.add_argument('-fp', '--file_pattern', help="Pattern to match files in the directory. Default is "
                                                       "'*_gather.csv'", default='*_gather.csv')
     parser.add_argument('-o', '--out_file', help='Output file name.', required=True)
-    parser.add_argument('-i', '--out_id', help='Test purpose: give an identifier to the output file so that tester can recognize it')
     parser.add_argument('-a', '--abundance_key',
                         help='Key in the gather results to use for abundance. Default is `f_unique_weighted`',
                         default='f_unique_weighted')
