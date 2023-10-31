@@ -67,9 +67,9 @@ def main():
     tree = make_tree.import_graph(args.edge_list, directed=True)
     input: FuncTreeEmduInput = make_emd_input.tree_to_EMDU_input(tree, args.brite)
     if args.dataframe.endswith('.csv'):
-        sample_df = pd.read_csv(args.dataframe)
+        sample_df = pd.read_csv(args.dataframe, index_col=0)
     else:
-        sample_df = pd.read_table(args.dataframe)
+        sample_df = pd.read_table(args.dataframe, index_col=0)
     sample_dict = dict()
     for c in sample_df.columns:
         sample_dict[c] = sample_df[c]
