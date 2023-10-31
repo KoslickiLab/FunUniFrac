@@ -119,5 +119,20 @@ def functional_profile_to_vector(functional_profile: pd.DataFrame, input: FuncTr
                         f"You used {abundance_key}.")
     if normalize:
         P = P / P.sum()
-    print(P.sum())
+    return P
+
+def extend_vector(raw_P, input, normalize=True):
+    #convert an array into one that's suitable for use
+    EMDU_index_2_node = input.idx_to_node
+    node_2_EMDU_index = {v: k for k, v in EMDU_index_2_node.items()}
+
+    if normalize:
+        raw_P = raw_P/raw_P.sum()
+    P = np.zeros(len(EMDU_index_2_node))
+    for ko in raw_P.index:
+        if ko not in node_2_EMDU_index:
+            print(f"Warning: {ko} not found in EMDU index, skipping.")
+        else:
+            P_index = node_2_EMDU_index[ko]
+            P[P_index] = raw_P[ko]
     return P
