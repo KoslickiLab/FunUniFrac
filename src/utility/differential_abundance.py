@@ -54,7 +54,7 @@ class DiffabArrayIndexer:
         return self.diffabs[indices1, :, :][:, indices2, :][:, :, indices3]
 
 
-def convert_diffab_array_to_df(self, diffabs, nodes_in_order, file_basis):
+def convert_diffab_array_to_df(diffabs, nodes_in_order, file_basis):
         """
         Converts the differential abundance array to a 3D dataframe.
         DO NOT USE EXCEPT FOR VERY SMALL DATA SETS
@@ -84,7 +84,7 @@ def convert_diffab_array_to_df(self, diffabs, nodes_in_order, file_basis):
         return diffabs_df
 
 
-def plot_diffab(self, nodes_in_order, diffab, P_label, Q_label, plot_zeros=True, thresh=0):
+def plot_diffab(nodes_in_order, diffab, P_label, Q_label, plot_zeros=True, thresh=0):
         """
         plot_diffab(nodes_in_order, diffab, P_label, Q_label)
         Plots the differential abundance vector.
