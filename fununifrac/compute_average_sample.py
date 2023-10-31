@@ -35,7 +35,7 @@ def main():
     if args.file:
         df = pd.read_csv(args.file)
     else:
-        df = merge_files(args.file_dir, args.file, args.abundance_key, 'name')
+        df = merge_files(args.file_dir, args.file_pattern, args.abundance_key, 'name')
 
     df.fillna(0, inplace=True)
     meta_df = pd.read_table(args.metadata)
