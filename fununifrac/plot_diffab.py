@@ -38,7 +38,7 @@ def main():
     parser.add_argument('-e', '--edge_list',
                         help='Input edge list file of the KEGG hierarchy. Must have lengths in the '
                              'third column.', required=True)
-    parser.add_argument('-fd', '--file_dir', help="Directory of sourmash files.", required=True)
+    parser.add_argument('-fd', '--file_dir', help="Directory of sourmash files.", required=False)
     parser.add_argument('-fp', '--file_pattern', help="Pattern to match files in the directory. Default is "
                                                       "'*_gather.csv'", default='*_gather.csv')
     parser.add_argument('-o', '--out_dir', help='Output directory name.', required=True)
@@ -67,9 +67,9 @@ def main():
     tree = make_tree.import_graph(args.edge_list, directed=True)
     input: FuncTreeEmduInput = make_emd_input.tree_to_EMDU_input(tree, args.brite)
     if args.dataframe.endswith('.csv'):
-        sample_df = pd.read_csv(args.dataframe, index_col='name')
+        sample_df = pd.read_csv(args.dataframe)
     else:
-        sample_df = pd.read_table(args.dataframe, index_col='name')
+        sample_df = pd.read_table(args.dataframe)
     sample_dict = dict()
     for c in sample_df.columns:
         sample_dict[c] = sample_df[c]
