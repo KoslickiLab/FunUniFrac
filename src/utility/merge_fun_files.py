@@ -26,5 +26,3 @@ def merge_files(file_dir, file_pattern, abund_col, ko_col):
         combined_df[sample_name] = vector
     return combined_df
 
-combined_df = merge_files('/home/grads/wjw5274/FunUniFrac/fununifrac/reproducibility/data/skin_vs_gut', '*.csv', 'f_unique_weighted', 'name')
-print(combined_df)

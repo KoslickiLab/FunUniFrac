@@ -1,12 +1,10 @@
+import glob
 import os, sys, argparse
-import numpy as np
 import pandas as pd
-
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
-import logging
-import src.factory.make_emd_input as make_emd_input
 import numpy as np
+from src.utility.merge_fun_files import merge_files
 
 
 def normalize(vector):
@@ -18,6 +16,7 @@ def L2_average(list_of_vectors):
 
 def main():
     parser = argparse.ArgumentParser(description="Given a group of samples, compute the average.")
+    parser.add_argument('-fd', '--file_dir', help="Directory of sourmash files.", required=True)
     parser.add_argument('-f', '--file', type=str,help='File containing the combined profiles.')
     parser.add_argument('-fp', '--file_pattern', help="Pattern to match files in the directory. Default is "
                                                       "'*_gather.csv'", default='*_gather.csv')
@@ -26,7 +25,6 @@ def main():
     parser.add_argument('-a', '--abundance_key',
                         help='Key in the gather results to use for abundance. Default is `f_unique_weighted`',
                         default='f_unique_weighted')
-    parser.add_argument('--diffab', action='store_true', help='Also return the difference abundance vectors.')
     parser.add_argument('-m', '--metadata', help='Metadata file')
     parser.add_argument('-c', '--condition', help='Column key for the condition based on which averaging is performed.',
                         default='study_full_name')
@@ -34,7 +32,11 @@ def main():
 
     #take the average directly
     args = parser.parse_args()
-    df = pd.read_csv(args.file)
+    if args.file:
+        df = pd.read_csv(args.file)
+    else:
+        df = merge_files(args.file_dir, args.file, args.abundance_key, 'name')
+
     df.fillna(0, inplace=True)
     meta_df = pd.read_table(args.metadata)
     meta_dict = dict(zip(meta_df[args.sample_id], meta_df[args.condition]))
