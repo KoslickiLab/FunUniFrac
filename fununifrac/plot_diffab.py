@@ -77,10 +77,8 @@ def main():
         P = make_emd_input.extend_vector(sample_dict[p], input)
         Q = make_emd_input.extend_vector(sample_dict[q], input)
         Z, diffab = solver.solve(input, P, Q, weighted=True)
-        print(f"Z: {Z}")
-        print(diffab)
         nodes_in_order = input.basis
-        plot_diffab(nodes_in_order, diffab, p, q, plot_zeros=False)
+        plot_diffab(nodes_in_order=nodes_in_order, diffab=diffab, P_label=p, Q_label=q, plot_zeros=False)
 
 if __name__ == '__main__':
     main()
