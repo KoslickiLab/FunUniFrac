@@ -75,6 +75,8 @@ def main():
     print(sample_dict)
     for p, q in it.combinations(sample_dict.keys(), 2):
         print(f"{p} vs {q}")
+    print(input.basis)
+
     (Z, F, diffab) = solver.solve(input, sample_dict[p], sample_dict[q], weighted=True)
     print(f"Z: {Z}")
     print(diffab)
