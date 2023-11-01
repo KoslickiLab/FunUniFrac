@@ -2,7 +2,6 @@ from Kegg_tree import get_KeggTree_from_edgelist
 import argparse
 import numpy as np
 import time
-from line_profiler_pycharm import profile
 
 """
 This script takes an edge list file with branch lengths and converts the distances between leaves into a pairwise
