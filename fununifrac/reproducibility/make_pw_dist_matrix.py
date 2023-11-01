@@ -12,10 +12,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", "--file", help="edge list file with branch lengths")
     parser.add_argument("-p", "--prefix", help="prefix for writing out files")
+    parser.add_argument("-m", "--method", help="method", choices=["bellman-ford", "dijkstra"])
     args = parser.parse_args()
 
     kegg_tree = get_KeggTree_from_edgelist(args.file)
-    kegg_tree.get_pw_dist_all() #in dict form
+    if args.method:
+        kegg_tree.get_pw_dist_all(args.method) #in dict form
+    else:
+        kegg_tree.get_pw_dist_all()
     pw_dist = np.ndarray((len(kegg_tree.leaf_nodes), len(kegg_tree.leaf_nodes)))
     for i, node in enumerate(kegg_tree.leaf_nodes):
         for j, another_node in enumerate(kegg_tree.leaf_nodes):

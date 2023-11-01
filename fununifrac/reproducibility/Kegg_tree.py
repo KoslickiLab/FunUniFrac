@@ -41,14 +41,14 @@ class KeggTree:
             else:
                 self.pw_dist[(pair[0], pair[1])] = distance
 
-    def get_pw_dist_all(self):
+    def get_pw_dist_all(self, method='dijkstra'):
         undir_tree = self.tree.to_undirected()
         # ct=1
         # for node in self.leaf_nodes:
         #     print(f"progress: {ct}/{len(self.leaf_nodes)}")
         #     ct += 1
         #     self.pw_dist[node] = nx.shortest_path_length(undir_tree, source=node, weight='edge_length')
-        pw_dist = nx.shortest_path_length(undir_tree, weight='edge_length') #returns generator
+        pw_dist = nx.shortest_path_length(undir_tree, weight='edge_length', method=method) #returns generator
         self.pw_dist = dict(pw_dist)
 
     def load_pw_dist_from_file(self, json_file):
