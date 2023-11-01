@@ -18,7 +18,6 @@ def main():
     kegg_tree.get_pw_dist_all() #in dict form
     pw_dist = np.ndarray((len(kegg_tree.leaf_nodes), len(kegg_tree.leaf_nodes)))
     for i, node in enumerate(kegg_tree.leaf_nodes):
-        print(node)
         for j, another_node in enumerate(kegg_tree.leaf_nodes):
             pw_dist[i][j] = pw_dist[j][i] = kegg_tree.pw_dist[node][another_node]
     print(pw_dist)
