@@ -17,6 +17,8 @@ def main():
     parser.add_argument('-s', '--save', help='Path to save the output file.', default='edge_length_solution.png')
     parser.add_argument('-dm', '--dist_matrix', help='Pairwise KO distance matrix file. A .npy file', default='')
     parser.add_argument('-l', '--label_file', help='Label file for the distance matrix.')
+    parser.add_argument('-p', '--force_positive', action='store_true', help="force length to be positive in every iteration.",
+                        default=False)
 
     args = parser.parse_args()
     #edge_list = get_data_abspath(args.edge_list)
@@ -28,7 +30,7 @@ def main():
     kegg_tree.get_needed_pairs()
 
     kegg_tree.fill_leaf_pairs_distances(args.dist_matrix, args.label_file)
-    kegg_tree.solve_branch_lengths(edge_lengths_solution, len(kegg_tree.nodes_by_depth)-1)
+    kegg_tree.solve_branch_lengths(edge_lengths_solution, len(kegg_tree.nodes_by_depth)-1, args.force_positive)
     post_process(edge_lengths_solution, kegg_tree)
     write_edge_list_preserve_order(edge_lengths_solution, edge_list, args.save)
     #print("preparation done.")
