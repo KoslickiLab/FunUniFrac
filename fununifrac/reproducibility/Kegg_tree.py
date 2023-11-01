@@ -1,5 +1,4 @@
 from platform import node
-
 import networkx as nx
 import pandas as pd
 from itertools import combinations
@@ -10,6 +9,8 @@ import sys
 import json
 sys.path.append('../data')
 sys.path.append('..')
+from line_profiler_pycharm import profile
+from graph_tool.all import *
 
 
 class KeggTree:
@@ -41,6 +42,17 @@ class KeggTree:
                 self.pw_dist[(pair[1], pair[0])] = distance
             else:
                 self.pw_dist[(pair[0], pair[1])] = distance
+
+    @profile
+    def get_pw_dist_all(self):
+        undir_tree = self.tree.to_undirected()
+        ct=1
+        for node in self.leaf_nodes:
+            print(f"progress: {ct}/{len(self.leaf_nodes)}")
+            ct += 1
+            self.pw_dist[node] = nx.shortest_path_length(undir_tree, source=node, weight='edge_length')
+
+
 
     def load_pw_dist_from_file(self, json_file):
         with open(json_file, 'r') as f:
