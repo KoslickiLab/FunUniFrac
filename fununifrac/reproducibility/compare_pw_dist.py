@@ -23,7 +23,7 @@ def main():
     labels_original_index_dict = {l:i for i, l in enumerate(labels_original)}
     labels_recovered_index_dict = {l:i for i, l in enumerate(labels_recovered)}
 
-    branches = [(i, j) for (i, j) in it.combinations(labels_original, 2)]
+    branches = [(i, j) for (i, j) in it.combinations(labels_recovered, 2)]
 
     df = pd.DataFrame(columns=['branch', 'Original_distance', 'Reconstructed_distance'])
     original_dist = []
