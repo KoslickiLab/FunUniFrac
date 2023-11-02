@@ -37,7 +37,8 @@ def main():
     print(L1_norm(df['Reconstructed_distance'], df['Original_distance']))
     fig = sns.scatterplot(data=df, x='Original_distance', y='Reconstructed_distance', marker='.', s=1)
     fig.set_ylim(0, 2)
-    fig.set_xlim(0, 2)
+    fig.set_xlim(0, 1)
+    plt.axline((0, 0), (1, 1))
     plt.savefig(args.out_file)
 
 
