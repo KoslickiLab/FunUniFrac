@@ -12,7 +12,7 @@ def main():
     args = parser.parse_args()
     df = pd.read_table(args.edge_list)
     df['edge_length'] = [random.random() for _ in range(len(df['child']))]
-    df.to_csv(args.out_file, sep='\t')
+    df.to_csv(args.out_file, sep='\t', index=False)
 
 
 main()
