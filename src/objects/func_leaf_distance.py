@@ -33,10 +33,11 @@ class FuncTreeLeafPairwiseDistances:
             for func2 in labels:
                 print(f"funcs: {func1}, {func2}")
                 print(indices[func1], indices[func2])
+                print(indices)
                 print(type(indices[func1]), type(indices[func2]))
                 print(self.dists)
                 print(self.dists[indices[func1], indices[func2]])
-                y.append(self.dists[indices[func1], indices[func2]])
+                y.append(self.dists[indices[str(func1)], indices[str(func2)]])
         y = np.array(y)
         # by default, the values are: 0 = most dissimilar, 1 = most similar, so to convert to a distance, we subtract from 1
         if not isdistance:
