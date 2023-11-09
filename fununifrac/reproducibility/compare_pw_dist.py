@@ -35,6 +35,7 @@ def main():
     df['Reconstructed_distance'] = recovered_dist
     df['Original_distance'] = original_dist
     print(L1_norm(df['Reconstructed_distance'], df['Original_distance']))
+    print(np.corrcoef(df['Reconstructed_distance'], df['Original_distance']))
     fig = sns.scatterplot(data=df, x='Original_distance', y='Reconstructed_distance', marker='.', s=1)
     fig.set_ylim(0, 2)
     fig.set_xlim(0, 1)
