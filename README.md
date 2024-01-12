@@ -73,12 +73,12 @@ In practice, we've observed that the matrix `A` is rank deficient, yet over-dete
 Thus there is no unique solution to `Ax=y` where `y` is the vector of pairwise distances between all KOs. We can, 
 however, find a unique "shortest length" solution by adding a regularization term to the objective function:
 ```
-min ||Ax - y||^2 + lambda * ||x||^2
+min ||Ax - y||_2^2 + lambda * ||x||_2^2
 s.t. x>=0
 ```
 where `lambda` is a regularization parameter. This can be cast as a NNLS problem via:
 ```
-min ||A'x - y'||^2
+min ||A'x - y'||_2^2
 s.t. x>=0
 where
 A' = [A; sqrt(lambda)*ones(1, n)]
