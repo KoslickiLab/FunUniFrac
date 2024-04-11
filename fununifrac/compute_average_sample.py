@@ -41,6 +41,7 @@ def main():
         meta_df = pd.read_csv(args.metadata)
     else:
         meta_df = pd.read_table(args.metadata)
+    print(meta_df)
     meta_dict = dict(zip(meta_df[args.sample_id], meta_df[args.condition]))
     conditions = set(meta_df[args.condition])
     condition_dict = dict()
