@@ -37,13 +37,16 @@ def main():
         df = merge_files(args.file_dir, args.file_pattern, args.abundance_key, 'name')
 
     df.fillna(0, inplace=True)
-    meta_df = pd.read_table(args.metadata)
+    if args.metadata.endswith('.csv'):
+        meta_df = pd.read_csv(args.metadata)
+    else:
+        meta_df = pd.read_table(args.metadata)
     meta_dict = dict(zip(meta_df[args.sample_id], meta_df[args.condition]))
     conditions = set(meta_df[args.condition])
     condition_dict = dict()
     for c in conditions:
         samples = [df[sample_id].to_list() for sample_id in df.columns if meta_dict[sample_id] == c]
-        print(f"condition{c} has {len(samples)} samples")
+        print(f"condition {c} has {len(samples)} samples")
         condition_dict[c] = samples
 
     average_vector_df = pd.DataFrame(index=df.index, columns=list(condition_dict.keys()))
