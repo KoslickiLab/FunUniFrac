@@ -1,10 +1,10 @@
-import glob
 import os, sys, argparse
 import pandas as pd
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 import numpy as np
 from src.utility.merge_fun_files import merge_files
+import re
 
 
 def normalize(vector):
@@ -46,6 +46,8 @@ def main():
     conditions = set(meta_df[args.condition])
     condition_dict = dict()
     for c in conditions:
+        pattern = r'(SRR|DRR|ERR)\d+'
+        df.columns = [re.search(pattern, b).group() for b in df.columns]
         samples = [df[sample_id].to_list() for sample_id in df.columns if meta_dict[sample_id] == c]
         print(f"condition {c} has {len(samples)} samples")
         condition_dict[c] = samples
